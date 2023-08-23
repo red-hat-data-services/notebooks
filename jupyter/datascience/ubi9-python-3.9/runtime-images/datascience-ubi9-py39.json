@@ -3,7 +3,7 @@
     "metadata": {
         "tags": [],
         "display_name": "Datascience with Python 3.9 (UBI9)",
-        "image_name": "quay.io/modh/runtime-images@sha256:7dd23e58291cad7a0ab4a8e04bda06492f2c027eb33b226358380db58dcdd60b"
+        "image_name": "quay.io/modh/runtime-images:runtime-datascience-ubi9-python-3.9-2023a-20230817-b7e647e"
     },
     "schema_name": "runtime-image"
 }

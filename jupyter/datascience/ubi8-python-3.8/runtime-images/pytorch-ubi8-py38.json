@@ -3,7 +3,7 @@
     "metadata": {
         "tags": [],
         "display_name": "Pytorch with CUDA and Python 3.8 (UBI8)",
-        "image_name": "quay.io/modh/runtime-images@sha256:c775356ad2efcb59e151cef57dab48cabc9f12e3c69f1453bcb768eabb950cbf"
+        "image_name": "quay.io/modh/runtime-images:runtime-pytorch-ubi8-python-3.8-2023a-20230817-b7e647e"
     },
     "schema_name": "runtime-image"
 }
