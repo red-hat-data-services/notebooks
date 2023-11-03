@@ -23,7 +23,7 @@ define build_image
 		$(eval BUILD_ARGS := --build-arg BASE_IMAGE=$(BASE_IMAGE_NAME)),
 		$(eval BUILD_ARGS :=)
 	)
-	$(CONTAINER_ENGINE) build --no-cache  -t $(IMAGE_NAME) $(BUILD_ARGS) $(2)
+	$(CONTAINER_ENGINE) build --no-cache -t $(IMAGE_NAME) $(BUILD_ARGS) $(2)
 endef
 
 # Push function for the notebok image:
@@ -206,6 +206,17 @@ rstudio-c9s-python-3.9: base-c9s-python-3.9
 cuda-rstudio-c9s-python-3.9: cuda-c9s-python-3.9
 	$(call image,$@,rstudio/c9s-python-3.9,$<)
 
+####################################### Buildchain for Python 3.9 using rhel9 #######################################
+
+# Build and push base-rhel9-python-3.9 image to the registry
+.PHONY: base-rhel9-python-3.9
+base-rhel9-python-3.9:
+	$(call image,$@,base/rhel9-python-3.9)
+
+.PHONY: codeserver-rhel9-python-3.9
+codeserver-rhel9-python-3.9: base-rhel9-python-3.9
+	$(call image,$@,codeserver/rhel9-python-3.9,$<)
+
 ####################################### Buildchain for Anaconda Python #######################################
 
 # Build and push base-anaconda-python-3.8 image to the registry
@@ -299,6 +310,23 @@ endif
 .PHONY: undeploy-c9s
 undeploy-c9s-%-c9s-python-3.9: bin/kubectl
 	$(eval NOTEBOOK_DIR := $(subst -,/,$(subst cuda-,,$*))/c9s-python-3.9/kustomize/base)
+	$(info # Undeploying notebook from $(NOTEBOOK_DIR) directory...)
+	$(KUBECTL_BIN) delete -k $(NOTEBOOK_DIR)
+
+.PHONY: deploy-rhel9
+deploy-rhel9-%-rhel9-python-3.9: bin/kubectl
+	$(eval NOTEBOOK_DIR := $(subst -,/,$(subst cuda-,,$*))/rhel9-python-3.9/kustomize/base)
+ifndef NOTEBOOK_TAG
+	$(eval NOTEBOOK_TAG := $*-rhel9-python-3.9-$(IMAGE_TAG))
+endif
+	$(info # Deploying notebook from $(NOTEBOOK_DIR) directory...)
+	@sed -i 's,newName: .*,newName: $(IMAGE_REGISTRY),g' $(NOTEBOOK_DIR)/kustomization.yaml
+	@sed -i 's,newTag: .*,newTag: $(NOTEBOOK_TAG),g' $(NOTEBOOK_DIR)/kustomization.yaml
+	$(KUBECTL_BIN) apply -k $(NOTEBOOK_DIR)
+
+.PHONY: undeploy-rhel9
+undeploy-rhel9-%-rhel9-python-3.9: bin/kubectl
+	$(eval NOTEBOOK_DIR := $(subst -,/,$(subst cuda-,,$*))/rhel9-python-3.9/kustomize/base)
 	$(info # Undeploying notebook from $(NOTEBOOK_DIR) directory...)
 	$(KUBECTL_BIN) delete -k $(NOTEBOOK_DIR)
 
