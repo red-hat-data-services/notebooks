@@ -217,6 +217,18 @@ base-rhel9-python-3.9:
 codeserver-rhel9-python-3.9: base-rhel9-python-3.9
 	$(call image,$@,codeserver/rhel9-python-3.9,$<)
 
+.PHONY: cuda-rhel9-python-3.9
+cuda-rhel9-python-3.9: base-rhel9-python-3.9
+	$(call image,$@,cuda/rhel9-python-3.9,$<)
+
+.PHONY: rstudio-rhel9-python-3.9
+rstudio-rhel9-python-3.9: base-rhel9-python-3.9
+	$(call image,$@,rstudio/rhel9-python-3.9,$<)
+
+.PHONY: cuda-rstudio-rhel9-python-3.9
+cuda-rstudio-rhel9-python-3.9: cuda-rhel9-python-3.9
+	$(call image,$@,rstudio/rhel9-python-3.9,$<)
+
 ####################################### Buildchain for Anaconda Python #######################################
 
 # Build and push base-anaconda-python-3.8 image to the registry
