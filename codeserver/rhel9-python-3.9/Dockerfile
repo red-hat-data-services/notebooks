@@ -3,15 +3,15 @@ FROM ${BASE_IMAGE}
 
 ARG CODESERVER_VERSION=v4.16.1
 
-LABEL name="odh-notebook-code-server-c9s-python-3.9" \
-      summary="Code Server (VS Code) image with python 3.9 based on CentOS Stream 9" \
-      description="Code Server (VS Code) image with python 3.9 based on CentOS Stream 9" \
-      io.k9s.display-name="Code Server (VS Code) image with python 3.9 based on CentOS Stream 9" \
-      io.k9s.description="Code Server (VS Code) image with python 3.9 based on CentOS Stream 9" \
-      authoritative-source-url="https://github.com/opendatahub-io/notebooks" \
+LABEL name="odh-notebook-code-server-rhel9-python-3.9" \
+      summary="Code Server (VS Code) image with python 3.9 based on Red Hat Enterprise Linux 9" \
+      description="Code Server (VS Code) image with python 3.9 based on Red Hat Enterprise Linux 9" \
+      io.k8s.display-name="Code Server (VS Code) image with python 3.9 based on Red Hat Enterprise Linux 9" \
+      io.k8s.description="Code Server (VS Code) image with python 3.9 based on Red Hat Enterprise Linux 9" \
+      authoritative-source-url="https://github.com/red-hat-data-services/notebooks" \
       io.openshift.build.commit.ref="main" \
-      io.openshift.build.source-location="https://github.com/opendatahub-io/notebooks/tree/main/codeserver/c9s-python-3.9" \
-      io.openshift.build.image="quay.io/opendatahub/workbench-images:codeserver-c9s-python-3.9"
+      io.openshift.build.source-location="https://github.com/red-hat-data-services/notebooks/tree/main/codeserver/rhel9-python-3.9" \
+      io.openshift.build.image="quay.io/modh/codeserver:codeserver-rhel9-python-3.9"
 
 USER 0
 
