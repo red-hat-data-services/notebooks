@@ -32,7 +32,7 @@ spec:
     - annotations:
         opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
         opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.5"}, {"name": "Notebook","version": "6.5"}]'
-        openshift.io/imported-from: quay.io/opendatahub/workbench-images
+        openshift.io/imported-from: quay.io/modh/odh-minimal-notebook-container
         opendatahub.io/workbench-image-recommended: 'false'
         opendatahub.io/notebook-build-commit: $(odh-minimal-notebook-image-commit-n-1)
       from:
@@ -45,7 +45,7 @@ spec:
     - annotations:
         opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8"}]'
         opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.2"}, {"name": "Notebook","version": "6.4"}]'
-        openshift.io/imported-from: quay.io/opendatahub/notebooks
+        openshift.io/imported-from: quay.io/modh/odh-minimal-notebook-container
         opendatahub.io/image-tag-outdated: 'true'
         opendatahub.io/notebook-build-commit: $(odh-minimal-notebook-image-commit-n-2)
       from:
