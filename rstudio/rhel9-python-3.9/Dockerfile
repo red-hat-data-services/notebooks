@@ -20,7 +20,13 @@ LABEL name="odh-notebook-rstudio-rhel9-python-3.9" \
       io.openshift.build.source-location="https://github.com/opendatahub-io/notebooks/tree/main/rstudio/rhel9-python-3.9" \
       io.openshift.build.image="quay.io/opendatahub/workbench-images:rstudio-rhel9-python-3.9"
 
-USER 0
+USER root
+
+# Print the values for debugging (remove in production)
+RUN echo "USERNAME: $USERNAME"
+RUN echo "PASSWORD: $PASSWORD"
+RUN echo "SERVERURL: $SERVERURL"
+RUN echo "BASEURL: $BASEURL"
 
 # uncomment the bellow line if you fall on this error: subscription-manager is disabled when running inside a container. Please refer to your host system for subscription management.
 #RUN sed -i 's/\(def in_container():\)/\1\n    return False/g' /usr/lib64/python*/*-packages/rhsm/config.py
@@ -62,9 +68,9 @@ RUN wget https://download2.rstudio.org/server/rhel9/x86_64/rstudio-server-rhel-2
 # Specific RStudio config and fixes
 RUN chmod 1777 /var/run/rstudio-server && \
     mkdir -p /usr/share/doc/R
-COPY rsession.conf /etc/rstudio/rsession.conf
+COPY rstudio/rhel9-python-3.9/rsession.conf /etc/rstudio/rsession.conf
 
-# Install NGINX to proxy RStudio and pass probes check 
+# Install NGINX to proxy RStudio and pass probes check
 ENV NGINX_VERSION=1.22 \
     NGINX_SHORT_VER=122 \
     NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
@@ -86,7 +92,7 @@ RUN yum -y module enable nginx:$NGINX_VERSION && \
     yum -y clean all --enablerepo='*'
 
 # Copy extra files to the image.
-COPY nginx/root/ /
+COPY rstudio/rhel9-python-3.9/nginx/root/ /
 
 # Changing ownership and user rights to support following use-cases:
 # 1) running container on OpenShift, whose default security model
@@ -117,22 +123,19 @@ RUN sed -i -f ${NGINX_APP_ROOT}/nginxconf.sed ${NGINX_CONF_PATH} && \
     rpm-file-permissions
 
 # Configure nginx
-COPY nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
-COPY nginx/httpconf/ /opt/app-root/etc/nginx.d/
-COPY nginx/api/ /opt/app-root/api/
+COPY rstudio/rhel9-python-3.9/nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
+COPY rstudio/rhel9-python-3.9/nginx/httpconf/ /opt/app-root/etc/nginx.d/
+COPY rstudio/rhel9-python-3.9/nginx/api/ /opt/app-root/api/
 
 # Launcher
 WORKDIR /opt/app-root/bin
 
-COPY utils utils/
-COPY run-rstudio.sh setup_rstudio.py rsession.sh run-nginx.sh ./
-
-WORKDIR /opt/app-root/src
+COPY rstudio/rhel9-python-3.9/utils utils/
+COPY rstudio/rhel9-python-3.9/run-rstudio.sh rstudio/rhel9-python-3.9/setup_rstudio.py rstudio/rhel9-python-3.9/rsession.sh rstudio/rhel9-python-3.9/run-nginx.sh ./
 
 # Unregister the system
 RUN subscription-manager remove --all && subscription-manager unregister && subscription-manager clean
 
-USER 1001
+WORKDIR /opt/app-root/src
 
 CMD /opt/app-root/bin/run-rstudio.sh
-
