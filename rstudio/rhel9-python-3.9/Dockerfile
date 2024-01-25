@@ -22,7 +22,7 @@ LABEL name="odh-notebook-rstudio-rhel9-python-3.9" \
 
 USER root
 
-# Uncomment the bellow line if you fall on this error: subscription-manager is disabled when running inside a container. Please refer to your host system for subscription management.
+# uncomment the bellow line if you fall on this error: subscription-manager is disabled when running inside a container. Please refer to your host system for subscription management.
 #RUN sed -i 's/\(def in_container():\)/\1\n    return False/g' /usr/lib64/python*/*-packages/rhsm/config.py
 
 # Run the subscription manager command using the provided credentials
@@ -30,6 +30,7 @@ RUN subscription-manager register --serverurl=$SERVERURL --baseurl=$BASEURL --us
 
 # Run the subscription manager command using the provided credentials
 #RUN subscription-manager register --username=$USERNAME --password=$PASSWORD --force --auto-attach
+
 
 ENV R_VERSION=4.3.1
 
@@ -86,6 +87,7 @@ RUN yum -y module enable nginx:$NGINX_VERSION && \
 
 # Copy extra files to the image.
 COPY rstudio/rhel9-python-3.9/nginx/root/ /
+
 # Changing ownership and user rights to support following use-cases:
 # 1) running container on OpenShift, whose default security model
 #    is to run the container under random UID, but GID=0
@@ -121,6 +123,7 @@ COPY rstudio/rhel9-python-3.9/nginx/api/ /opt/app-root/api/
 
 # Launcher
 WORKDIR /opt/app-root/bin
+
 COPY rstudio/rhel9-python-3.9/utils utils/
 COPY rstudio/rhel9-python-3.9/run-rstudio.sh rstudio/rhel9-python-3.9/setup_rstudio.py rstudio/rhel9-python-3.9/rsession.sh rstudio/rhel9-python-3.9/run-nginx.sh ./
 
