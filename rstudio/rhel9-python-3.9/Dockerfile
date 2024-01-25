@@ -76,9 +76,10 @@ ENV NGINX_VERSION=1.22 \
     NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
 
 # Modules does not exist
-RUN yum -y module enable nginx:$NGINX_VERSION && \
-    INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl fcgiwrap initscripts chkconfig" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+RUN yum -y module enable nginx:$NGINX_VERSION 
+
+RUN INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl fcgiwrap initscripts chkconfig" 
+RUN yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     nginx -v 2>&1 | grep -qe "nginx/$NGINX_VERSION\." && echo "Found VERSION $NGINX_VERSION" && \
     # spawn-fcgi is not in epel9
