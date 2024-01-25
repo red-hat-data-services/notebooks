@@ -36,8 +36,8 @@ ENV R_VERSION=4.3.1
 
 # Install R
 RUN yum install -y yum-utils && \
-    yum-config-manager --enable crb && \
-    yum install -y https://download.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
+    subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms && \
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
     INSTALL_PKGS="R-core R-core-devel R-java R-Rcpp R-highlight \
     R-littler R-littler-examples openssl-libs compat-openssl11" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
