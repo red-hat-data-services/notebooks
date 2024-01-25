@@ -22,12 +22,6 @@ LABEL name="odh-notebook-rstudio-rhel9-python-3.9" \
 
 USER root
 
-# Print the values for debugging (remove in production)
-RUN echo "USERNAME: $USERNAME"
-RUN echo "PASSWORD: $PASSWORD"
-RUN echo "SERVERURL: $SERVERURL"
-RUN echo "BASEURL: $BASEURL"
-
 # uncomment the bellow line if you fall on this error: subscription-manager is disabled when running inside a container. Please refer to your host system for subscription management.
 #RUN sed -i 's/\(def in_container():\)/\1\n    return False/g' /usr/lib64/python*/*-packages/rhsm/config.py
 
@@ -137,5 +131,7 @@ COPY rstudio/rhel9-python-3.9/run-rstudio.sh rstudio/rhel9-python-3.9/setup_rstu
 RUN subscription-manager remove --all && subscription-manager unregister && subscription-manager clean
 
 WORKDIR /opt/app-root/src
+
+USER 1001
 
 CMD /opt/app-root/bin/run-rstudio.sh
