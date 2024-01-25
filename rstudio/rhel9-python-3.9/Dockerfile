@@ -81,7 +81,7 @@ RUN yum -y module enable nginx:1.22
 RUN INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl fcgiwrap initscripts chkconfig" 
 RUN yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    nginx -v 2>&1 | grep -qe "nginx/$NGINX_VERSION\." && echo "Found VERSION $NGINX_VERSION" && \
+    nginx -v 2>&1 | grep -qe "nginx/1.22\." && echo "Found VERSION 1.22" && \
     # spawn-fcgi is not in epel9
     rpm -i --nodocs https://www.rpmfind.net/linux/fedora/linux/releases/37/Everything/x86_64/os/Packages/s/spawn-fcgi-1.6.3-23.fc37.x86_64.rpm && \
     yum -y clean all --enablerepo='*'
