@@ -36,8 +36,8 @@ ENV R_VERSION=4.3.1
 
 # Install R
 RUN yum install -y yum-utils && \
-    subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms && \
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
+    yum-config-manager --enable crb && \
+    yum install -y https://download.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
     INSTALL_PKGS="R-core R-core-devel R-java R-Rcpp R-highlight \
     R-littler R-littler-examples openssl-libs compat-openssl11" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
@@ -62,9 +62,9 @@ RUN wget https://download2.rstudio.org/server/rhel9/x86_64/rstudio-server-rhel-2
 # Specific RStudio config and fixes
 RUN chmod 1777 /var/run/rstudio-server && \
     mkdir -p /usr/share/doc/R
-COPY rstudio/rhel9-python-3.9/rsession.conf /etc/rstudio/rsession.conf
+COPY rsession.conf /etc/rstudio/rsession.conf
 
-# Install NGINX to proxy RStudio and pass probes check
+# Install NGINX to proxy RStudio and pass probes check 
 ENV NGINX_VERSION=1.22 \
     NGINX_SHORT_VER=122 \
     NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
@@ -76,18 +76,17 @@ ENV NGINX_VERSION=1.22 \
     NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
 
 # Modules does not exist
-RUN yum -y module enable nginx:1.22
-
-RUN INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl fcgiwrap initscripts chkconfig" 
-RUN yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+RUN yum -y module enable nginx:$NGINX_VERSION && \
+    INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl fcgiwrap initscripts chkconfig" && \
+    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    nginx -v 2>&1 | grep -qe "nginx/1.22\." && echo "Found VERSION 1.22" && \
+    nginx -v 2>&1 | grep -qe "nginx/$NGINX_VERSION\." && echo "Found VERSION $NGINX_VERSION" && \
     # spawn-fcgi is not in epel9
     rpm -i --nodocs https://www.rpmfind.net/linux/fedora/linux/releases/37/Everything/x86_64/os/Packages/s/spawn-fcgi-1.6.3-23.fc37.x86_64.rpm && \
     yum -y clean all --enablerepo='*'
 
 # Copy extra files to the image.
-COPY rstudio/rhel9-python-3.9/nginx/root/ /
+COPY nginx/root/ /
 
 # Changing ownership and user rights to support following use-cases:
 # 1) running container on OpenShift, whose default security model
@@ -118,21 +117,22 @@ RUN sed -i -f ${NGINX_APP_ROOT}/nginxconf.sed ${NGINX_CONF_PATH} && \
     rpm-file-permissions
 
 # Configure nginx
-COPY rstudio/rhel9-python-3.9/nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
-COPY rstudio/rhel9-python-3.9/nginx/httpconf/ /opt/app-root/etc/nginx.d/
-COPY rstudio/rhel9-python-3.9/nginx/api/ /opt/app-root/api/
+COPY nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
+COPY nginx/httpconf/ /opt/app-root/etc/nginx.d/
+COPY nginx/api/ /opt/app-root/api/
 
 # Launcher
 WORKDIR /opt/app-root/bin
 
-COPY rstudio/rhel9-python-3.9/utils utils/
-COPY rstudio/rhel9-python-3.9/run-rstudio.sh rstudio/rhel9-python-3.9/setup_rstudio.py rstudio/rhel9-python-3.9/rsession.sh rstudio/rhel9-python-3.9/run-nginx.sh ./
+COPY utils utils/
+COPY run-rstudio.sh setup_rstudio.py rsession.sh run-nginx.sh ./
+
+WORKDIR /opt/app-root/src
 
 # Unregister the system
 RUN subscription-manager remove --all && subscription-manager unregister && subscription-manager clean
 
-WORKDIR /opt/app-root/src
-
 USER 1001
 
 CMD /opt/app-root/bin/run-rstudio.sh
+
