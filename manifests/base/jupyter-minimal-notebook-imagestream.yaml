@@ -28,7 +28,7 @@ spec:
       name: "2024.1"
       referencePolicy:
         type: Source
-    # N-1 Version of the image
+    # N Version of the image
     - annotations:
         opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
         opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.6"}, {"name": "Notebook","version": "6.5"}]'
