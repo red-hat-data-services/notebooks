@@ -23,7 +23,7 @@ spec:
         opendatahub.io/notebook-build-commit: $(odh-codeserver-notebook-image-commit-n)
       from:
         kind: DockerImage
-        name: $(odh-codeserver-notebook-n)
+        name: $(odh-codeserver-notebook-image-n)
       name: "2023.2"
       referencePolicy:
         type: Source

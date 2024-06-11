@@ -159,7 +159,7 @@ function check_image_variable_matches_name_and_commitref() {
             expected_commitref="rhods-1.34"
             expected_build_name="habana-jupyter-1.10.0-ubi8-python-3.8-amd64"
             ;;
-        odh-codeserver-notebook-n)
+        odh-codeserver-notebook-image-n)
             expected_name="odh-notebook-code-server-ubi9-python-3.9"
             expected_commitref="release-2023b"
             expected_build_name="codeserver-ubi9-python-3.9-amd64"
