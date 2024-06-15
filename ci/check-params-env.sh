@@ -280,6 +280,7 @@ function check_image() {
     local image_name
     local image_commit_id
     local image_commitref
+    local image_created
 
     image_metadata="$(skopeo inspect --config "docker://${image_url}")" || {
         echo "Couldn't download image metadata with skopeo tool!"
@@ -295,6 +296,10 @@ function check_image() {
     }
     image_commitref=$(echo "${image_metadata}" | jq --raw-output '.config.Labels."io.openshift.build.commit.ref"') ||  {
         echo "Couldn't parse '.config.Labels."io.openshift.build.commit.ref"' from image metadata!"
+        return 1
+    }
+    image_created=$(echo "${image_metadata}" | jq --raw-output '.created') ||  {
+        echo "Couldn't parse '.created' from image metadata!"
         return 1
     }
 
@@ -321,6 +326,7 @@ function check_image() {
     }
 
     echo "Image name retrieved: '${image_name}'"
+    echo "Image created: '${image_created}'"
 
     check_image_variable_matches_name_and_commitref "${image_variable}" "${image_name}" "${image_commitref}" "${openshift_build_name}" || return 1
 
