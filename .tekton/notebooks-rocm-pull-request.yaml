@@ -8,10 +8,8 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/task: tasks/generate-odcs-compose/0.1/generate-odcs-compose.yaml
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request"
-      && target_branch == "konflux-poc"
-      && ( "amd/rhel9-python-3.9/**".pathChanged() || ".tekton/notebooks-rocm-pull-request.yaml".pathChanged() )
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
+      == "konflux-poc"
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebook-rocm
