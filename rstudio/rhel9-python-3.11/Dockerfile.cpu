@@ -48,11 +48,15 @@ LABEL name="odh-notebook-rstudio-server-rhel9-python-3.11" \
 
 USER 0
 
+# Check if we are already entitled
+RUN subscription-manager status || touch /var/tmp/.subscription-initially-not-present
+
 # uncomment the below line if you fall on this error: subscription-manager is disabled when running inside a container. Please refer to your host system for subscription management.
 #RUN sed -i 's/\(def in_container():\)/\1\n    return False/g' /usr/lib64/python*/*-packages/rhsm/config.py
 
-# Run the subscription manager command using the provided credentials. Only include --serverurl and --baseurl if they are provided
-RUN SERVERURL=$(cat ${SECRET_DIR}/SERVERURL 2>/dev/null || echo ${SERVERURL_DEFAULT}) && \
+# If necessary, run the subscription manager command using the provided credentials. Only include --serverurl and --baseurl if they are provided
+RUN [ ! -f '/var/tmp/.subscription-initially-not-present' ] || \
+    (SERVERURL=$(cat ${SECRET_DIR}/SERVERURL 2>/dev/null || echo ${SERVERURL_DEFAULT}) && \
     BASEURL=$(cat ${SECRET_DIR}/BASEURL 2>/dev/null || echo ${BASEURL_DEFAULT}) && \
     USERNAME=$(cat ${SECRET_DIR}/USERNAME) && \
     PASSWORD=$(cat ${SECRET_DIR}/PASSWORD) && \
@@ -62,7 +66,7 @@ RUN SERVERURL=$(cat ${SECRET_DIR}/SERVERURL 2>/dev/null || echo ${SERVERURL_DEFA
     --username=$USERNAME \
     --password=$PASSWORD \
     --force \
-    --auto-attach
+    --auto-attach)
 
 ENV R_VERSION=4.4.1
 
@@ -169,7 +173,7 @@ COPY ${RSTUDIO_SOURCE_CODE}/utils utils/
 COPY ${RSTUDIO_SOURCE_CODE}/run-rstudio.sh ${RSTUDIO_SOURCE_CODE}/setup_rstudio.py ${RSTUDIO_SOURCE_CODE}/rsession.sh ${RSTUDIO_SOURCE_CODE}/run-nginx.sh ./
 
 # Unregister the system
-RUN subscription-manager remove --all && subscription-manager unregister && subscription-manager clean
+RUN [ ! -f '/var/tmp/.subscription-initially-not-present' ] || (subscription-manager remove --all && subscription-manager unregister && subscription-manager clean)
 
 USER 1001
 
