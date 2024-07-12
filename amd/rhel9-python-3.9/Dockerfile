@@ -26,7 +26,7 @@ RUN echo "Installing softwares and packages" && micropipenv install && rm -f ./P
 
 USER 0
 
-# change!
+# change!!
 
 # Install required packages
 RUN yum -y install git java-1.8.0-openjdk && \
