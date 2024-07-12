@@ -6,7 +6,6 @@
 permissions:
   contents: read
   packages: read
-  pull-requests: read
 
 concurrency:
   group: ${{ format('build-notebooks-pr-{0}', github.event.pull_request.number) }}

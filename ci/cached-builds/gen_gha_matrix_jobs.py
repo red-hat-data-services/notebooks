@@ -69,7 +69,7 @@ def extract_target_dependencies(lines: Iterable[str]) -> dict[str, list[str]]:
     return tree
 
 
-def write_github_workflow_file(tree: dict[str, list[str]], path: pathlib.Path) -> None:
+def write_github_workflow_file(tree: dict[str, list[str]], path: pathlib.Path, only_rhel=False) -> None:
     jobs = {}
 
     # IDs may only contain alphanumeric characters, '_', and '-'. IDs must start with a letter or '_' and must be less than 100 characters.
@@ -81,8 +81,9 @@ def write_github_workflow_file(tree: dict[str, list[str]], path: pathlib.Path) -
             if not task.startswith("base-"):
                 continue
 
-        # we won't build rhel-based images because they need subscription
-        if "rhel" in task:
+        # we treat rhel-based images specially because they need a subscription
+        is_rhel = "rhel" in task
+        if only_rhel and not is_rhel:
             continue
 
         task_name = re.sub(r"[^-_0-9A-Za-z]", "_", task)
@@ -129,7 +130,7 @@ def compute_leafs_in_dependency_tree(tree: dict[str, list[str]]) -> list[str]:
     return [key for key in key_set if key not in value_set]
 
 
-def print_github_actions_pr_matrix(tree: dict[str, list[str]], leafs: list[str]) -> list[str]:
+def print_github_actions_pr_matrix(tree: dict[str, list[str]], leafs: list[str], only_rhel=False) -> list[str]:
     """Outputs GitHub matrix definition Json
     """
     targets = []
@@ -138,8 +139,9 @@ def print_github_actions_pr_matrix(tree: dict[str, list[str]], leafs: list[str])
         if not tree[leaf] and not leaf.startswith("base-"):
             continue
 
-        # we won't build rhel-based images because they need a subscription
-        if "rhel" in leaf:
+        # we treat rhel-based images specially because they need a subscription
+        is_rhel = "rhel" in leaf
+        if only_rhel and not is_rhel:
             continue
 
         targets.append(leaf)
@@ -157,6 +159,8 @@ def main() -> None:
                            help="Git ref of the base branch (to determine changed files)")
     argparser.add_argument("--to-ref", type=str, required=False,
                            help="Git ref of the PR branch (to determine changed files)")
+    argparser.add_argument("--only-rhel", type=bool, required=False, default=False,
+                           action=argparse.BooleanOptionalAction)
     args = argparser.parse_args()
 
     # https://www.gnu.org/software/make/manual/make.html#Reading-Makefiles
@@ -171,7 +175,7 @@ def main() -> None:
         logging.info(f"Skipping targets not modified in the PR")
         changed_files = gha_pr_changed_files.list_changed_files(args.from_ref, args.to_ref)
         leafs = gha_pr_changed_files.filter_out_unchanged(leafs, changed_files)
-    output = print_github_actions_pr_matrix(tree, leafs)
+    output = print_github_actions_pr_matrix(tree, leafs, only_rhel=args.only_rhel)
 
     print("leafs", leafs)
     print(*output, sep="\n")

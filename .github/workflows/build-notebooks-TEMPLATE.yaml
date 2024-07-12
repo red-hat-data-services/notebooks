@@ -15,6 +15,11 @@ name: Build & Publish Notebook Servers (TEMPLATE)
         required: true
         description: "top workflow's `github`"
         type: string
+      subscription:
+        required: false
+        default: false
+        description: "add RHEL subscription from github secret"
+        type: boolean
 
 jobs:
   build:
@@ -235,6 +240,13 @@ jobs:
       # endregion
 
       # region Image build
+
+      - name: Add RHEL subscription from GitHub secret
+        if: ${{ inputs.subscription }}
+        env:
+          PULL_SECRET_BASE64: ${{ secrets.PULL_SECRET_BASE64 }}
+        run: |
+          echo "${PULL_SECRET_BASE64}" | base64 --decode > pull-secret.txt
 
       # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
       # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
