@@ -24,7 +24,7 @@ jobs:
       has_jobs: ${{ steps.gen.outputs.has_jobs }}
     steps:
       - name: Check permissions (this must be done FIRST, for security, before we checkout)
-        if: ${{ !contains(github.context.actor, fromJSON(env.contributors)) }}
+        if: ${{ !contains(github.actor, fromJSON(env.contributors)) }}
         run: |
           echo "GitHub user is not a registered project contributor, not allowed to run actions on RHEL"
           exit 1
