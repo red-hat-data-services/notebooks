@@ -68,7 +68,7 @@ def should_build_target(changed_files: list[str], target_directories: list[str])
     return ""
 
 
-def filter_out_unchanged(targets: list[str], changed_files: list[str]) -> list[str]:
+def filter_outtarget_unchanged(targets: list[str], changed_files: list[str]) -> list[str]:
     changed = []
     for target in targets:
         target_directories = analyze_build_directories(target)
