@@ -33,16 +33,6 @@ jobs:
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
 
-      - name: Unlock encrypted secrets with git-crypt
-        run: |
-          sudo apt-get update
-          sudo apt-get install git-crypt
-          echo "${GIT_CRYPT_KEY}" | base64 --decode > ./git-crypt-key
-          git-crypt unlock ./git-crypt-key
-          rm ./git-crypt-key
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-
       - name: Determine targets to build based on changed files
         run: |
           set -x
@@ -53,8 +43,6 @@ jobs:
             --to-ref '${{ github.event.pull_request.head.ref }}' \
             --only-rhel
         id: gen
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
 
   build:
