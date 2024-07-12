@@ -196,6 +196,33 @@ base-rhel9-python-3.9:
 	$(call image,$@,base/rhel9-python-3.9)
 
 ####################################### Buildchain for AMD Python 3.11 using UBI9 #######################################
+
+.PHONY: amd-rhel9-python-3.9
+amd-rhel9-python-3.9: base-rhel9-python-3.9
+	$(call image,$@,amd/rhel9-python-3.9,$<)
+
+# We are only using rhel9 base image here onwards,
+# DON'T be confused due to the ubi9 mention, it's just a directory name.
+.PHONY: amd-jupyter-minimal-rhel9-python-3.9
+amd-jupyter-minimal-rhel9-python-3.9: amd-rhel9-python-3.9
+	$(call image,$@,jupyter/minimal/ubi9-python-3.9,$<)
+
+# Build and push jupyter-datascience-ubi9-python-3.9 image to the registry
+.PHONY: amd-jupyter-datascience-rhel9-python-3.9
+amd-jupyter-datascience-rhel9-python-3.9: amd-jupyter-minimal-rhel9-python-3.9
+	$(call image,$@,jupyter/datascience/ubi9-python-3.9,$<)
+
+# Build and push jupyter-tensorflow-ubi9-python-3.9 image to the registry
+.PHONY: amd-jupyter-tensorflow-rhel9-python-3.9
+amd-jupyter-tensorflow-rhel9-python-3.9: amd-jupyter-datascience-rhel9-python-3.9
+	$(call image,$@,jupyter/amd/tensorflow/ubi9-python-3.9,$<)
+
+# Build and push jupyter-pytorch-ubi9-python-3.9 image to the registry
+.PHONY: amd-jupyter-pytorch-rhel9-python-3.9
+amd-jupyter-pytorch-rhel9-python-3.9: amd-jupyter-datascience-rhel9-python-3.9
+	$(call image,$@,jupyter/amd/pytorch/ubi9-python-3.9,$<)
+
+####################################### Buildchain for AMD Python 3.9 using RHEL 9 #######################################
 .PHONY: rocm-ubi9-python-3.11
 rocm-ubi9-python-3.11: base-ubi9-python-3.11
 	$(call image,$@,rocm/ubi9-python-3.11,$<)
