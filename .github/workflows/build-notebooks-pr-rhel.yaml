@@ -26,7 +26,7 @@ jobs:
       - name: Check permissions (this must be done FIRST, for security, before we checkout)
         if: ${{ !contains(fromJSON(env.contributors), github.actor) }}
         run: |
-          echo "GitHub user ${{ github.actor }} is not a registered project contributor, not allowed to run actions on RHEL"
+          echo "GitHub user ${{ github.actor }} is not a registered project contributor, not allowed to run actions on RHEL!"
           exit 1
 
       - uses: actions/checkout@v4
