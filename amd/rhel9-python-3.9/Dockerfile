@@ -26,20 +26,7 @@ RUN echo "Installing softwares and packages" && micropipenv install && rm -f ./P
 
 USER 0
 
-# Run the subscription manager command using the provided credentials. Only include --serverurl and --baseurl if they are provided
-RUN SERVERURL=$(cat ${SECRET_DIR}/SERVERURL 2>/dev/null || echo ${SERVERURL_DEFAULT}) && \
-    BASEURL=$(cat ${SECRET_DIR}/BASEURL 2>/dev/null || echo ${BASEURL_DEFAULT}) && \
-    USERNAME=$(cat ${SECRET_DIR}/USERNAME) && \
-    PASSWORD=$(cat ${SECRET_DIR}/PASSWORD) && \
-    subscription-manager register \
-    ${SERVERURL:+--serverurl=$SERVERURL} \
-    ${BASEURL:+--baseurl=$BASEURL} \
-    --username=$USERNAME \
-    --password=$PASSWORD \
-    --force \
-    --auto-attach
-
-# Install required packages 
+# Install required packages
 RUN yum -y install git java-1.8.0-openjdk && \
     yum clean all && rm -rf /var/cache/yum
 
