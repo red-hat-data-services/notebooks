@@ -83,7 +83,7 @@ def write_github_workflow_file(tree: dict[str, list[str]], path: pathlib.Path, o
 
         # we treat rhel-based images specially because they need a subscription
         is_rhel = "rhel" in task
-        if only_rhel and not is_rhel:
+        if only_rhel != is_rhel:
             continue
 
         task_name = re.sub(r"[^-_0-9A-Za-z]", "_", task)
@@ -141,7 +141,7 @@ def print_github_actions_pr_matrix(tree: dict[str, list[str]], leafs: list[str],
 
         # we treat rhel-based images specially because they need a subscription
         is_rhel = "rhel" in leaf
-        if only_rhel and not is_rhel:
+        if only_rhel != is_rhel:
             continue
 
         targets.append(leaf)
