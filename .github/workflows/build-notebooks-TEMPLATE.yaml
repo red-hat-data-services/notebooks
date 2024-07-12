@@ -241,10 +241,11 @@ jobs:
 
       # region Image build
 
-      - name: Add RHEL subscription from GitHub secret
+      - name: Add subscriptions from GitHub secret
         if: ${{ inputs.subscription }}
         run: |
           printf "${PWD}/ci/secrets/pki/consumer:/etc/pki/consumer\n${PWD}/ci/secrets/pki/entitlement:/etc/pki/entitlement" > /usr/share/containers/mounts.conf
+          cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
 
       # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
       # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
