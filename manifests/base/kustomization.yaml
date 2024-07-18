@@ -151,13 +151,13 @@ vars:
       apiVersion: v1
     fieldref:
       fieldpath: data.odh-habana-notebook-image-n
-  - name: odh-codeserver-notebook-n
+  - name: odh-codeserver-notebook-image-n
     objref:
       kind: ConfigMap
       name: notebooks-parameters
       apiVersion: v1
     fieldref:
-      fieldpath: data.odh-codeserver-notebook-n
+      fieldpath: data.odh-codeserver-notebook-image-n
   - name: odh-minimal-notebook-image-commit-n
     objref:
       kind: ConfigMap
