@@ -1,5 +1,7 @@
 IMAGE_REGISTRY   ?= quay.io/opendatahub/workbench-images
 RELEASE	 		 ?= 2024a
+# additional user-specified caching parameters for $(CONTAINER_ENGINE) build
+CONTAINER_BUILD_CACHE_ARGS ?= --no-cache
 
 # OS dependant: Generate date, select appropriate cmd to locate container engine
 ifeq ($(OS), Windows_NT)
@@ -41,7 +43,7 @@ define build_image
 		$(eval BUILD_ARGS := --build-arg BASE_IMAGE=$(BASE_IMAGE_NAME)),
 		$(eval BUILD_ARGS :=)
 	)
-	$(CONTAINER_ENGINE) build --no-cache  -t $(IMAGE_NAME) $(BUILD_ARGS) $(2)
+	$(CONTAINER_ENGINE) build $(CONTAINER_BUILD_CACHE_ARGS)  -t $(IMAGE_NAME) $(BUILD_ARGS)  $(2)
 endef
 
 # Push function for the notebok image:
@@ -57,6 +59,7 @@ endef
 #   ARG 2: Path of image context we want to build.
 #   ARG 3: Base image tag name (optional).
 define image
+	$(info #*# Image build directory: <$(2)> #(MACHINE-PARSED LINE)#*#...)
 	$(call build_image,$(1),$(2),$(3))
 	$(call push_image,$(1))
 endef
