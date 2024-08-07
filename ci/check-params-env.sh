@@ -212,8 +212,7 @@ function check_image_variable_matches_name_and_commitref() {
             ;;
         odh-habana-notebook-image-n-1)
             expected_name="odh-notebook-habana-jupyter-1.10.0-ubi8-python-3.8"
-            # expected_commitref="release-2023b"
-            expected_commitref="rhods-1.34"
+            expected_commitref="release-2023b"
             expected_build_name="habana-jupyter-1.10.0-ubi8-python-3.8-amd64"
             ;;
         odh-codeserver-notebook-image-n)
