@@ -1,6 +1,9 @@
 ---
 name: Code static analysis
-on: [pull_request]  # yamllint disable-line rule:truthy
+on:  # yamllint disable-line rule:truthy
+  push:
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -9,25 +12,26 @@ jobs:
   code-static-analysis:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Validate YAML files (best code practices check included)
         id: validate-yaml-files
-        uses: ibiqlik/action-yamllint@v3.1.1
-        with:
-          config_file: ./ci/yamllint-config.yaml
+        run: |
+          type yamllint || sudo apt-get -y install yamllint
+          find . -name "*.yaml" | xargs yamllint --strict --config-file ./ci/yamllint-config.yaml
+          find . -name "*.yml" | xargs yamllint --strict --config-file ./ci/yamllint-config.yaml
 
       # In some YAML files we use JSON strings, let's check these
       - name: Validate JSON strings in YAML files (just syntax)
         id: validate-json-strings-in-yaml-files
         run: |
-          type json_verify || sudo apt-get install yajl-tools
+          type json_verify || sudo apt-get -y install yajl-tools
           bash ./ci/check-json.sh
 
       - name: Validate JSON files (just syntax)
         id: validate-json-files
         run: |
-          type json_verify || sudo apt-get install yajl-tools
+          type json_verify || sudo apt-get -y install yajl-tools
           shopt -s globstar
           ret_code=0
           echo "-- Checking a regular '*.json' files"
@@ -50,3 +54,18 @@ jobs:
           echo "Starting Hadolint"
           find . -name "Dockerfile" | xargs ./hadolint --config ./ci/hadolint-config.yaml
           echo "Hadolint done"
+
+      # This simply checks that the manifests and respective kustomization.yaml finishes without an error.
+      - name: Check kustomize manifest
+        id: kustomize-manifests
+        run: |
+          kubectl version --client=true
+          echo "----------------------------------------------------------"
+          echo "Starting 'kubectl kustomize manifests/base'"
+          echo "----------------------------------------------------------"
+          kubectl kustomize manifests/base
+
+          echo "----------------------------------------------------------"
+          echo "Starting 'kubectl kustomize manifests/overlays/additional'"
+          echo "----------------------------------------------------------"
+          kubectl kustomize manifests/overlays/additional
