@@ -5,7 +5,7 @@
       "minimal"
     ],
     "display_name": "Python 3.11 (UBI9)",
-    "image_name": "quay.io/opendatahub/workbench-images@",
+    "image_name": "quay.io/modh/runtime-images@sha256:910e0eef949fd853aa4b67cf17e0545c14252cafab7be1a2f648a1108bf0276b",
     "pull_policy": "IfNotPresent"
   },
   "schema_name": "runtime-image"
