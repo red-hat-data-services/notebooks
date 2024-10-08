@@ -176,7 +176,7 @@ jobs:
                   "v2-${{ env.RELEASE_VERSION_N_1 }}-\d{8}+-${{ steps.hash-n-1.outputs.HASH_N_1 }}" \
                   "cuda-[a-z]+-tensorflow-[a-z0-9]+-[a-z]+-3.9-${{ env.RELEASE_VERSION_N_1 }}-\d{8}-${{ steps.hash-n-1.outputs.HASH_N_1 }}" \
                   "v2-${{ env.RELEASE_VERSION_N_1 }}-\d{8}+-${{ steps.hash-n-1.outputs.HASH_N_1 }}" \
-                  "codeserver-[a-z0-9]+-[a-z]+-3.9-${{ env.RELEASE_VERSION_N_1 }}-\d{8}-${{ steps.hash-n-1.outputs.HASH_N_1 }}" \
+                  "codeserver-[a-z0-9]+-[a-z]+-3.9-${{ env.RELEASE_VERSION_N_1 }}-\d{8}-${{ steps.hash-n-1.outputs.HASH_N_1 }}" )
 
           i=0
           for image in ${IMAGES}; do
