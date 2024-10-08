@@ -1,6 +1,6 @@
 ---
-# The aim of this GitHub workflow is to update the params.env file with the latest digest.
-name: Update notebook image build commit hashes
+# The aim of this GitHub workflow is to update the params.env and commit.env files with the latest builds.
+name: Update notebook image build references (downstream)
 on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
     inputs:
