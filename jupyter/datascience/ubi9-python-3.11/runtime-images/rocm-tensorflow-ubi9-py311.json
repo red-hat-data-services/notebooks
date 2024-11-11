@@ -5,7 +5,7 @@
       "rocm-tensorflow"
     ],
     "display_name": "TensorFlow with ROCm and Python 3.11 (UBI9)",
-    "image_name": "quay.io/modh/runtime-images@sha256:d62d3ea7f353306adca4616b8d5129892eb2cba4335cc09584203b57a2bd4a00",
+    "image_name": "quay.io/modh/runtime-images@",
     "pull_policy": "IfNotPresent"
   },
   "schema_name": "runtime-image"

@@ -5,7 +5,7 @@
       "minimal"
     ],
     "display_name": "Python 3.11 (UBI9)",
-    "image_name": "quay.io/modh/runtime-images@sha256:3b5ae4ac99ff7b70b2ad1415d5a40ed9dae4de999d9dc438bece98bae162ba93",
+    "image_name": "quay.io/modh/runtime-images@sha256:42b70373ec223d1599e3e067caa63ed5fa464a356fa8a996ba1570d8db923346",
     "pull_policy": "IfNotPresent"
   },
   "schema_name": "runtime-image"

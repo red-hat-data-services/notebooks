@@ -5,7 +5,7 @@
       "tensorflow"
     ],
     "display_name": "TensorFlow with CUDA and Python 3.11 (UBI9)",
-    "image_name": "quay.io/modh/runtime-images@sha256:15e9dccd7bb742473b95fc1e0d372a36d15e170c7799e338843f887ee3b2787c",
+    "image_name": "quay.io/modh/runtime-images@sha256:302d13703d7a014c62ca7d2be1add9d1dc42fd9094a949fa831dea4d58526789",
     "pull_policy": "IfNotPresent"
   },
   "schema_name": "runtime-image"
