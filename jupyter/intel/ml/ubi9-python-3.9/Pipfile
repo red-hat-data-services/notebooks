@@ -9,7 +9,7 @@ daal4py = {version="*"}
 "modin[ray]" = {version="==0.24.1"}
 scikit-learn-intelex = {version="==2024.0.1"}
 threadpoolctl = {version="*"}
-xgboost = {version="==1.7.3"}
+xgboost = {version="==1.7.6"}
 # Datascience and useful extensions
 cloud-data-connector = {version="*"}
 kafka-python = "~=2.0.2"
