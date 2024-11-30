@@ -20,7 +20,7 @@ tf2onnx = "~= 1.13.0"
 habana-pyhlml = "==1.10.0.494"
 
 # Below pkgs are required for pytorch-fork
-cffi = "==1.14.6"
+cffi = "==1.17.1"
 typing-extensions = ">=4.0.0"
 numpy = "==1.23.5"
 ninja = "==1.10.2"
