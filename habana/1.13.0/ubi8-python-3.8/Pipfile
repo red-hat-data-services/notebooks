@@ -15,7 +15,7 @@ tensorflow-io = "==0.32.0"
 tensorboard = "~=2.12.2"
 tf2onnx = "~= 1.13.0"
 # Pytorch and useful extension
-habana-pyhlml = "==1.13.0.463"
+habana-pyhlml = "==1.18.0.524"
 # Below pkgs are required for pytorch-fork
 cffi = "==1.15.1"
 typing-extensions = ">=4.5.0"
