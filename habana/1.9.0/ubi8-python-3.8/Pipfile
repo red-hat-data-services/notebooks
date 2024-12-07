@@ -10,7 +10,7 @@ name = "pypi"
 hpu_media_loader = "==1.9.0.580.1"
 
 # TensorFlow and useful extensions
-habana-tensorflow = "==1.9.0.580.1"
+habana-tensorflow = "==1.14.0.493"
 tensorflow = "==2.11.0"
 tensorflow-io = "==0.27.0"
 tensorboard = "~=2.11.2"
