@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 # Habana requirements
-habana_media_loader = "==1.10.0.494"
+habana_media_loader = "==1.19.0.561"
 
 # TensorFlow and useful extensions
 habana-tensorflow = "==1.10.0.494"
