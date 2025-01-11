@@ -11,7 +11,7 @@ tensorflow = "~=2.15.0"
 tensorboard = "~=2.15.2"
 tf2onnx = "~= 1.16.1"
 # Datascience and useful extensions
-boto3 = "~=1.34.50"
+boto3 = "~=1.35.97"
 kafka-python = "~=2.0.2"
 matplotlib = "~=3.8.3"
 numpy = "~=1.26.4"
