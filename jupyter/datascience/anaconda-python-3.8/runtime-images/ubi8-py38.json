@@ -5,7 +5,7 @@
       "minimal"
     ],
     "display_name": "Python 3.8 (UBI8)",
-    "image_name": "quay.io/modh/runtime-images@sha256:d4c3f33a8c3ef12828882f24e85a3e00487ea019c6907745f3d21ca4c693e6dc",
+    "image_name": "quay.io/modh/runtime-images@sha256:7306c14bd19011685eea8beb39b3dd27db5490a5bac0f4e1e5c59494a7242ba6",
     "pull_policy": "IfNotPresent"
   },
   "schema_name": "runtime-image"
