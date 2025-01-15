@@ -1,8 +1,6 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-ARG SOURCE_CODE=jupyter/tensorflow/ubi9-python-3.11
-
 LABEL name="odh-notebook-cuda-jupyter-tensorflow-ubi9-python-3.11" \
     summary="Jupyter CUDA tensorflow notebook image for ODH notebooks" \
     description="Jupyter CUDA tensorflow notebook image with base Python 3.11 builder image based on UBI9 for ODH notebooks" \
@@ -13,9 +11,9 @@ LABEL name="odh-notebook-cuda-jupyter-tensorflow-ubi9-python-3.11" \
     io.openshift.build.source-location="https://github.com/opendatahub-io/notebooks/tree/main/jupyter/tensorflow/ubi9-python-3.11" \
     io.openshift.build.image="quay.io/opendatahub/workbench-images:cuda-jupyter-tensorflow-ubi9-python-3.11"
 
-COPY ${SOURCE_CODE}/utils ./utils/
+COPY utils ./utils/
 # Install Python packages and Jupyterlab extensions from Pipfile.lock
-COPY ${SOURCE_CODE}/Pipfile.lock ./
+COPY Pipfile.lock ./
 
 RUN echo "Installing softwares and packages" && micropipenv install && rm -f ./Pipfile.lock
 

@@ -1,8 +1,6 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-ARG SOURCE_CODE=jupyter/datascience/ubi9-python-3.11
-
 LABEL name="odh-notebook-jupyter-datascience-ubi9-python-3.11" \
     summary="Jupyter data science notebook image for ODH notebooks" \
     description="Jupyter data science notebook image with base Python 3.11 builder image based on UBI9 for ODH notebooks" \
@@ -16,10 +14,10 @@ LABEL name="odh-notebook-jupyter-datascience-ubi9-python-3.11" \
 WORKDIR /opt/app-root/bin
 
 # Install Python packages and Jupyterlab extensions from Pipfile.lock
-COPY ${SOURCE_CODE}/Pipfile.lock ./
+COPY Pipfile.lock ./
 
 # Copy Elyra setup to utils so that it's sourced at startup
-COPY ${SOURCE_CODE}/setup-elyra.sh ./utils/
+COPY setup-elyra.sh ./utils/
 
 RUN echo "Installing softwares and packages" && \
     micropipenv install && \
@@ -28,7 +26,7 @@ RUN echo "Installing softwares and packages" && \
     chmod -R g+w /opt/app-root/lib/python3.11/site-packages && \
     fix-permissions /opt/app-root -P
 
-COPY ${SOURCE_CODE}/utils ./utils/
+COPY utils ./utils/
 
 # OS Packages needs to be installed as root
 USER root
@@ -40,12 +38,12 @@ RUN dnf install -y jq unixODBC postgresql git-lfs libsndfile && dnf clean all &&
 RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 
 # Install MongoDB Client, We need a special repo for MongoDB as they do their own distribution
-COPY ${SOURCE_CODE}/mongodb-org-6.0.repo-x86_64 /etc/yum.repos.d/mongodb-org-6.0.repo
+COPY mongodb-org-6.0.repo-x86_64 /etc/yum.repos.d/mongodb-org-6.0.repo
 
 RUN dnf install -y mongocli && dnf clean all && rm -rf /var/cache/yum
 
 # Install MSSQL Client, We need a special repo for MSSQL as they do their own distribution
-COPY ${SOURCE_CODE}/mssql-2022.repo-x86_64 /etc/yum.repos.d/mssql-2022.repo
+COPY mssql-2022.repo-x86_64 /etc/yum.repos.d/mssql-2022.repo
 
 RUN ACCEPT_EULA=Y dnf install -y mssql-tools18 unixODBC-devel && dnf clean all && rm -rf /var/cache/yum
 
@@ -65,6 +63,6 @@ RUN mkdir /opt/app-root/runtimes && \
     fix-permissions /opt/app-root -P
 
 # Copy Elyra runtime-images definitions and set the version
-COPY ${SOURCE_CODE}/runtime-images/ /opt/app-root/share/jupyter/metadata/runtime-images/
+COPY runtime-images/ /opt/app-root/share/jupyter/metadata/runtime-images/
 
 WORKDIR /opt/app-root/src

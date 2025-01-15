@@ -1,7 +1,6 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-ARG SOURCE_CODE=codeserver/ubi9-python-3.11
 ARG CODESERVER_VERSION=v4.92.2
 
 LABEL name="odh-notebook-code-server-ubi9-python-3.11" \
@@ -19,7 +18,7 @@ USER 0
 WORKDIR /opt/app-root/bin
 
 # Install usefull packages from Pipfile.lock
-COPY ${SOURCE_CODE}/Pipfile.lock ./
+COPY Pipfile.lock ./
 
 # Install packages and cleanup
 RUN echo "Installing softwares and packages" && \
@@ -40,7 +39,7 @@ RUN yum install -y "https://github.com/coder/code-server/releases/download/${COD
 RUN chmod -R g+w /opt/app-root/lib/python3.11/site-packages && \
     fix-permissions /opt/app-root -P
 
-COPY --chown=1001:0 ${SOURCE_CODE}/utils utils/
+COPY --chown=1001:0 utils utils/
 
 # Create and intall the extensions though build-time on a temporary directory. Later this directory will copied on the `/opt/app-root/src/.local/share/code-server/extensions` via run-code-server.sh file when it starts up.
 RUN mkdir -p /opt/app-root/extensions-temp && \
@@ -65,10 +64,10 @@ RUN yum install -y https://download.fedoraproject.org/pub/epel/epel-release-late
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
 
-COPY --chown=1001:0 ${SOURCE_CODE}/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chown=1001:0 supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy extra files to the image.
-COPY ${SOURCE_CODE}/nginx/root/ /
+COPY nginx/root/ /
 
 # Changing ownership and user rights to support following use-cases:
 # 1) running container on OpenShift, whose default security model
@@ -105,12 +104,12 @@ RUN sed -i -f ${NGINX_APP_ROOT}/nginxconf.sed ${NGINX_CONF_PATH} && \
     chown -R 1001:0 /opt/app-root/src/.config/code-server
 
 ## Configure nginx
-COPY ${SOURCE_CODE}/nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
-COPY ${SOURCE_CODE}/nginx/httpconf/ /opt/app-root/etc/nginx.d/
-COPY ${SOURCE_CODE}/nginx/api/ /opt/app-root/api/
+COPY nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
+COPY nginx/httpconf/ /opt/app-root/etc/nginx.d/
+COPY nginx/api/ /opt/app-root/api/
 
 # Launcher
-COPY --chown=1001:0 ${SOURCE_CODE}/run-code-server.sh ${SOURCE_CODE}/run-nginx.sh ./
+COPY --chown=1001:0 run-code-server.sh run-nginx.sh ./
 
 ENV SHELL /bin/bash
 
