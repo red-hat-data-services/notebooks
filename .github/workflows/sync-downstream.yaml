@@ -65,8 +65,8 @@ jobs:
           git pull upstream ${{ env.BRANCH_NAME }} --no-rebase || true
 
           # Resolve known conflicts
-          FILES_TO_RESOLVE=$(eval echo "${{ env.RUNTIME_IMAGES_DIR }} ${{ env.MANIFEST_FILES }}")
-          for FILE in $FILES_TO_RESOLVE; do
+          FILES_TO_RESOLVE=($RUNTIME_IMAGES_DIR $MANIFEST_FILES)
+          for FILE in "${FILES_TO_RESOLVE[@]}"; do
             if [[ -f "$FILE" && "$(git status --porcelain=v1 2>/dev/null | grep -c "$FILE")" -gt 0 ]]; then
               echo "Resolving conflict for $FILE by keeping downstream changes."
               git checkout --ours "$FILE"
