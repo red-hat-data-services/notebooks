@@ -26,7 +26,7 @@ pybind11 = "==2.10.4"
 mkl = "==2023.1"
 mkl-include = "==2023.1"
 # Parent image requirements to maintain cohesion
-boto3 = "~=1.34.50"
+boto3 = "~=1.36.16"
 kafka-python = "~=2.0.2"
 matplotlib = "~=3.7.5"
 pandas = "~=2.0.3"
