@@ -48,7 +48,7 @@ jobs:
             --from-ref 'origin/${{ github.event.pull_request.base.ref }}' \
             --to-ref '${{ github.event.pull_request.head.ref }}' \
             --only-rhel
-        id: gen
+        id: gen1
         shell: bash
 
       - name: Determine targets to build based on changed files
@@ -61,16 +61,29 @@ jobs:
             --from-ref '5e5841e116d75e643d3f84cd918cbdcf172076d5' \
             --to-ref '1d8611e3f89a82e543bf67d0b49a02e11eb7c203' \
             --only-rhel
-        id: gen
+        id: gen2
         shell: bash
 
-  build:
+  builda:
     needs: ["gen"]
     strategy:
       fail-fast: false
       matrix: "${{ fromJson(needs.gen.outputs.matrix) }}"
     uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
-    if: ${{ fromJson(needs.gen.outputs.has_jobs) }}
+    if: ${{ fromJson(needs.gen1.outputs.has_jobs) }}
+    with:
+      target: "${{ matrix.target }}"
+      github: "${{ toJSON(github) }}"
+      subscription: true
+    secrets: inherit
+
+  buildb:
+    needs: ["gen"]
+    strategy:
+      fail-fast: false
+      matrix: "${{ fromJson(needs.gen.outputs.matrix) }}"
+    uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
+    if: ${{ fromJson(needs.gen2.outputs.has_jobs) }}
     with:
       target: "${{ matrix.target }}"
       github: "${{ toJSON(github) }}"
