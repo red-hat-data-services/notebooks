@@ -63,7 +63,7 @@ jobs:
           #  --only-rhel
           echo 'matrix={"target":["amd-jupyter-pytorch-rhel9-python-3.9","amd-jupyter-tensorflow-rhel9-python-3.9"]}' >> ${GITHUB_OUTPUT}
           echo 'has_jobs=true' >> ${GITHUB_OUTPUT}
-        id: gen2
+        id: gen
         shell: bash
 
 #  builda:
@@ -83,9 +83,9 @@ jobs:
     needs: ["gen"]
     strategy:
       fail-fast: false
-      matrix: "${{ fromJson(needs.gen2.outputs.matrix) }}"
+      matrix: "${{ fromJson(needs.gen.outputs.matrix) }}"
     uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
-    if: ${{ fromJson(needs.gen2.outputs.has_jobs) }}
+    if: ${{ fromJson(needs.gen.outputs.has_jobs) }}
     with:
       target: "${{ matrix.target }}"
       github: "${{ toJSON(github) }}"
