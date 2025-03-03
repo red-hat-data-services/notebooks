@@ -59,6 +59,27 @@ jobs:
 
       - run: mkdir -p $TMPDIR
 
+      # do this early because it's fast and why not
+      - name: Unlock encrypted secrets with git-crypt
+        if: ${{ inputs.subscription }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install git-crypt
+          echo "${GIT_CRYPT_KEY}" | base64 --decode > ./git-crypt-key
+          git-crypt unlock ./git-crypt-key
+          rm ./git-crypt-key
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: Add subscriptions from GitHub secret
+        if: ${{ inputs.subscription }}
+        run: |
+          sudo cp -R ${PWD}/ci/secrets/pki/* /etc/pki/
+          printf "${PWD}/ci/secrets/pki/consumer:/etc/pki/consumer\n${PWD}/ci/secrets/pki/entitlement:/etc/pki/entitlement" | sudo tee /usr/share/containers/mounts.conf
+
+          mkdir -p $HOME/.config/containers/
+          sudo cp ${PWD}/ci/secrets/pull-secret.txt $HOME/.config/containers/auth.json
+
       # for bin/buildinputs in scripts/sandbox.py
       - uses: actions/setup-go@v5
         with:
@@ -248,23 +269,6 @@ jobs:
       # endregion
 
       # region Image build
-
-      - name: Unlock encrypted secrets with git-crypt
-        if: ${{ inputs.subscription }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install git-crypt
-          echo "${GIT_CRYPT_KEY}" | base64 --decode > ./git-crypt-key
-          git-crypt unlock ./git-crypt-key
-          rm ./git-crypt-key
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-
-      - name: Add subscriptions from GitHub secret
-        if: ${{ inputs.subscription }}
-        run: |
-          printf "${PWD}/ci/secrets/pki/consumer:/etc/pki/consumer\n${PWD}/ci/secrets/pki/entitlement:/etc/pki/entitlement" > /usr/share/containers/mounts.conf
-          cp ${PWD}/ci/secrets/pull-secret.txt $HOME/.config/containers/auth.json
 
       # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
       # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
