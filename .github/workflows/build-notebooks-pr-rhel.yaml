@@ -32,8 +32,11 @@ jobs:
           exit 1
 
       - uses: actions/checkout@v4
+        if: ${{ github.event_name == 'pull_request_target' }}
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
+      - uses: actions/checkout@v4
+        if: ${{ github.event_name != 'pull_request_target' }}
 
       - name: Determine targets to build based on changed files
         run: |
