@@ -1,0 +1,94 @@
+---
+"name": "Build Notebooks (pr, RHEL images)"
+"on":
+  "push":
+  "workflow_dispatch":
+  "pull_request_target":
+    "types": ["opened", "synchronize", "reopened", "edited"]
+
+# BEWARE: This GitHub Actions workflow runs on pull_request_target, meaning it has access to our secrets
+# see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-secrets
+# and https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+
+permissions:
+  contents: read
+  # tmp, for checking pull request
+  packages: write
+
+env:
+  contributors: '["atheo89", "caponetto", "dibryant", "harshad16", "jiridanek", "jstourac", "paulovmr"]'
+
+jobs:
+  gen:
+    name: Generate job matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+      has_jobs: ${{ steps.gen.outputs.has_jobs }}
+    steps:
+      - name: Check permissions (this must be done FIRST, for security, before we checkout)
+        if: ${{ !contains(fromJSON(env.contributors), github.actor) }}
+        run: |
+          echo "GitHub user ${{ github.actor }} is not a registered project contributor, not allowed to run actions on RHEL!"
+          exit 1
+
+      - uses: actions/checkout@v4
+        if: ${{ github.event_name == 'pull_request_target' }}
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
+      - uses: actions/checkout@v4
+        if: ${{ github.event_name != 'pull_request_target' }}
+
+      - name: Determine targets to build based on changed files
+        if: ${{ github.event_name == 'pull_request_target' }}
+        run: |
+          set -x
+          git fetch --no-tags origin 'pull/${{ github.event.pull_request.number }}/head:${{ github.event.pull_request.head.ref }}'
+          git fetch --no-tags origin '+refs/heads/${{ github.event.pull_request.base.ref }}:refs/remotes/origin/${{ github.event.pull_request.base.ref }}'
+          python3 ci/cached-builds/gen_gha_matrix_jobs.py \
+            --from-ref 'origin/${{ github.event.pull_request.base.ref }}' \
+            --to-ref '${{ github.event.pull_request.head.ref }}' \
+            --only-rhel
+        id: gen1
+        shell: bash
+
+      - name: Determine targets to build based on changed files
+        if: ${{ github.event_name != 'pull_request_target' }}
+        run: |
+          set -x
+          #git fetch --no-tags origin 'pull/${{ github.event.pull_request.number }}/head:${{ github.event.pull_request.head.ref }}'
+          #git fetch --no-tags origin '+refs/heads/${{ github.event.pull_request.base.ref }}:refs/remotes/origin/${{ github.event.pull_request.base.ref }}'
+          #python3 ci/cached-builds/gen_gha_matrix_jobs.py \
+          #  --from-ref '5e5841e116d75e643d3f84cd918cbdcf172076d5' \
+          #  --to-ref '1d8611e3f89a82e543bf67d0b49a02e11eb7c203' \
+          #  --only-rhel
+          echo 'matrix={"target":["rocm-jupyter-pytorch-rhel9-python-3.11","rocm-jupyter-tensorflow-rhel9-python-3.11"]}' >> ${GITHUB_OUTPUT}
+          echo 'has_jobs=true' >> ${GITHUB_OUTPUT}
+        id: gen
+        shell: bash
+
+#  builda:
+#    needs: ["gen"]
+#    strategy:
+#      fail-fast: false
+#      matrix: "${{ fromJson(needs.gen1.outputs.matrix) }}"
+#    uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
+#    if: ${{ fromJson(needs.gen1.outputs.has_jobs) }}
+#    with:
+#      target: "${{ matrix.target }}"
+#      github: "${{ toJSON(github) }}"
+#      subscription: true
+#    secrets: inherit
+
+  buildb:
+    needs: ["gen"]
+    strategy:
+      fail-fast: false
+      matrix: "${{ fromJson(needs.gen.outputs.matrix) }}"
+    uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
+    if: ${{ fromJson(needs.gen.outputs.has_jobs) }}
+    with:
+      target: "${{ matrix.target }}"
+      github: "${{ toJSON(github) }}"
+      subscription: true
+    secrets: inherit

@@ -1,5 +1,7 @@
 FROM registry.redhat.io/rhel9/python-311:latest
 
+ARG SOURCE_CODE=base/c9s-python-3.11
+
 LABEL name="rhoai-notebook-base-rhel9-python-3.11" \
       summary="Python 3.11 Red Hat Enterprise Linux 9 base image for RHOAI notebooks" \
       description="Base Python 3.11 builder image based on Red Hat Enterprise Linux 9 for RHOAI notebooks" \
@@ -17,7 +19,7 @@ RUN pip install --no-cache-dir -U "micropipenv[toml]"
 
 # Install Python dependencies from Pipfile.lock file
 
-COPY Pipfile.lock ./
+COPY ${SOURCE_CODE}/Pipfile.lock ./
 RUN echo "Installing softwares and packages" && micropipenv install && rm -f ./Pipfile.lock
 
 # OS Packages needs to be installed as root
