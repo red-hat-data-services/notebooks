@@ -57,10 +57,12 @@ jobs:
           set -x
           #git fetch --no-tags origin 'pull/${{ github.event.pull_request.number }}/head:${{ github.event.pull_request.head.ref }}'
           #git fetch --no-tags origin '+refs/heads/${{ github.event.pull_request.base.ref }}:refs/remotes/origin/${{ github.event.pull_request.base.ref }}'
-          python3 ci/cached-builds/gen_gha_matrix_jobs.py \
-            --from-ref '5e5841e116d75e643d3f84cd918cbdcf172076d5' \
-            --to-ref '1d8611e3f89a82e543bf67d0b49a02e11eb7c203' \
-            --only-rhel
+          #python3 ci/cached-builds/gen_gha_matrix_jobs.py \
+          #  --from-ref '5e5841e116d75e643d3f84cd918cbdcf172076d5' \
+          #  --to-ref '1d8611e3f89a82e543bf67d0b49a02e11eb7c203' \
+          #  --only-rhel
+          echo 'matrix={"target":["amd-jupyter-pytorch-rhel9-python-3.9","amd-jupyter-tensorflow-rhel9-python-3.9"]}' >> ${GITHUB_OUTPUT}
+          echo 'has_jobs=true' >> ${GITHUB_OUTPUT}
         id: gen2
         shell: bash
 
