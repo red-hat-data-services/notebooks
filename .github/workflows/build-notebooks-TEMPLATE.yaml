@@ -74,6 +74,7 @@ jobs:
       - name: Add subscriptions from GitHub secret
         if: ${{ inputs.subscription }}
         run: |
+          sudo mkdir -p /etc/pki/
           sudo cp -R ${PWD}/ci/secrets/pki/* /etc/pki/
           printf "${PWD}/ci/secrets/pki/consumer:/etc/pki/consumer\n${PWD}/ci/secrets/pki/entitlement:/etc/pki/entitlement" | sudo tee /usr/share/containers/mounts.conf
 
