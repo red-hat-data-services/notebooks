@@ -12,7 +12,8 @@
 
 permissions:
   contents: read
-  packages: read
+  # tmp, for checking pull request
+  packages: write
 
 env:
   contributors: '["atheo89", "caponetto", "dibryant", "harshad16", "jiridanek", "jstourac", "paulovmr"]'
