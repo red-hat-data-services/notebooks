@@ -48,7 +48,7 @@ jobs:
     steps:
 
       - uses: actions/checkout@v4
-        if: ${{ !fromJson(inputs.github).event_name == 'pull_request_target' }}
+        if: ${{ fromJson(inputs.github).event_name != 'pull_request_target' }}
 
       # we need to checkout the pr branch, not pr target (the default)
       # user access check is done in calling workflow
