@@ -61,7 +61,7 @@ jobs:
           #  --from-ref '5e5841e116d75e643d3f84cd918cbdcf172076d5' \
           #  --to-ref '1d8611e3f89a82e543bf67d0b49a02e11eb7c203' \
           #  --only-rhel
-          echo 'matrix={"target":["amd-jupyter-pytorch-rhel9-python-3.11","amd-jupyter-tensorflow-rhel9-python-3.11"]}' >> ${GITHUB_OUTPUT}
+          echo 'matrix={"target":["rocm-jupyter-pytorch-rhel9-python-3.11","rocm-jupyter-tensorflow-rhel9-python-3.11"]}' >> ${GITHUB_OUTPUT}
           echo 'has_jobs=true' >> ${GITHUB_OUTPUT}
         id: gen
         shell: bash
