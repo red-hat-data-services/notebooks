@@ -199,7 +199,7 @@ base-rhel9-python-3.11:
 
 .PHONY: rocm-rhel9-python-3.11
 rocm-rhel9-python-3.11: base-rhel9-python-3.11
-	$(call image,$@,amd/rhel9-python-3.11,$<)
+	$(call image,$@,rocm/rhel9-python-3.11,$<)
 
 # We are only using rhel9 base image here onwards,
 # DON'T be confused due to the ubi9 mention, it's just a directory name.
