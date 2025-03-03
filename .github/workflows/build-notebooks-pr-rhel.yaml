@@ -70,7 +70,7 @@ jobs:
     needs: ["gen"]
     strategy:
       fail-fast: false
-      matrix: "${{ fromJson(needs.gen.outputs.matrix) }}"
+      matrix: "${{ fromJson(needs.gen1.outputs.matrix) }}"
     uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
     if: ${{ fromJson(needs.gen1.outputs.has_jobs) }}
     with:
@@ -83,7 +83,7 @@ jobs:
     needs: ["gen"]
     strategy:
       fail-fast: false
-      matrix: "${{ fromJson(needs.gen.outputs.matrix) }}"
+      matrix: "${{ fromJson(needs.gen2.outputs.matrix) }}"
     uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
     if: ${{ fromJson(needs.gen2.outputs.has_jobs) }}
     with:
