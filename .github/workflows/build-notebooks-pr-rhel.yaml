@@ -66,18 +66,18 @@ jobs:
         id: gen2
         shell: bash
 
-  builda:
-    needs: ["gen"]
-    strategy:
-      fail-fast: false
-      matrix: "${{ fromJson(needs.gen1.outputs.matrix) }}"
-    uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
-    if: ${{ fromJson(needs.gen1.outputs.has_jobs) }}
-    with:
-      target: "${{ matrix.target }}"
-      github: "${{ toJSON(github) }}"
-      subscription: true
-    secrets: inherit
+#  builda:
+#    needs: ["gen"]
+#    strategy:
+#      fail-fast: false
+#      matrix: "${{ fromJson(needs.gen1.outputs.matrix) }}"
+#    uses: ./.github/workflows/build-notebooks-TEMPLATE.yaml
+#    if: ${{ fromJson(needs.gen1.outputs.has_jobs) }}
+#    with:
+#      target: "${{ matrix.target }}"
+#      github: "${{ toJSON(github) }}"
+#      subscription: true
+#    secrets: inherit
 
   buildb:
     needs: ["gen"]
