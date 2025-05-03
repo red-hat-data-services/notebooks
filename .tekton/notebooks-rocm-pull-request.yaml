@@ -156,7 +156,7 @@ spec:
               files and writing the output
         steps:
           - name: generate-inputs
-            image: registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697625013
+            image: registry.access.redhat.com/ubi9/ubi-minimal:9.5-1745855087
             script: |
               #!/bin/bash
               set -ex
@@ -188,7 +188,7 @@ spec:
               files and writing the output
         steps:
           - name: check-results
-            image: registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697625013
+            image: registry.access.redhat.com/ubi9/ubi-minimal:9.5-1745855087
             script: |
               #!/bin/bash
               set -ex
