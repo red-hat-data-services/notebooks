@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/python-39@sha256:bbac8c29fb0f834f616b3ec07aa78d942a6e4239a5537a52517acaff59350917
+FROM registry.access.redhat.com/ubi9/python-39@sha256:3c6d92e9c0511f8266610d1e5fba3d929fbd3f2cc1d5e5efaee29d4083fceeae
 
 LABEL name="odh-notebook-base-ubi9-python-3.9" \
       summary="Python 3.9 base image for ODH notebooks" \
