@@ -8,9 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "ide-poc"
-      && ( 
-      ".tekton/runtimes-minimal-poc-push.yaml".pathChanged() ||
+      == "ide-poc" && ( ".tekton/runtimes-minimal-poc-push.yaml".pathChanged() ||
       "runtimes/minimal/ubi9-python-3.11/Dockerfile.cpu".pathChanged() )
   creationTimestamp: null
   labels:
@@ -590,7 +588,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-runtimes-minimal-poc
   workspaces:
   - name: git-auth
     secret:
