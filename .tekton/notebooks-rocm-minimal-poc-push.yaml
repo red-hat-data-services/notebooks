@@ -591,7 +591,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-notebooks-rocm-minimal-poc
   workspaces:
   - name: git-auth
     secret:
