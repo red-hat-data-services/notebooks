@@ -1,18 +1,17 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-#test
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/task: tasks/generate-odcs-compose/0.1/generate-odcs-compose.yaml
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "pull_request"
       && target_branch == "konflux-poc"
       && ( "amd/rhel9-python-3.9/**".pathChanged() || ".tekton/notebooks-rocm-pull-request.yaml".pathChanged() )
+    pipelinesascode.tekton.dev/task: tasks/generate-odcs-compose/0.1/generate-odcs-compose.yaml
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebook-rocm
@@ -146,55 +145,61 @@ spec:
       value: $(tasks.build-container.results.JAVA_COMMUNITY_DEPENDENCIES)
     tasks:
     - name: prep-inputs
-      workspaces:
-        - name: workdir
       taskSpec:
-        workspaces:
-          - name: workdir
-            description: \
-              Working directory that will be used for reading configuration
-              files and writing the output
+        metadata: {}
+        spec: null
         steps:
-          - name: generate-inputs
-            image: registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697625013
-            script: |
-              #!/bin/bash
-              set -ex
+        - computeResources: {}
+          image: registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697625013
+          name: generate-inputs
+          script: |
+            #!/bin/bash
+            set -ex
 
-              tee -a "$(workspaces.workdir.path)"/compose_inputs.yaml << END
-              composes:
-                - kind: ComposeSourceModule
-                  spec:
-                    modules:
-                      - squid:4:8090020231130092412:a75119d5
-                  additional_args: {}
-              END
+            tee -a "$(workspaces.workdir.path)"/compose_inputs.yaml << END
+            composes:
+              - kind: ComposeSourceModule
+                spec:
+                  modules:
+                    - squid:4:8090020231130092412:a75119d5
+                additional_args: {}
+            END
+        workspaces:
+        - description: \ Working directory that will be used for reading configuration
+            files and writing the output
+          name: workdir
+      workspaces:
+      - name: workdir
     - name: generate-odcs-compose
-      runAfter: [prep-inputs]
-      workspaces:
-        - name: workdir
+      runAfter:
+      - prep-inputs
       taskRef:
-        name: generate-odcs-compose
         kind: Task
-    - name: check-results
-      runAfter: [generate-odcs-compose]
+        name: generate-odcs-compose
       workspaces:
-        - name: workdir
+      - name: workdir
+    - name: check-results
+      runAfter:
+      - generate-odcs-compose
       taskSpec:
-        workspaces:
-          - name: workdir
-            description: \
-              Working directory that will be used for reading configuration
-              files and writing the output
+        metadata: {}
+        spec: null
         steps:
-          - name: check-results
-            image: registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697625013
-            script: |
-              #!/bin/bash
-              set -ex
+        - computeResources: {}
+          image: registry.access.redhat.com/ubi9/ubi-minimal:9.2-750.1697625013
+          name: check-results
+          script: |
+            #!/bin/bash
+            set -ex
 
-              cat $(workspaces.workdir.path)/repos/*
-              echo "TODO: verify output"
+            cat $(workspaces.workdir.path)/repos/*
+            echo "TODO: verify output"
+        workspaces:
+        - description: \ Working directory that will be used for reading configuration
+            files and writing the output
+          name: workdir
+      workspaces:
+      - name: workdir
     - name: init
       params:
       - name: image-url
@@ -487,7 +492,8 @@ spec:
     - name: workspace
     - name: git-auth
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-notebooks-rocm
   workspaces:
   - name: workspace
     volumeClaimTemplate:
