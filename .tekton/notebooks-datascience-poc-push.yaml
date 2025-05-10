@@ -1,6 +1,5 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-#test
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -9,10 +8,8 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "ide-poc"
-      && ( 
-      ".tekton/notebooks-datascience-poc-push.yaml".pathChanged() ||
-      "jupyter/datascience/ubi9-python-3.11/Dockerfile.cpu".pathChanged() )
+      == "ide-poc" && ( ".tekton/notebooks-datascience-poc-push.yaml".pathChanged()
+      || "jupyter/datascience/ubi9-python-3.11/Dockerfile.cpu".pathChanged() )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebooks
@@ -591,7 +588,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-notebooks-datascience-poc
   workspaces:
   - name: git-auth
     secret:
