@@ -1,6 +1,5 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-#test2
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -9,10 +8,9 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "ide-poc"
-      && ( 
-      ".tekton/notebooks-rocm-tensorflow-poc-push.yaml".pathChanged() ||
-      "jupyter/rocm/tensorflow/ubi9-python-3.11/Dockerfile.rocm".pathChanged() )
+      == "ide-poc" && ( ".tekton/notebooks-rocm-tensorflow-poc-push.yaml".pathChanged()
+      || "jupyter/rocm/tensorflow/ubi9-python-3.11/Dockerfile.rocm".pathChanged()
+      )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebooks
@@ -21,8 +19,6 @@ metadata:
   name: notebooks-rocm-tensorflow-poc-on-push
   namespace: rhoai-tenant
 spec:
-  timeouts:
-    pipeline: 8h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -593,7 +589,10 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-notebooks-rocm-tensorflow-poc
+  timeouts:
+    pipeline: 8h0m0s
   workspaces:
   - name: git-auth
     secret:
