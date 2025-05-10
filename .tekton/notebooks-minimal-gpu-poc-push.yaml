@@ -8,10 +8,8 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "ide-poc"
-      && (
-      ".tekton/notebooks-minimal-gpu-poc-push.yaml".pathChanged() ||
-      "jupyter/minimal/ubi9-python-3.11/Dockerfile.cuda".pathChanged() )
+      == "ide-poc" && ( ".tekton/notebooks-minimal-gpu-poc-push.yaml".pathChanged()
+      || "jupyter/minimal/ubi9-python-3.11/Dockerfile.cuda".pathChanged() )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebooks
@@ -590,7 +588,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-notebooks-minimal-gpu-poc
   workspaces:
   - name: git-auth
     secret:
