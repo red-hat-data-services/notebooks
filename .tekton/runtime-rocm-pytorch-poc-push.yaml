@@ -1,6 +1,5 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-#test5
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -9,10 +8,8 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "ide-poc"
-      && ( 
-      ".tekton/runtime-rocm-pytorch-poc-push.yaml".pathChanged() ||
-      "runtimes/rocm-pytorch/ubi9-python-3.11/Dockerfile.rocm".pathChanged() )
+      == "ide-poc" && ( ".tekton/runtime-rocm-pytorch-poc-push.yaml".pathChanged()
+      || "runtimes/rocm-pytorch/ubi9-python-3.11/Dockerfile.rocm".pathChanged() )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebooks
@@ -21,8 +18,6 @@ metadata:
   name: runtime-rocm-pytorch-poc-on-push
   namespace: rhoai-tenant
 spec:
-  timeouts:
-    pipeline: 8h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -34,15 +29,6 @@ spec:
     value: runtimes/rocm-pytorch/ubi9-python-3.11/Dockerfile.rocm
   - name: path-context
     value: .
-  taskRunSpecs:
-    - pipelineTaskName: clair-scan
-      computeResources:
-        requests:
-          cpu: '8'
-          memory: 16Gi
-        limits:
-          cpu: '16'
-          memory: 32Gi
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
@@ -602,7 +588,19 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunSpecs:
+  - computeResources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "8"
+        memory: 16Gi
+    pipelineTaskName: clair-scan
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-runtime-rocm-pytorch-poc
+  timeouts:
+    pipeline: 8h0m0s
   workspaces:
   - name: git-auth
     secret:
