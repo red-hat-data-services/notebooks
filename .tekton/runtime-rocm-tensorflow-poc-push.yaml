@@ -1,5 +1,4 @@
 apiVersion: tekton.dev/v1
-#test
 kind: PipelineRun
 metadata:
   annotations:
@@ -9,10 +8,9 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "ide-poc"
-      && (
-      ".tekton/runtime-rocm-tensorflow-poc-push.yaml".pathChanged() ||
-      "runtimes/rocm-tensorflow/ubi9-python-3.11/Dockerfile.rocm".pathChanged() )
+      == "ide-poc" && ( ".tekton/runtime-rocm-tensorflow-poc-push.yaml".pathChanged()
+      || "runtimes/rocm-tensorflow/ubi9-python-3.11/Dockerfile.rocm".pathChanged()
+      )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: notebooks
@@ -21,8 +19,6 @@ metadata:
   name: runtime-rocm-tensorflow-poc-on-push
   namespace: rhoai-tenant
 spec:
-  timeouts:
-    pipeline: 8h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -593,7 +589,10 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-runtime-rocm-tensorflow-poc
+  timeouts:
+    pipeline: 8h0m0s
   workspaces:
   - name: git-auth
     secret:
