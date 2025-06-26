@@ -37,14 +37,14 @@ jupyterlab-widgets = "~=3.0.10"
 jupyter-resource-usage = "~=0.7.2"
 nbdime = "~=3.2.1"
 nbgitpuller = "~=1.2.0"
-# pycodestyle is dependency of below packages 
+# pycodestyle is dependency of below packages
 # and to achieve compatible of pycodestyle with python-lsp-server[all]
 # pinned the below packages
 autopep8 = "~=2.0.4"
 flake8 = "~=7.1.0"
 # Base packages
 wheel = "~=0.43.0"
-setuptools = "~=69.2.0"
+setuptools = "~=78.1.1"
 
 [requires]
 python_version = "3.9"
