@@ -15,6 +15,7 @@ metadata:
            "jupyter/utils/**".pathChanged() ||
            "jupyter/minimal/ubi9-python-3.12/**".pathChanged() ||
            "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() )
+  #test
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: external-rhoai-v2-23-multi-arch-poc

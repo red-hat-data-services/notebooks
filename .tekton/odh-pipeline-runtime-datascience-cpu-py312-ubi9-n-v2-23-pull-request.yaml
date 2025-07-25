@@ -13,7 +13,7 @@ metadata:
       && !("manifests/base/params-latest.env".pathChanged())
       && ( "runtimes/datascience/ubi9-python-3.12/**".pathChanged() ||
            ".tekton/odh-pipeline-runtime-datascience-cpu-py312-ubi9-n-v2-23-pull-request.yaml".pathChanged() )
-
+  #test
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: external-rhoai-v2-23-multi-arch-poc

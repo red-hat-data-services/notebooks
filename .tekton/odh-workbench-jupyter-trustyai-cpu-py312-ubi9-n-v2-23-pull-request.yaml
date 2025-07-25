@@ -18,6 +18,7 @@ metadata:
            "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() ||
            "jupyter/datascience/ubi9-python-3.12/mssql-2.22.repo-x86_64/**".pathChanged() ||
            "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() )
+  #test
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: external-rhoai-v2-23-multi-arch-poc
