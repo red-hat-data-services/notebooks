@@ -195,7 +195,7 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-jupyter-pytorch-ubi9-python-3.11"
             expected_commitref="release-2024b"
             expected_build_name="jupyter-pytorch-ubi9-python-3.11-amd64"
-            expected_img_size=8571
+            expected_img_size=8710
             ;;
         odh-workbench-jupyter-pytorch-cuda-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-pytorch-ubi9-python-3.9"
@@ -303,7 +303,7 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-jupyter-trustyai-ubi9-python-3.11"
             expected_commitref="release-2024b"
             expected_build_name="jupyter-trustyai-ubi9-python-3.11-amd64"
-            expected_img_size=4197
+            expected_img_size=4483
             ;;
         odh-workbench-jupyter-trustyai-cpu-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-trustyai-ubi9-python-3.9"
