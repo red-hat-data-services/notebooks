@@ -11,12 +11,12 @@ metadata:
       event == "push"
       && target_branch == "rhoai-2.22"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-pytorch-rocm-py311-ubi9-n-v2-22-push.yaml".pathChanged() || 
-           "jupyter/rocm/pytorch/ubi9-python-3.11/**".pathChanged() || 
-           "jupyter/utils/**".pathChanged() || 
-           "jupyter/minimal/ubi9-python-3.11/start-notebook.sh".pathChanged() || 
-           "jupyter/datascience/ubi9-python-3.11/mongodb-org-6.0.repo-x86_64/**".pathChanged() || 
-           "jupyter/datascience/ubi9-python-3.11/mssql-2022.repo-x86_64/**".pathChanged() || 
+      && ( ".tekton/odh-workbench-jupyter-pytorch-rocm-py311-ubi9-n-v2-22-push.yaml".pathChanged() ||
+           "jupyter/rocm/pytorch/ubi9-python-3.11/**".pathChanged() ||
+           "jupyter/utils/**".pathChanged() ||
+           "jupyter/minimal/ubi9-python-3.11/start-notebook.sh".pathChanged() ||
+           "jupyter/datascience/ubi9-python-3.11/mongodb-org-6.0.repo-x86_64/**".pathChanged() ||
+           "jupyter/datascience/ubi9-python-3.11/mssql-2022.repo-x86_64/**".pathChanged() ||
            "jupyter/datascience/ubi9-python-3.11/setup-elyra.sh".pathChanged() )
   creationTimestamp: null
   labels:
@@ -66,3 +66,4 @@ spec:
     secret:
       secretName: '{{ git_auth_secret }}'
 status: {}
+#restart

@@ -12,9 +12,9 @@ metadata:
       event == "push"
       && target_branch == "rhoai-2.22"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( "runtimes/datascience/ubi9-python-3.11/**".pathChanged() || 
+      && ( "runtimes/datascience/ubi9-python-3.11/**".pathChanged() ||
            ".tekton/odh-pipeline-runtime-datascience-cpu-py311-ubi9-n-v2-22-push.yaml".pathChanged() )
-      
+
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: external-rhoai-v2-22
@@ -63,3 +63,4 @@ spec:
     secret:
       secretName: '{{ git_auth_secret }}'
 status: {}
+#restart

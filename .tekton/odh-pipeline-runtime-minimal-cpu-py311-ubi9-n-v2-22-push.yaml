@@ -12,7 +12,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-2.22"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( "runtimes/minimal/ubi9-python-3.11/**".pathChanged() || 
+      && ( "runtimes/minimal/ubi9-python-3.11/**".pathChanged() ||
            ".tekton/odh-pipeline-runtime-minimal-cpu-py311-ubi9-n-v2-22-push.yaml".pathChanged() )
   creationTimestamp: null
   labels:
@@ -62,3 +62,4 @@ spec:
     secret:
       secretName: '{{ git_auth_secret }}'
 status: {}
+#restart
