@@ -14,6 +14,12 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   echo "Installing TeX Live from source for $ARCH..."
 
   # Install build dependencies
+  dnf install -y https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os/Packages/centos-gpg-keys-9.0-24.el9.noarch.rpm \
+  https://mirror.stream.centos.org/9-stream/BaseOS/`arch`/os/Packages/centos-stream-repos-9.0-24.el9.noarch.rpm \
+  https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os
+  dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os
+  dnf config-manager --set-enabled crb
   dnf install -y gcc-toolset-13 perl make libX11-devel libXt-devel \
     zlib-devel freetype-devel libpng-devel ncurses-devel \
     gd-devel libtool wget tar xz bison flex libXaw-devel
