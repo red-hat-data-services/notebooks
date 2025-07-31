@@ -24,6 +24,12 @@ if [[ "$ARCH" == "ppc64le" ]]; then
     zlib-devel freetype-devel libpng-devel ncurses-devel \
     gd-devel libtool wget tar xz bison flex libXaw-devel
 
+  # Disable temporary CentOS Stream repos after use
+  dnf config-manager --disable \
+    mirror.stream.centos.org_9-stream_BaseOS_ppc64le_os \
+    mirror.stream.centos.org_9-stream_AppStream_ppc64le_os \
+    crb
+
   # Step 1: Download and extract the TeX Live source
   wget https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/texlive-20250308-source.tar.xz
   tar -xf texlive-20250308-source.tar.xz
