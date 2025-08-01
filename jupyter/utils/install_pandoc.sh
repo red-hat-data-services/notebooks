@@ -24,6 +24,15 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   git checkout ${PANDOC_VERSION}
   git submodule update --init --recursive
 
+  export HOME=/root
+  # Initialize cabal user config (don't fail if already done)
+  cabal user-config init || true
+
+  # Modify config
+  echo "repository hackage.haskell.org
+    url: https://hackage.haskell.org/
+    secure: False" >> $HOME/.cabal/config
+
   cabal update
   cd pandoc-cli
   cabal build -j"$(nproc)"
