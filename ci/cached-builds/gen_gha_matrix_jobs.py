@@ -31,6 +31,8 @@ ARM64_COMPATIBLE = {
 S390X_COMPATIBLE = {
     "runtime-minimal-ubi9-python-3.11",
     "runtime-minimal-ubi9-python-3.12",
+    "runtime-datascience-ubi9-python-3.11",
+    "runtime-datascience-ubi9-python-3.12",
     # add more here
 }
 
