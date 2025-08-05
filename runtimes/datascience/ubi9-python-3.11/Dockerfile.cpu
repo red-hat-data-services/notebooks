@@ -14,7 +14,7 @@ ARG TARGETARCH
 RUN --mount=type=cache,target=/var/cache/dnf \
     echo "Building for architecture: ${TARGETARCH}" && \
     if [ "$TARGETARCH" = "s390x" ]; then \
-        PACKAGES="mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl c-ares-devel zlib-devel"; \
+        PACKAGES="mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel"; \
     else \
         PACKAGES="mesa-libGL skopeo"; \
     fi && \

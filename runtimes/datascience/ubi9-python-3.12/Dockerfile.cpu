@@ -16,7 +16,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
     PACKAGES="mesa-libGL skopeo libxcrypt-compat" && \
     # Additional dev tools only for s390x
     if [ "$TARGETARCH" = "s390x" ]; then \
-        PACKAGES="$PACKAGES gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl c-ares-devel zlib-devel"; \
+        PACKAGES="$PACKAGES gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel"; \
     fi && \
     if [ -n "$PACKAGES" ]; then \
         dnf install -y --allowerasing --nobest $PACKAGES && \
