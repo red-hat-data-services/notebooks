@@ -14,21 +14,15 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   echo "Installing TeX Live from source for $ARCH..."
 
   # Install build dependencies
-  dnf install -y https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os/Packages/centos-gpg-keys-9.0-24.el9.noarch.rpm \
-  https://mirror.stream.centos.org/9-stream/BaseOS/`arch`/os/Packages/centos-stream-repos-9.0-24.el9.noarch.rpm \
-  https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-  dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os
-  dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os
-  dnf config-manager --set-enabled crb
-  dnf install -y gcc-toolset-13 perl make libX11-devel libXt-devel \
+  dnf install -y gcc-toolset-13 perl make libX11-devel \
     zlib-devel freetype-devel libpng-devel ncurses-devel \
-    gd-devel libtool wget tar xz bison flex libXaw-devel
+    gd-devel libtool wget tar xz
 
-  # Disable temporary CentOS Stream repos after use
-  dnf config-manager --disable \
-    mirror.stream.centos.org_9-stream_BaseOS_ppc64le_os \
-    mirror.stream.centos.org_9-stream_AppStream_ppc64le_os \
-    crb
+  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXt-devel-1.2.0-6.el9.ppc64le.rpm
+  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-1.0.13-19.el9.ppc64le.rpm
+  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-devel-1.0.13-19.el9.ppc64le.rpm
+  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/flex-2.6.4-9.el9.ppc64le.rpm
+  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/bison-3.7.4-5.el9.ppc64le.rpm
 
   # Step 1: Download and extract the TeX Live source
   wget https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/texlive-20250308-source.tar.xz
@@ -53,7 +47,7 @@ if [[ "$ARCH" == "ppc64le" ]]; then
 
   # Step 2: Run TeX Live installer for runtime tree setup
   cd /
-  wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+  wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
   tar -xzf install-tl-unx.tar.gz
   cd install-tl-2*/
 
