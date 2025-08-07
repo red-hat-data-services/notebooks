@@ -18,11 +18,16 @@ if [[ "$ARCH" == "ppc64le" ]]; then
     zlib-devel freetype-devel libpng-devel ncurses-devel \
     gd-devel libtool wget tar xz
 
-  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXt-devel-1.2.0-6.el9.ppc64le.rpm
-  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-1.0.13-19.el9.ppc64le.rpm
-  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-devel-1.0.13-19.el9.ppc64le.rpm
-  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/flex-2.6.4-9.el9.ppc64le.rpm
-  rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/bison-3.7.4-5.el9.ppc64le.rpm
+  rpm -q libXmu-devel || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXmu-devel-1.1.3-8.el9.ppc64le.rpm
+  rpm -q libXext-devel|| rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXext-devel-1.3.4-8.el9.ppc64le.rpm
+  rpm -q libICE-devel || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libICE-devel-1.0.10-8.el9.ppc64le.rpm
+  rpm -q libSM-devel  || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libSM-devel-1.2.3-10.el9.ppc64le.rpm
+  rpm -q libXmu       || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXmu-1.1.3-8.el9.ppc64le.rpm
+  rpm -q libXaw-devel || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-devel-1.0.13-19.el9.ppc64le.rpm
+  rpm -q libXaw       || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-1.0.13-19.el9.ppc64le.rpm
+  rpm -q libXt-devel  || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXt-devel-1.2.0-6.el9.ppc64le.rpm
+  rpm -q flex         || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/flex-2.6.4-9.el9.ppc64le.rpm
+  rpm -q bison        || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/bison-3.7.4-5.el9.ppc64le.rpm
 
   # Step 1: Download and extract the TeX Live source
   wget https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/texlive-20250308-source.tar.xz
@@ -33,7 +38,7 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   source /opt/rh/gcc-toolset-13/enable
 
   # Create build directory and build
-  mkdir ../texlive-build
+  mkdir -p ../texlive-build
   cd ../texlive-build
   ../texlive-20250308-source/configure --prefix=/usr/local/texlive
   make -j"$(nproc)"
