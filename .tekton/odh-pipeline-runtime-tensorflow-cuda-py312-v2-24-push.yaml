@@ -15,7 +15,6 @@ metadata:
       && (".tekton/odh-pipeline-runtime-tensorflow-cuda-py312-v2-24-push.yaml".pathChanged() ||
           "runtimes/tensorflow/ubi9-python-3.12/**".pathChanged() || 
           "cuda/**".pathChanged() )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: rhoai-v2-24
     appstudio.openshift.io/component: odh-pipeline-runtime-tensorflow-cuda-py312-v2-24
@@ -23,8 +22,6 @@ metadata:
   name: odh-pipeline-runtime-tensorflow-cuda-py312-v2-24-on-push
   namespace: rhoai-tenant
 spec:
-  timeouts:
-    pipeline: 8h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -59,6 +56,26 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
+  taskRunSpecs:
+    - pipelineTaskName: ecosystem-cert-preflight-checks
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
+    - pipelineTaskName: clair-scan
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-pipeline-runtime-tensorflow-cuda-py312-v2-24
   workspaces:
