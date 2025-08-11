@@ -1,5 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
+# retrigger Konflux builds to fix https://issues.redhat.com/browse/RHOAIENG-31914
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -12,7 +13,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-2.24"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( "runtimes/minimal/ubi9-python-3.12/**".pathChanged() || 
+      && ( "runtimes/minimal/ubi9-python-3.12/**".pathChanged() ||
            ".tekton/odh-pipeline-runtime-minimal-cpu-py312-v2-24-push.yaml".pathChanged() )
   creationTimestamp: null
   labels:

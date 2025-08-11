@@ -1,5 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
+# retrigger Konflux builds to fix https://issues.redhat.com/browse/RHOAIENG-31914
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -12,12 +13,12 @@ metadata:
       event == "push"
       && target_branch == "rhoai-2.24"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-trustyai-cpu-py311-v2-24-push.yaml".pathChanged() || 
-           "jupyter/trustyai/ubi9-python-3.11/**".pathChanged() || 
-           "jupyter/utils/**".pathChanged() || 
-           "jupyter/minimal/ubi9-python-3.11/start-notebook.sh".pathChanged() || 
-           "jupyter/datascience/ubi9-python-3.11/mongodb-org-6.0.repo-x86_64/**".pathChanged() || 
-           "jupyter/datascience/ubi9-python-3.11/mssql-2.24.repo-x86_64/**".pathChanged() || 
+      && ( ".tekton/odh-workbench-jupyter-trustyai-cpu-py311-v2-24-push.yaml".pathChanged() ||
+           "jupyter/trustyai/ubi9-python-3.11/**".pathChanged() ||
+           "jupyter/utils/**".pathChanged() ||
+           "jupyter/minimal/ubi9-python-3.11/start-notebook.sh".pathChanged() ||
+           "jupyter/datascience/ubi9-python-3.11/mongodb-org-6.0.repo-x86_64/**".pathChanged() ||
+           "jupyter/datascience/ubi9-python-3.11/mssql-2.24.repo-x86_64/**".pathChanged() ||
            "jupyter/datascience/ubi9-python-3.11/setup-elyra.sh".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v2-24
