@@ -1,25 +1,20 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# retrigger Konflux builds to fix https://issues.redhat.com/browse/RHOAIENG-31914
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
+    build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    build.appstudio.openshift.io/build-nudge-files: "build/operator-nudging.yaml"
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "push"
-      && target_branch == "rhoai-2.24"
-      && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-minimal-cpu-py311-v2-24-push.yaml".pathChanged() ||
-           "jupyter/utils/**".pathChanged() ||
-           "jupyter/minimal/ubi9-python-3.11/**".pathChanged() )
+    pipelinesascode.tekton.dev/on-comment: "^/build-konflux"
+    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/cancel-in-progress: "true"
   labels:
     appstudio.openshift.io/application: rhoai-v2-24
-    appstudio.openshift.io/component: odh-workbench-jupyter-minimal-cpu-py311-v2-24
+    appstudio.openshift.io/component: odh-pipeline-runtime-minimal-cpu-py311-v2-24
     pipelines.appstudio.openshift.io/type: build
-  name: odh-workbench-jupyter-minimal-cpu-py311-v2-24-on-push
+  name: odh-pipeline-runtime-minimal-cpu-py311-v2-24-on-pull-request
   namespace: rhoai-tenant
 spec:
   params:
@@ -28,16 +23,17 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/rhoai/odh-workbench-jupyter-minimal-cpu-py311-rhel9:{{target_branch}}
+    value: quay.io/rhoai/odh-pipeline-runtime-minimal-cpu-py311-rhel9:on-pr-{{revision}}
   - name: additional-tags
     value:
-    - '{{target_branch}}-{{revision}}'
+    - 'pr-{{pull_request_number}}-into-{{target_branch}}'
   - name: additional-labels
     value:
     - version=v2.24.0
-    - io.openshift.tags=odh-workbench-jupyter-minimal-cpu-py311
+    - io.openshift.tags=odh-pipeline-runtime-minimal-cpu-py311
+
   - name: dockerfile
-    value: jupyter/minimal/ubi9-python-3.11/Dockerfile.konflux.cpu
+    value: runtimes/minimal/ubi9-python-3.11/Dockerfile.konflux.cpu
   - name: path-context
     value: .
   - name: hermetic
@@ -49,6 +45,8 @@ spec:
     - linux/x86_64
     - linux/ppc64le
     - linux/s390x
+  - name: image-expires-after
+    value: 5d
   pipelineRef:
     resolver: git
     params:
@@ -59,7 +57,7 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-minimal-cpu-py311-v2-24
+    serviceAccountName: build-pipeline-odh-pipeline-runtime-minimal-cpu-py311-v2-24-on-pull-request
   workspaces:
   - name: git-auth
     secret:
