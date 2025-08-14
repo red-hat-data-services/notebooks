@@ -42,7 +42,7 @@ spec:
     - version=v2.24.0
     - io.openshift.tags=odh-workbench-jupyter-pytorch-cuda-py312
   - name: dockerfile
-    value: jupyter/pytorch/ubi9-python-3.12/Dockerfile.cuda
+    value: jupyter/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: path-context
     value: .
   - name: hermetic
