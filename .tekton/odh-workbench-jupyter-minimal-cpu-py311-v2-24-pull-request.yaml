@@ -56,7 +56,7 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-minimal-cpu-py311-v2-24-on-pull-request
+    serviceAccountName: build-pipeline-odh-workbench-jupyter-minimal-cpu-py311-v2-24
   workspaces:
   - name: git-auth
     secret:
