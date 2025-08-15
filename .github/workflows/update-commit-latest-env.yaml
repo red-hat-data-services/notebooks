@@ -15,11 +15,14 @@ name: Update commit-latest.env on params-latest.env change
 jobs:
   sync-commit:
     runs-on: ubuntu-latest
+    concurrency:
+      group: update-commit-latest-env-${{ github.ref }}
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
