@@ -7,7 +7,7 @@ set -euxo pipefail
 # https://konflux.pages.redhat.com/docs/users/building/activation-keys-subscription.html#automatic-registration
 #subscription-manager refresh
 
-subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms
+#subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms
 
 dnf install -y \
   pandoc \
