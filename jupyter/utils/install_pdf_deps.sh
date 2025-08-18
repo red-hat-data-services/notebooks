@@ -4,6 +4,9 @@
 
 set -euxo pipefail
 
+# https://konflux.pages.redhat.com/docs/users/building/activation-keys-subscription.html#automatic-registration
+subscription-manager refresh
+
 dnf install -y \
   pandoc \
   texlive-adjustbox \
