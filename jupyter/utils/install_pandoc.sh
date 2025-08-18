@@ -13,12 +13,16 @@ ARCH="${UNAME_TO_GOARCH[$(uname -m)]}"
 if [[ "$ARCH" == "ppc64le" ]]; then
   # Install Pandoc from source
   dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-  dnf install -y cabal-install ghc gmp-devel
+  dnf install -y cabal-install ghc gmp-devel gcc-toolset-13 git
+  
+  source /opt/rh/gcc-toolset-13/enable
+  
+  # ghc-8.10 has specific path for gcc in settings
+  sed -i.bak 's|/usr/bin/gcc|gcc|g' /usr/lib64/ghc-8.10.7/settings
 
   # Set version
   PANDOC_VERSION=3.7.0.2
 
-  cd /tmp
   git clone --recurse-submodules https://github.com/jgm/pandoc.git
   cd pandoc
   git checkout ${PANDOC_VERSION}
@@ -26,16 +30,14 @@ if [[ "$ARCH" == "ppc64le" ]]; then
 
   export HOME=/root
   # Initialize cabal user config (don't fail if already done)
-  cabal user-config init || true
+  cabal user-config init
 
   # Modify config
-  echo "repository hackage.haskell.org
-    url: https://hackage.haskell.org/
-    secure: False" >> $HOME/.cabal/config
+  sed -i -e 's/http/https/g' -e 's/-- secure: True/secure: True/g' $HOME/.cabal/config
 
-  cabal update
+  cabal update -v
   cd pandoc-cli
-  cabal build -j"$(nproc)"
+  cabal build -j"$(nproc)" --verbose
   mkdir -p /usr/local/pandoc/bin
   cabal install \
     --installdir=/usr/local/pandoc/bin \
