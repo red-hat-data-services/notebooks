@@ -4,7 +4,7 @@
 name: '♊ Gemini Pull Request Review'
 
 "on":
-  pull_request:
+  pull_request_target:
     types:
       - 'opened'
       - 'reopened'
@@ -47,7 +47,7 @@ jobs:
     if: |-
       github.event_name == 'workflow_dispatch' ||
       (
-        github.event_name == 'pull_request' &&
+        github.event_name == 'pull_request_target' &&
         (
           github.event.repository.private == true ||
           contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association)
