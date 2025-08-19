@@ -22,7 +22,6 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   
   cabal user-config init
 
-  export HOME=/root
   sed -i -e 's/http/https/g' -e 's/-- secure: True/secure: True/g' $HOME/.cabal/config
   
   cabal update
