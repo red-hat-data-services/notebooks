@@ -11,23 +11,23 @@ UNAME_TO_GOARCH["s390x"]="s390x"
 ARCH="${UNAME_TO_GOARCH[$(uname -m)]}"
 
 if [[ "$ARCH" == "ppc64le" ]]; then
+  
   echo "Installing TeX Live from source for $ARCH..."
 
   # Install build dependencies
   dnf install -y gcc-toolset-13 perl make libX11-devel \
     zlib-devel freetype-devel libpng-devel ncurses-devel \
-    gd-devel libtool wget tar xz
-
-  rpm -q libXmu-devel || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXmu-devel-1.1.3-8.el9.ppc64le.rpm
-  rpm -q libXext-devel|| rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXext-devel-1.3.4-8.el9.ppc64le.rpm
-  rpm -q libICE-devel || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libICE-devel-1.0.10-8.el9.ppc64le.rpm
-  rpm -q libSM-devel  || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libSM-devel-1.2.3-10.el9.ppc64le.rpm
-  rpm -q libXmu       || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXmu-1.1.3-8.el9.ppc64le.rpm
-  rpm -q libXaw-devel || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-devel-1.0.13-19.el9.ppc64le.rpm
-  rpm -q libXaw       || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-1.0.13-19.el9.ppc64le.rpm
-  rpm -q libXt-devel  || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXt-devel-1.2.0-6.el9.ppc64le.rpm
-  rpm -q flex         || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/flex-2.6.4-9.el9.ppc64le.rpm
-  rpm -q bison        || rpm -ivh --nodeps https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/bison-3.7.4-5.el9.ppc64le.rpm
+    gd-devel libtool wget tar xz \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXmu-devel-1.1.3-8.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXext-devel-1.3.4-8.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libICE-devel-1.0.10-8.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libSM-devel-1.2.3-10.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXmu-1.1.3-8.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-devel-1.0.13-19.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXaw-1.0.13-19.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/libXt-devel-1.2.0-6.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/flex-2.6.4-9.el9.ppc64le.rpm \
+    https://mirror.stream.centos.org/9-stream/AppStream/ppc64le/os/Packages/bison-3.7.4-5.el9.ppc64le.rpm
 
   # Step 1: Download and extract the TeX Live source
   wget https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/texlive-20250308-source.tar.xz
@@ -81,7 +81,8 @@ ln -sf "$TEX_BIN_DIR" /usr/local/texlive/bin/linux
   pdflatex --version
   tlmgr --version
 
-elif [[ "$ARCH" == "amd64" ]]; then
+else
+
   # tex live installation
   echo "Installing TexLive to allow PDf export from Notebooks"
   curl -fL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -o install-tl-unx.tar.gz
@@ -91,10 +92,6 @@ elif [[ "$ARCH" == "amd64" ]]; then
   mv /usr/local/texlive/bin/"$(uname -m)-linux" /usr/local/texlive/bin/linux
   cd /usr/local/texlive/bin/linux
   ./tlmgr install tcolorbox pdfcol adjustbox titling enumitem soul ucs collection-fontsrecommended
-
-else
-  echo "Unsupported architecture: $ARCH" >&2
-  exit 1
 
 fi
 

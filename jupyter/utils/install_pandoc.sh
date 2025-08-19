@@ -11,6 +11,7 @@ UNAME_TO_GOARCH["s390x"]="s390x"
 ARCH="${UNAME_TO_GOARCH[$(uname -m)]}"
 
 if [[ "$ARCH" == "ppc64le" ]]; then
+
   # Install Pandoc from source
   dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
   dnf install -y pandoc
@@ -19,14 +20,12 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   export PATH="/usr/local/pandoc/bin:$PATH"
   pandoc --version
 
-elif [[ "$ARCH" == "amd64" ]]; then
+else
+
   # pandoc installation
   curl -fL "https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-${ARCH}.tar.gz"  -o /tmp/pandoc.tar.gz
   mkdir -p /usr/local/pandoc
   tar xvzf /tmp/pandoc.tar.gz --strip-components 1 -C /usr/local/pandoc/
   rm -f /tmp/pandoc.tar.gz
 
-else
-  echo "Unsupported architecture: $ARCH" >&2
-  exit 1
 fi
