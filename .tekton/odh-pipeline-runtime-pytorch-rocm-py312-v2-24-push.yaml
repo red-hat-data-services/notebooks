@@ -12,7 +12,6 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push"
       && target_branch == "rhoai-2.24"
-      && !("manifests/base/params-latest.env".pathChanged())
       && (".tekton/odh-pipeline-runtime-pytorch-rocm-py312-v2-24-push.yaml".pathChanged() ||
           "runtimes/rocm-pytorch/ubi9-python-3.12/**".pathChanged() )
   labels:

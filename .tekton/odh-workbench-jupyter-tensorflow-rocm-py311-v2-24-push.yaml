@@ -11,7 +11,6 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "push"
       && target_branch == "rhoai-2.24"
-      && !("manifests/base/params-latest.env".pathChanged())
       && ( ".tekton/odh-workbench-jupyter-tensorflow-rocm-py311-v2-24-push.yaml".pathChanged() ||
            "jupyter/rocm/tensorflow/ubi9-python-3.11/**".pathChanged() ||
            "jupyter/utils/**".pathChanged() ||
