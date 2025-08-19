@@ -13,24 +13,31 @@ ARCH="${UNAME_TO_GOARCH[$(uname -m)]}"
 if [[ "$ARCH" == "ppc64le" ]]; then
   # Install Pandoc from source
   dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-  dnf install -y cabal-install ghc gmp-devel gcc-toolset-13 git
+  dnf install -y cabal-install ghc gmp-devel gcc-toolset-13 git jq
   
   source /opt/rh/gcc-toolset-13/enable
   
   # ghc-8.10 has specific path for gcc in settings
   sed -i.bak 's|/usr/bin/gcc|gcc|g' /usr/lib64/ghc-8.10.7/settings
+  
+  cabal user-config init
 
-  # Set version
-  PANDOC_VERSION=3.7.0.2
+  export HOME=/root
+  sed -i -e 's/http/https/g' -e 's/-- secure: True/secure: True/g' $HOME/.cabal/config
+  
+  cabal update
+  cabal install cabal-install --verbose
+  
+  # use latest cabal
+  export PATH=/root/.cabal/bin:$PATH
 
+  PANDOC_VERSION=$(curl -s "https://api.github.com/repos/jgm/pandoc/releases/latest" | jq -r '.tag_name')
+
+  cd /tmp
   git clone --recurse-submodules https://github.com/jgm/pandoc.git
   cd pandoc
   git checkout ${PANDOC_VERSION}
   git submodule update --init --recursive
-
-  export HOME=/root
-  # Initialize cabal user config (don't fail if already done)
-  cabal user-config init
 
   # Modify config
   sed -i -e 's/http/https/g' -e 's/-- secure: True/secure: True/g' $HOME/.cabal/config
