@@ -76,8 +76,8 @@ USER 0
 RUN --mount=type=bind,from=pdf-builder,source=/usr/local/,target=/pdf_builder/,rw \
     bash -c ' \
     if [[ "$(uname -m)" == "ppc64le" ]]; then \
-        cp /pdf_builder/texlive /usr/local/; \
-        cp /pdf_builder/pandoc /usr/local/; \
+        cp -r /pdf_builder/texlive /usr/local/; \
+        cp -r /pdf_builder/pandoc /usr/local/; \
     else \
         ./utils/install_pdf_deps.sh; \
     fi'
