@@ -20,12 +20,4 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   export PATH="/usr/local/pandoc/bin:$PATH"
   pandoc --version
 
-else
-
-  # pandoc installation
-  curl -fL "https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-${ARCH}.tar.gz"  -o /tmp/pandoc.tar.gz
-  mkdir -p /usr/local/pandoc
-  tar xvzf /tmp/pandoc.tar.gz --strip-components 1 -C /usr/local/pandoc/
-  rm -f /tmp/pandoc.tar.gz
-
 fi

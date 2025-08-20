@@ -72,10 +72,15 @@ COPY ${JUPYTER_REUSABLE_UTILS} utils/
 
 USER 0
 
-# Copy built TeXLive and Pandoc binaries only (no build deps)
-COPY --from=pdf-builder /usr/local/texlive /usr/local/texlive
-COPY --from=pdf-builder /usr/local/pandoc /usr/local/pandoc
-
+# Dependencies for PDF export begin
+RUN --mount=type=bind,from=pdf-builder,source=/usr/local/,target=/pdf_builder/,rw \
+    bash -c ' \
+    if [[ "$(uname -m)" == "ppc64le" ]]; then \
+        cp /pdf_builder/texlive /usr/local/; \
+        cp /pdf_builder/pandoc /usr/local/; \
+    else \
+        ./utils/install_pdf_deps.sh; \
+    fi'
 ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
 # Dependencies for PDF export end
 
