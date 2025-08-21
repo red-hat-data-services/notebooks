@@ -73,7 +73,7 @@ COPY ${JUPYTER_REUSABLE_UTILS} utils/
 USER 0
 
 # Dependencies for PDF export begin
-RUN --mount=type=bind,from=pdf-builder,source=/usr/local/,target=/pdf_builder/,rw \
+RUN --mount=type=cache,from=pdf-builder,source=/usr/local/,target=/pdf_builder/,rw \
     bash -c ' \
     if [[ "$(uname -m)" == "ppc64le" ]]; then \
         cp -r /pdf_builder/texlive /usr/local/; \
