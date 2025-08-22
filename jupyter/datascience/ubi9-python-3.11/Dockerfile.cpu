@@ -2,7 +2,7 @@
 # base                 #
 ########################
 #FROM registry.access.redhat.com/ubi9/python-311:latest AS base
-FROM registry.access.redhat.com/ubi9/python-311@sha256:f6d1c0c80709b0c7d0aa293aefcf8427fdb9e0887447915eaaded2e2bb7b538b AS base
+FROM registry.access.redhat.com/ubi9/python-311@sha256:2562359c69c5a6c8270b6f19be8cc78fab67acaf0317afc67bab6db0bd04d4e3 AS base
 
 WORKDIR /opt/app-root/bin
 
