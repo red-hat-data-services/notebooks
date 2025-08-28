@@ -15,9 +15,10 @@ pandas = "~=2.2.3"
 plotly = "~=6.0.0"
 scikit-learn = "~=1.6.1"
 scipy = "~=1.15.2"
+onnx = {version = "==1.19.0", markers = "platform_machine != 'ppc64le'"}
 skl2onnx = "~=1.18.0"
 onnxconverter-common = "~=1.13.0" # Required for skl2onnx, as upgraded version is not compatible with protobuf
-codeflare-sdk = "~=0.29.0"
+codeflare-sdk = {version = "==0.29.0", markers = "platform_machine != 'ppc64le'"}
 
 # DB connectors
 pymongo = "~=4.11.2"
