@@ -5,6 +5,7 @@ from __future__ import annotations
 import dataclasses
 import glob
 import io
+import itertools
 import json
 import pathlib
 import typing
@@ -76,7 +77,7 @@ def main():
     pathname = "manifests/base/*.yaml"
     # pathname = 'manifests/overlays/additional/*.yaml'
     imagestreams: list[Manifest] = []
-    for fn in glob.glob(pathname, root_dir=ROOT_DIR):
+    for fn in itertools.chain(glob.glob(pathname, root_dir=ROOT_DIR), glob.glob("manifests/overlays/additional/*.yaml", root_dir=ROOT_DIR)):
         # there may be more than one yaml document in a file (e.g. rstudio buildconfigs)
         with open(ROOT_DIR / fn, "rt") as fp:
             for data in yaml.safe_load_all(fp):
@@ -145,7 +146,7 @@ def main():
     print("| Image name | Image version | Preinstalled packages |")
     print("|------------|---------------|-----------------------|")
     for row in tabular_data:
-        print(f"| {row[0]} | {row[1]} | {row[2]} |")
+        print(f"| {' | '.join(escape(r) for r in row)} |")
 
     print()
 
@@ -157,8 +158,14 @@ def main():
     print("Image name | Image version | Preinstalled packages")
     print("--------- | ---------")
     for row in tabular_data:
-        print(f"{row[0]} | {row[1]} | {row[2]}")
+        print(f"{' | '.join(escape(r) for r in row)}")
     print("```")
+
+
+def escape(s: str) -> str:
+    r"""> NOTE: To escape a character that would otherwise affect formatting (e.g. *, -, #, >, [, ], (, ), \, `)
+    and render it literally, use a backslash (\) before the character."""
+    return s.replace("\\", "\\\\").replace("|", "\\|")
 
 
 class TestManifest(unittest.TestCase):
@@ -182,6 +189,12 @@ class TestManifest(unittest.TestCase):
 
     def test_tag_sw_python(self):
         assert self.manifest.tags[0].sw_python == [{"name": "JupyterLab", "version": "4.2"}]
+
+
+class TestTabular(unittest.TestCase):
+    def test_escape(self):
+        assert escape("|") == "\\|"
+        assert escape("\\") == "\\\\"
 
 
 if __name__ == "__main__":
