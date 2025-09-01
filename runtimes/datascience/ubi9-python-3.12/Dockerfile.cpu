@@ -15,7 +15,7 @@ RUN dnf -y upgrade --refresh --best --nodocs --noplugins --setopt=install_weak_d
     && dnf clean all -y
 # upgrade first to avoid fixable vulnerabilities end
 
-# Install useful OS packages (and dev tools for s390x and ppc64le only)
+# Install useful OS packages (and dev tools for ppc64le only)
 RUN --mount=type=cache,target=/var/cache/dnf \
     echo "Building for architecture: ${TARGETARCH}" && \
     if [ "$TARGETARCH" = "ppc64le" ]; then \
@@ -24,7 +24,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         PACKAGES="mesa-libGL skopeo libxcrypt-compat"; \
     fi && \
     echo "Installing: $PACKAGES" && \
-    dnf install -y --nogpgcheck --allowerasing --nobest $PACKAGES && \
+    dnf install -y $PACKAGES && \
     dnf clean all && rm -rf /var/cache/yum
 
 RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
