@@ -51,7 +51,7 @@ RUN curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/oc
 #######################################################
 # common-builder (for Power-only)
 #######################################################
-FROM base AS common-builder
+FROM cpu-base AS common-builder
 USER root
 RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip && \
