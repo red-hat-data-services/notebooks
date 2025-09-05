@@ -95,6 +95,10 @@ RUN ACCEPT_EULA=Y dnf install -y mssql-tools18 unixODBC-devel && dnf clean all &
 
 ENV PATH="$PATH:/opt/mssql-tools18/bin"
 
+RUN echo "Uninstalling gpg-pubkey RPM packages" && \
+    (set -x; rpm -qa gpg-pubkey* | xargs -r rpm -e)
+
+
 # Other apps and tools installed as default user
 USER 1001
 

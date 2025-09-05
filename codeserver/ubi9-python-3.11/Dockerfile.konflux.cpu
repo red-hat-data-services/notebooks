@@ -128,6 +128,9 @@ ENV SHELL=/bin/bash
 
 ENV PYTHONPATH=/opt/app-root/bin/python3
 
+RUN echo "Uninstalling gpg-pubkey RPM packages" && \
+    (set -x; rpm -qa gpg-pubkey* | xargs -r rpm -e)
+
 USER 1001
 
 # Install useful packages from Pipfile.lock
