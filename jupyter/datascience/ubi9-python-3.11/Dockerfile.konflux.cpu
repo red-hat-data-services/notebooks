@@ -95,6 +95,10 @@ RUN ACCEPT_EULA=Y dnf install -y mssql-tools18 unixODBC-devel && dnf clean all &
 
 ENV PATH="$PATH:/opt/mssql-tools18/bin"
 
+RUN echo "Uninstalling gpg-pubkey RPM packages" && \
+    set -x && \
+    rpm -e $(rpm -qa gpg-pubkey*)
+
 # Other apps and tools installed as default user
 USER 1001
 
@@ -122,10 +126,6 @@ RUN echo "Installing softwares and packages" && \
     # Fix permissions to support pip in Openshift environments \
     chmod -R g+w /opt/app-root/lib/python3.11/site-packages && \
     fix-permissions /opt/app-root -P
-
-RUN echo "Uninstalling gpg-pubkey RPM packages" && \
-    set -x && \
-    rpm -e $(rpm -qa gpg-pubkey*)
 
 WORKDIR /opt/app-root/src
 
