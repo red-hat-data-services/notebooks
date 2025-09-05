@@ -1,7 +1,3 @@
-#########################
-# configuration args    #
-#########################
-ARG BASE_IMAGE
 
 ######################################################
 # mongocli-builder (build stage only, not published) #
@@ -16,10 +12,10 @@ RUN unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
 RUN cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/ && \
     CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
 
-####################
-# cpu-base         #
-####################
-FROM ${BASE_IMAGE} AS cpu-base
+########################
+# base                 #
+########################
+FROM registry.access.redhat.com/ubi9/python-312:latest AS base
 
 WORKDIR /opt/app-root/bin
 
@@ -51,7 +47,7 @@ RUN curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/oc
 #######################################################
 # common-builder (for Power-only)
 #######################################################
-FROM cpu-base AS common-builder
+FROM base AS common-builder
 USER root
 RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip && \
@@ -98,7 +94,7 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
 ####################
 # jupyter-minimal #
 ####################
-FROM cpu-base AS jupyter-minimal
+FROM base AS jupyter-minimal
 
 ARG JUPYTER_REUSABLE_UTILS=jupyter/utils
 ARG MINIMAL_SOURCE_CODE=jupyter/minimal/ubi9-python-3.12
