@@ -123,6 +123,10 @@ RUN echo "Installing softwares and packages" && \
     chmod -R g+w /opt/app-root/lib/python3.11/site-packages && \
     fix-permissions /opt/app-root -P
 
+RUN echo "Uninstalling gpg-pubkey RPM packages" && \
+    set -x && \
+    rpm -e $(rpm -qa gpg-pubkey*)
+
 WORKDIR /opt/app-root/src
 
 LABEL name="rhoai/odh-workbench-jupyter-datascience-cpu-py311-rhel9" \
