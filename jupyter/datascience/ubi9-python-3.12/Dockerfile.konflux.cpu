@@ -65,7 +65,7 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
 #######################################################
 FROM common-builder AS onnx-builder
 ARG ONNX_VERSION=v1.19.0
-WORKDIR /tmp
+WORKDIR /root
 RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     source /opt/rh/gcc-toolset-13/enable && \
     git clone --recursive https://github.com/onnx/onnx.git && \
@@ -73,7 +73,8 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     git submodule update --init --recursive && \
     pip install -r requirements.txt && \
     export CMAKE_ARGS="-DPython3_EXECUTABLE=$(which python3.12)" && \
-    pip wheel . -w /tmp/onnx_wheel; \
+    mkdir -p /root/onnx_wheel && \
+    pip wheel . -w /root/onnx_wheel; \
     else \
     echo "Skipping ONNX build on non-Power"; \
     fi
@@ -150,15 +151,15 @@ COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 
-# Copy OpenBLAS for Power
+# Copy OpenBLAS/ ONNX wheels for Power
 COPY --from=openblas-builder /root/OpenBLAS-${OPENBLAS_VERSION} /openblas
+COPY --from=onnx-builder /root/onnx_wheel/ /onnxwheels/
 
 # Power-specific ONNX/OpenBLAS installation
-RUN --mount=type=bind,from=onnx-builder,source=/tmp/onnx_wheel/,target=/onnxwheels/,ro \
-    if [ "$(uname -m)" = "ppc64le" ]; then \
+RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     pip install /onnxwheels/*.whl && \
     PREFIX=/usr/local make -C /openblas install && \
-    rm -rf /openblas; \
+    rm -rf /onnxwheels /openblas; \
     else \
     echo "Skipping ONNX/OpenBLAS install on non-Power"; \
     fi
