@@ -151,7 +151,7 @@ COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 
-# Copy OpenBLAS/ ONNX wheels for Power
+# Copy OpenBLAS,ONNX wheels for Power
 COPY --from=openblas-builder /root/OpenBLAS-${OPENBLAS_VERSION} /openblas
 COPY --from=onnx-builder /root/onnx_wheel/ /onnxwheels/
 
