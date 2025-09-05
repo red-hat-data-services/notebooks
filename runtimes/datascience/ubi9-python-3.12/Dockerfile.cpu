@@ -19,7 +19,7 @@ RUN dnf -y upgrade --refresh --best --nodocs --noplugins --setopt=install_weak_d
 RUN --mount=type=cache,target=/var/cache/dnf \
     echo "Building for architecture: ${TARGETARCH}" && \
     if [ "$TARGETARCH" = "ppc64le" ]; then \
-        PACKAGES="mesa-libGL skopeo libxcrypt-compat git gcc-toolset-13 make wget unzip rust cargo unixODBC-devel cmake ninja-build"; \
+        PACKAGES="mesa-libGL skopeo libxcrypt-compat git gcc-toolset-13 make wget unzip unixODBC-devel cmake ninja-build"; \
     else \
         PACKAGES="mesa-libGL skopeo libxcrypt-compat"; \
     fi && \
@@ -147,7 +147,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
         export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig; \
         export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:$LD_LIBRARY_PATH; \
         GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 && \
-        pip install ml-dtypes && \
         uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml; \
     else \
     # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
