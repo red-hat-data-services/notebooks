@@ -97,9 +97,8 @@ ENV PATH="$PATH:/opt/mssql-tools18/bin"
 
 RUN echo "Uninstalling gpg-pubkey RPM packages" && \
     set -x && \
-    rpm -e $(rpm -qa gpg-pubkey*)
-
-# Other apps and tools installed as default user
+RUN echo "Uninstalling gpg-pubkey RPM packages" && \
+    rpm -qa gpg-pubkey* | xargs -r rpm -e
 USER 1001
 
 # Install Python packages and Jupyterlab extensions from Pipfile.lock
