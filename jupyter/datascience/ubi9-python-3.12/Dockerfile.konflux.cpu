@@ -73,10 +73,10 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     git submodule update --init --recursive && \
     pip install -r requirements.txt && \
     export CMAKE_ARGS="-DPython3_EXECUTABLE=$(which python3.12)" && \
-    mkdir -p /root/onnx_wheel && \
     pip wheel . -w /root/onnx_wheel; \
     else \
     echo "Skipping ONNX build on non-Power"; \
+    mkdir -p /root/onnx_wheel; \
     fi
 
 #######################################################
