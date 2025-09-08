@@ -164,5 +164,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# VSCode Local History extension
+# VSCode Local History add-on
 .history/
