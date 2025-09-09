@@ -10,7 +10,6 @@ dependencies = [
     "kfp~=2.12.1",
     "matplotlib~=3.10.1",
     "numpy~=2.2.3",
-    "onnx==1.19.0; platform_machine != 'ppc64le'",
     "pandas~=2.2.3",
     "plotly~=6.0.0",
     "scikit-learn~=1.6.1",
