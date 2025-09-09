@@ -150,6 +150,7 @@ RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libx
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 
+
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 
 # Copy OpenBLAS,ONNX wheels for Power
@@ -164,7 +165,6 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     else \
     echo "Skipping ONNX/OpenBLAS install on non-Power"; \
     fi
-
 
 # Install Python packages and Jupyterlab extensions from pylock.toml
 COPY ${DATASCIENCE_SOURCE_CODE}/pylock.toml ./
