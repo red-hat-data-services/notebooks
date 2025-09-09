@@ -281,6 +281,11 @@ jobs:
 
       # region Image build
 
+      - name: Login to quay.io
+        shell: bash
+        run: |
+          echo "${{ secrets.AIPCC_QUAY_BOT_PASSWORD }}" | podman login quay.io -u "${{ secrets.AIPCC_QUAY_BOT_USERNAME }}" --password-stdin
+
       - name: Compute extra podman build args
         id: extra-podman-build-args
         run: |
