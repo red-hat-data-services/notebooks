@@ -94,7 +94,6 @@ RUN if [ "$(uname -m)" = "ppc64le" ]; then \
     mkdir -p OpenBLAS-${OPENBLAS_VERSION}; \
     echo "Skipping OpenBLAS build on non-Power"; \
     fi
-
 ####################
 # jupyter-minimal #
 ####################
@@ -144,15 +143,8 @@ WORKDIR /opt/app-root/bin
 # OS Packages needs to be installed as root
 USER root
 
-COPY ${DATASCIENCE_SOURCE_CODE}/mssql-2022.repo /tmp/mssql-2022.repo
-
-# Install base OS deps
+# Install useful OS packages
 RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat && \
-    if [ "$(uname -m)" != "ppc64le" ]; then \
-     cp /tmp/mssql-2022.repo /etc/yum.repos.d/mssql-2022.repo && \
-     ACCEPT_EULA=Y dnf install -y mssql-tools18 && \
-     export PATH="$PATH:/opt/mssql-tools18/bin"; \
-    fi && \
     dnf clean all && rm -rf /var/cache/yum
 
 # Copy dynamically-linked mongocli built in earlier build stage
