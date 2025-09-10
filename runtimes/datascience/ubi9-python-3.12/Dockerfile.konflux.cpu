@@ -34,7 +34,7 @@ RUN --mount=type=cache,target=/var/cache/dnf \
         PACKAGES="$PACKAGES gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel"; \
     fi && \
     if [ "$TARGETARCH" = "ppc64le" ]; then \
-        PACKAGES="$PACKAGES git gcc-toolset-13 make wget unzip unixODBC-devel cmake ninja-build zlib-devel libjpeg-devel libpng-devel freetype-devel"; \
+        PACKAGES="$PACKAGES git gcc-toolset-13 gcc-toolset-13-gfortran make wget unzip unixODBC-devel cmake ninja-build zlib-devel libjpeg-devel libpng-devel freetype-devel libtiff-devel lcms2-devel"; \
     fi && \
     if [ -n "$PACKAGES" ]; then \
         echo "Installing: $PACKAGES" && \
