@@ -80,7 +80,7 @@ spec:
             {"name": "Kubeflow-Training", "version": "1.9"}
           ]
         openshift.io/imported-from: quay.io/modh/odh-generic-data-science-notebook
-        opendatahub.io/workbench-image-recommended: 'true'
+        opendatahub.io/workbench-image-recommended: 'false'
         opendatahub.io/notebook-build-commit: odh-workbench-jupyter-datascience-cpu-py311-ubi9-commit-n_PLACEHOLDER
       from:
         kind: DockerImage
@@ -88,7 +88,7 @@ spec:
       name: "2025.1"
       referencePolicy:
         type: Source
-    # N - 1 Version of the image
+    # N - 2 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -118,14 +118,14 @@ spec:
           ]
         openshift.io/imported-from: quay.io/modh/odh-generic-data-science-notebook
         opendatahub.io/workbench-image-recommended: 'false'
-        opendatahub.io/notebook-build-commit: odh-workbench-jupyter-datascience-cpu-py311-ubi9-commit-n-1_PLACEHOLDER
+        opendatahub.io/notebook-build-commit: odh-workbench-jupyter-datascience-cpu-py311-ubi9-commit-n-2_PLACEHOLDER
       from:
         kind: DockerImage
-        name: odh-workbench-jupyter-datascience-cpu-py311-ubi9-n-1_PLACEHOLDER
-      name: "2025.1"
+        name: odh-workbench-jupyter-datascience-cpu-py311-ubi9-n-2_PLACEHOLDER
+      name: "2024.2"
       referencePolicy:
         type: Source
-    # N - 2 Version of the image
+    # N - 3 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -160,7 +160,7 @@ spec:
       name: "2024.1"
       referencePolicy:
         type: Source
-    # N - 3 Version of the image
+    # N - 4 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -195,7 +195,7 @@ spec:
       name: "2023.2"
       referencePolicy:
         type: Source
-    # N - 4 Version of the image
+    # N - 5 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -224,7 +224,7 @@ spec:
       name: "2023.1"
       referencePolicy:
         type: Source
-    # N - 5 Version of the image
+    # N - 6 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
