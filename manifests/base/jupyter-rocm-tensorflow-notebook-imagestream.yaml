@@ -123,6 +123,6 @@ spec:
       from:
         kind: DockerImage
         name: odh-workbench-jupyter-tensorflow-rocm-py311-ubi9-n-2_PLACEHOLDER
-      name: "2025.1"
+      name: "2024.2"
       referencePolicy:
         type: Source
