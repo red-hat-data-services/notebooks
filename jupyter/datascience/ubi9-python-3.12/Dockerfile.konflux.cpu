@@ -145,6 +145,9 @@ RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libx
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 
+# Other apps and tools installed as default user
+USER 1001
+
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 
 # Copy OpenBLAS,ONNX wheels for Power
