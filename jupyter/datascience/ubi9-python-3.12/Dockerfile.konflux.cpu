@@ -105,7 +105,7 @@ RUN curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/oc
 FROM cpu-base AS common-builder
 USER root
 ARG TARGETARCH
-RUN if [ "$TARGETARCH" ="ppc64le" ]; then \
+RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
     dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip && \
     dnf clean all; \
     else \
