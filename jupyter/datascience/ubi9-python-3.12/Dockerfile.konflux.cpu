@@ -253,14 +253,13 @@ RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libx
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 
-# Other apps and tools installed as default user
-USER 1001
-
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 
 # Copy OpenBLAS,ONNX wheels for Power
 COPY --from=openblas-builder /root/OpenBLAS-${OPENBLAS_VERSION} /openblas
 COPY --from=onnx-builder /root/onnx_wheel/ /onnxwheels/
+
+USER 0
 
 # Power-specific ONNX/OpenBLAS installation
 RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
@@ -279,6 +278,9 @@ RUN if [ "$TARGETARCH" = "s390x" ]; then \
 else \
     echo "Skipping wheel install for $TARGETARCH"; \
 fi
+
+# Other apps and tools installed as default user
+USER 1001
 
 # Install Python packages and Jupyterlab extensions from requirements.txt
 COPY ${DATASCIENCE_SOURCE_CODE}/pylock.toml ./
