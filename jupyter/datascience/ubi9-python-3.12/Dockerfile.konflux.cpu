@@ -147,6 +147,7 @@ RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
     else \
     mkdir -p OpenBLAS-${OPENBLAS_VERSION}; \
     echo "Skipping OpenBLAS build on non-Power"; \
+    fi
 ##############################
 # wheel-builder stage        #
 # NOTE: Only used in s390x
