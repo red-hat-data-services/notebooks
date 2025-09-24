@@ -15,6 +15,7 @@ RUN curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mo
 RUN unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
 RUN cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/ && \
     CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
+
 ####################
 # wheel-cache-base #
 ####################
@@ -26,13 +27,54 @@ WORKDIR /root
 
 ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 
+# Install s390x-specific build dependencies
+RUN if [ "$(uname -m)" = "s390x" ]; then \
+    dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip python3-devel pybind11-devel unixODBC-devel gcc gcc-c++ make openssl-devel autoconf automake libtool openblas-devel && \
+    dnf clean all; \
+fi
+
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/devel_env_setup.sh .
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     pip install --no-cache uv && \
     # the devel script is ppc64le specific - sets up build-time dependencies
-    source ./devel_env_setup.sh && \
+    # For s390x, we'll handle PyArrow separately to avoid double installation
+    if [ "$(uname -m)" = "s390x" ]; then \
+        # Build PyTorch and PyArrow from source for s390x \
+        TMP=$(mktemp -d) && \
+        cd ${TMP} && \
+        # Build PyTorch \
+        TORCH_VERSION=$(grep -A1 '"torch"' /root/pylock.toml | grep -Eo '\b[0-9\.]+\b') && \
+        git clone --recursive https://github.com/pytorch/pytorch.git -b v${TORCH_VERSION} && \
+        cd pytorch && \
+        pip install --no-cache-dir -r requirements.txt && \
+        python setup.py develop && \
+        rm -f dist/torch*+git*whl && \
+        MAX_JOBS=$(nproc) PYTORCH_BUILD_VERSION=${TORCH_VERSION} PYTORCH_BUILD_NUMBER=1 uv build --wheel --out-dir /wheelsdir && \
+        # Build PyArrow \
+        cd ${TMP} && \
+        PYARROW_VERSION=$(grep -A1 '"pyarrow"' /root/pylock.toml | grep -Eo '\b[0-9\.]+\b') && \
+        git clone --recursive https://github.com/apache/arrow.git -b apache-arrow-${PYARROW_VERSION} && \
+        cd arrow/cpp && \
+        mkdir build && cd build && \
+        cmake -DCMAKE_BUILD_TYPE=release \
+              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -DARROW_PYTHON=ON \
+              -DARROW_BUILD_TESTS=OFF \
+              -DARROW_JEMALLOC=ON \
+              -DARROW_BUILD_STATIC="OFF" \
+              -DARROW_PARQUET=ON \
+              .. && \
+        make install -j $(nproc) && \
+        cd ../../python && \
+        pip install --no-cache-dir -r requirements-wheel-build.txt && \
+        PYARROW_PARALLEL=$(nproc) python setup.py build_ext --build-type=release --bundle-arrow-cpp bdist_wheel --dist-dir /wheelsdir && \
+        chmod -R 777 /wheelsdir && \
+        rm -rf ${TMP}; \
+    else \
+        source ./devel_env_setup.sh; \
+    fi && \
     # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
     #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
     UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
@@ -117,7 +159,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat && dnf clean all && rm -rf /var/cache/yum
+RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat && dnf clean all && rm -rf /var/cache/yum
 
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
@@ -158,13 +200,16 @@ RUN INSTALL_PKGS="java-17-openjdk" && \
 # Install Python packages and Jupyterlab extensions from requirements.txt
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml ./
 
-# install openblas for ppc64le
+# install openblas for ppc64le and s390x
 RUN --mount=type=cache,from=whl-cache,source=/root/OpenBLAS/,target=/OpenBlas/,rw \
     bash -c ' \
         if [[ $(uname -m) == "ppc64le" ]]; then \
             dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm; \
             dnf install -y libraqm libimagequant; \
             PREFIX=/usr/ make install -C /OpenBlas; \
+        elif [[ $(uname -m) == "s390x" ]]; then \
+            # For s390x, use system openblas-devel (already installed in whl-cache stage) \
+            echo "Using system OpenBLAS for s390x"; \
         fi '
 
 # Install packages and cleanup
@@ -174,6 +219,10 @@ RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
     bash -c ' \
         if [[ $(uname -m) == "ppc64le" ]]; then \
             UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --cache-dir /root/.cache/uv; \
+        elif [[ $(uname -m) == "s390x" ]]; then \
+            echo "Installing PyArrow wheel for s390x:"; \
+            ls -la /wheelsdir/; \
+            UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl --cache-dir /root/.cache/uv; \
         fi '
 RUN --mount=type=cache,target=/root/.cache/uv \
     echo "Installing softwares and packages" && \
@@ -182,6 +231,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
     #       Build debugpy from source instead
     UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b') && \
+    # Verify trustyai is importable at build time
+    python3 -c "import trustyai; print('trustyai successfully imported')" && \
     # change ownership to default user (all packages were installed as root and has root:root ownership \
     chown -R 1001:0 /opt/app-root/
 
