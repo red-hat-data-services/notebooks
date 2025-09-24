@@ -15,6 +15,7 @@ RUN curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mo
 RUN unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
 RUN cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/ && \
     CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
+
 ####################
 # wheel-cache-base #
 ####################
@@ -26,12 +27,13 @@ WORKDIR /root
 
 ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 
+
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/devel_env_setup.sh .
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     pip install --no-cache uv && \
-    # the devel script is ppc64le specific - sets up build-time dependencies
+    # the devel script handles build-time dependencies
     source ./devel_env_setup.sh && \
     # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
     #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
@@ -61,7 +63,43 @@ RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setop
 # upgrade first to avoid fixable vulnerabilities end
 
 # Install useful OS packages
-RUN dnf install -y perl mesa-libGL skopeo && dnf clean all && rm -rf /var/cache/yum
+RUN --mount=type=cache,target=/var/cache/dnf \
+    echo "Building for architecture: ${TARGETARCH}" && \
+    if [ "$TARGETARCH" = "s390x" ]; then \
+        PACKAGES="perl mesa-libGL skopeo libxcrypt-compat python3.12-devel pkgconf-pkg-config gcc gcc-gfortran gcc-c++ ninja-build make openssl-devel python3-devel pybind11-devel autoconf automake libtool cmake openblas-devel libjpeg-devel zlib-devel libtiff-devel freetype-devel lcms2-devel libwebp-devel git tar wget python3.12-pip python3.12-setuptools unixODBC-devel"; \
+    else \
+        PACKAGES="perl mesa-libGL skopeo"; \
+    fi && \
+    echo "Installing: $PACKAGES" && \
+    dnf install -y $PACKAGES && \
+    # Install EPEL repository and additional packages for s390x
+    if [ "$TARGETARCH" = "s390x" ]; then \
+        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
+        dnf install -y fribidi-devel lcms2-devel openjpeg2-devel libraqm-devel libimagequant-devel tcl-devel tk-devel; \
+    fi && \
+    dnf clean all && rm -rf /var/cache/yum
+
+RUN if [ "$TARGETARCH" = "s390x" ]; then \
+    # Install Rust and set up environment
+    mkdir -p /opt/.cargo && \
+    export HOME=/root && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup-init.sh && \
+    chmod +x rustup-init.sh && \
+    CARGO_HOME=/opt/.cargo HOME=/root ./rustup-init.sh -y --no-modify-path && \
+    rm -f rustup-init.sh && \
+    chown -R 1001:0 /opt/.cargo && \
+    # Set environment variables
+    echo 'export PATH=/opt/.cargo/bin:$PATH' >> /etc/profile.d/cargo.sh && \
+    echo 'export CARGO_HOME=/opt/.cargo' >> /etc/profile.d/cargo.sh && \
+    echo 'export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1' >> /etc/profile.d/cargo.sh; \
+fi
+
+# Set python alternatives only for s390x (not needed for other arches)
+RUN if [ "$TARGETARCH" = "s390x" ]; then \
+    alternatives --install /usr/bin/python python /usr/bin/python3.12 1 && \
+    alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
+    python --version && python3 --version; \
+fi
 
 # Other apps and tools installed as default user
 USER 1001
@@ -117,7 +155,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat && dnf clean all && rm -rf /var/cache/yum
+RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat && dnf clean all && rm -rf /var/cache/yum
 
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
@@ -138,7 +176,7 @@ FROM jupyter-datascience AS jupyter-trustyai
 ARG DATASCIENCE_SOURCE_CODE=jupyter/datascience/ubi9-python-3.12
 ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/lib64
 
 LABEL name="rhoai/odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
       com.redhat.component="odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
@@ -151,30 +189,39 @@ LABEL name="rhoai/odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
 USER 0
 
 # Install jre that is needed to run the trustyai library
+# Also install OpenBLAS runtime for s390x/ppc64le (PyTorch was built against it)
 RUN INSTALL_PKGS="java-17-openjdk" && \
+    ARCH=$(uname -m) && \
+    if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then \
+        # Install EPEL for runtime dependencies
+        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
+        INSTALL_PKGS="$INSTALL_PKGS openblas openblas-threads libimagequant"; \
+    fi && \
     dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    dnf -y clean all --enablerepo='*'
+    dnf -y clean all --enablerepo='*' && \
+    # Create symlink for compatibility (openblas package provides libopenblasp.so.0 but PyTorch looks for libopenblas.so.0)
+    if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then \
+        ln -sf /usr/lib64/libopenblasp.so.0 /usr/lib64/libopenblas.so.0 && \
+        ldconfig && \
+        echo "Created symlink: libopenblas.so.0 -> libopenblasp.so.0"; \
+    fi
 
 # Install Python packages and Jupyterlab extensions from requirements.txt
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml ./
 
-# install openblas for ppc64le
-RUN --mount=type=cache,from=whl-cache,source=/root/OpenBLAS/,target=/OpenBlas/,rw \
-    bash -c ' \
-        if [[ $(uname -m) == "ppc64le" ]]; then \
-            dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm; \
-            dnf install -y libraqm libimagequant; \
-            PREFIX=/usr/ make install -C /OpenBlas; \
-        fi '
+# Create empty onnxwheels directory for non-Power
+RUN mkdir -p /onnxwheels
+
 
 # Install packages and cleanup
 # install packages as USER 0 (this will allow us to consume uv cache)
 RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
     --mount=type=cache,target=/root/.cache/uv \
-    bash -c ' \
-        if [[ $(uname -m) == "ppc64le" ]]; then \
+    bash -c 'ARCH=$(uname -m); \
+        if [ "$ARCH" = "ppc64le" ] || [ "$ARCH" = "s390x" ]; then \
             UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --cache-dir /root/.cache/uv; \
-        fi '
+        fi'
+
 RUN --mount=type=cache,target=/root/.cache/uv \
     echo "Installing softwares and packages" && \
     # we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
@@ -183,6 +230,37 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     #       Build debugpy from source instead
     UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b') && \
     # change ownership to default user (all packages were installed as root and has root:root ownership \
+    chown -R 1001:0 /opt/app-root/
+
+# Install packages and cleanup
+RUN --mount=type=cache,target=/root/.cache/pip \
+    echo "Installing software and packages" && \
+    # Set LD_LIBRARY_PATH for s390x/ppc64le to find OpenBLAS at runtime
+    ARCH=$(uname -m) && \
+    if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then \
+        export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:${LD_LIBRARY_PATH}; \
+    fi && \
+    # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
+    #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
+    if [ "$TARGETARCH" = "s390x" ]; then \
+        # We need special flags and environment variables when building packages
+        GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
+        CFLAGS="-O3" CXXFLAGS="-O3" \
+        uv pip install --strict --no-deps --no-cache --no-config --no-progress \
+            --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match \
+            --requirements=./pylock.toml && \
+        # Build debugpy from source for s390x
+        GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
+        CFLAGS="-O3" CXXFLAGS="-O3" \
+        uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b'); \
+    else \
+        # For other architectures, use standard installation
+        uv pip install --strict --no-deps --no-cache --no-config --no-progress \
+            --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match \
+            --requirements=./pylock.toml && \
+        uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b'); \
+    fi && \
+    # change ownership to default user
     chown -R 1001:0 /opt/app-root/
 
 USER 1001
