@@ -2,13 +2,13 @@
 set -eoux pipefail
 
 #####################################################################################################
-# This script is expected to be run on ppc64le hosts as `root`                                      #
+# This script is expected to be run on ppc64le and s390x hosts as `root`                           #
 # It installs the required build-time dependencies for python wheels                                #
 # OpenBlas is built from source (instead of distro provided) with recommended flags for performance #
 #####################################################################################################
 WHEELS_DIR=/wheelsdir
 mkdir -p ${WHEELS_DIR}
-if [[ $(uname -m) == "ppc64le" ]]; then
+if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
     CURDIR=$(pwd)
 
     # install development packages
@@ -20,7 +20,7 @@ if [[ $(uname -m) == "ppc64le" ]]; then
 
     source /opt/rh/gcc-toolset-13/enable
     source $HOME/.cargo/env
-    
+
     uv pip install cmake
 
     export MAX_JOBS=${MAX_JOBS:-$(nproc)}
@@ -33,7 +33,15 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     # rename directory for mounting (without knowing version numbers) in multistage builds
     mv OpenBLAS-${OPENBLAS_VERSION}/ OpenBLAS/
     cd OpenBLAS/
-    make -j${MAX_JOBS} TARGET=POWER9 BINARY=64 USE_OPENMP=1 USE_THREAD=1 NUM_THREADS=120 DYNAMIC_ARCH=1 INTERFACE64=0
+
+    # Set appropriate target based on architecture
+    if [[ $(uname -m) == "ppc64le" ]]; then
+        TARGET_FLAGS="TARGET=POWER9"
+    elif [[ $(uname -m) == "s390x" ]]; then
+        TARGET_FLAGS="TARGET=ZARCH_GENERIC"
+    fi
+
+    make -j${MAX_JOBS} ${TARGET_FLAGS} BINARY=64 USE_OPENMP=1 USE_THREAD=1 NUM_THREADS=120 DYNAMIC_ARCH=1 INTERFACE64=0
     make install
     cd ..
 
@@ -88,6 +96,6 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     uv pip list
     cd ${CURDIR}
 else
-    # only for mounting on non-ppc64le
+    # only for mounting on non-ppc64le and non-s390x
     mkdir -p /root/OpenBLAS/
 fi
