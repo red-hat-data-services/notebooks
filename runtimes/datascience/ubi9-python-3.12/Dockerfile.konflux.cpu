@@ -354,3 +354,11 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 USER 1001
 
 WORKDIR /opt/app-root/src
+
+LABEL name="rhoai/odh-pipeline-runtime-datascience-cpu-py312-rhel9" \
+      com.redhat.component="odh-pipeline-runtime-datascience-cpu-py312-rhel9" \
+      io.k8s.display-name="odh-pipeline-runtime-datascience-cpu-py312-rhel9" \
+      io.k8s.description="Runtime data science notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
+      description="Runtime data science notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
+      summary="Runtime data science notebook image for ODH notebooks" \
+      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
