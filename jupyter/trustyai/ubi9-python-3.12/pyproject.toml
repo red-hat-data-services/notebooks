@@ -9,7 +9,7 @@ dependencies = [
 
     # Explicitly list the torch dep on triton so that it can be
     # installed from pytorch index (see tool.uv.sources below).
-    "triton==3.3.1",
+    "triton==3.3.1; platform_machine != 'ppc64le'",
 
     # TrustyAI packages
     # More information available at:
