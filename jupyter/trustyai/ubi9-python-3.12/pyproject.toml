@@ -7,6 +7,10 @@ dependencies = [
     # PyTorch packages
     "torch==2.7.1+cu128; platform_machine != 'ppc64le'",
 
+    # Explicitly list the torch dep on triton so that it can be
+    # installed from pytorch index (see tool.uv.sources below).
+    "triton==3.3.1",
+
     # TrustyAI packages
     # More information available at:
     #   - https://pypi.org/project/trustyai/
@@ -64,6 +68,7 @@ environments = [
 
 [tool.uv.sources]
 torch = { index = "pytorch-cuda" }
+triton = { index = "pytorch-cuda" }
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
