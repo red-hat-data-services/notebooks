@@ -9,6 +9,29 @@ set -eoux pipefail
 export WHEEL_DIR=${WHEEL_DIR:-"/wheelsdir"}
 mkdir -p ${WHEEL_DIR}
 
+build_pillow() {
+    CURDIR=$(pwd)
+
+    export PILLOW_VERSION=${1:-$(curl -s https://api.github.com/repos/python-pillow/Pillow/releases/latest | jq -r '.tag_name' | grep -Eo "[0-9\.]+")}
+
+    TEMP_BUILD_DIR=$(mktemp -d)
+    cd ${TEMP_BUILD_DIR}
+
+    : ================== Installing Pillow ==================
+    git clone --recursive https://github.com/python-pillow/Pillow.git -b ${PILLOW_VERSION}
+    cd Pillow
+    uv build --wheel --out-dir /pillowwheel
+
+    : ================= Fix Pillow Wheel ====================
+    dnf install -y patchelf
+    cd /pillowwheel
+    uv pip install 'auditwheel<6.4'
+    auditwheel repair --plat linux_ppc64le pillow*.whl
+    mv wheelhouse/pillow*.whl ${WHEEL_DIR}
+
+    cd ${CURDIR}
+    rm -rf ${TEMP_BUILD_DIR}
+}
 build_pyarrow() {
     CURDIR=$(pwd)
 
@@ -73,6 +96,10 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     
     PYARROW_VERSION=$(grep -A1 '"pyarrow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
     build_pyarrow ${PYARROW_VERSION}
+
+    PILLOW_VERSION=$(grep -A1 '"pillow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
+    build_pillow ${PILLOW_VERSION}
+
     uv pip install ${WHEEL_DIR}/*.whl
 else
     # only for mounting on non-ppc64le
