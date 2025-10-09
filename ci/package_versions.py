@@ -126,7 +126,7 @@ def main():
                 sw_version: str
                 sw_name, sw_version = item["name"], item["version"]
                 sw_version = sw_version.lstrip("v")
-                software.append(f"{sw_name}: {sw_version}")
+                software.append(f"{sw_name} {sw_version}")
 
             # in 2.16.1 we only have RStudio as tech preview, and that is not a prebuilt image we ship
             tech_preview_names = ()  # or define the actual names you want to check
