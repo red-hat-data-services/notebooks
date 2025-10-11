@@ -41,6 +41,51 @@ build_pyarrow() {
     rm -rf ${TEMP_BUILD_DIR}
 }
 
+    # Additional dev tools only for s390x \
+if [[ $(uname -m) == "s390x" ]]; then \
+    dnf install -y perl mesa-libGL skopeo libxcrypt-compat python3.12-devel pkgconf-pkg-config gcc gcc-gfortran gcc-c++ ninja-build make openssl-devel python3-devel pybind11-devel autoconf automake libtool cmake openblas-devel libjpeg-devel zlib-devel libtiff-devel freetype-devel lcms2-devel libwebp-devel git tar wget
+    dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+    dnf install -y cmake gcc gcc-toolset-13 fribidi-devel lcms2-devel && \
+    openjpeg2-devel libraqm-devel libimagequant-devel tcl-devel tk-devel && \
+    dnf clean all && rm -rf /var/cache/dnf;
+
+     # install rust
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+    source /opt/rh/gcc-toolset-13/enable
+    source "$HOME/.cargo/env"
+
+    export MAX_JOBS=${MAX_JOBS:-$(nproc)}
+    export OPENBLAS_VERSION=${OPENBLAS_VERSION:-0.3.30}
+
+    # Install OpenBlas
+    # IMPORTANT: Ensure Openblas is installed in the final image
+    curl -L https://github.com/OpenMathLib/OpenBLAS/releases/download/v${OPENBLAS_VERSION}/OpenBLAS-${OPENBLAS_VERSION}.tar.gz | tar xz
+    # rename directory for mounting (without knowing version numbers) in multistage builds
+    mv OpenBLAS-${OPENBLAS_VERSION}/ OpenBLAS/
+    cd OpenBLAS/
+
+    if [[ $(uname -m) == "ppc64le" ]]; then
+        TARGET_FLAGS="TARGET=POWER9"
+    elif [[ $(uname -m) == "s390x" ]]; then
+        TARGET_FLAGS="TARGET=ZARCH_GENERIC"
+    fi
+
+    make -j${MAX_JOBS} ${TARGET_FLAGS}  BINARY=64 USE_OPENMP=1 USE_THREAD=1 NUM_THREADS=120 DYNAMIC_ARCH=1 INTERFACE64=0
+    make install
+    cd ..
+
+    # set path for openblas
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/OpenBLAS/lib/
+    export PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':')
+    export CMAKE_ARGS="-DPython3_EXECUTABLE=python"
+
+    PYARROW_VERSION=$(grep -A1 '"pyarrow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
+    build_pyarrow ${PYARROW_VERSION}
+    uv pip install ${WHEEL_DIR}/*.whl
+fi
+
+
 if [[ $(uname -m) == "ppc64le" ]]; then
     # install development packages
     dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
@@ -74,7 +119,8 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     PYARROW_VERSION=$(grep -A1 '"pyarrow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
     build_pyarrow ${PYARROW_VERSION}
     uv pip install ${WHEEL_DIR}/*.whl
-else
-    # only for mounting on non-ppc64le
-    mkdir -p /root/OpenBLAS/
+fi
+if [[ $(uname -m) != "ppc64le" ]] && [[ $(uname -m) != "ppc64le" ]]; then
+   # only for mounting on other than s390x and ppc64le
+   mkdir -p /root/OpenBLAS/
 fi
