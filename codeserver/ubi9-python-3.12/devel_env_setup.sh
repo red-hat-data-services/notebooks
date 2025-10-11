@@ -41,42 +41,6 @@ build_pyarrow() {
     rm -rf ${TEMP_BUILD_DIR}
 }
 
-build_onnx() {
-    CURDIR=$(pwd)
-
-    wget https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz
-    tar -xzf eigen-3.4.0.tar.gz
-    cd eigen-3.4.0
-    mkdir build && cd build
-    cmake .. && make install
-
-    cd /
-    rm -rf eigen-3.4.0 eigen-3.4.0.tar.gz
-
-    cd ${CURDIR}
-    TEMP_BUILD_DIR=$(mktemp -d)
-    cd ${TEMP_BUILD_DIR}
-
-    : ================== Installing ONNX from Source ==================
-    git clone --recursive https://github.com/onnx/onnx.git
-    cd onnx
-
-    git checkout "v${ONNX_VERSION}"
-    git submodule update --init --recursive
-
-    uv pip install -r requirements.txt
-    uv pip install -U setuptools wheel cython cmake ninja
-
-    export CMAKE_ARGS="-DBUILD_SHARED_LIBS=ON"
-    export ONNX_ML=1
-
-    python setup.py build_ext --inplace
-    python setup.py bdist_wheel --dist-dir ${WHEEL_DIR}
-
-    cd ${CURDIR}
-    rm -rf ${TEMP_BUILD_DIR}
-}
-
     # Additional dev tools only for s390x \
 if [[ $(uname -m) == "s390x" ]]; then \
     dnf install -y perl mesa-libGL skopeo libxcrypt-compat python3.12-devel pkgconf-pkg-config gcc gcc-gfortran gcc-c++ ninja-build make openssl-devel python3-devel pybind11-devel autoconf automake libtool cmake openblas-devel libjpeg-devel zlib-devel libtiff-devel freetype-devel lcms2-devel libwebp-devel git tar wget
@@ -115,13 +79,6 @@ if [[ $(uname -m) == "s390x" ]]; then \
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/OpenBLAS/lib/
     export PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':')
     export CMAKE_ARGS="-DPython3_EXECUTABLE=python"
-
-
-   # Install build dependencies (shared for pyarrow and onnx)
-   #dnf install -y cmake make gcc-c++ git wget tar pybind11-devel ninja-build zlib-devel && \
-   # dnf clean all && rm -rf /var/cache/dnf;
-   #ONNX_VERSION=$(grep -A1 '"onnx"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
-   #build_onnx ${ONNX_VERSION}
 
     PYARROW_VERSION=$(grep -A1 '"pyarrow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
     build_pyarrow ${PYARROW_VERSION}
