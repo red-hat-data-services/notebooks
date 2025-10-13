@@ -48,6 +48,7 @@ dependencies = [
     "nbdime~=4.0.2",
     "nbgitpuller~=1.2.2",
     "feast~=0.54.0", #Just for experimentation
+    "sdg_hub~=0.3.1", #Just for experimentation
 
     # Base packages
     "wheel~=0.45.1",
@@ -68,6 +69,8 @@ nbgitpuller = {index = "aipcc-stage-index"}
 feast = {index = "aipcc-stage-index"}
 wheel = {index = "aipcc-stage-index"}
 setuptools = {index = "aipcc-stage-index"}
+sdg_hub = {index = "aipcc-stage-index"}
+
 
 # https://docs.astral.sh/uv/concepts/indexes/#package-indexes
 [[tool.uv.index]]
