@@ -489,8 +489,7 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/cb/a8/20d0723294217e4
 [[packages]]
 name = "feast"
 version = "0.54.0"
-sdist = { url = "https://files.pythonhosted.org/packages/84/1b/16481127fa5bae511e1c121551e63c0907b137c5e630f8748ce44179060a/feast-0.54.0.tar.gz", upload-time = 2025-09-30T12:53:55Z, size = 6127030, hashes = { sha256 = "9e7f9be608902febbf813f8cf5730d3227d4d18262039d3601427319d1da3800" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/60/79/973b5cce38be45cbd93e090a6eec1f5f2a7cee77e87e2f4a0ee0217d289e/feast-0.54.0-py2.py3-none-any.whl", upload-time = 2025-09-30T12:53:53Z, size = 7608123, hashes = { sha256 = "b46d15d0657a1f73271c7d72513d97087f507b7c69acf833b242a37f0962d44e" } }]
+wheels = [{ url = "https://private.console.redhat.com/api/pulp-content/rhai-stage/rhoai/3.0/cuda-ubi9/feast-0.54.0-8-py2.py3-none-any.whl", hashes = { sha256 = "5f82c674c98357065cf0eb5233d24cad7dbd3ed1d8c002759e7267520370bfa3" } }]
 
 [[packages]]
 name = "fqdn"

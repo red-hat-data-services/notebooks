@@ -5,9 +5,9 @@ requires-python = "==3.12.*"
 
 dependencies = [
     # PyTorch packages
-    "tensorboard~=2.20.0",
-    "torch==2.7.1+cu128",
-    "torchvision==0.22.1+cu128",
+    "tensorboard~=2.20.0", 
+    "torch==2.7.1",
+    "torchvision==0.23.0",  
 
     # Datascience and useful extensions
     "boto3~=1.40.27",
@@ -23,7 +23,6 @@ dependencies = [
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
     "codeflare-sdk~=0.31.1",
     "kubeflow-training==1.9.3",
-    "feast~=0.53.0",
 
     # DB connectors
     "pymongo~=4.14.1",
@@ -32,20 +31,23 @@ dependencies = [
     "mysql-connector-python~=9.4.0",
 
     # JupyterLab packages
-    "odh-elyra==4.2.4",
-    "odh-jupyter-trash-cleanup==0.1.1",
+    "odh-elyra==4.2.4",  # This should be added on the aipcc index as well
 
-    "jupyterlab==4.4.7",
-    "jupyter-bokeh~=4.0.5",
+    # JupyterLab packages
+    "odh-jupyter-trash-cleanup==0.1.1", # This should be added on the aipcc index as well
+
+    "jupyterlab==4.4.9", # This had to be upgraded from 4.4.7 to 4.4.9
+    "jupyter-bokeh~=4.0.5",     # This should be added on the aipcc index as well
     "jupyter-server~=2.17.0",
     "jupyter-server-proxy~=4.4.0",
     "jupyter-server-terminals~=0.5.3",
     "jupyterlab-git~=0.51.2",
-    "jupyterlab-lsp~=5.1.1",
-    "jupyterlab-widgets~=3.0.15",
-    "jupyter-resource-usage~=1.1.1",
+    "jupyterlab-lsp~=5.1.1", # This is dependet with odh-elyra we can not use aipcc wheels to install as is yet
+    "jupyterlab-widgets~=3.0.15",   # This should be added on the aipcc index as well
+    "jupyter-resource-usage~=1.1.1", # This should be added on the aipcc index as well
     "nbdime~=4.0.2",
     "nbgitpuller~=1.2.2",
+    "feast~=0.54.0", #Just for experimentation
 
     # Base packages
     "wheel~=0.45.1",
@@ -53,13 +55,24 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-torch = {index = "pytorch-cuda"}
-torchvision = {index = "pytorch-cuda"}
+torch = {index = "aipcc-stage-index"}
+torchvision = {index = "aipcc-stage-index"}
+
+jupyterlab = {index = "aipcc-stage-index"}
+jupyter-server = {index = "aipcc-stage-index"}
+jupyter-server-proxy = {index = "aipcc-stage-index"}
+jupyter-server-terminals = {index = "aipcc-stage-index"}
+jupyterlab-git = {index = "aipcc-stage-index"}
+nbdime = {index = "aipcc-stage-index"}
+nbgitpuller = {index = "aipcc-stage-index"}
+feast = {index = "aipcc-stage-index"}
+wheel = {index = "aipcc-stage-index"}
+setuptools = {index = "aipcc-stage-index"}
 
 # https://docs.astral.sh/uv/concepts/indexes/#package-indexes
 [[tool.uv.index]]
-name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
+name = "aipcc-stage-index"
+url = "https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cuda-ubi9/simple/"
 explicit = true
 
 [tool.uv]

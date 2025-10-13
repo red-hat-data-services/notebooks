@@ -412,9 +412,9 @@ PYTHON_VERSION ?= 3.12
 ROOT_DIR := $(shell pwd)
 ifeq ($(PYTHON_VERSION), 3.12)
 	BASE_DIRS := \
-	    jupyter/minimal/ubi9-python-$(PYTHON_VERSION)
+	    jupyter/minimal/ubi9-python-$(PYTHON_VERSION) \
+ 		jupyter/pytorch/ubi9-python-$(PYTHON_VERSION)
 # 		jupyter/datascience/ubi9-python-$(PYTHON_VERSION) \
-# 		jupyter/pytorch/ubi9-python-$(PYTHON_VERSION) \
 # 		jupyter/tensorflow/ubi9-python-$(PYTHON_VERSION) \
 # 		jupyter/trustyai/ubi9-python-$(PYTHON_VERSION) \
 # 		jupyter/rocm/pytorch/ubi9-python-$(PYTHON_VERSION) \
