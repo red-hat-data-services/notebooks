@@ -5,20 +5,38 @@ requires-python = "==3.12.*"
 
 dependencies = [
     # JupyterLab packages
-    "odh-jupyter-trash-cleanup==0.1.1",
+    "odh-jupyter-trash-cleanup==0.1.1", # This should be added on the aipcc index as well
 
-    "jupyterlab==4.4.7",
+    "jupyterlab==4.4.9", # This had to be upgraded from 4.4.7 to 4.4.9
     "jupyter-server~=2.17.0",
     "jupyter-server-proxy~=4.4.0",
     "jupyter-server-terminals~=0.5.3",
     "jupyterlab-git~=0.51.2",
     "nbdime~=4.0.2",
     "nbgitpuller~=1.2.2",
+    "feast~=0.54.0", #Just for experimentation
 
     # Base packages
     "wheel~=0.45.1",
     "setuptools~=80.9.0",
 ]
+
+[tool.uv.sources]
+jupyterlab = {index = "aipcc-index"}
+jupyter-server = {index = "aipcc-index"}
+jupyter-server-proxy = {index = "aipcc-index"}
+jupyter-server-terminals = {index = "aipcc-index"}
+jupyterlab-git = {index = "aipcc-index"}
+nbdime = {index = "aipcc-index"}
+nbgitpuller = {index = "aipcc-index"}
+wheel = {index = "aipcc-index"}
+setuptools = {index = "aipcc-index"}
+
+# https://docs.astral.sh/uv/concepts/indexes/#package-indexes
+[[tool.uv.index]]
+name = "aipcc-index"
+url = "https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cuda-ubi9/simple/"
+explicit = true
 
 [tool.uv]
 environments = [
