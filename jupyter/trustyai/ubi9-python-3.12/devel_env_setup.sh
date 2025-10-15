@@ -101,7 +101,7 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
         export CMAKE_CXX_FLAGS="-fPIC -O2"
         export CFLAGS="-O2 -pipe"
         export CXXFLAGS="-O2 -pipe"
-	git clone --depth 1 --branch "v${TORCH_VERSION}" --recurse-submodules --shallow-submodules https://github.com/pytorch/pytorch.git
+        git clone --depth 1 --branch "v${TORCH_VERSION}" --recurse-submodules --shallow-submodules https://github.com/pytorch/pytorch.git
         cd pytorch
         pip install --no-cache-dir -r requirements.txt
         python setup.py develop
@@ -122,7 +122,7 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
     # Pyarrow
     PYARROW_VERSION=$(grep -A1 '"pyarrow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
     cd ${TMP}
-    git clone --depth 1 --branch "apache-arrow-${PYARROW_VERSION}" --recurse-submodules --shallow-submodules https://github.com/apache/arrow.git
+    git clone --depth 1 --branch "apache-arrow-${PYARROW_VERSION}" --recurse-submodules --shallow-submodules https://github.com/apache/arrow.git 
     cd arrow/cpp
     mkdir build && cd build && \
     # Set architecture-specific CMake flags

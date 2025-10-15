@@ -139,7 +139,7 @@ FROM jupyter-datascience AS jupyter-trustyai
 ARG DATASCIENCE_SOURCE_CODE=jupyter/datascience/ubi9-python-3.12
 ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/lib64
+ENV LD_LIBRARY_PATH=/usr/lib:/usr/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 
 LABEL name="rhoai/odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
       com.redhat.component="odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
