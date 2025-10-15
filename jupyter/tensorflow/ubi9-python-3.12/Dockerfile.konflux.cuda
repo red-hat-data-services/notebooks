@@ -103,11 +103,6 @@ RUN dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat &&
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 
-# hdf5 is needed for h5py
-RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
-    dnf install -y hdf5-devel && \
-    dnf clean all
-
 # Other apps and tools installed as default user
 USER 1001
 
@@ -121,6 +116,7 @@ WORKDIR /opt/app-root/src
 ############################
 FROM cuda-jupyter-datascience AS cuda-jupyter-tensorflow
 
+ARG JUPYTER_REUSABLE_UTILS=jupyter/utils
 ARG DATASCIENCE_SOURCE_CODE=jupyter/datascience/ubi9-python-3.12
 ARG TENSORFLOW_SOURCE_CODE=jupyter/tensorflow/ubi9-python-3.12
 
@@ -148,6 +144,8 @@ RUN echo "Installing softwares and packages" && \
     # Fix permissions to support pip in Openshift environments \
     chmod -R g+w /opt/app-root/lib/python3.12/site-packages && \
     fix-permissions /opt/app-root -P
+
+COPY ${JUPYTER_REUSABLE_UTILS}/usercustomize.pth ${JUPYTER_REUSABLE_UTILS}/monkey_patch_protobuf_6x.py /opt/app-root/lib/python3.12/site-packages/
 
 WORKDIR /opt/app-root/src
 
