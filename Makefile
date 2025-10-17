@@ -520,29 +520,14 @@ test:
 
 # This is temporarly this way, will followup a new implementation to make it smarter for all locks
 CUDA_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cuda-ubi9/simple/
-ROCM_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/rocm-ubi9/simple/
-CPU_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cpu-ubi9/simple/
 
-lock-minimal-cuda:
-	uv pip compile --python-platform=linux \
-        jupyter/minimal/ubi9-python-3.12/pyproject.toml \
-        --index-url=$(CUDA_INDEX) \
-        --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cuda.toml \
-        --python-version=3.12
+lock-cuda:
+	uv pip compile  --python-platform=linux jupyter/minimal/ubi9-python-3.12/pyproject.toml --index-url=$(CUDA_INDEX) --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cuda.toml --python-version=3.12
 
-lock-minimal-rocm:
-	uv pip compile --python-platform=linux \
-        jupyter/minimal/ubi9-python-3.12/pyproject.toml \
-        --index-url=$(ROCM_INDEX) \
-        --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.rocm.toml \
-        --python-version=3.12 \
-        --extra rocm
-
-lock-minimal-cpu:
-	uv pip compile --python-platform=linux \
-        jupyter/minimal/ubi9-python-3.12/pyproject.toml \
-        --index-url=$(CPU_INDEX) \
-        --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cpu.toml \
-        --python-version=3.12
-
+# lock-minimal-cuda:
+# 	uv pip compile --python-platform=linux \
+#         jupyter/minimal/ubi9-python-3.12/pyproject.toml \
+#         --index-url=$(CUDA_INDEX) \
+#         --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cuda.toml \
+#         --python-version=3.12
 
