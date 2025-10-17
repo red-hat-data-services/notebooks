@@ -1,7 +1,7 @@
 #####################
 # base              #
 #####################
-FROM registry.redhat.io/rhel9/python-311@sha256:47e23afaf5daf6a98e76a3b5a924b85bbcb19c72b5c6ac474a418aea54cd8aae AS base
+FROM registry.redhat.io/rhel9/python-311@sha256:ee1128adb98b79e58cd31c32da4cfd6641c4665d15112639f19428e7c3c0ef4c AS base
 
 WORKDIR /opt/app-root/bin
 
