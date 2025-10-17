@@ -548,10 +548,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/7e/e8/64c37fadfc2816a
 
 [[packages]]
 name = "codeflare-sdk"
-version = "0.31.1"
+version = "0.32.0"
 marker = "platform_machine != 'ppc64le' and platform_machine != 's390x'"
-sdist = { url = "https://files.pythonhosted.org/packages/81/ce/c76e45c1da86eb2727edd2faceaccc98d9266349d2d871787a16c45c2066/codeflare_sdk-0.31.1.tar.gz", upload-time = 2025-09-16T15:51:59Z, size = 89487, hashes = { sha256 = "df94cf0b74ab412384695d507ef177a856b4fbad1acb612a2f7808ab01dc8bd8" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/45/3d/6455a856f95e6b492ed02729ecf5af522dbb9e496fd87ba9242328625edd/codeflare_sdk-0.31.1-py3-none-any.whl", upload-time = 2025-09-16T15:51:57Z, size = 140634, hashes = { sha256 = "76fc797903374832592f016b515cc2a504ef2903fc1ebc32886a4d74978f5658" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/75/84/fd7f089111ddae5896059f28f02997d9b7650ff97ccf8917e35964a12795/codeflare_sdk-0.32.0.tar.gz", upload-time = 2025-10-16T11:51:24Z, size = 150607, hashes = { sha256 = "8cc4bc9e471c8dd2ec5baacda94d5f17a0bbbf3d4a944a213307c37521e1a300" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/9e/9f/5007a20bf72f86400cfd935e8ac53888db024fbbdf2f278d9d6fcadbb017/codeflare_sdk-0.32.0-py3-none-any.whl", upload-time = 2025-10-16T11:51:22Z, size = 219307, hashes = { sha256 = "583910545d4e97c8ca18692150d3a3bdc45ed37dfb3cfda2f891a191b584d3f8" } }]
 
 [[packages]]
 name = "colorama"
@@ -802,9 +802,9 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/cb/a8/20d0723294217e4
 
 [[packages]]
 name = "feast"
-version = "0.53.0"
-sdist = { url = "https://files.pythonhosted.org/packages/45/c8/e74551652c60322bd5513c57f319a620d2ad956263de4e8777b3182b951d/feast-0.53.0.tar.gz", upload-time = 2025-08-30T04:08:50Z, size = 6088015, hashes = { sha256 = "0cc5b4bf273f01cb555e98d02b549f8c5641642737d6bca0ce80493fd78b8f07" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/37/f3/5cddcbada3d0bc74d3801a0dbc60a049a6e700fb956c11eb56c01f4f5600/feast-0.53.0-py2.py3-none-any.whl", upload-time = 2025-08-30T04:08:48Z, size = 7572217, hashes = { sha256 = "6c6972f6507b77518baf4dd637bbbe68c1a74700b5aefcab05447b12ff124db9" } }]
+version = "0.55.0"
+sdist = { url = "https://files.pythonhosted.org/packages/81/f0/96045f569dde1b358c52e9952b74cf9e9174c6040a759a5aaf7f8854c91e/feast-0.55.0.tar.gz", upload-time = 2025-10-14T14:52:02Z, size = 6235170, hashes = { sha256 = "76e65319115db017a607c7507166b866300ba5bf48c5b245d544a1307c11d872" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/7e/b6/35ded77acda7d51a6ca1ccb16d1c16b888ac314b70c61f99d8e2dc63cb35/feast-0.55.0-py2.py3-none-any.whl", upload-time = 2025-10-14T14:51:59Z, size = 7716278, hashes = { sha256 = "e1b804dbe5502aa5550b48fa1feb2aaecd682e6e729ac05ed61240cb37439af1" } }]
 
 [[packages]]
 name = "filelock"
@@ -2449,9 +2449,9 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/be/9c/92789c596b8df83
 
 [[packages]]
 name = "odh-elyra"
-version = "4.2.4"
-sdist = { url = "https://files.pythonhosted.org/packages/39/58/9a76992bcd402f7eaf9a23fb164d56993db6c079d3fad67dc0a4df799d03/odh_elyra-4.2.4.tar.gz", upload-time = 2025-09-11T18:09:43Z, size = 2155769, hashes = { sha256 = "9563849a41e3d5f45f4923a00d9e6480a9d53787e076d6369248f880795d2130" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/f9/48/b852bc3107a6d92c1c6c63b0fa6255897e515df6948778e521f603f59e75/odh_elyra-4.2.4-py3-none-any.whl", upload-time = 2025-09-11T18:09:41Z, size = 4317667, hashes = { sha256 = "227b1a35a3eef8a02409e3aa5081c3322bcd30cd8939b77575dfce397f3fa42b" } }]
+version = "4.2.5"
+sdist = { url = "https://files.pythonhosted.org/packages/f2/8b/3f8b9d4757dd56588a3aecba7995bb12179bf5d189358df8485843144623/odh_elyra-4.2.5.tar.gz", upload-time = 2025-10-14T17:41:40Z, size = 2155088, hashes = { sha256 = "77bb92331b3b9a61b3b4f5a05a13c41da1c437dc6a0e1d5e6a396281703f5e8e" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/af/c2/2da23a11f91dcff7dc82dce2d0d088283c8dc908653a94d7373bb855fa96/odh_elyra-4.2.5-py3-none-any.whl", upload-time = 2025-10-14T17:41:38Z, size = 4317578, hashes = { sha256 = "ccc30bf392c4926479152786d96b701787102c04fc34d378deed9ac7ab7554a4" } }]
 
 [[packages]]
 name = "odh-jupyter-trash-cleanup"
