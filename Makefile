@@ -516,3 +516,18 @@ print-release:
 test:
 	@echo "Running quick static tests"
 	uv run pytest -m 'not buildonlytest'
+
+
+# This is temporarly this way, will followup a new implementation to make it smarter for all locks
+CUDA_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cuda-ubi9/simple/
+
+lock-cuda:
+	uv pip compile  --python-platform=linux jupyter/minimal/ubi9-python-3.12/pyproject.toml --index-url=$(CUDA_INDEX) --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cuda.toml --python-version=3.12
+
+# lock-minimal-cuda:
+# 	uv pip compile --python-platform=linux \
+#         jupyter/minimal/ubi9-python-3.12/pyproject.toml \
+#         --index-url=$(CUDA_INDEX) \
+#         --output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cuda.toml \
+#         --python-version=3.12
+
