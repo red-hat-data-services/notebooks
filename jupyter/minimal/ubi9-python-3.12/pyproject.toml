@@ -20,6 +20,11 @@ dependencies = [
     "setuptools~=80.9.0",
 ]
 
+[project.optional-dependencies]
+cpu = ["sdg_hub~=0.3.1"]
+cuda = ["sdg_hub~=0.3.1"]
+rocm = []
+
 [tool.uv]
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
