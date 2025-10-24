@@ -520,9 +520,9 @@ test:
 
 
 #This is temporary lock on the final implementation that will covers all the folders should apply smart logic for the locks
-CPU_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cpu-ubi9/simple/
-CUDA_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/cuda-ubi9/simple/
-ROCM_INDEX=https://private.console.redhat.com/api/pypi/rhai-stage/rhoai/3.0/rocm-ubi9/simple/
+CPU_INDEX=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cpu-ubi9/simple/
+CUDA_INDEX=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cuda-ubi9/simple/
+ROCM_INDEX=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/rocm-ubi9/simple/
 
 lock-cuda:
 	uv pip compile \
