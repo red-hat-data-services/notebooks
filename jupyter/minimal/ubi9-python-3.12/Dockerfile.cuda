@@ -80,7 +80,7 @@ ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
 USER 1001
 
 COPY ${MINIMAL_SOURCE_CODE}/uv.lock/pylock.cuda.toml ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
-#COPY ${MINIMAL_SOURCE_CODE}/cuda-pip.conf /etc/pip.conf
+COPY ${MINIMAL_SOURCE_CODE}/cuda-pip.conf /etc/pip.conf
 
 # Install Python dependencies from requirements.txt file
 RUN echo "Installing softwares and packages" && \
