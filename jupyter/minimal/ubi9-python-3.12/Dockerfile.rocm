@@ -78,6 +78,7 @@ ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
 USER 1001
 
 COPY ${MINIMAL_SOURCE_CODE}/uv.lock/pylock.rocm.toml ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
+COPY ${MINIMAL_SOURCE_CODE}/rocm-pip.conf /etc/pip.conf
 
 # Install Python dependencies from Pipfile.lock file
 RUN echo "Installing softwares and packages" && \

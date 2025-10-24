@@ -530,8 +530,8 @@ lock-cuda:
 		jupyter/minimal/ubi9-python-3.12/pyproject.toml \
 		--index-url=$(CUDA_INDEX) \
 		--output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cuda.toml \
-		--python-version=3.12 \
-		--extra cuda
+		--python-version=3.12
+
 
 lock-rocm:
 	uv pip compile \
@@ -539,8 +539,8 @@ lock-rocm:
 		jupyter/minimal/ubi9-python-3.12/pyproject.toml \
 		--index-url=$(ROCM_INDEX) \
 		--output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.rocm.toml \
-		--python-version=3.12 \
-		--extra rocm
+		--python-version=3.12
+
 
 lock-cpu:
 	uv pip compile \
@@ -548,5 +548,4 @@ lock-cpu:
 		jupyter/minimal/ubi9-python-3.12/pyproject.toml \
 		--index-url=$(CPU_INDEX) \
 		--output-file=jupyter/minimal/ubi9-python-3.12/uv.lock/pylock.cpu.toml \
-		--python-version=3.12 \
-		--extra cpu
+		--python-version=3.12
