@@ -6,7 +6,9 @@ FROM quay.io/aipcc/base-images/cpu:3.0-1761652019 AS cpu-base
 # OS Packages needs to be installed as root
 USER 0
 
-RUN subscription-manager register
+#RUN subscription-manager register
+
+RUN subscription-manager register --activationkey="$KEY_NAME" --org="$ORG_ID"
 
 # Inject the official UBI 9 repository configuration into the AIPCC base image.
 # The Quay-based AIPCC image is "repo-less" by default (https://gitlab.com/redhat/rhel-ai/core/base-images/app#repositories), so dnf cannot upgrade or install packages.
