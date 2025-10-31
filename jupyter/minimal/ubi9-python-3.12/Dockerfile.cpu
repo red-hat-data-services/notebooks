@@ -8,7 +8,7 @@ USER 0
 
 #RUN subscription-manager register
 
-RUN subscription-manager register --activationkey="$KEY_NAME" --org="$ORG_ID"
+RUN subscription-manager register --org "$(cat /activation-key/org)" --activationkey "$(cat /activation-key/activationkey)"
 
 # Inject the official UBI 9 repository configuration into the AIPCC base image.
 # The Quay-based AIPCC image is "repo-less" by default (https://gitlab.com/redhat/rhel-ai/core/base-images/app#repositories), so dnf cannot upgrade or install packages.
