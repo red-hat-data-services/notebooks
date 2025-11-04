@@ -31,8 +31,7 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
 	# install build dependencies
 	# https://access.redhat.com/support/policy/updates/rhel-app-streams-life-cycle
 	# https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/developing_c_and_cpp_applications_in_rhel_9/assembly_additional-toolsets-for-development-rhel-9_developing-applications#cpp-compatibility-in-gcc-toolset-14_gcc-toolset-14
-	dnf clean all 
-	dnf groupinstall -y "Development Tools"
+	yum groupinstall -y "Development Tools"
 	dnf install -y jq patch libtool rsync gettext gcc-toolset-14 krb5-devel libX11-devel
 
 	# starting with node-22, c++20 is required
