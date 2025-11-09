@@ -109,6 +109,8 @@ fi
 	while IFS= read -r src_patch; do echo "patches/$src_patch"; patch -p1 < "patches/$src_patch"; done < patches/series
 	nvm use ${NODE_VERSION}
 	npm cache clean --force
+        rm -rf ~/.cache/node-gyp
+        npm install -g npm@latest	
 	npm install
 	npm run build
 	VERSION=${CODESERVER_VERSION/v/} npm run build:vscode
