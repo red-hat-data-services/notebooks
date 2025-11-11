@@ -30,8 +30,6 @@ spec:
     value: jupyter/minimal/ubi9-python-3.12/Dockerfile.cpu
   - name: path-context
     value: .
-  - name: ACTIVATION_KEY
-    value: custom-activation-key
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
@@ -223,6 +221,8 @@ spec:
         value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
       - name: CACHI2_ARTIFACT
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
+      - name: ACTIVATION_KEY
+        value: custom-activation-key
       runAfter:
       - prefetch-dependencies
       taskRef:
