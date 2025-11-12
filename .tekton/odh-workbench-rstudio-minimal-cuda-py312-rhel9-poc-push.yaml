@@ -25,7 +25,7 @@ spec:
   - name: output-image
     value: quay.io/redhat-user-workloads/rhoai-tenant/odh-workbench-rstudio-minimal-cuda-py312-rhel9-poc:{{revision}}
   - name: dockerfile
-    value: rstudio/rhel9-python-3.12/Dockerfile.cuda
+    value: rstudio/rhel9-python-3.12/Dockerfile.cuda.konflux
   - name: path-context
     value: .
   pipelineSpec:
