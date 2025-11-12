@@ -49,6 +49,8 @@ ARG TARGETARCH
 # By copying ubi.repo from the public UBI 9 image, we enable package management for upgrades and installations.
 COPY --from=ubi-repos /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo
 
+RUN subscription-manager refresh
+
 # upgrade first to avoid fixable vulnerabilities begin
 # Problem: The operation would result in removing the following protected packages: systemd
 #  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
