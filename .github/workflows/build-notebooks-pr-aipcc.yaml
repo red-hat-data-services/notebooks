@@ -1,7 +1,6 @@
 ---
 "name": "Build Notebooks (pr, AIPCC bases)"
 "on":
-  "workflow_dispatch":
   "pull_request_target":
     "paths-ignore":
       # Don't build images if the only thing that changed is image digests in manifests
