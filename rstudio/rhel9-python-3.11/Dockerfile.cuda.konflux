@@ -3,7 +3,7 @@ ARG TARGETARCH
 #####################
 # base              #
 #####################
-FROM registry.redhat.io/rhel9/python-311@sha256:ee1128adb98b79e58cd31c32da4cfd6641c4665d15112639f19428e7c3c0ef4c AS base
+FROM registry.redhat.io/rhel9/python-311@sha256:b0944e92caced75b386b8c4f9960e11010e2dad14ba329e7a93b8ff150af0a9a AS base
 
 WORKDIR /opt/app-root/bin
 
