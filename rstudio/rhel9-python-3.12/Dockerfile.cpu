@@ -27,7 +27,7 @@ COPY --from=ubi-repos /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release /etc/pki/rpm-g
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if command -v subscription-manager &> /dev/null; then
-  subscription-manager refresh
+  subscription-manager identity &>/dev/null && subscription-manager refresh || echo "Not registered, skipping refresh."
 fi
 EOF
 
