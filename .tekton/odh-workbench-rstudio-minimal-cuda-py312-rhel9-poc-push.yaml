@@ -30,6 +30,12 @@ spec:
     value: .
   - name: build-args-file
     value: rstudio/rhel9-python-3.12/build-args/cuda.conf
+  - name: build-platforms
+    value:
+    - linux/x86_64
+    - linux-m2xlarge/arm64
+  - name: hermetic
+    value: false
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
