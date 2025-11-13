@@ -1,0 +1,394 @@
+#########################################################################
+# The first stage builds the RStudio RPM file from the provided source. #
+#########################################################################
+
+ARG BASE_IMAGE
+ARG ARCH=amd64
+
+# RSTUDIO Versions
+ARG RSTUDIO_VERSION_MAJOR=2025
+ARG RSTUDIO_VERSION_MINOR=09
+ARG RSTUDIO_VERSION_PATCH=2
+ARG RSTUDIO_VERSION_SUFFIX=418
+ARG RSTUDIO_GIT_COMMIT=a805c33c9aecd441effa02a8087fe916484664c3
+
+FROM --platform=linux/$ARCH centos:stream9 as rpm-builder
+ARG ARCH
+ARG RSTUDIO_VERSION_MAJOR
+ARG RSTUDIO_VERSION_MINOR
+ARG RSTUDIO_VERSION_PATCH
+ARG RSTUDIO_VERSION_SUFFIX
+ARG RSTUDIO_GIT_COMMIT
+
+ENV OPERATING_SYSTEM=centosstream9
+
+ARG AWS_REGION=us-east-1
+
+RUN set -x \
+      && dnf install epel-release -y \
+      && dnf install dnf-plugins-core -y \ 
+      && dnf config-manager --set-enabled crb \
+      && dnf update -y
+
+RUN dnf install -y \
+    R \
+    ant \
+    autoconf \
+    automake \
+    boost-devel \
+    bzip2-devel \
+    clang-devel \
+    curl-minimal \
+    expect \
+    fakeroot \
+    freetype-devel \
+    fuse-libs \
+    gcc \
+    gcc-c++ \
+    gettext \
+    git \
+    gpg1 \
+    gtk3 \
+    java-17-openjdk \
+    java-17-openjdk-devel \
+    jq \
+    libXScrnSaver-devel \
+    libXcursor-devel \
+    libXrandr-devel \
+    libacl-devel \
+    libcap-devel \ 
+    libcurl-devel \
+    libffi \
+    libjpeg-turbo-devel \
+    libpng-devel \
+    libtiff-devel \
+    libtool \
+    libuuid-devel \
+    llvm-devel \
+    lsof \
+    make \
+    mesa-libGL-devel \
+    ninja-build \
+    openssl-devel \
+    p7zip \
+    p7zip-plugins \
+    pam-devel \
+    pango-devel \
+    patchelf \
+    postgresql-devel \
+    procps \
+    python3 \
+    rpm-sign \
+    rpmdevtools \
+    sqlite-devel \
+    sudo \
+    valgrind \
+    wget \
+    whois \
+    xml-commons-apis \
+    xorg-x11-server-Xvfb \
+    zlib-devel
+
+# ensure we use the java 17 compiler to build GWT
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+
+# Download and unzip RStudio source archive
+RUN curl -L -o rstudio.zip https://github.com/rstudio/rstudio/archive/refs/tags/v2025.09.2+418.zip && \
+    unzip rstudio.zip && \
+    rm rstudio.zip && \
+    mv rstudio-* /src
+
+# copy RStudio tools (needed so that our other dependency scripts can find it)
+RUN mkdir -p /tools
+RUN cp -r /src/dependencies/tools/rstudio-tools.sh /tools/rstudio-tools.sh
+
+RUN mkdir -p /opt/rstudio-tools/dependencies/tools
+RUN cp -r /src/dependencies/tools/rstudio-tools.sh /opt/rstudio-tools/dependencies/tools/rstudio-tools.sh
+
+# run install-boost twice - boost exits 1 even though it has installed good enough for our uses.
+# https://github.com/rstudio/rstudio/blob/master/vagrant/provision-primary-user.sh#L12-L15
+RUN cp -r /src/dependencies/common/install-boost /tmp/
+RUN bash /tmp/install-boost || bash /tmp/install-boost
+
+# install cmake
+RUN cp -r /src/package/linux/install-dependencies /tmp/
+RUN bash /tmp/install-dependencies
+
+# install crashpad and its dependencies
+RUN cp -r /src/dependencies/common/install-crashpad /tmp/
+RUN bash /tmp/install-crashpad rhel8
+
+# copy common dependency installation scripts
+RUN mkdir -p /opt/rstudio-tools/dependencies/common
+RUN cp -r /src/dependencies/common/* /opt/rstudio-tools/dependencies/common/
+
+# panmirror check for changes
+ADD https://api.github.com/repos/quarto-dev/quarto/git/refs/heads/main panmirror.version.json
+# ADD https://api.github.com/repos/quarto-dev/quarto/git/refs/heads/release/rstudio-cucumberleaf-sunflower panmirror.version.json
+
+# install common dependencies
+RUN cd /opt/rstudio-tools/dependencies/common && ls -lah . && /bin/bash ./install-common rhel9
+# panmirror needs to be able to build in this location
+RUN chmod -R 777 /opt/rstudio-tools/src
+
+# cachebust for Quarto release
+ADD https://quarto.org/docs/download/_download.json quarto_releases
+RUN cd /opt/rstudio-tools/dependencies/common && /bin/bash ./install-quarto
+
+# set github login from build argument if defined
+ARG GITHUB_LOGIN
+ENV RSTUDIO_GITHUB_LOGIN=$GITHUB_LOGIN
+
+# Set Rust environment variables
+ENV PATH="/opt/rstudio-tools/dependencies/common/overlay/rust/bin:${PATH}"
+ENV CARGO_HOME="/opt/rstudio-tools/dependencies/common/overlay/rust"
+ENV RUSTUP_HOME="/opt/rstudio-tools/dependencies/common/overlay/rust"
+RUN if [ -d "/opt/rstudio-tools/dependencies/common/overlay/rust" ]; then \
+    chmod -R 777 /opt/rstudio-tools/dependencies/common/overlay/rust \
+    ; fi
+
+# remove any previous users with conflicting IDs
+ARG JENKINS_GID=999
+ARG JENKINS_UID=999
+RUN cp -r /src/docker/jenkins/*.sh /tmp/
+RUN /tmp/clean-uid.sh $JENKINS_UID && \
+    /tmp/clean-gid.sh $JENKINS_GID
+
+# create jenkins user, make sudo. try to keep this toward the bottom for less cache busting
+RUN groupadd -g $JENKINS_GID jenkins && \
+    useradd -m -d /var/lib/jenkins -u $JENKINS_UID -g jenkins jenkins && \
+    echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN if [ -d "/src" ]; then git config --global --add safe.directory /src; fi
+
+# Start creating RPM
+RUN mkdir /package
+
+ENV RSTUDIO_VERSION_MAJOR=$RSTUDIO_VERSION_MAJOR \
+    RSTUDIO_VERSION_MINOR=$RSTUDIO_VERSION_MINOR \
+    RSTUDIO_VERSION_PATCH=$RSTUDIO_VERSION_PATCH \
+    RSTUDIO_VERSION_SUFFIX=+$RSTUDIO_VERSION_SUFFIX \
+    GIT_COMMIT=$RSTUDIO_GIT_COMMIT \
+    BUILD_ID=local \
+    MAKEFLAGS=-j7 \
+    CMAKE_BUILD_TYPE=Release
+
+RUN cd /package && /src/package/linux/make-package Server RPM clean
+RUN ls -lah /package/build-Server-RPM-Release/
+
+################
+# Second stage #
+################
+
+ARG TARGETARCH
+
+FROM --platform=linux/amd64 ${BASE_IMAGE} AS cuda-base
+
+WORKDIR /opt/app-root/bin
+
+# OS Packages needs to be installed as root
+USER root
+
+# Enable copr, so we can do dnf upgrade
+RUN dnf copr enable copr.devel.redhat.com/mcurlej/rstudio-server-dependencies rhel-9-x86_64 -y
+
+# upgrade first to avoid fixable vulnerabilities begin
+# Problem: The operation would result in removing the following protected packages: systemd
+#  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
+# Solution: --best --skip-broken does not work either, so use --nobest
+RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0 \
+    && dnf clean all -y
+# upgrade first to avoid fixable vulnerabilities end
+
+# Install useful OS packages
+RUN dnf install -y mesa-libGL && dnf clean all && rm -rf /var/cache/yum
+
+# You can try using subscription manager to test it, or wait until it is provided in base AIPCC image
+# RUN subscription-manager register --activationkey=your-key --org=your-org-id-number
+# RUN subscription-manager repos --disable="*"
+# RUN subscription-manager repos --list-enabled
+# RUN subscription-manager repos --enable=codeready-builder-for-rhel-9-x86_64-eus-rpms
+# RUN subscription-manager repos --enable=rhel-9-for-x86_64-baseos-eus-rpms
+# RUN subscription-manager repos --enable=rhel-9-for-x86_64-appstream-rpms
+# RUN subscription-manager repos --list-enabled
+
+#Use CentOS while we are still waiting on final AIPCC image
+RUN dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/
+RUN dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/AppStream/x86_64/os/
+RUN dnf config-manager --add-repo https://mirror.stream.centos.org/9-stream/CRB/x86_64/os/
+RUN dnf makecache
+RUN rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official
+
+# Other apps and tools installed as default user
+USER 1001
+
+WORKDIR /opt/app-root/src
+
+#####################
+# cuda-rstudio      #
+#####################
+FROM cuda-base AS cuda-rstudio
+
+ARG RSTUDIO_SOURCE_CODE=rstudio/rhel9-python-3.12
+ARG TARGETARCH
+ARG RSTUDIO_VERSION_MAJOR
+ARG RSTUDIO_VERSION_MINOR
+ARG RSTUDIO_VERSION_PATCH
+ARG RSTUDIO_VERSION_SUFFIX
+ARG RSTUDIO_GIT_COMMIT
+
+WORKDIR /opt/app-root/bin
+
+LABEL name="odh-notebook-rstudio-server-rhel9-python-3.12" \
+      summary="RStudio Server image with python 3.12 based on Red Hat Enterprise Linux 9" \
+      description="RStudio Server image with python 3.12 based on Red Hat Enterprise Linux 9" \
+      io.k8s.display-name="RStudio Server image with python 3.12 based on Red Hat Enterprise Linux 9" \
+      io.k8s.description="RStudio Server image with python 3.12 based on Red Hat Enterprise Linux 9" \
+      authoritative-source-url="https://github.com/opendatahub-io/notebooks" \
+      io.openshift.build.commit.ref="main" \
+      io.openshift.build.source-location="https://github.com/opendatahub-io/notebooks/tree/main/rstudio/rhel9-python-3.12" \
+      io.openshift.build.image="quay.io/opendatahub/workbench-images:rstudio-rhel9-python-3.12"
+
+USER 0
+
+ENV R_VERSION=4.5.1
+
+# This package causes issues with openssl installation
+RUN rpm -e openssl-fips-provider-so --nodeps
+
+# From copr
+RUN dnf install -y libgit2-devel.x86_64 
+
+# Install R
+RUN INSTALL_PKGS="R-core R-core-devel R-java R-Rcpp R-highlight \
+    R-littler R-littler-examples openssl-libs compat-openssl11" && \
+    dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "libcurl")' >> /usr/lib64/R/etc/Rprofile.site && \
+    (umask 002;touch /usr/lib64/R/etc/Renviron.site) && \
+    dnf -y clean all --enablerepo='*'
+
+# set R library to default (used in install.r from littler)
+ENV LIBLOC=/usr/lib64/R/library
+ENV R_LIBS_USER=/opt/app-root/bin/Rpackages/4.5
+
+RUN chmod -R a+w ${LIBLOC} && \
+    # create User R Library path
+    mkdir -p ${R_LIBS_USER} && \
+    chmod -R a+w ${R_LIBS_USER}
+
+WORKDIR /tmp/
+COPY /rstudio/utils /tmp/utils
+
+# npm required by ./cve_remediation.sh
+RUN dnf install npm -y
+
+# Install RStudio. This rpm file was built in early stage
+ENV RSTUDIO_RPM="rstudio-server-rhel-${RSTUDIO_VERSION_MAJOR}.${RSTUDIO_VERSION_MINOR}.${RSTUDIO_VERSION_PATCH}-${RSTUDIO_VERSION_SUFFIX}-x86_64.rpm"
+COPY --from=rpm-builder /package/build-Server-RPM-Release/${RSTUDIO_RPM} /tmp/rpms/
+
+#RUN wget --progress=dot:giga https://download2.rstudio.org/server/rhel9/x86_64/${RSTUDIO_RPM}
+RUN dnf install -y /tmp/rpms/${RSTUDIO_RPM} && \
+    rm /tmp/rpms/${RSTUDIO_RPM} && \
+    dnf -y clean all  --enablerepo='*' && \
+    # Specific RStudio config and fixes
+    chmod 1777 /var/run/rstudio-server && \
+    mkdir -p /usr/share/doc/R && \
+    # package installation
+    # install necessary texlive-framed package to make Knit R markup to PDF rendering possible
+    dnf install -y libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed && \
+    dnf clean all && \
+    rm -rf /var/cache/yum && \
+    (cd /tmp/utils && ./cve_remediation.sh)
+
+COPY ${RSTUDIO_SOURCE_CODE}/rsession.conf /etc/rstudio/rsession.conf
+
+ENV APP_ROOT=/opt/app-root
+
+# Install NGINX to proxy RStudio and pass probes check
+ENV NGINX_VERSION=1.24 \
+    NGINX_SHORT_VER=124 \
+    NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
+    NGINX_CONF_PATH=/etc/nginx/nginx.conf \
+    NGINX_DEFAULT_CONF_PATH=${APP_ROOT}/etc/nginx.default.d \
+    NGINX_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/nginx \
+    NGINX_APP_ROOT=${APP_ROOT} \
+    NGINX_LOG_PATH=/var/log/nginx \
+    NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
+
+# Modules does not exist
+RUN dnf -y module enable nginx:$NGINX_VERSION && \
+    INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl httpd" && \
+    dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    rpm -V $INSTALL_PKGS && \
+    nginx -v 2>&1 | grep -qe "nginx/$NGINX_VERSION\." && echo "Found VERSION $NGINX_VERSION" && \
+    dnf -y clean all --enablerepo='*'
+
+# Configure httpd for CGI processing
+COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/httpd/httpd.conf /etc/httpd/conf/httpd.conf
+COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/httpd/rstudio-cgi.conf /etc/httpd/conf.d/rstudio-cgi.conf
+
+# Copy extra files to the image.
+COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/nginx/root/ /
+
+# Configure nginx
+COPY ${RSTUDIO_SOURCE_CODE}/nginx/serverconf/ /opt/app-root/etc/nginx.default.d/
+COPY ${RSTUDIO_SOURCE_CODE}/nginx/httpconf/ /opt/app-root/etc/nginx.d/
+COPY ${RSTUDIO_SOURCE_CODE}/nginx/api/ /opt/app-root/api/
+
+# Changing ownership and user rights to support following use-cases:
+# 1) running container on OpenShift, whose default security model
+#    is to run the container under random UID, but GID=0
+# 2) for working root-less container with UID=1001, which does not have
+#    to have GID=0
+# 3) for default use-case, that is running container directly on operating system,
+#    with default UID and GID (1001:0)
+# Supported combinations of UID:GID are thus following:
+# UID=1001 && GID=0
+# UID=<any>&& GID=0
+# UID=1001 && GID=<any>
+RUN sed -i -f ${NGINX_APP_ROOT}/nginxconf.sed ${NGINX_CONF_PATH} && \
+    mkdir -p ${NGINX_APP_ROOT}/etc/nginx.d/ && \
+    mkdir -p ${NGINX_APP_ROOT}/etc/nginx.default.d/ && \
+    mkdir -p ${NGINX_APP_ROOT}/api/ && \
+    mkdir -p ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
+    mkdir -p ${NGINX_LOG_PATH} && \
+    mkdir -p ${NGINX_PERL_MODULE_PATH} && \
+    # Create httpd directories and set permissions
+    mkdir -p /var/log/httpd /var/run/httpd /etc/httpd/logs && \
+    chown -R 1001:0 ${NGINX_CONF_PATH} && \
+    chown -R 1001:0 ${NGINX_APP_ROOT}/etc && \
+    chown -R 1001:0 ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
+    chown -R 1001:0 /var/lib/nginx /var/log/nginx /run && \
+    chown -R 1001:0 /var/log/httpd /var/run/httpd /etc/httpd/logs && \
+    chmod    ug+rw  ${NGINX_CONF_PATH} && \
+    chmod -R ug+rwX ${NGINX_APP_ROOT}/etc && \
+    chmod -R ug+rwX ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start && \
+    chmod -R ug+rwX /var/lib/nginx /var/log/nginx /run && \
+    chmod -R ug+rwX /var/log/httpd /var/run/httpd /etc/httpd/logs && \
+    # Make CGI scripts executable and set proper ownership
+    chmod +x /opt/app-root/api/kernels/access.cgi && \
+    chmod +x /opt/app-root/api/probe.cgi && \
+    chown -R 1001:0 /opt/app-root/api && \
+    rpm-file-permissions
+
+# Launcher
+WORKDIR /opt/app-root/bin
+
+COPY ${RSTUDIO_SOURCE_CODE}/utils utils/
+COPY ${RSTUDIO_SOURCE_CODE}/run-rstudio.sh ${RSTUDIO_SOURCE_CODE}/setup_rstudio.py ${RSTUDIO_SOURCE_CODE}/rsession.sh ${RSTUDIO_SOURCE_CODE}/run-nginx.sh ./
+
+USER 1001
+
+COPY ${RSTUDIO_SOURCE_CODE}/pylock.toml ./
+
+RUN echo "Installing softwares and packages" && \
+    # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
+    #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
+    uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml && \
+    # Fix permissions to support pip in Openshift environments \
+    chmod -R g+w /opt/app-root/lib/python3.12/site-packages && \
+    fix-permissions /opt/app-root -P
+
+WORKDIR /opt/app-root/src
+
+CMD ["/opt/app-root/bin/run-rstudio.sh"]
