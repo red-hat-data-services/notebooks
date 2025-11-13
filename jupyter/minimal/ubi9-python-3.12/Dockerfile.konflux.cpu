@@ -53,6 +53,8 @@ EOF
 
 # upgrade first to avoid fixable vulnerabilities end
 
+RUN subscription-manager refresh
+
 # Install useful OS packages
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
