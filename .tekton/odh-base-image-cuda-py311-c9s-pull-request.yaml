@@ -41,6 +41,8 @@ spec:
     value: base-images/cuda/12.6/c9s-python-3.11/Dockerfile.cuda
   - name: path-context
     value: .
+  - name: enable-slack-failure-notification
+    value: "false"
   pipelineRef:
     name: multiarch-pull-request-pipeline
   taskRunTemplate:

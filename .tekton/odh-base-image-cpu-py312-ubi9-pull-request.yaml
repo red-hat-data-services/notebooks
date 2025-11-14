@@ -38,6 +38,8 @@ spec:
     value:
     - linux/x86_64
     - linux/arm64
+  - name: enable-slack-failure-notification
+    value: "false"
   pipelineRef:
     name: multiarch-pull-request-pipeline
   taskRunTemplate:
