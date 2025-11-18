@@ -34,7 +34,7 @@ spec:
     - version=v3.2.0
     - io.openshift.tags=odh-workbench-rstudio-minimal-cuda-py312
   - name: dockerfile
-    value: rstudio/rhel9-python-3.12/Dockerfile.cuda.konflux
+    value: rstudio/rhel9-python-3.12/Dockerfile.konflux.cuda
   - name: path-context
     value: .
   - name: build-args-file
