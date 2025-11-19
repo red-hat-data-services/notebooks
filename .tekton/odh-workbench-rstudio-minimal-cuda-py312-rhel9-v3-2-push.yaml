@@ -29,7 +29,7 @@ spec:
     value:
     - '{{target_branch}}-{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhoai/odh-workbench-rstudio-minimal-cuda-py312-rhel9{{target_branch}}
+    value: quay.io/rhoai/odh-workbench-rstudio-minimal-cuda-py312-rhel9:{{target_branch}}
   - name: additional-labels
     value:
     - version=v3.2.0
