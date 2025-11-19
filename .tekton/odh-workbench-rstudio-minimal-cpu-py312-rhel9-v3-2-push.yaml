@@ -57,7 +57,7 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-rstudio-minimal-cpu-py312-rhel9-v3-2
+    serviceAccountName: build-pipeline-odh-workbench-rstudio-minimal-cpu-py312-rhel9-poc
   workspaces:
   - name: git-auth
     secret:
