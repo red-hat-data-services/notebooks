@@ -34,7 +34,7 @@ spec:
     - version=v3.2.0
     - io.openshift.tags=odh-workbench-rstudio-minimal-cpu-py312
   - name: dockerfile
-    value: rstudio/rhel9-python-3.12/Dockerfile.cpu.konflux
+    value: rstudio/rhel9-python-3.12/Dockerfile.konflux.cpu
   - name: path-context
     value: .
   - name: build-args-file
