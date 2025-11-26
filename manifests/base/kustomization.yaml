@@ -9,8 +9,8 @@ resources:
   - jupyter-tensorflow-notebook-imagestream.yaml
   - jupyter-trustyai-notebook-imagestream.yaml
   - code-server-notebook-imagestream.yaml
-  - rstudio-buildconfig.yaml
-  - cuda-rstudio-buildconfig.yaml
+  - rstudio-imagestream.yaml
+  - cuda-rstudio-imagestream.yaml
   - jupyter-rocm-minimal-notebook-imagestream.yaml
   - jupyter-rocm-pytorch-notebook-imagestream.yaml
   - jupyter-rocm-tensorflow-notebook-imagestream.yaml
@@ -638,6 +638,32 @@ replacements:
           group: image.openshift.io
           kind: ImageStream
           name: code-server-notebook
+          version: v1
+  - source:
+      fieldPath: data.odh-workbench-rstudio-cpu-r45-py312-ubi9-n
+      kind: ConfigMap
+      name: notebook-image-params
+      version: v1
+    targets:
+      - fieldPaths:
+          - spec.tags.0.from.name
+        select:
+          group: image.openshift.io
+          kind: ImageStream
+          name: rstudio-rhel9
+          version: v1
+  - source:
+      fieldPath: data.odh-workbench-rstudio-cuda-r45-py312-ubi9-n
+      kind: ConfigMap
+      name: notebook-image-params
+      version: v1
+    targets:
+      - fieldPaths:
+          - spec.tags.0.from.name
+        select:
+          group: image.openshift.io
+          kind: ImageStream
+          name: cuda-rstudio-rhel9
           version: v1
   - source:
       fieldPath: data.odh-workbench-jupyter-minimal-rocm-py312-ubi9-n
@@ -1366,6 +1392,32 @@ replacements:
           group: image.openshift.io
           kind: ImageStream
           name: code-server-notebook
+          version: v1
+  - source:
+      fieldPath: data.odh-workbench-rstudio-cpu-r45-py312-ubi9-commit-n
+      kind: ConfigMap
+      name: notebook-image-commithash
+      version: v1
+    targets:
+      - fieldPaths:
+          - spec.tags.0.annotations.[opendatahub.io/notebook-build-commit]
+        select:
+          group: image.openshift.io
+          kind: ImageStream
+          name: rstudio-rhel9
+          version: v1
+  - source:
+      fieldPath: data.odh-workbench-rstudio-cuda-r45-py312-ubi9-commit-n
+      kind: ConfigMap
+      name: notebook-image-commithash
+      version: v1
+    targets:
+      - fieldPaths:
+          - spec.tags.0.annotations.[opendatahub.io/notebook-build-commit]
+        select:
+          group: image.openshift.io
+          kind: ImageStream
+          name: cuda-rstudio-rhel9
           version: v1
   - source:
       fieldPath: data.odh-workbench-jupyter-minimal-rocm-py312-ubi9-commit-n
