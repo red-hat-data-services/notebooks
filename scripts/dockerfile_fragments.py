@@ -36,10 +36,6 @@ def main():
         # TODO(jdanek): go to Python 3.14 and use t-string to compose these; or daniel's jinja2 would also work
         subscription_manager_register_refresh = r"""
                 RUN /bin/bash <<'EOF'
-                # The devops activationkey is not powerful enough, use rhoai-ide-konflux key
-                # https://redhat-internal.slack.com/archives/C07SBP17R7Z/p1764077596143619?thread_ts=1761667034.429529&cid=C07SBP17R7Z
-                subscription-manager register --org 18631088 --activationkey thisisunsafe
-
                 # If we have a Red Hat subscription prepared, refresh it
                 set -Eeuxo pipefail
                 if command -v subscription-manager &> /dev/null; then
