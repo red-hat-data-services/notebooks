@@ -28,7 +28,7 @@ echo "Installing TexLive to allow PDf export from Notebooks"
 curl -fL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -o install-tl-unx.tar.gz
 zcat < install-tl-unx.tar.gz | tar xf -
 cd install-tl-2*
-perl ./install-tl --no-interaction --scheme=scheme-small --texdir=/usr/local/texlive
+perl ./install-tl --no-interaction --scheme=scheme-small --texdir=/usr/local/texlive --repository https://mirror.ctan.org/systems/texlive/tlnet
 mv /usr/local/texlive/bin/"$(uname -m)-linux" /usr/local/texlive/bin/linux
 cd /usr/local/texlive/bin/linux
 ./tlmgr install tcolorbox pdfcol adjustbox titling enumitem soul ucs collection-fontsrecommended
