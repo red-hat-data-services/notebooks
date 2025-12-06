@@ -39,7 +39,8 @@ EOF
 ### END Subscribe with subscription manager
 
 # create dummy file to ensure this stage is awaited before installing rpm
-RUN ./get_code_server_rpm.sh && touch /tmp/control
+RUN ./get_code_server_rpm.sh
+RUN echo "ok" > /tmp/control
 
 #######################
 # wheel caching stage #
