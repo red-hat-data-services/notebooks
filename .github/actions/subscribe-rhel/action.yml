@@ -28,7 +28,7 @@ runs:
           --platform ${{ inputs.platform }} \
           -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
           -v ${PWD}/consumer:/etc/pki/consumer:Z \
-          --rm -it registry.redhat.io/rhel9-6-els/rhel <<EOF
+          --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
             set -Eeuxo pipefail
             # make subscription-manager believe it is not running inside a container
             # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
