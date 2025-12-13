@@ -42,6 +42,7 @@ jobs:
           set -Eeuxo pipefail
           podman run --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
             subscription-manager status
+            subscription-manager refresh
             dnf makecache
             exit 0
           EOF
