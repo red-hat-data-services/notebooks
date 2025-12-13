@@ -7,11 +7,13 @@ name: Test Subscribe RHEL Action
       - 'ci/cached-builds/**'
       - '.github/actions/install-podman/**'
       - '.github/actions/subscribe-rhel/**'
+      - '.github/workflows/test-subscribe-rhel.yaml'
   pull_request:
     paths:
       - 'ci/cached-builds/**'
       - '.github/actions/install-podman/**'
       - '.github/actions/subscribe-rhel/**'
+      - '.github/workflows/test-subscribe-rhel.yaml'
   workflow_dispatch:
 
 jobs:
