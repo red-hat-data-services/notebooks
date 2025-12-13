@@ -1,0 +1,46 @@
+---
+name: 'Subscribe RHEL'
+description: 'Runs subscription-manager register'
+inputs:
+  platform:
+    description: 'Target platform for RHEL subscription (linux/amd64, linux/s390x, linux/ppc64le, linux/arm64)'
+    required: true
+  subscription_org:
+    description: 'Red Hat Subscription Manager organization ID'
+    required: true
+  subscription_activation_key:
+    description: 'Red Hat Subscription Manager activation key'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Run subscription-manager inside a container
+      shell: bash
+      run: |
+        set -Eeuxo pipefail
+
+        mkdir consumer
+        mkdir entitlement
+
+        podman run \
+          --user root \
+          --env=USER=root \
+          --platform ${{ inputs.platform }} \
+          -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
+          -v ${PWD}/consumer:/etc/pki/consumer:Z \
+          --rm -it registry.redhat.io/rhel9-6-els/rhel <<EOF
+            set -Eeuxo pipefail
+            # make subscription-manager believe it is not running inside a container
+            # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
+            rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
+            /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
+            exit 0
+          EOF
+
+        printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
+
+        ls -AlF consumer || :
+        ls -AlF entitlement || :
+      env:
+        SUBSCRIPTION_ORG: ${{ inputs.subscription_org }}
+        SUBSCRIPTION_ACTIVATION_KEY: ${{ inputs.subscription_activation_key }}

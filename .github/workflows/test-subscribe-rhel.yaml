@@ -1,0 +1,36 @@
+---
+name: Test Provision K8s Action
+
+"on":
+  push:
+    paths:
+      - 'ci/cached-builds/**'
+      - '.github/actions/install-podman/**'
+      - '.github/actions/subscribe-rhel/**'
+  pull_request:
+    paths:
+      - 'ci/cached-builds/**'
+      - '.github/actions/install-podman/**'
+      - '.github/actions/subscribe-rhel/**'
+  workflow_dispatch:
+
+jobs:
+  test-subscription:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install podman
+        uses: ./.github/actions/install-podman
+        with:
+          platform: "linux/amd64"
+
+      - name: Subscribe RHEL
+        uses: ./.github/actions/subscribe-rhel
+        env:
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+        with:
+          platform: "linux/amd64"
+          subscription_org: ${{ secrets.SUBSCRIPTION_ORG }}
+          subscription_activation_key: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
