@@ -38,8 +38,8 @@ runs:
             exit 0
         EOF
 
-        # printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
-        printf "${PWD}/entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /usr/share/containers/mounts.conf
+        printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
+        # printf "${PWD}/entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /usr/share/containers/mounts.conf
 
         ls -AlF consumer || :
         ls -AlF entitlement || :
