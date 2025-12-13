@@ -24,6 +24,8 @@ jobs:
         uses: ./.github/actions/install-podman
         with:
           platform: "linux/amd64"
+        env:
+          TMPDIR: /mnt/tmp
 
       - name: Subscribe RHEL
         uses: ./.github/actions/subscribe-rhel
