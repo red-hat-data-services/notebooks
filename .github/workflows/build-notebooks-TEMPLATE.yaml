@@ -257,14 +257,18 @@ jobs:
           # https://github.com/containers/common/issues/1735
           # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
           mkdir etc-pki-entitlement
-          mkdir rhsm
+          mkdir etc-rhsm
           # /etc/containers/mounts.conf, /usr/share/containers/mounts.conf
           # /run/secrets/etc-pki-entitlement, /run/secrets/rhsm, /etc/pki/entitlement, /etc/pki/consumer
           podman run \
             --platform ${{ inputs.platform }} \
             -v ${PWD}/etc-pki-entitlement:/etc/pki/entitlement:Z \
-            -v ${PWD}/rhsm:/etc/rhsm:Z \
-            --rm -t registry.redhat.io/rhel9-6-els/rhel \
+            -v ${PWD}/etc-rhsm:/etc/rhsm:Z \
+            --rm -t registry.redhat.io/rhel9-6-els/rhel <<'EOF'
+          set -Eeuxo pipefail
+          # make subscription-manager believe it is not running inside a container
+          rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
+          EOF
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
           printf "${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /etc/containers/mounts.conf
         env:
