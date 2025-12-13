@@ -243,7 +243,6 @@ jobs:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
       # https://github.com/candlepin/subscription-manager/blob/main/man/subscription-manager.8
-      # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
       # https://console.redhat.com/insights/connector/activation-keys
       # This runs slower than storing the entitlement certificates with git-crypt,
       #  but on the other hand, it's then not necessary to regularly update them in the repo.
@@ -264,13 +263,17 @@ jobs:
             --user root \
             --env=USER=root \
             --platform ${{ inputs.platform }} \
-            -v ${PWD}/etc-pki-entitlement:/etc/pki/entitlement:Z \
-            -v ${PWD}/etc-rhsm:/etc/rhsm:Z \
+            -v ${PWD}:/mnt:Z \
             --rm -it registry.redhat.io/rhel9-6-els/rhel <<EOF
               set -Eeuxo pipefail
               # make subscription-manager believe it is not running inside a container
+              # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
               rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
+              cp -R /etc/pki/entitlement/ /mnt/etc-pki-entitlement/
+              cp -R /etc/rhsm/ /mnt/etc-rhsm/
+              ls -AlF /usr/share/rhel/secrets || :
+              ls -AlF /run/secrets || :
           EOF
           printf "${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /etc/containers/mounts.conf
         env:
