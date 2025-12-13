@@ -99,19 +99,20 @@ jobs:
       - name: Add subscriptions from GitHub secret
         if: ${{ inputs.subscription }}
         run: |
+          mkdir -p $HOME/.config/containers/
+          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
+
           # https://access.redhat.com/solutions/5870841
           # https://github.com/containers/common/issues/1735
+          # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
           mkdir entitlement
           mkdir consumer
           docker run \
             -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
             -v ${PWD}/consumer:/etc/pki/consumer:Z \
-            --rm -t registry.access.redhat.com/ubi9/ubi \
+            --rm -t registry.redhat.io/rhel9-6-els/rhel \
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
           printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
-
-          mkdir -p $HOME/.config/containers/
-          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
         env:
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
