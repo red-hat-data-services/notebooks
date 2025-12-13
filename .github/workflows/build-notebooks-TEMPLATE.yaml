@@ -120,98 +120,12 @@ jobs:
 
       # endregion
 
-      # region Podman setup
-
-      # https://github.com/containers/buildah/issues/2521#issuecomment-884779112
-      - name: Workaround https://github.com/containers/podman/issues/22152#issuecomment-2027705598
-        run: sudo apt-get -qq remove podman crun
-
-      - uses: actions/cache@v4
-        # https://docs.github.com/en/actions/reference/variables-reference#default-environment-variables
-        # https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables
-        id: cached-linuxbrew
+      - name: Install podman
+        uses: ./.github/actions/install-podman
         with:
-          path: /home/linuxbrew/.linuxbrew
-          key: linuxbrew-${{ runner.os }}-${{ runner.arch }}
+          platform: ${{ inputs.platform }}
 
-      - name: Install podman (linux/amd64, or qemu-user emulation)
-        if: contains(fromJSON('["linux/amd64", "linux/s390x", "linux/ppc64le"]'), inputs.platform) && steps.cached-linuxbrew.outputs.cache-hit != 'true'
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          /home/linuxbrew/.linuxbrew/bin/brew install podman
-
-      # Warning: Your CPU architecture (arm64) is not supported. We only support
-      # x86_64 CPU architectures. You will be unable to use binary packages (bottles).
-      #
-      # This is a Tier 2 configuration:
-      #  https://docs.brew.sh/Support-Tiers#tier-2
-      # Do not report any issues to Homebrew/* repositories!
-      # Read the above document instead before opening any issues or PRs.
-      - name: Install podman (linux/arm64)
-        if: inputs.platform == 'linux/arm64' && steps.cached-linuxbrew.outputs.cache-hit != 'true'
-        # Error: podman: no bottle available!
-        # If you're feeling brave, you can try to install from source with:
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          /home/linuxbrew/.linuxbrew/bin/brew install --build-from-source podman
-
-      - name: Add linuxbrew to PATH
-        run: echo "/home/linuxbrew/.linuxbrew/bin/" >> $GITHUB_PATH
-
-      - name: Configure Podman
-        run: |
-          set -Eeuxo pipefail
-
-          # podman running as service ignores the TMPDIR env var here, let's give it a bind-mount to /var/tmp
-          mkdir -p $TMPDIR
-          sudo mount --bind -o rw,noexec,nosuid,nodev,bind $TMPDIR /var/tmp
-
-          # podman from brew has its own /etc (was giving me Failed to obtain podman configuration: runroot must be set)
-          # the (default) config location is also where cri-o gets its storage defaults (that can be overriden in crio.conf)
-          sudo cp ci/cached-builds/containers.conf /etc/containers.conf
-          sudo cp ci/cached-builds/containers.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers.conf
-          sudo cp ci/cached-builds/storage.conf /etc/containers/storage.conf
-          sudo cp ci/cached-builds/storage.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/storage.conf
-          sudo cp ci/cached-builds/registries.conf /etc/containers/registries.conf
-          sudo cp ci/cached-builds/registries.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/registries.conf
-          # copy the default mounts config (for subscription)
-          if [ -f /usr/share/containers/mounts.conf ]; then
-            sudo cp /usr/share/containers/mounts.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/mounts.conf
-          fi
-
-          # should reset storage when changing storage.conf
-          mkdir -p $HOME/.local/share/containers/storage/tmp
-          # remote (CONTAINER_HOST) podman does not do reset (and refuses --force option)
-          sudo /home/linuxbrew/.linuxbrew/opt/podman/bin/podman system reset --force
-
-          # https://github.com/containers/podman/pull/25504
-          # podman 5.5.0: The podman system reset command no longer removes the user's podman.sock API socket
-          sudo rm -rf /var/run/podman
-
-          # https://github.com/containers/podman/blob/main/docs/tutorials/socket_activation.md
-          # since `brew services start podman` is buggy, let's do our own brew-compatible service
-          # Regarding directory paths, see https://unix.stackexchange.com/questions/224992/where-do-i-put-my-systemd-unit-file
-          sudo mkdir -p /usr/local/lib/systemd/system/
-          sudo cp ci/cached-builds/podman.service /usr/local/lib/systemd/system/podman.service
-          sudo cp ci/cached-builds/podman.socket /usr/local/lib/systemd/system/podman.socket
-          sudo systemctl daemon-reload
-          sudo systemctl unmask --now podman.service podman.socket
-          sudo systemctl start podman.socket
-
-          # needed (much) later for trivy
-          echo "PODMAN_SOCK=/var/run/podman/podman.sock" >> $GITHUB_ENV
-
-          # quick check podman works
-          podman ps
-
-      - name: Show error logs (on failure)
-        if: ${{ failure() }}
-        run: |
-          set -Eeuxo pipefail
-
-          journalctl -xe
-          ls -AlF /var/run/podman/podman.sock || echo "Socket /var/run/podman/podman.sock not found"
-          sudo ss -xlpn | grep 'podman.sock' || echo "No active listener found for podman.sock via ss"
+      # region Image build
 
       - name: Calculate image name and tag
         id: calculated_vars
@@ -226,10 +140,6 @@ jobs:
           echo "OUTPUT_IMAGE=${{ env.IMAGE_REGISTRY}}:${{ inputs.target }}-${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
 
           echo "SANITIZED_PLATFORM=$(echo "${{ inputs.platform }}" | sed 's/[^a-zA-Z0-9._-]/_/g')" >> "$GITHUB_OUTPUT"
-
-      # endregion
-
-      # region Image build
 
       - name: Unlock encrypted secrets with git-crypt
         if: ${{ inputs.subscription }}
@@ -246,40 +156,47 @@ jobs:
       # https://console.redhat.com/insights/connector/activation-keys
       # This runs slower than storing the entitlement certificates with git-crypt,
       #  but on the other hand, it's then not necessary to regularly update them in the repo.
-      - name: Add subscriptions from GitHub secret
-        if: ${{ inputs.subscription }}
-        run: |
-          mkdir -p $HOME/.config/containers/
-          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
+#      - name: Add subscriptions from GitHub secret
+#        if: ${{ inputs.subscription }}
+#        run: |
+#          mkdir -p $HOME/.config/containers/
+#          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
+#
+#          # https://access.redhat.com/solutions/5870841
+#          # https://github.com/containers/common/issues/1735
+#          # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
+#          mkdir etc-pki-consumer
+#          mkdir etc-pki-entitlement
+#          mkdir etc-rhsm
+#          # /etc/containers/mounts.conf, /usr/share/containers/mounts.conf
+#          # /run/secrets/etc-pki-entitlement, /run/secrets/rhsm, /etc/pki/entitlement, /etc/pki/consumer
+#          podman run \
+#            --user root \
+#            --env=USER=root \
+#            --platform ${{ inputs.platform }} \
+#            -v ${PWD}:/mnt:Z \
+#            --rm -it registry.redhat.io/rhel9-6-els/rhel <<EOF
+#              set -Eeuxo pipefail
+#              # make subscription-manager believe it is not running inside a container
+#              # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
+#              rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
+#              /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
+#              cp -R /etc/pki/consumer/ /mnt/etc-pki-consumer/
+#              cp -R /etc/pki/entitlement/ /mnt/etc-pki-entitlement/
+#              cp -R /etc/rhsm/ /mnt/etc-rhsm/
+#              exit 0
+#          EOF
+#          printf "${PWD}/etc-pki-consumer:/etc/pki/consumer\n${PWD}/etc-pki-entitlement:/etc/pki/entitlement\n${PWD}/etc-rhsm:/etc/rhsm\n" | sudo tee /etc/containers/mounts.conf
+#        env:
+#          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+#          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
-          # https://access.redhat.com/solutions/5870841
-          # https://github.com/containers/common/issues/1735
-          # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
-          mkdir etc-pki-consumer
-          mkdir etc-pki-entitlement
-          mkdir etc-rhsm
-          # /etc/containers/mounts.conf, /usr/share/containers/mounts.conf
-          # /run/secrets/etc-pki-entitlement, /run/secrets/rhsm, /etc/pki/entitlement, /etc/pki/consumer
-          podman run \
-            --user root \
-            --env=USER=root \
-            --platform ${{ inputs.platform }} \
-            -v ${PWD}:/mnt:Z \
-            --rm -it registry.redhat.io/rhel9-6-els/rhel <<EOF
-              set -Eeuxo pipefail
-              # make subscription-manager believe it is not running inside a container
-              # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
-              rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
-              /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
-              cp -R /etc/pki/consumer/ /mnt/etc-pki-consumer/
-              cp -R /etc/pki/entitlement/ /mnt/etc-pki-entitlement/
-              cp -R /etc/rhsm/ /mnt/etc-rhsm/
-              exit 0
-          EOF
-          printf "${PWD}/etc-pki-consumer:/etc/pki/consumer\n${PWD}/etc-pki-entitlement:/etc/pki/entitlement\n${PWD}/etc-rhsm:/etc/rhsm\n" | sudo tee /etc/containers/mounts.conf
-        env:
-          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
-          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+      - name: Subscribe RHEL
+        uses: './.github/actions/subscribe-rhel/action.yml'
+        with:
+          platform: ${{ inputs.platform }}
+          subscription_org: ${{ secrets.SUBSCRIPTION_ORG }}
+          subscription_activation_key: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
       - name: Login to quay.io/aipcc (if the secret is present)
         # if: for the ${{ secret != '' }} does not work, getting Unrecognized named-value: 'secrets'.
