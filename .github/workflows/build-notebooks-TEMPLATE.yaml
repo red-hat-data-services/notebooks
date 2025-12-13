@@ -274,7 +274,7 @@ jobs:
               cp -R /etc/rhsm/ /mnt/etc-rhsm/
               exit 0
           EOF
-          printf "${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/etc-rhsm:/run/secrets/rhsm\n" | sudo tee /etc/containers/mounts.conf
+          printf "${PWD}/etc-pki-entitlement:/etc/pki/entitlement\n${PWD}/etc-rhsm:/etc/rhsm\n" | sudo tee /etc/containers/mounts.conf
         env:
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
