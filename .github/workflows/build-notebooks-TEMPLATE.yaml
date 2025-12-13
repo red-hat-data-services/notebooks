@@ -267,11 +267,11 @@ jobs:
             -v ${PWD}/etc-pki-entitlement:/etc/pki/entitlement:Z \
             -v ${PWD}/etc-rhsm:/etc/rhsm:Z \
             --rm -it registry.redhat.io/rhel9-6-els/rhel <<'EOF'
-          set -Eeuxo pipefail
-          # make subscription-manager believe it is not running inside a container
-          rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
-          EOF
+              set -Eeuxo pipefail
+              # make subscription-manager believe it is not running inside a container
+              rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
+          EOF
           printf "${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /etc/containers/mounts.conf
         env:
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
