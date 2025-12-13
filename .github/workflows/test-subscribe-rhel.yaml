@@ -43,4 +43,5 @@ jobs:
           podman run --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
             subscription-manager status
             dnf makecache
+            exit 0
           EOF
