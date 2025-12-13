@@ -192,7 +192,7 @@ jobs:
 #          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
       - name: Subscribe RHEL
-        uses: './.github/actions/subscribe-rhel/action.yml'
+        uses: './.github/actions/subscribe-rhel'
         with:
           platform: ${{ inputs.platform }}
           subscription_org: ${{ secrets.SUBSCRIPTION_ORG }}
