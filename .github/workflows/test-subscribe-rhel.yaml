@@ -1,0 +1,51 @@
+---
+name: Test Subscribe RHEL Action
+
+"on":
+  push:
+    paths:
+      - 'ci/cached-builds/**'
+      - '.github/actions/install-podman/**'
+      - '.github/actions/subscribe-rhel/**'
+      - '.github/workflows/test-subscribe-rhel.yaml'
+  pull_request:
+    paths:
+      - 'ci/cached-builds/**'
+      - '.github/actions/install-podman/**'
+      - '.github/actions/subscribe-rhel/**'
+      - '.github/workflows/test-subscribe-rhel.yaml'
+  workflow_dispatch:
+
+jobs:
+  test-subscription:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install podman
+        uses: ./.github/actions/install-podman
+        with:
+          platform: "linux/amd64"
+        env:
+          TMPDIR: ${HOME}/.tmp
+
+      - name: Subscribe RHEL
+        uses: ./.github/actions/subscribe-rhel
+        env:
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+        with:
+          platform: "linux/amd64"
+          subscription_org: ${{ secrets.SUBSCRIPTION_ORG }}
+          subscription_activation_key: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+
+      - name: Check subscription works
+        run: |
+          set -Eeuxo pipefail
+          podman run --user root --env=USER=root --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
+            set -Eeuxo pipefail
+            subscription-manager status || true
+            #subscription-manager refresh
+            dnf makecache
+            exit 0
+          EOF
