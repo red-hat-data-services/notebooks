@@ -25,7 +25,8 @@ jobs:
         with:
           platform: "linux/amd64"
         env:
-          TMPDIR: /mnt/tmp
+          # our podman config requires it to be here ;(
+          TMPDIR: /home/runner/.local/share/containers/tmpdir
 
       - name: Subscribe RHEL
         uses: ./.github/actions/subscribe-rhel
