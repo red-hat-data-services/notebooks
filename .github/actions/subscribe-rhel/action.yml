@@ -35,7 +35,7 @@ runs:
             rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
             /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
             exit 0
-          EOF
+        EOF
 
         printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
 
