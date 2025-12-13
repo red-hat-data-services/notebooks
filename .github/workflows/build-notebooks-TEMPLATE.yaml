@@ -257,6 +257,7 @@ jobs:
           mkdir entitlement
           mkdir consumer
           podman run \
+            --platform ${{ inputs.platform }} \
             -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
             -v ${PWD}/consumer:/etc/pki/consumer:Z \
             --rm -t registry.redhat.io/rhel9-6-els/rhel \
