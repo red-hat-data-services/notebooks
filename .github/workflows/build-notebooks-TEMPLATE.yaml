@@ -81,42 +81,6 @@ jobs:
 
       - run: mkdir -p $TMPDIR
 
-      # do this early because it's fast and why not
-      - name: Unlock encrypted secrets with git-crypt
-        if: ${{ inputs.subscription }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install git-crypt
-          echo "${GIT_CRYPT_KEY}" | base64 --decode > ./git-crypt-key
-          git-crypt unlock ./git-crypt-key
-          rm ./git-crypt-key
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-
-      # https://console.redhat.com/insights/connector/activation-keys
-      # This runs slower than storing the entitlement certificates with git-crypt,
-      #  but on the other hand, it's then not necessary to regularly update them in the repo.
-      - name: Add subscriptions from GitHub secret
-        if: ${{ inputs.subscription }}
-        run: |
-          mkdir -p $HOME/.config/containers/
-          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
-
-          # https://access.redhat.com/solutions/5870841
-          # https://github.com/containers/common/issues/1735
-          # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
-          mkdir entitlement
-          mkdir consumer
-          docker run \
-            -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
-            -v ${PWD}/consumer:/etc/pki/consumer:Z \
-            --rm -t registry.redhat.io/rhel9-6-els/rhel \
-              /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
-          printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
-        env:
-          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
-          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
-
       # for bin/buildinputs in scripts/sandbox.py
       - uses: actions/setup-go@v5
         with:
@@ -266,6 +230,41 @@ jobs:
       # endregion
 
       # region Image build
+
+      - name: Unlock encrypted secrets with git-crypt
+        if: ${{ inputs.subscription }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install git-crypt
+          echo "${GIT_CRYPT_KEY}" | base64 --decode > ./git-crypt-key
+          git-crypt unlock ./git-crypt-key
+          rm ./git-crypt-key
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+
+      # https://console.redhat.com/insights/connector/activation-keys
+      # This runs slower than storing the entitlement certificates with git-crypt,
+      #  but on the other hand, it's then not necessary to regularly update them in the repo.
+      - name: Add subscriptions from GitHub secret
+        if: ${{ inputs.subscription }}
+        run: |
+          mkdir -p $HOME/.config/containers/
+          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
+
+          # https://access.redhat.com/solutions/5870841
+          # https://github.com/containers/common/issues/1735
+          # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
+          mkdir entitlement
+          mkdir consumer
+          podman run \
+            -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
+            -v ${PWD}/consumer:/etc/pki/consumer:Z \
+            --rm -t registry.redhat.io/rhel9-6-els/rhel \
+              /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
+          printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
+        env:
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
       - name: Login to quay.io/aipcc (if the secret is present)
         # if: for the ${{ secret != '' }} does not work, getting Unrecognized named-value: 'secrets'.
