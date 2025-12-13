@@ -89,11 +89,16 @@ runs:
         sudo systemctl unmask --now podman.service podman.socket
         sudo systemctl start podman.socket
 
+        # make `podman` command access the rootful service
+        echo "CONTAINER_HOST=unix:///var/run/podman/podman.sock" >> $GITHUB_ENV
+
         # needed (much) later for trivy
         echo "PODMAN_SOCK=/var/run/podman/podman.sock" >> $GITHUB_ENV
 
-        # quick check podman works
-        podman ps
+    # separate run so that `CONTAINER_HOST` is already defined
+    - name: Check podman works
+      shell: bash
+      run: podman ps
 
     - name: Show error logs (on failure)
       if: ${{ failure() }}
