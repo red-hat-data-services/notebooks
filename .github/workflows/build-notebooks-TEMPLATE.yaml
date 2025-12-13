@@ -262,8 +262,8 @@ jobs:
           # /run/secrets/etc-pki-entitlement, /run/secrets/rhsm, /etc/pki/entitlement, /etc/pki/consumer
           podman run \
             --platform ${{ inputs.platform }} \
-            -v ${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement:Z \
-            -v ${PWD}/rhsm:/run/secrets/rhsm:Z \
+            -v ${PWD}/etc-pki-entitlement:/etc/pki/entitlement:Z \
+            -v ${PWD}/rhsm:/etc/rhsm:Z \
             --rm -t registry.redhat.io/rhel9-6-els/rhel \
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
           printf "${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /etc/containers/mounts.conf
