@@ -209,6 +209,10 @@ jobs:
           sudo cp ci/cached-builds/storage.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/storage.conf
           sudo cp ci/cached-builds/registries.conf /etc/containers/registries.conf
           sudo cp ci/cached-builds/registries.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/registries.conf
+          # copy the default mounts config (for subscription)
+          if [ -f /usr/share/containers/mounts.conf ]; then
+            sudo cp /usr/share/containers/mounts.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/mounts.conf
+          fi
 
           # should reset storage when changing storage.conf
           mkdir -p $HOME/.local/share/containers/storage/tmp
