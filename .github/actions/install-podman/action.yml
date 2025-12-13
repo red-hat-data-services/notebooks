@@ -45,9 +45,11 @@ runs:
         /home/linuxbrew/.linuxbrew/bin/brew install --build-from-source podman
 
     - name: Add linuxbrew to PATH
+      shell: bash
       run: echo "/home/linuxbrew/.linuxbrew/bin/" >> $GITHUB_PATH
 
     - name: Configure Podman
+      shell: bash
       run: |
         set -Eeuxo pipefail
 
@@ -95,6 +97,7 @@ runs:
 
     - name: Show error logs (on failure)
       if: ${{ failure() }}
+      shell: bash
       run: |
         set -Eeuxo pipefail
 
