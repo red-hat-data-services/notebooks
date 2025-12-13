@@ -1,5 +1,5 @@
 ---
-name: Test Provision K8s Action
+name: Test Subscribe RHEL Action
 
 "on":
   push:
