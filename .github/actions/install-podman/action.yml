@@ -54,7 +54,7 @@ runs:
         set -Eeuxo pipefail
 
         # podman running as service ignores the TMPDIR env var here, let's give it a bind-mount to /var/tmp
-        mkdir -p $TMPDIR
+        sudo mkdir -p $TMPDIR
         sudo mount --bind -o rw,noexec,nosuid,nodev,bind $TMPDIR /var/tmp
 
         # podman from brew has its own /etc (was giving me Failed to obtain podman configuration: runroot must be set)
