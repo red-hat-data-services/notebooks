@@ -266,7 +266,7 @@ jobs:
             --platform ${{ inputs.platform }} \
             -v ${PWD}/etc-pki-entitlement:/etc/pki/entitlement:Z \
             -v ${PWD}/etc-rhsm:/etc/rhsm:Z \
-            --rm -it registry.redhat.io/rhel9-6-els/rhel <<'EOF'
+            --rm -it registry.redhat.io/rhel9-6-els/rhel <<EOF
               set -Eeuxo pipefail
               # make subscription-manager believe it is not running inside a container
               rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
