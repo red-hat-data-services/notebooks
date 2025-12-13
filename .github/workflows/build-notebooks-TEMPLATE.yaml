@@ -242,6 +242,8 @@ jobs:
         env:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
+      # https://github.com/candlepin/subscription-manager/blob/main/man/subscription-manager.8
+      # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
       # https://console.redhat.com/insights/connector/activation-keys
       # This runs slower than storing the entitlement certificates with git-crypt,
       #  but on the other hand, it's then not necessary to regularly update them in the repo.
@@ -254,15 +256,17 @@ jobs:
           # https://access.redhat.com/solutions/5870841
           # https://github.com/containers/common/issues/1735
           # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
-          mkdir entitlement
-          mkdir consumer
+          mkdir etc-pki-entitlement
+          mkdir rhsm
+          # /etc/containers/mounts.conf, /usr/share/containers/mounts.conf
+          # /run/secrets/etc-pki-entitlement, /run/secrets/rhsm, /etc/pki/entitlement, /etc/pki/consumer
           podman run \
             --platform ${{ inputs.platform }} \
-            -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
-            -v ${PWD}/consumer:/etc/pki/consumer:Z \
+            -v ${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement:Z \
+            -v ${PWD}/rhsm:/run/secrets/rhsm:Z \
             --rm -t registry.redhat.io/rhel9-6-els/rhel \
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
-          printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
+          printf "${PWD}/etc-pki-entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /etc/containers/mounts.conf
         env:
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
