@@ -20,13 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # In real usage this is the LVM volume over / and /mnt
+      - name: Create storage directory
+        run: mkdir -p ${HOME}/.local/share/containers/storage
+
       - name: Install podman
         uses: ./.github/actions/install-podman
         with:
           platform: "linux/amd64"
         env:
-          # our podman config requires it to be here ;(
-          TMPDIR: /home/runner/.local/share/containers/tmpdir
+          TMPDIR: ${HOME}/.tmp
 
       - name: Subscribe RHEL
         uses: ./.github/actions/subscribe-rhel
