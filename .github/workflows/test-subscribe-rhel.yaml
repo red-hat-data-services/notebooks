@@ -42,7 +42,7 @@ jobs:
       - name: Check subscription works
         run: |
           set -Eeuxo pipefail
-          podman run --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
+          podman run --user root --env=USER=root --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
             set -Eeuxo pipefail
             subscription-manager status
             subscription-manager refresh
