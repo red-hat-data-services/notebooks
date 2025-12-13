@@ -21,13 +21,14 @@ runs:
 
         mkdir consumer
         mkdir entitlement
+        mkdir rhsm
 
         podman run \
           --user root \
           --env=USER=root \
           --platform ${{ inputs.platform }} \
-          -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
           -v ${PWD}/consumer:/etc/pki/consumer:Z \
+          -v ${PWD}/entitlement:/etc/pki/entitlement:Z \
           --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
             set -Eeuxo pipefail
             # make subscription-manager believe it is not running inside a container
@@ -38,6 +39,7 @@ runs:
         EOF
 
         printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
+        # printf "${PWD}/entitlement:/run/secrets/etc-pki-entitlement\n${PWD}/rhsm:/run/secrets/rhsm\n" | sudo tee /usr/share/containers/mounts.conf
 
         ls -AlF consumer || :
         ls -AlF entitlement || :

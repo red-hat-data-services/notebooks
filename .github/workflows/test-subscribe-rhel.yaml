@@ -36,3 +36,11 @@ jobs:
           platform: "linux/amd64"
           subscription_org: ${{ secrets.SUBSCRIPTION_ORG }}
           subscription_activation_key: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+
+      - name: Check subscription works
+        run: |
+          set -Eeuxo pipefail
+          podman run --rm -it registry.access.redhat.com/ubi9/ubi <<EOF
+            subscription-manager status
+            dnf makecache
+          EOF
