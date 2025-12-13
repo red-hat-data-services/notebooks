@@ -318,7 +318,7 @@ jobs:
           fromJson(inputs.github).event_name == 'workflow_dispatch' }}
         env:
           IMAGE_TAG: "${{ steps.calculated_vars.outputs.IMAGE_TAG }}"
-          CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-podman-build-args.outputs.EXTRA_PODMAN_BUILD_ARGS }} --cache-from ${{ env.CACHE }} --cache-to ${{ env.CACHE }}"
+          CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-podman-build-args.outputs.EXTRA_PODMAN_BUILD_ARGS }}"
       - name: "pull_request: make ${{ inputs.target }}"
         id: pr-make-target
         run: |
@@ -330,7 +330,7 @@ jobs:
           fromJson(inputs.github).event_name == 'pull_request_target' }}"
         env:
           IMAGE_TAG: "${{ steps.calculated_vars.outputs.IMAGE_TAG }}"
-          CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-podman-build-args.outputs.EXTRA_PODMAN_BUILD_ARGS }} --cache-from ${{ env.CACHE }}"
+          CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-podman-build-args.outputs.EXTRA_PODMAN_BUILD_ARGS }}"
           # We don't have access to image registry, so disable pushing
           PUSH_IMAGES: "no"
 
