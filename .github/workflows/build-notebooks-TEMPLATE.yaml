@@ -255,6 +255,7 @@ jobs:
           # https://access.redhat.com/solutions/5870841
           # https://github.com/containers/common/issues/1735
           # https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/build-args/cpu-app.conf
+          mkdir etc-pki-consumer
           mkdir etc-pki-entitlement
           mkdir etc-rhsm
           # /etc/containers/mounts.conf, /usr/share/containers/mounts.conf
@@ -270,11 +271,12 @@ jobs:
               # https://github.com/candlepin/subscription-manager/blob/04d95a91ef7b2646afb7d56dfb6fba1b24cd1faf/src/rhsm/config.py#L108
               rm -rf /etc/rhsm-host/ /etc/pki/entitlement-host/
               /usr/sbin/subscription-manager register --org=${SUBSCRIPTION_ORG} --activationkey=${SUBSCRIPTION_ACTIVATION_KEY}
+              cp -R /etc/pki/consumer/ /mnt/etc-pki-consumer/
               cp -R /etc/pki/entitlement/ /mnt/etc-pki-entitlement/
               cp -R /etc/rhsm/ /mnt/etc-rhsm/
               exit 0
           EOF
-          printf "${PWD}/etc-pki-entitlement:/etc/pki/entitlement\n${PWD}/etc-rhsm:/etc/rhsm\n" | sudo tee /etc/containers/mounts.conf
+          printf "${PWD}/etc-pki-consumer:/etc/pki/consumer\n${PWD}/etc-pki-entitlement:/etc/pki/entitlement\n${PWD}/etc-rhsm:/etc/rhsm\n" | sudo tee /etc/containers/mounts.conf
         env:
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
