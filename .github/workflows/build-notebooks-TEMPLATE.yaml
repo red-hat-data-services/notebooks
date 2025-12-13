@@ -261,6 +261,7 @@ jobs:
           # /etc/containers/mounts.conf, /usr/share/containers/mounts.conf
           # /run/secrets/etc-pki-entitlement, /run/secrets/rhsm, /etc/pki/entitlement, /etc/pki/consumer
           podman run \
+            --user root \
             --platform ${{ inputs.platform }} \
             -v ${PWD}/etc-pki-entitlement:/etc/pki/entitlement:Z \
             -v ${PWD}/etc-rhsm:/etc/rhsm:Z \
