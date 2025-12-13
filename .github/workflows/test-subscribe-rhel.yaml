@@ -20,10 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      # In real usage this is the LVM volume over / and /mnt
-      - name: Create storage directory
-        run: mkdir -p ${HOME}/.local/share/containers/storage
-
       - name: Install podman
         uses: ./.github/actions/install-podman
         with:
