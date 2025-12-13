@@ -48,7 +48,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(delete=True) as tmpdir:
         setup_sandbox(prereqs, pathlib.Path(tmpdir))
         command = [arg if arg != "{};" else tmpdir for arg in args.remaining[1:]]
-        command += ["--env=BUSTCAsCHE=yess01"]
+        command += ["--env=BUSTCAsCHgE=yesffs01"]
         print(f"running {command=}")
         try:
             subprocess.check_call(command)
