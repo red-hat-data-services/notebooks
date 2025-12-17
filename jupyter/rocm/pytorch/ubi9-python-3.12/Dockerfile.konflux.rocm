@@ -146,6 +146,9 @@ RUN ./de-vendor-torch.sh && \
     fix-permissions /opt/app-root -P
 USER 1001
 
+# Workaround for https://issues.redhat.com/browse/AIPCC-8152
+ENV ROCM_PATH=/opt/rocm
+
 WORKDIR /opt/app-root/src
 
 LABEL name="rhoai/odh-workbench-jupyter-pytorch-rocm-py312-rhel9" \
