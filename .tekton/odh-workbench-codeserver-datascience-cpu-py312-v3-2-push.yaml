@@ -22,6 +22,9 @@ metadata:
   name: odh-workbench-codeserver-datascience-cpu-py312-v3-2-on-push
   namespace: rhoai-tenant
 spec:
+  timeouts:
+    pipeline: "8h0m0s" 
+    tasks: "4h0m0s"
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -68,4 +71,3 @@ spec:
     secret:
       secretName: '{{ git_auth_secret }}'
 status: {}
-#restart
