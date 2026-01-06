@@ -34,7 +34,7 @@ spec:
     - '{{target_branch}}-{{revision}}'
   - name: additional-labels
     value:
-    - version=v2.25.1
+    - version=v2.25.2
     - io.openshift.tags=odh-workbench-jupyter-minimal-rocm-py312
   - name: dockerfile
     value: jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.rocm

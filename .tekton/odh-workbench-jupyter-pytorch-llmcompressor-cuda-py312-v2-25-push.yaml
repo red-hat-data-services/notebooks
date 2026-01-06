@@ -40,7 +40,7 @@ spec:
     - '{{target_branch}}-{{revision}}'
   - name: additional-labels
     value:
-    - version=v2.25.1
+    - version=v2.25.2
     - io.openshift.tags=odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312
   - name: dockerfile
     value: jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
