@@ -27,6 +27,9 @@ metadata:
   name: odh-workbench-jupyter-trustyai-cpu-py312-v3-2-on-push
   namespace: rhoai-tenant
 spec:
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
   params:
   - name: git-url
     value: '{{source_url}}'
