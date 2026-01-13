@@ -158,4 +158,16 @@ USER 1001
 
 COPY ${JUPYTER_REUSABLE_UTILS}/usercustomize.pth ${JUPYTER_REUSABLE_UTILS}/monkey_patch_protobuf_6x.py /opt/app-root/lib/python3.12/site-packages/
 
+USER 0
+COPY ${TENSORFLOW_SOURCE_CODE}/utils/link-solibs.sh /tmp/link-solibs.sh
+RUN /tmp/link-solibs.sh && rm /tmp/link-solibs.sh
+
+# Workaround for https://issues.redhat.com/browse/AIPCC-8152
+ENV ROCM_PATH=/opt/rocm
+# Workaround for 2.25.2 issue https://issues.redhat.com/browse/RHAIENG-1638 missing rocm package in older AIPCC builds
+# https://issues.redhat.com/browse/AIPCC-5882
+USER 0
+RUN dnf --setopt=reposdir=/etc/rhaipcc/repos.d --enablerepo="external-amd-rocm-*" install -y rocm-device-libs
+USER 1001
+
 WORKDIR /opt/app-root/src
