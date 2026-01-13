@@ -16,7 +16,6 @@ metadata:
       && ( "runtimes/datascience/ubi9-python-3.12/**".pathChanged() ||
            ".tekton/odh-pipeline-runtime-datascience-cpu-py312-v3-3-push.yaml".pathChanged() )
 
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: rhoai-v3-3
     appstudio.openshift.io/component: odh-pipeline-runtime-datascience-cpu-py312-v3-3
@@ -31,13 +30,11 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/rhoai/odh-pipeline-runtime-datascience-cpu-py312-rhel9:{{target_branch}}
+  - name: rhoai-version
+    value: "3.3.0"
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
-  - name: additional-labels
-    value:
-    - version=v3.3.0
-    - io.openshift.tags=odh-pipeline-runtime-datascience-cpu-py312
   - name: dockerfile
     value: runtimes/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: build-args-file

@@ -30,13 +30,11 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/rhoai/odh-pipeline-runtime-pytorch-cuda-py312-rhel9:{{target_branch}}
+  - name: rhoai-version
+    value: "3.3.0"
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
-  - name: additional-labels
-    value:
-    - version=v3.3.0
-    - io.openshift.tags=odh-pipeline-runtime-pytorch-cuda-py312
   - name: dockerfile
     value: runtimes/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
