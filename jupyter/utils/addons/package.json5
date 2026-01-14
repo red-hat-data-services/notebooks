@@ -22,7 +22,7 @@
     // webpack to minify css file
     webpack: '^5.99.6',
     'webpack-cli': '^6.0.1',
-    'webpack-dev-server': '^5.2.1',
+    'webpack-dev-server': '^5.2.3',
 
     // plugins for webpack
     'css-loader': '^7.1.2',
