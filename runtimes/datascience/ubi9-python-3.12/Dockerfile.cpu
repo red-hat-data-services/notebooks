@@ -51,7 +51,7 @@ RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
         echo 'export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/' >> /etc/profile.d/ppc64le.sh && \
         echo 'export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:$LD_LIBRARY_PATH' >> /etc/profile.d/ppc64le.sh && \
         echo 'export OPENBLAS_VERSION=0.3.30' >> /etc/profile.d/ppc64le.sh && \
-        echo 'export ONNX_VERSION=1.19.0' >> /etc/profile.d/ppc64le.sh && \
+        echo 'export ONNX_VERSION=1.20.1' >> /etc/profile.d/ppc64le.sh && \
         echo 'export PYARROW_VERSION=17.0.0' >> /etc/profile.d/ppc64le.sh && \
         echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> /etc/profile.d/ppc64le.sh && \
         echo 'export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1' >> /etc/profile.d/ppc64le.sh; \
@@ -207,7 +207,7 @@ USER root
 WORKDIR /root
 
 ARG TARGETARCH
-ENV ONNX_VERSION=1.19.0
+ENV ONNX_VERSION=1.20.1
 
 RUN echo "onnx-builder stage TARGETARCH: ${TARGETARCH}"
 
