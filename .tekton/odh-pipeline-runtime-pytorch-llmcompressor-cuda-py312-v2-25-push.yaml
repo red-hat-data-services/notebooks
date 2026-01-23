@@ -32,10 +32,8 @@ spec:
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
-  - name: additional-labels
-    value:
-    - version=v2.25.2
-    - io.openshift.tags=odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312
+  - name: rhoai-version
+    value: "2.25.2"
   - name: dockerfile
     value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
