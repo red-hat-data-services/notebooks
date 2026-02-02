@@ -64,6 +64,9 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-trustyai-cpu-py312-v3-4
   workspaces:
