@@ -285,7 +285,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
     # Documentation at https://docs.astral.sh/uv/reference/cli/#uv-pip-compile--python-platform says that
     #  `--python-platform linux` is alias for `x86_64-unknown-linux-gnu`; we cannot use this to get a multiarch pylock
     # Let's use --universal temporarily, and in the future we can switch to using uv.lock
-    #  when https://github.com/astral-sh/uv/issues/6830 is resolved, or symlink `ln -s uv.lock/lock.${flavor}.toml uv.lock`
+    #  when https://github.com/astral-sh/uv/issues/6830 is resolved, or symlink `ln -s uv.lock.d/uv.${flavor}.lock uv.lock`
     # Note: currently generating uv.lock.d/pylock.${flavor}.toml; future rename to uv.${flavor}.lock is planned
     # See also --universal discussion with Gerard
     #  https://redhat-internal.slack.com/archives/C0961HQ858Q/p1757935641975969?thread_ts=1757542802.032519&cid=C0961HQ858Q
@@ -312,6 +312,10 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       --universal \
       --no-annotate \
       --quiet \
+      --no-emit-package odh-notebooks-meta-llmcompressor-deps \
+      --no-emit-package odh-notebooks-meta-runtime-elyra-deps \
+      --no-emit-package odh-notebooks-meta-runtime-datascience-deps \
+      --no-emit-package odh-notebooks-meta-workbench-datascience-deps \
       $UPGRADE_FLAG \
       "${constraints_flag[@]}" \
       $index
