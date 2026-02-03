@@ -76,7 +76,7 @@ spec:
       name: "2025.2"
       referencePolicy:
         type: Source
-    # N - 1 Version of the image
+    # N - 2 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -108,7 +108,7 @@ spec:
       name: "2025.1"
       referencePolicy:
         type: Source
-    # N - 2 Version of the image
+    # N - 3 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -139,7 +139,7 @@ spec:
       name: "2024.2"
       referencePolicy:
         type: Source
-    # N - 3 Version of the image
+    # N - 4 Version of the image
     - annotations:
         # language=json
         opendatahub.io/notebook-software: |
@@ -170,7 +170,7 @@ spec:
       name: "2024.1"
       referencePolicy:
         type: Source
-    # N - 4 Version of the image
+    # N - 5 Version of the image
     - annotations:
         opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
         opendatahub.io/notebook-python-dependencies: '[{"name":"code-server","version":"4.16"}]'
