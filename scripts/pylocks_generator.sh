@@ -195,6 +195,18 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
     #  when https://github.com/astral-sh/uv/issues/6830 is resolved, or link `ln -s uv.lock/lock.${flavor}.toml uv.lock`
     # See also --universal discussion with Gerard
     #  https://redhat-internal.slack.com/archives/C0961HQ858Q/p1757935641975969?thread_ts=1757542802.032519&cid=C0961HQ858Q
+
+    # Build constraints flag if CVE constraints file exists
+    # Use relative path to avoid absolute paths in pylock.toml headers
+    # (which would differ between CI and local environments)
+    local constraints_flag=""
+    if [[ -f "$CVE_CONSTRAINTS_FILE" ]]; then
+      local relative_constraints
+      # Use Python for cross-platform relative path computation (realpath --relative-to is GNU-only)
+      relative_constraints=$(python3 -c "import os; print(os.path.relpath('$CVE_CONSTRAINTS_FILE', '$PWD'))")
+      constraints_flag="--constraints=$relative_constraints"
+    fi
+
     set +e
     uv pip compile pyproject.toml \
       --output-file "$output" \
@@ -205,9 +217,9 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       --universal \
       --no-annotate \
       --quiet \
-      --constraints "$CVE_CONSTRAINTS_FILE" \
       --no-emit-package odh-notebooks-meta-llmcompressor-deps \
       --no-emit-package odh-notebooks-meta-runtime-elyra-deps \
+      $constraints_flag \
       $index
     local status=$?
     set -e
