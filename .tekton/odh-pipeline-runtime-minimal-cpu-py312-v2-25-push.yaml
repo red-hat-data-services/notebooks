@@ -22,6 +22,9 @@ metadata:
   name: odh-pipeline-runtime-minimal-cpu-py312-v2-25-on-push
   namespace: rhoai-tenant
 spec:
+  timeouts:
+    pipeline: 8h
+    tasks: 6h
   params:
   - name: git-url
     value: '{{source_url}}'
