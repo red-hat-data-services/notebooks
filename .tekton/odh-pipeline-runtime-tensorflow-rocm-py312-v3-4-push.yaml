@@ -29,7 +29,7 @@ spec:
   - name: output-image
     value: quay.io/rhoai/odh-pipeline-runtime-tensorflow-rocm-py312-rhel9:{{target_branch}}
   - name: rhoai-version
-    value: "3.4.0"
+    value: "3.4.0-ea.1"
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
