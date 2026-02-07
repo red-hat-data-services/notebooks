@@ -28,6 +28,11 @@ name: Build & Publish Notebook Servers (TEMPLATE)
         default: false
         description: "add RHEL subscription from github secret"
         type: boolean
+      konflux:
+        required: false
+        default: false
+        description: "build from Dockerfile.konflux.* instead of Dockerfile.*"
+        type: boolean
       PLATFORM_RUNNERS:
         required: false
         # language=json
@@ -127,7 +132,11 @@ jobs:
           printf "${PWD}/entitlement:/etc/pki/entitlement\n${PWD}/consumer:/etc/pki/consumer\n" | sudo tee /usr/share/containers/mounts.conf
 
           mkdir -p $HOME/.config/containers/
-          sudo cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
+
+          # Don't use sudo here.
+          # With CONTAINER_HOST set, podman is a remote client that forwards auth to the
+          # rootful server during builds. Credentials must be readable by the runner user.
+          cp ${PWD}/ci/secrets/pull-secret.json $HOME/.config/containers/auth.json
         env:
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
@@ -135,6 +144,7 @@ jobs:
       # for bin/buildinputs in scripts/sandbox.py
       - uses: actions/setup-go@v6
         with:
+          go-version: "stable"
           cache-dependency-path: "scripts/buildinputs/go.sum"
 
       - run: sudo apt-get update
@@ -259,6 +269,7 @@ jobs:
           CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-container-build-args.outputs.CONTAINER_BUILD_CACHE_ARGS }}"
           # We don't have access to image registry for PRs, so disable pushing
           PUSH_IMAGES: "${{ (fromJson(inputs.github).event_name == 'pull_request' || fromJson(inputs.github).event_name == 'pull_request_target') && 'no' || 'yes' }}"
+          KONFLUX: "${{ inputs.konflux && 'yes' || 'no' }}"
 
       - name: "Show podman images information"
         run: podman images --digests
@@ -426,6 +437,7 @@ jobs:
       - uses: actions/setup-go@v6
         if: ${{ !cancelled() && steps.make-target.outcome == 'success' }}
         with:
+          go-version-file: "scripts/check-payload/go.mod"
           cache-dependency-path: "scripts/check-payload/go.sum"
         env:
           GOPATH: ${{ steps.check-payload-vars.outputs.GOPATH }}
@@ -477,44 +489,12 @@ jobs:
       # not enough to install playwright; running playwright in podman uses the space we have
       - name: Run Playwright tests
         if: ${{ !cancelled() && contains(inputs.target, 'codeserver') && steps.make-target.outcome == 'success' }}
-        # --ipc=host because Microsoft says so in Playwright docs
-        # --net=host because testcontainers connects to the Reaper container's exposed port
-        # we need to pass through the relevant environment variables
-        #  DEBUG configures Node.js debuggers, sets different verbosity as needed
-        #  CI=true is set on every CI nowadays
-        #  PODMAN_SOCK should be mounted to /var/run/docker.sock, other likely mounting locations may not exist (mkdir -p)
-        #  TEST_TARGET is the workbench image the test will run
-        # --volume(s) let us access docker socket and not clobber host's node_modules
-        run: |
-          podman run \
-            --interactive --rm \
-            --ipc=host \
-            --net=host \
-            --env "CI=true" \
-            --env "NPM_CONFIG_fund=false" \
-            --env "DEBUG=testcontainers:*" \
-            --env "PODMAN_SOCK=/var/run/docker.sock" \
-            --env "TEST_TARGET" \
-            --volume ${PODMAN_SOCK}:/var/run/docker.sock \
-            --volume ${PWD}:/mnt \
-            --volume /mnt/node_modules \
-            mcr.microsoft.com/playwright:v1.53.1-noble \
-            /bin/bash <<EOF
-              set -Eeuxo pipefail
-              cd /mnt
-              npm install -g pnpm && pnpm install
-              pnpm exec playwright test
-              exit 0
-          EOF
-        working-directory: tests/browser
-        env:
-          TEST_TARGET: "${{ steps.calculated_vars.outputs.OUTPUT_IMAGE }}"
-      - uses: actions/upload-artifact@v6
-        if: ${{ !cancelled() && fromJson(inputs.github).event_name == 'pull_request' && contains(inputs.target, 'codeserver') }}
+        uses: ./.github/actions/playwright-test
         with:
-          name: "${{ inputs.target }}_${{ steps.calculated_vars.outputs.SANITIZED_PLATFORM }}_playwright-report"
-          path: tests/browser/playwright-report/
-          retention-days: 30
+          test-target: ${{ steps.calculated_vars.outputs.OUTPUT_IMAGE }}
+          podman-socket: /var/run/podman/podman.sock
+          upload-report: ${{ fromJson(inputs.github).event_name == 'pull_request' }}
+          artifact-name: "${{ inputs.target }}_${{ steps.calculated_vars.outputs.SANITIZED_PLATFORM }}_playwright-report"
 
       # endregion
 
