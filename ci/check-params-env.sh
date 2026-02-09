@@ -159,10 +159,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=1213
+            expected_img_size=1169
             ;;
-        odh-workbench-jupyter-minimal-cuda-py311-ubi9-n)
-            expected_name="odh-notebook-jupyter-cuda-minimal-ubi9-python-3.11"
+        odh-workbench-jupyter-minimal-cpu-py312-ubi9-n-1)
+            expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=5614
@@ -203,8 +203,8 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_build_name="konflux"
             expected_img_size=3357
             ;;
-        odh-workbench-jupyter-pytorch-cuda-py311-ubi9-n)
-            expected_name="odh-notebook-jupyter-cuda-pytorch-ubi9-python-3.11"
+        odh-workbench-jupyter-minimal-cuda-py312-ubi9-n-1)
+            expected_name="odh-notebook-jupyter-cuda-minimal-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=9224
@@ -245,8 +245,8 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_build_name="konflux"
             expected_img_size=6964
             ;;
-        odh-workbench-jupyter-datascience-cpu-py311-ubi9-n)
-            expected_name="odh-notebook-jupyter-datascience-ubi9-python-3.11"
+        odh-workbench-jupyter-minimal-rocm-py312-ubi9-n-1)
+            expected_name="odh-notebook-jupyter-rocm-minimal-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=1665
@@ -291,10 +291,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-jupyter-datascience-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=1658
+            expected_img_size=1731
             ;;
-        odh-workbench-jupyter-tensorflow-cuda-py311-ubi9-n)
-            expected_name="odh-notebook-cuda-jupyter-tensorflow-ubi9-python-3.11"
+        odh-workbench-jupyter-datascience-cpu-py312-ubi9-n-1)
+            expected_name="odh-notebook-jupyter-datascience-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=8638
@@ -335,8 +335,8 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_build_name="konflux"
             expected_img_size=6373
             ;;
-        odh-workbench-jupyter-trustyai-cpu-py311-ubi9-n)
-            expected_name="odh-notebook-jupyter-trustyai-ubi9-python-3.11"
+        odh-workbench-jupyter-pytorch-cuda-py312-ubi9-n-1)
+            expected_name="odh-notebook-jupyter-cuda-pytorch-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=5010
@@ -441,10 +441,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-jupyter-rocm-pytorch-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=8124
+            expected_img_size=6409
             ;;
-        odh-workbench-jupyter-tensorflow-rocm-py311-ubi9-n)
-            expected_name="odh-notebook-jupyter-rocm-tensorflow-ubi9-python-3.11"
+        odh-workbench-jupyter-pytorch-rocm-py312-ubi9-n-1)
+            expected_name="odh-notebook-jupyter-rocm-pytorch-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=7430
@@ -466,10 +466,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-runtime-minimal-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=579
+            expected_img_size=832
             ;;
-        odh-pipeline-runtime-datascience-cpu-py311-ubi9-n)
-            expected_name="odh-notebook-runtime-datascience-ubi9-python-3.11"
+        odh-pipeline-runtime-minimal-cpu-py312-ubi9-n-1)
+            expected_name="odh-notebook-runtime-minimal-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=954
@@ -478,10 +478,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-runtime-datascience-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=954
+            expected_img_size=1330
             ;;
-        odh-pipeline-runtime-pytorch-cuda-py311-ubi9-n)
-            expected_name="odh-notebook-runtime-pytorch-ubi9-python-3.11"
+        odh-pipeline-runtime-datascience-cpu-py312-ubi9-n-1)
+            expected_name="odh-notebook-runtime-datascience-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=8506
@@ -492,8 +492,8 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_build_name="konflux"
             expected_img_size=6253
             ;;
-        odh-pipeline-runtime-pytorch-rocm-py311-ubi9-n)
-            expected_name="odh-notebook-runtime-rocm-pytorch-ubi9-python-3.11"
+        odh-pipeline-runtime-pytorch-cuda-py312-ubi9-n-1)
+            expected_name="odh-notebook-runtime-pytorch-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=7413
@@ -502,10 +502,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-runtime-rocm-pytorch-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=7411
+            expected_img_size=5999
             ;;
-        odh-pipeline-runtime-tensorflow-cuda-py311-ubi9-n)
-            expected_name="odh-notebook-cuda-runtime-tensorflow-ubi9-python-3.11"
+        odh-pipeline-runtime-pytorch-rocm-py312-ubi9-n-1)
+            expected_name="odh-notebook-runtime-rocm-pytorch-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=7917
@@ -526,7 +526,31 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_name="odh-notebook-runtime-cuda-pytorch-llmcompressor-ubi9-python-3.12"
             expected_commitref="main"
             expected_build_name="konflux"
-            expected_img_size=6265
+            expected_img_size=11144
+            ;;
+        odh-pipeline-runtime-tensorflow-cuda-py312-ubi9-n)
+            expected_name="odh-notebook-cuda-runtime-tensorflow-ubi9-python-3.12"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=12781
+            ;;
+        odh-pipeline-runtime-tensorflow-cuda-py312-ubi9-n-1)
+            expected_name="odh-notebook-cuda-runtime-tensorflow-ubi9-python-3.12"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=7596
+            ;;
+        odh-pipeline-runtime-tensorflow-rocm-py312-ubi9-n)
+            expected_name="odh-notebook-rocm-runtime-tensorflow-ubi9-python-3.12"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=5953
+            ;;
+        odh-pipeline-runtime-tensorflow-rocm-py312-ubi9-n-1)
+            expected_name="odh-notebook-rocm-runtime-tensorflow-ubi9-python-3.12"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=5358
             ;;
         *)
             echo "Unimplemented variable name: '${image_variable}'"
@@ -584,7 +608,7 @@ function check_image_commit_id_matches_metadata() {
     if [[ "${image_variable}" == *"odh-pipeline-runtime-"* ]]; then
         is_pipeline_runtime="true"
     fi
-    file_image_commit_id=$(cat "${COMMIT_ENV_PATH}"  "${COMMIT_LATEST_ENV_PATH}" | sed 's#-commit##' | grep "${image_variable}=" | cut --delimiter "=" --field 2)
+    file_image_commit_id=$(cat "${COMMIT_ENV_PATH}"  "${COMMIT_LATEST_ENV_PATH}" | sed 's#-commit##' | grep "${image_variable}=" | cut -d '=' -f 2)
 
     test -n "${file_image_commit_id}" || test "${is_pipeline_runtime}" = "true" || {
         echo "Couldn't retrieve commit id for image variable '${image_variable}' in '${COMMIT_ENV_PATH}' or '${COMMIT_LATEST_ENV_PATH}'!"
@@ -604,11 +628,14 @@ function check_image_repo_name() {
     local image_url="${2}"
     local image_variable_filtered=""
     local repository_name=""
+    local image_repo=""
 
     # Line record example:
-    # odh-pipeline-runtime-tensorflow-rocm-py311-ubi9-n=quay.io/modh/odh-pipeline-runtime-tensorflow-rocm-py311-ubi9@sha256:ae1ebd1f0b3dd444b5271101a191eb16ec4cc9735c8cab7f836aae5dfe31ae89
+    # odh-pipeline-runtime-tensorflow-rocm-py312-ubi9-n=quay.io/modh/odh-pipeline-runtime-tensorflow-rocm-py312-ubi9@sha256:ae1ebd1f0b3dd444b5271101a191eb16ec4cc9735c8cab7f836aae5dfe31ae89
     image_variable_filtered=$(echo "${image_variable}" | sed 's/\(.*\)-n.*/\1/')
-    repository_name=$(echo "${image_url}" | sed 's#.*/\(.*\)@.*#\1#')
+    image_repo="${image_url%@*}"
+    image_repo="${image_repo%:*}"
+    repository_name="${image_repo##*/}"
 
     test "${image_variable_filtered}" == "${repository_name}" || {
         echo "The image repository name '${repository_name}' doesn't match the filtered image variable value '${image_variable_filtered}'!"
@@ -674,6 +701,9 @@ function check_image() {
     local image_metadata
     local image_size
     local image_size_mb
+    local manifest_digest
+    local image_repo
+    local platform_image_metadata
 
     image_metadata="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --raw "docker://${image_url}")" || {
         echo "Couldn't download image metadata with skopeo tool!"
@@ -683,9 +713,23 @@ function check_image() {
     # 'tests/containers/base_image_test.py#test_image_size_change' where we check against the extracted image size.
     # There is no actual reason to compare these different sizes except that in this case we want to do check the
     # image remotely, whereas in the othe test, we have the image present locally on the machine.
-    image_size=$(echo "${image_metadata}" | jq --exit-status '[ .layers[].size ] | add') ||  {
-        echo "Couldn't count image size from image metadata!"
-        return 1
+    image_size=$(echo "${image_metadata}" | jq --exit-status '[ .layers[]?.size ] | add') ||  {
+        manifest_digest=$(echo "${image_metadata}" | jq --exit-status --raw-output '[.manifests[]? | select(.platform.os=="linux" and .platform.architecture=="amd64") | .digest] | first // empty') || manifest_digest=""
+        if test -n "${manifest_digest}"; then
+            image_repo="${image_url%@*}"
+            image_repo="${image_repo%:*}"
+            platform_image_metadata="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --raw "docker://${image_repo}@${manifest_digest}")" || {
+                echo "Couldn't download image metadata for manifest digest '${manifest_digest}'!"
+                return 1
+            }
+            image_size=$(echo "${platform_image_metadata}" | jq --exit-status '[ .layers[]?.size ] | add') || {
+                echo "Couldn't count image size from image metadata!"
+                return 1
+            }
+        else
+            echo "Couldn't count image size from image metadata!"
+            return 1
+        fi
     }
     image_size_mb=$((image_size / 1024 / 1024)) ||  {
         echo "Couldn't count image size from image metadata!"
@@ -753,8 +797,8 @@ process_file() {
             continue
         }
 
-        IMAGE_VARIABLE=$(echo "${LINE}" | cut --delimiter '=' --field 1)
-        IMAGE_URL=$(echo "${LINE}" | cut --delimiter '=' --field 2)
+        IMAGE_VARIABLE=$(echo "${LINE}" | cut -d '=' -f 1)
+        IMAGE_URL=$(echo "${LINE}" | cut -d '=' -f 2)
 
         test -n "${IMAGE_VARIABLE}" || {
             echo "ERROR: Couldn't parse image variable - got empty value!"
