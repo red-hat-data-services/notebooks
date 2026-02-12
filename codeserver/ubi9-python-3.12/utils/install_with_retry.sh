@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Shared install script with retry logic for dnf and texlive (install_pdf_deps).
+# Shared install script with retry logic for dnf, texlive (install_pdf_deps), and npm.
 # Usage:
 #   ./install_with_retry.sh dnf-install <package> [package ...]
 #   ./install_with_retry.sh texlive-install
+#   ./install_with_retry.sh npm-install
 
 set -Eeuxo pipefail
 
@@ -49,6 +50,10 @@ texlive_install() {
     CLEANUP_CMD= run_with_retry "$script_dir/install_pdf_deps.sh"
 }
 
+npm_install() {
+    CLEANUP_CMD="rm -rf node_modules" run_with_retry npm install
+}
+
 main() {
     case "${1:-}" in
         dnf-install)
@@ -58,10 +63,14 @@ main() {
         texlive-install)
             texlive_install
             ;;
+        npm-install)
+            npm_install
+            ;;
         *)
-            echo "Usage: $0 {dnf-install|texlive-install} [args...]" >&2
+            echo "Usage: $0 {dnf-install|texlive-install|npm-install} [args...]" >&2
             echo "  dnf-install <package> [package ...]  Install RPM packages with retry" >&2
             echo "  texlive-install                       Run install_pdf_deps.sh with retry" >&2
+            echo "  npm-install                           Run npm install with retry" >&2
             exit 1
             ;;
     esac

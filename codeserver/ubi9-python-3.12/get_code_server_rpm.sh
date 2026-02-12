@@ -65,7 +65,7 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" ||"$ARCH" == "ppc64le" ]]; then
 	source ${NVM_DIR}/nvm.sh
 	while IFS= read -r src_patch; do echo "patches/$src_patch"; patch -p1 < "patches/$src_patch"; done < patches/series
 	nvm use ${NODE_VERSION}
-	npm install
+	../utils/install_with_retry.sh npm-install
 	npm run build
 	VERSION=${CODESERVER_VERSION/v/} npm run build:vscode
 	npm run release
