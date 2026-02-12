@@ -7,7 +7,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main"  && ( "base-images/utils/**".pathChanged() || "base-images/rocm/6.4/c9s-python-3.12/**".pathChanged() || ".tekton/odh-base-image-rocm-6-4-py312-c9s-push.yaml".pathChanged() )
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main"  && ( "base-images/utils/**".pathChanged() || "base-images/rocm/6.4/c9s-python-3.12/**".pathChanged() || "base-images/build-args/rocm6.4.conf".pathChanged() || ".tekton/odh-base-image-rocm-6-4-py312-c9s-push.yaml".pathChanged() )
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: opendatahub-release
@@ -25,12 +25,39 @@ spec:
     value: quay.io/opendatahub/odh-base-image-rocm-py312-c9s:{{revision}}
   - name: dockerfile
     value: base-images/rocm/6.4/c9s-python-3.12/Dockerfile.rocm
+  - name: build-args-file
+    value: base-images/build-args/rocm6.4.conf
   - name: path-context
     value: .
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
     - v6.4
+  taskRunSpecs:
+    - pipelineTaskName: build-images
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 32Gi
+        limits:
+          cpu: '8'
+          memory: 32Gi
+    - pipelineTaskName: clair-scan
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 32Gi
+        limits:
+          cpu: '8'
+          memory: 32Gi
+    - pipelineTaskName: ecosystem-cert-preflight-checks
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 32Gi
+        limits:
+          cpu: '8'
+          memory: 32Gi
   pipelineRef:
     name: singlearch-push-pipeline
   taskRunTemplate:
