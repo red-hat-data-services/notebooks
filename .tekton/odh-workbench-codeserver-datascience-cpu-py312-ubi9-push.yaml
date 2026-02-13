@@ -20,6 +20,8 @@ spec:
   timeouts:
     pipeline: 6h
   params:
+  - name: event-type
+    value: '{{event_type}}'
   - name: git-url
     value: '{{source_url}}'
   - name: revision
@@ -35,13 +37,13 @@ spec:
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
-    - 3.4_ea1-v1.41
+    - 3.4_ea2-v1.42
   - name: build-platforms
     value:
     - linux-d160-m4xlarge/amd64
     - linux-d160-m4xlarge/arm64
   pipelineRef:
-    name: multiarch-push-pipeline
+    name: multiarch-combined-pipeline
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-codeserver-datascience-cpu-py312-ubi9
   workspaces:
