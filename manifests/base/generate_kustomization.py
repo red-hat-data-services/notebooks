@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --project=../..
 """Generate kustomization.yaml for manifests/base/.
 
 Like the "99 bottles" or "12 days of Christmas" kata, the kustomization.yaml
@@ -6,18 +6,19 @@ is a highly repetitive file where each stanza follows the same template with
 different parameters. This script expresses that pattern as code.
 
 Usage:
-    python generate_kustomization.py              # write kustomization.yaml
-    python generate_kustomization.py --check      # verify existing file matches
-    python generate_kustomization.py --stdout     # print to stdout instead
+    uv run manifests/base/generate_kustomization.py              # write kustomization.yaml
+    uv run manifests/base/generate_kustomization.py --check      # verify existing file matches
+    uv run manifests/base/generate_kustomization.py --stdout     # print to stdout instead
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
-import textwrap
 from dataclasses import dataclass
 from pathlib import Path
+
+from ntb.strings import process_template_with_indents
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_FILE = SCRIPT_DIR / "kustomization.yaml"
@@ -91,22 +92,6 @@ RUNTIMES: list[Runtime] = [
 # ---------------------------------------------------------------------------
 
 
-def process_template_with_indents(template: str, indent: int = 0, **kwargs: str) -> str:
-    """Dedent a template, substitute placeholders, and re-indent.
-
-    Write YAML templates as readable, left-aligned triple-quoted strings in
-    Python (where IntelliJ ``# language=yaml`` injection works nicely), then
-    call this to strip the common leading whitespace, apply ``str.format``
-    substitution, and prepend *indent* spaces to every line.
-    """
-    dedented = textwrap.dedent(template).strip("\n")
-    filled = dedented.format(**kwargs) if kwargs else dedented
-    if indent:
-        prefix = " " * indent
-        filled = "\n".join(prefix + line if line else line for line in filled.splitlines())
-    return filled
-
-
 def _replacement_block(
     field_path_key: str,
     configmap_name: str,
@@ -115,27 +100,19 @@ def _replacement_block(
 ) -> str:
     """One replacement stanza."""
     # language=yaml
-    template = """\
-        - source:
-            fieldPath: data.{field_path_key}
-            kind: ConfigMap
-            name: {configmap_name}
-            version: v1
-          targets:
-            - fieldPaths:
-                - {target_field}
-              select:
-                group: image.openshift.io
-                kind: ImageStream
-                name: {imagestream_name}
-                version: v1"""
-    return process_template_with_indents(
-        template, indent=2,
-        field_path_key=field_path_key,
-        configmap_name=configmap_name,
-        target_field=target_field,
-        imagestream_name=imagestream_name,
-    )
+    return process_template_with_indents(t"""  - source:
+      fieldPath: data.{field_path_key}
+      kind: ConfigMap
+      name: {configmap_name}
+      version: v1
+    targets:
+      - fieldPaths:
+          - {target_field}
+        select:
+          group: image.openshift.io
+          kind: ImageStream
+          name: {imagestream_name}
+          version: v1""")
 
 
 def _workbench_params_replacements(wb: Workbench) -> list[str]:
@@ -164,37 +141,34 @@ def generate() -> str:
     """Produce the full kustomization.yaml content."""
     resource_lines = "".join(f"  - {wb.resource_file}\n" for wb in WORKBENCHES)
     resource_lines += "".join(f"  - {rf}\n" for rf in RUNTIME_RESOURCE_FILES)
+    resources = resource_lines.rstrip("\n")
 
     # language=yaml
-    header = process_template_with_indents("""\
-        ---
-        apiVersion: kustomize.config.k8s.io/v1beta1
-        kind: Kustomization
-        resources:
-        {resources}
+    header = process_template_with_indents(t"""---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+{resources}
 
-        configMapGenerator:
-          - envs:
-              - params.env
-              - params-latest.env
-            name: notebook-image-params
-          - envs:
-              - commit.env
-              - commit-latest.env
-            name: notebook-image-commithash
-        generatorOptions:
-          disableNameSuffixHash: true
+configMapGenerator:
+  - envs:
+      - params.env
+      - params-latest.env
+    name: notebook-image-params
+  - envs:
+      - commit.env
+      - commit-latest.env
+    name: notebook-image-commithash
+generatorOptions:
+  disableNameSuffixHash: true
 
-        labels:
-          - includeSelectors: true
-            pairs:
-              component.opendatahub.io/name: notebooks
-              opendatahub.io/component: "true"
-        replacements:
-    """, resources=resource_lines.rstrip("\n"))
-
-    # Ensure header ends with exactly one newline before replacement blocks
-    header = header.rstrip("\n") + "\n"
+labels:
+  - includeSelectors: true
+    pairs:
+      component.opendatahub.io/name: notebooks
+      opendatahub.io/component: "true"
+replacements:
+""")
 
     replacement_blocks: list[str] = []
 
