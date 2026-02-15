@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+import textwrap
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -86,8 +87,24 @@ RUNTIMES: list[Runtime] = [
 
 
 # ---------------------------------------------------------------------------
-# YAML generation (string templates -- no external deps)
+# YAML generation
 # ---------------------------------------------------------------------------
+
+
+def process_template_with_indents(template: str, indent: int = 0, **kwargs: str) -> str:
+    """Dedent a template, substitute placeholders, and re-indent.
+
+    Write YAML templates as readable, left-aligned triple-quoted strings in
+    Python (where IntelliJ ``# language=yaml`` injection works nicely), then
+    call this to strip the common leading whitespace, apply ``str.format``
+    substitution, and prepend *indent* spaces to every line.
+    """
+    dedented = textwrap.dedent(template).strip("\n")
+    filled = dedented.format(**kwargs) if kwargs else dedented
+    if indent:
+        prefix = " " * indent
+        filled = "\n".join(prefix + line if line else line for line in filled.splitlines())
+    return filled
 
 
 def _replacement_block(
@@ -98,20 +115,26 @@ def _replacement_block(
 ) -> str:
     """One replacement stanza."""
     # language=yaml
-    return (
-        f"  - source:\n"
-        f"      fieldPath: data.{field_path_key}\n"
-        f"      kind: ConfigMap\n"
-        f"      name: {configmap_name}\n"
-        f"      version: v1\n"
-        f"    targets:\n"
-        f"      - fieldPaths:\n"
-        f"          - {target_field}\n"
-        f"        select:\n"
-        f"          group: image.openshift.io\n"
-        f"          kind: ImageStream\n"
-        f"          name: {imagestream_name}\n"
-        f"          version: v1"
+    template = """\
+        - source:
+            fieldPath: data.{field_path_key}
+            kind: ConfigMap
+            name: {configmap_name}
+            version: v1
+          targets:
+            - fieldPaths:
+                - {target_field}
+              select:
+                group: image.openshift.io
+                kind: ImageStream
+                name: {imagestream_name}
+                version: v1"""
+    return process_template_with_indents(
+        template, indent=2,
+        field_path_key=field_path_key,
+        configmap_name=configmap_name,
+        target_field=target_field,
+        imagestream_name=imagestream_name,
     )
 
 
@@ -143,31 +166,35 @@ def generate() -> str:
     resource_lines += "".join(f"  - {rf}\n" for rf in RUNTIME_RESOURCE_FILES)
 
     # language=yaml
-    header = (
-        "---\n"
-        "apiVersion: kustomize.config.k8s.io/v1beta1\n"
-        "kind: Kustomization\n"
-        "resources:\n"
-        f"{resource_lines}\n"
-        "configMapGenerator:\n"
-        "  - envs:\n"
-        "      - params.env\n"
-        "      - params-latest.env\n"
-        "    name: notebook-image-params\n"
-        "  - envs:\n"
-        "      - commit.env\n"
-        "      - commit-latest.env\n"
-        "    name: notebook-image-commithash\n"
-        "generatorOptions:\n"
-        "  disableNameSuffixHash: true\n"
-        "\n"
-        "labels:\n"
-        "  - includeSelectors: true\n"
-        "    pairs:\n"
-        "      component.opendatahub.io/name: notebooks\n"
-        '      opendatahub.io/component: "true"\n'
-        "replacements:\n"
-    )
+    header = process_template_with_indents("""\
+        ---
+        apiVersion: kustomize.config.k8s.io/v1beta1
+        kind: Kustomization
+        resources:
+        {resources}
+
+        configMapGenerator:
+          - envs:
+              - params.env
+              - params-latest.env
+            name: notebook-image-params
+          - envs:
+              - commit.env
+              - commit-latest.env
+            name: notebook-image-commithash
+        generatorOptions:
+          disableNameSuffixHash: true
+
+        labels:
+          - includeSelectors: true
+            pairs:
+              component.opendatahub.io/name: notebooks
+              opendatahub.io/component: "true"
+        replacements:
+    """, resources=resource_lines.rstrip("\n"))
+
+    # Ensure header ends with exactly one newline before replacement blocks
+    header = header.rstrip("\n") + "\n"
 
     replacement_blocks: list[str] = []
 
