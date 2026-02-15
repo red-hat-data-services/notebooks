@@ -49,19 +49,31 @@ class Runtime:
 
 # Order matters -- it matches the existing kustomization.yaml exactly.
 WORKBENCHES: list[Workbench] = [
-    Workbench("odh-workbench-jupyter-minimal-cpu-py312-ubi9", "jupyter-minimal-notebook", "jupyter-minimal-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-datascience-cpu-py312-ubi9", "jupyter-datascience-notebook", "jupyter-datascience-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-minimal-cuda-py312-ubi9", "jupyter-minimal-gpu-notebook", "jupyter-minimal-gpu-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-pytorch-cuda-py312-ubi9", "jupyter-pytorch-notebook", "jupyter-pytorch-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-tensorflow-cuda-py312-ubi9", "jupyter-tensorflow-notebook", "jupyter-tensorflow-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-trustyai-cpu-py312-ubi9", "jupyter-trustyai-notebook", "jupyter-trustyai-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-codeserver-datascience-cpu-py312-ubi9", "code-server-notebook", "code-server-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-minimal-cpu-py312-ubi9", "jupyter-minimal-notebook",
+              "jupyter-minimal-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-datascience-cpu-py312-ubi9", "jupyter-datascience-notebook",
+              "jupyter-datascience-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-minimal-cuda-py312-ubi9", "jupyter-minimal-gpu-notebook",
+              "jupyter-minimal-gpu-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-pytorch-cuda-py312-ubi9", "jupyter-pytorch-notebook",
+              "jupyter-pytorch-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-tensorflow-cuda-py312-ubi9", "jupyter-tensorflow-notebook",
+              "jupyter-tensorflow-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-trustyai-cpu-py312-ubi9", "jupyter-trustyai-notebook",
+              "jupyter-trustyai-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-codeserver-datascience-cpu-py312-ubi9", "code-server-notebook",
+              "code-server-notebook-imagestream.yaml"),
     Workbench("odh-workbench-rstudio-minimal-cpu-py312-c9s", "rstudio-notebook", "rstudio-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-rstudio-minimal-cuda-py312-c9s", "rstudio-gpu-notebook", "rstudio-gpu-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-minimal-rocm-py312-ubi9", "jupyter-rocm-minimal", "jupyter-rocm-minimal-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-pytorch-rocm-py312-ubi9", "jupyter-rocm-pytorch", "jupyter-rocm-pytorch-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-tensorflow-rocm-py312-ubi9", "jupyter-rocm-tensorflow", "jupyter-rocm-tensorflow-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-ubi9", "jupyter-pytorch-llmcompressor", "jupyter-pytorch-llmcompressor-imagestream.yaml"),
+    Workbench("odh-workbench-rstudio-minimal-cuda-py312-c9s", "rstudio-gpu-notebook",
+              "rstudio-gpu-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-minimal-rocm-py312-ubi9", "jupyter-rocm-minimal",
+              "jupyter-rocm-minimal-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-pytorch-rocm-py312-ubi9", "jupyter-rocm-pytorch",
+              "jupyter-rocm-pytorch-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-tensorflow-rocm-py312-ubi9", "jupyter-rocm-tensorflow",
+              "jupyter-rocm-tensorflow-notebook-imagestream.yaml"),
+    Workbench("odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-ubi9", "jupyter-pytorch-llmcompressor",
+              "jupyter-pytorch-llmcompressor-imagestream.yaml"),
 ]
 
 # Resource file listing order (matches the existing kustomization.yaml resources section).
@@ -78,12 +90,17 @@ RUNTIME_RESOURCE_FILES: list[str] = [
 # Replacement block order (matches the existing kustomization.yaml replacements section).
 RUNTIMES: list[Runtime] = [
     Runtime("odh-pipeline-runtime-minimal-cpu-py312-ubi9", "runtime-minimal", "runtime-minimal-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-datascience-cpu-py312-ubi9", "runtime-datascience", "runtime-datascience-imagestream.yaml"),
+    Runtime("odh-pipeline-runtime-datascience-cpu-py312-ubi9", "runtime-datascience",
+            "runtime-datascience-imagestream.yaml"),
     Runtime("odh-pipeline-runtime-pytorch-cuda-py312-ubi9", "runtime-pytorch", "runtime-pytorch-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-pytorch-rocm-py312-ubi9", "runtime-rocm-pytorch", "runtime-rocm-pytorch-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-tensorflow-cuda-py312-ubi9", "runtime-tensorflow", "runtime-tensorflow-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-tensorflow-rocm-py312-ubi9", "runtime-rocm-tensorflow", "runtime-rocm-tensorflow-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-ubi9", "runtime-pytorch-llmcompressor", "runtime-pytorch-llmcompressor-imagestream.yaml"),
+    Runtime("odh-pipeline-runtime-pytorch-rocm-py312-ubi9", "runtime-rocm-pytorch",
+            "runtime-rocm-pytorch-imagestream.yaml"),
+    Runtime("odh-pipeline-runtime-tensorflow-cuda-py312-ubi9", "runtime-tensorflow",
+            "runtime-tensorflow-imagestream.yaml"),
+    Runtime("odh-pipeline-runtime-tensorflow-rocm-py312-ubi9", "runtime-rocm-tensorflow",
+            "runtime-rocm-tensorflow-imagestream.yaml"),
+    Runtime("odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-ubi9", "runtime-pytorch-llmcompressor",
+            "runtime-pytorch-llmcompressor-imagestream.yaml"),
 ]
 
 
@@ -100,7 +117,8 @@ def _replacement_block(
 ) -> str:
     """One replacement stanza."""
     # language=yaml
-    return process_template_with_indents(t"""  - source:
+    return process_template_with_indents(t"""\
+  - source:
       fieldPath: data.{field_path_key}
       kind: ConfigMap
       name: {configmap_name}
@@ -127,8 +145,10 @@ def _workbench_commit_replacements(wb: Workbench) -> list[str]:
     """N and N-1 commit-hash replacements for a workbench."""
     annotation = "spec.tags.{idx}.annotations.[opendatahub.io/notebook-build-commit]"
     return [
-        _replacement_block(f"{wb.param_key}-commit-n", "notebook-image-commithash", annotation.format(idx=0), wb.imagestream),
-        _replacement_block(f"{wb.param_key}-commit-n-1", "notebook-image-commithash", annotation.format(idx=1), wb.imagestream),
+        _replacement_block(f"{wb.param_key}-commit-n", "notebook-image-commithash", annotation.format(idx=0),
+                           wb.imagestream),
+        _replacement_block(f"{wb.param_key}-commit-n-1", "notebook-image-commithash", annotation.format(idx=1),
+                           wb.imagestream),
     ]
 
 
@@ -143,8 +163,23 @@ def generate() -> str:
     resource_lines += "".join(f"  - {rf}\n" for rf in RUNTIME_RESOURCE_FILES)
     resources = resource_lines.rstrip("\n")
 
+    replacement_blocks: list[str] = []
+
+    # 1) Workbench image-params (N and N-1) for all workbenches
+    for wb in WORKBENCHES:
+        replacement_blocks.extend(_workbench_params_replacements(wb))
+
+    # 2) Workbench commit-hash (N and N-1) for all workbenches
+    for wb in WORKBENCHES:
+        replacement_blocks.extend(_workbench_commit_replacements(wb))
+
+    # 3) Runtime image-params (N only) for all runtimes
+    for rt in RUNTIMES:
+        replacement_blocks.append(_runtime_params_replacement(rt))
+
     # language=yaml
-    header = process_template_with_indents(t"""---
+    return process_template_with_indents(t"""\
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -168,23 +203,8 @@ labels:
       component.opendatahub.io/name: notebooks
       opendatahub.io/component: "true"
 replacements:
+{"\n".join(replacement_blocks)}
 """)
-
-    replacement_blocks: list[str] = []
-
-    # 1) Workbench image-params (N and N-1) for all workbenches
-    for wb in WORKBENCHES:
-        replacement_blocks.extend(_workbench_params_replacements(wb))
-
-    # 2) Workbench commit-hash (N and N-1) for all workbenches
-    for wb in WORKBENCHES:
-        replacement_blocks.extend(_workbench_commit_replacements(wb))
-
-    # 3) Runtime image-params (N only) for all runtimes
-    for rt in RUNTIMES:
-        replacement_blocks.append(_runtime_params_replacement(rt))
-
-    return header + "\n".join(replacement_blocks) + "\n"
 
 
 # ---------------------------------------------------------------------------
@@ -195,7 +215,8 @@ replacements:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--check", action="store_true", help="Verify existing kustomization.yaml matches generated output")
+    group.add_argument("--check", action="store_true",
+                       help="Verify existing kustomization.yaml matches generated output")
     group.add_argument("--stdout", action="store_true", help="Print to stdout instead of writing to file")
     args = parser.parse_args()
 
@@ -231,7 +252,8 @@ def _print_first_difference(existing: str, generated: str) -> None:
         if len(existing_lines) < len(generated_lines)
         else ("generated", "existing")
     )
-    print(f"  {shorter} has {abs(len(existing_lines) - len(generated_lines))} fewer lines than {longer}", file=sys.stderr)
+    print(f"  {shorter} has {abs(len(existing_lines) - len(generated_lines))} fewer lines than {longer}",
+          file=sys.stderr)
 
 
 if __name__ == "__main__":
