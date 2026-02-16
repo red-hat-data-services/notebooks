@@ -59,13 +59,13 @@ jobs:
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >>${GITHUB_ENV}
           echo "CACHE=${CACHE,,}" >>${GITHUB_ENV}
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         if: ${{ fromJson(inputs.github).event_name != 'pull_request_target' }}
         with:
           lfs: ${{ contains(inputs.target, 'codeserver') }}
       # we need to checkout the pr branch, not pr target (the default for pull_request_target)
       # user access check is done in calling workflow
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         if: ${{ fromJson(inputs.github).event_name == 'pull_request_target' }}
         with:
           ref: "refs/pull/${{ fromJson(inputs.github).event.number }}/merge"
@@ -117,7 +117,7 @@ jobs:
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
       # for bin/buildinputs in scripts/sandbox.py
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           cache-dependency-path: "scripts/buildinputs/go.sum"
 
@@ -157,92 +157,10 @@ jobs:
 
       # region Podman setup
 
-      # https://github.com/containers/buildah/issues/2521#issuecomment-884779112
-      - name: Workaround https://github.com/containers/podman/issues/22152#issuecomment-2027705598
-        run: sudo apt-get -qq remove podman crun
-
-      - uses: actions/cache@v4
-        # https://docs.github.com/en/actions/reference/variables-reference#default-environment-variables
-        # https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables
-        id: cached-linuxbrew
+      - name: Install Podman
+        uses: './.github/actions/install-podman-action'
         with:
-          path: /home/linuxbrew/.linuxbrew
-          key: linuxbrew-${{ runner.os }}-${{ runner.arch }}
-
-      - name: Install podman (linux/amd64, or qemu-user emulation)
-        if: contains(fromJSON('["linux/amd64", "linux/s390x", "linux/ppc64le"]'), inputs.platform) && steps.cached-linuxbrew.outputs.cache-hit != 'true'
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          /home/linuxbrew/.linuxbrew/bin/brew install podman
-
-      # Warning: Your CPU architecture (arm64) is not supported. We only support
-      # x86_64 CPU architectures. You will be unable to use binary packages (bottles).
-      #
-      # This is a Tier 2 configuration:
-      #  https://docs.brew.sh/Support-Tiers#tier-2
-      # Do not report any issues to Homebrew/* repositories!
-      # Read the above document instead before opening any issues or PRs.
-      - name: Install podman (linux/arm64)
-        if: inputs.platform == 'linux/arm64' && steps.cached-linuxbrew.outputs.cache-hit != 'true'
-        # Error: podman: no bottle available!
-        # If you're feeling brave, you can try to install from source with:
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          /home/linuxbrew/.linuxbrew/bin/brew install --build-from-source podman
-
-      - name: Add linuxbrew to PATH
-        run: echo "/home/linuxbrew/.linuxbrew/bin/" >> $GITHUB_PATH
-
-      - name: Configure Podman
-        run: |
-          set -Eeuxo pipefail
-
-          # podman running as service ignores the TMPDIR env var here, let's give it a bind-mount to /var/tmp
-          mkdir -p $TMPDIR
-          sudo mount --bind -o rw,noexec,nosuid,nodev,bind $TMPDIR /var/tmp
-
-          # podman from brew has its own /etc (was giving me Failed to obtain podman configuration: runroot must be set)
-          # the (default) config location is also where cri-o gets its storage defaults (that can be overriden in crio.conf)
-          sudo cp ci/cached-builds/containers.conf /etc/containers.conf
-          sudo cp ci/cached-builds/containers.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers.conf
-          sudo cp ci/cached-builds/storage.conf /etc/containers/storage.conf
-          sudo cp ci/cached-builds/storage.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/storage.conf
-          sudo cp ci/cached-builds/registries.conf /etc/containers/registries.conf
-          sudo cp ci/cached-builds/registries.conf /home/linuxbrew/.linuxbrew/opt/podman/etc/containers/registries.conf
-
-          # should reset storage when changing storage.conf
-          mkdir -p $HOME/.local/share/containers/storage/tmp
-          # remote (CONTAINER_HOST) podman does not do reset (and refuses --force option)
-          sudo /home/linuxbrew/.linuxbrew/opt/podman/bin/podman system reset --force
-
-          # https://github.com/containers/podman/pull/25504
-          # podman 5.5.0: The podman system reset command no longer removes the user's podman.sock API socket
-          sudo rm -rf /var/run/podman
-
-          # https://github.com/containers/podman/blob/main/docs/tutorials/socket_activation.md
-          # since `brew services start podman` is buggy, let's do our own brew-compatible service
-          # Regarding directory paths, see https://unix.stackexchange.com/questions/224992/where-do-i-put-my-systemd-unit-file
-          sudo mkdir -p /usr/local/lib/systemd/system/
-          sudo cp ci/cached-builds/podman.service /usr/local/lib/systemd/system/podman.service
-          sudo cp ci/cached-builds/podman.socket /usr/local/lib/systemd/system/podman.socket
-          sudo systemctl daemon-reload
-          sudo systemctl unmask --now podman.service podman.socket
-          sudo systemctl start podman.socket
-
-          # needed (much) later for trivy
-          echo "PODMAN_SOCK=/var/run/podman/podman.sock" >> $GITHUB_ENV
-
-          # quick check podman works
-          podman ps
-
-      - name: Show error logs (on failure)
-        if: ${{ failure() }}
-        run: |
-          set -Eeuxo pipefail
-
-          journalctl -xe
-          ls -AlF /var/run/podman/podman.sock || echo "Socket /var/run/podman/podman.sock not found"
-          sudo ss -xlpn | grep 'podman.sock' || echo "No active listener found for podman.sock via ss"
+          platform: ${{ inputs.platform }}
 
       - name: Calculate image name and tag
         id: calculated_vars
@@ -437,47 +355,30 @@ jobs:
             echo "target=$TARGET" >> $GITHUB_OUTPUT
             echo "type=$TYPE" >> $GITHUB_OUTPUT
             echo "Trivy scan will run on $TARGET ($TYPE)"
+
+            # opendatahub-io/notebooks uses CentOS Stream which is not supported by Trivy
+            # for OS package scanning. Skip OS packages and only scan language dependencies.
+            # red-hat-data-services/notebooks uses UBI/RHEL which is fully supported.
+            # See: https://github.com/opendatahub-io/notebooks/issues/2848
+            if [[ "${{ github.repository }}" == "opendatahub-io/notebooks" ]]; then
+              echo "pkg-types=library" >> $GITHUB_OUTPUT
+              echo "opendatahub-io/notebooks: skipping OS package scanning (CentOS Stream unsupported by Trivy)"
+            else
+              echo "pkg-types=os,library" >> $GITHUB_OUTPUT
+            fi
           else
             echo "Trivy scan won't run"
           fi
 
       - name: Run Trivy vulnerability scanner
         if: ${{ steps.resolve-target.outputs.target }}
-        run: |
-          REPORT_FOLDER=${{ github.workspace }}/report
-          REPORT_FILE=trivy-report.md
-          REPORT_TEMPLATE=trivy-markdown.tpl
-
-          mkdir -p $REPORT_FOLDER
-          cp ci/$REPORT_TEMPLATE $REPORT_FOLDER
-
-          SCAN_TARGET=${{ steps.resolve-target.outputs.target }}
-          SCAN_TYPE=${{ steps.resolve-target.outputs.type }}
-          echo "Scanning $SCAN_TARGET ($SCAN_TYPE)"
-
-          if [[ "$SCAN_TYPE" == "image" ]]; then
-            SCAN_ARGS="--image-src podman --podman-host /var/run/podman/podman.sock"
-            PODMAN_ARGS="-v ${PODMAN_SOCK}:/var/run/podman/podman.sock"
-          elif [[ "$SCAN_TYPE" == "fs" ]]; then
-            WORKSPACE_FOLDER="/workspace"
-            SCAN_TARGET="$WORKSPACE_FOLDER/$SCAN_TARGET"
-            PODMAN_ARGS="-v ${{ github.workspace }}:$WORKSPACE_FOLDER"
-          fi
-
-          # have trivy access podman socket,
-          # https://github.com/aquasecurity/trivy/issues/580#issuecomment-666423279
-          podman run --rm \
-              $PODMAN_ARGS \
-              -v ${REPORT_FOLDER}:/report \
-              docker.io/aquasec/trivy:$TRIVY_VERSION \
-                $SCAN_TYPE \
-                $SCAN_ARGS \
-                --scanners vuln --ignore-unfixed \
-                --exit-code 0 --timeout 30m \
-                --format template --template "@/report/$REPORT_TEMPLATE" -o /report/$REPORT_FILE \
-                $SCAN_TARGET
-
-          cat $REPORT_FOLDER/$REPORT_FILE >> $GITHUB_STEP_SUMMARY
+        uses: ./.github/actions/trivy-scan-action
+        with:
+          scan-type: ${{ steps.resolve-target.outputs.type }}
+          scan-target: ${{ steps.resolve-target.outputs.target }}
+          trivy-version: ${{ env.TRIVY_VERSION }}
+          podman-socket: /var/run/podman/podman.sock
+          pkg-types: ${{ steps.resolve-target.outputs.pkg-types }}
 
       # endregion
 
@@ -489,7 +390,7 @@ jobs:
         working-directory: scripts/check-payload
 
       # for https://github.com/openshift/check-payload to cache the built binary
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           cache-dependency-path: "scripts/check-payload/go.sum"
         env:
