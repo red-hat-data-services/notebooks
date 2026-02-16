@@ -5,6 +5,11 @@ Like the "99 bottles" or "12 days of Christmas" kata, the kustomization.yaml
 is a highly repetitive file where each stanza follows the same template with
 different parameters. This script expresses that pattern as code.
 
+Works on both origin/main (2 versions per image) and rhds/main (up to 8
+versions per image with py311/py312 split).  Image lists, version depths,
+and ImageStream names are auto-discovered from the sibling .env and YAML
+files -- no hardcoded image list to keep in sync.
+
 Usage:
     uv run manifests/base/generate_kustomization.py              # write kustomization.yaml
     uv run manifests/base/generate_kustomization.py --check      # verify existing file matches
@@ -14,8 +19,9 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import re
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from ntb.strings import process_template_with_indents
@@ -31,77 +37,220 @@ OUTPUT_FILE = SCRIPT_DIR / "kustomization.yaml"
 
 @dataclass
 class Workbench:
-    """A workbench image: has N and N-1 tags, params + commit replacements."""
+    """A workbench image with a variable-length version chain.
 
-    param_key: str  # e.g. "odh-workbench-jupyter-minimal-cpu-py312-ubi9"
-    imagestream: str  # e.g. "jupyter-minimal-notebook"
-    resource_file: str  # e.g. "jupyter-minimal-notebook-imagestream.yaml"
+    Each entry in *versions* is the param_key base for that tag index.
+    For example, on rhds/main ``s2i-minimal-notebook`` has::
+
+        versions = [
+            "odh-workbench-jupyter-minimal-cpu-py312-ubi9",   # n   (tag 0)
+            "odh-workbench-jupyter-minimal-cpu-py312-ubi9",   # n-1 (tag 1)
+            "odh-workbench-jupyter-minimal-cpu-py311-ubi9",   # n-2 (tag 2)
+            "odh-workbench-jupyter-minimal-cpu-py311-ubi9",   # n-3 (tag 3)
+            ...
+        ]
+    """
+
+    imagestream: str
+    resource_file: str
+    versions: list[str] = field(default_factory=list)
 
 
 @dataclass
 class Runtime:
-    """A runtime image: has only a single tag (N), params replacement only."""
+    """A runtime image: single tag (N), params replacement only."""
 
-    param_key: str  # e.g. "odh-pipeline-runtime-minimal-cpu-py312-ubi9"
-    imagestream: str  # e.g. "runtime-minimal"
-    resource_file: str  # e.g. "runtime-minimal-imagestream.yaml"
+    param_key: str
+    imagestream: str
+    resource_file: str
 
 
-# Order matters -- it matches the existing kustomization.yaml exactly.
-WORKBENCHES: list[Workbench] = [
-    Workbench("odh-workbench-jupyter-minimal-cpu-py312-ubi9", "jupyter-minimal-notebook",
-              "jupyter-minimal-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-datascience-cpu-py312-ubi9", "jupyter-datascience-notebook",
-              "jupyter-datascience-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-minimal-cuda-py312-ubi9", "jupyter-minimal-gpu-notebook",
-              "jupyter-minimal-gpu-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-pytorch-cuda-py312-ubi9", "jupyter-pytorch-notebook",
-              "jupyter-pytorch-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-tensorflow-cuda-py312-ubi9", "jupyter-tensorflow-notebook",
-              "jupyter-tensorflow-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-trustyai-cpu-py312-ubi9", "jupyter-trustyai-notebook",
-              "jupyter-trustyai-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-codeserver-datascience-cpu-py312-ubi9", "code-server-notebook",
-              "code-server-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-rstudio-minimal-cpu-py312-c9s", "rstudio-notebook", "rstudio-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-rstudio-minimal-cuda-py312-c9s", "rstudio-gpu-notebook",
-              "rstudio-gpu-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-minimal-rocm-py312-ubi9", "jupyter-rocm-minimal",
-              "jupyter-rocm-minimal-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-pytorch-rocm-py312-ubi9", "jupyter-rocm-pytorch",
-              "jupyter-rocm-pytorch-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-tensorflow-rocm-py312-ubi9", "jupyter-rocm-tensorflow",
-              "jupyter-rocm-tensorflow-notebook-imagestream.yaml"),
-    Workbench("odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-ubi9", "jupyter-pytorch-llmcompressor",
-              "jupyter-pytorch-llmcompressor-imagestream.yaml"),
-]
+# ---------------------------------------------------------------------------
+# Auto-discovery from .env and ImageStream YAML files
+# ---------------------------------------------------------------------------
 
-# Resource file listing order (matches the existing kustomization.yaml resources section).
-RUNTIME_RESOURCE_FILES: list[str] = [
-    "runtime-datascience-imagestream.yaml",
-    "runtime-minimal-imagestream.yaml",
-    "runtime-pytorch-imagestream.yaml",
-    "runtime-rocm-pytorch-imagestream.yaml",
-    "runtime-rocm-tensorflow-imagestream.yaml",
-    "runtime-tensorflow-imagestream.yaml",
-    "runtime-pytorch-llmcompressor-imagestream.yaml",
-]
+# Regex matching a params key like "odh-workbench-jupyter-minimal-cpu-py312-ubi9-n-3"
+#   group 1: everything before the version suffix  (e.g. "odh-workbench-...-ubi9")
+#   group 2: the "-n" or "-n-<digit>" suffix        (e.g. "-n-3")
+_PARAM_KEY_RE = re.compile(r"^(.+?)(-n(?:-(\d+))?)$")
 
-# Replacement block order (matches the existing kustomization.yaml replacements section).
-RUNTIMES: list[Runtime] = [
-    Runtime("odh-pipeline-runtime-minimal-cpu-py312-ubi9", "runtime-minimal", "runtime-minimal-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-datascience-cpu-py312-ubi9", "runtime-datascience",
-            "runtime-datascience-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-pytorch-cuda-py312-ubi9", "runtime-pytorch", "runtime-pytorch-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-pytorch-rocm-py312-ubi9", "runtime-rocm-pytorch",
-            "runtime-rocm-pytorch-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-tensorflow-cuda-py312-ubi9", "runtime-tensorflow",
-            "runtime-tensorflow-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-tensorflow-rocm-py312-ubi9", "runtime-rocm-tensorflow",
-            "runtime-rocm-tensorflow-imagestream.yaml"),
-    Runtime("odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-ubi9", "runtime-pytorch-llmcompressor",
-            "runtime-pytorch-llmcompressor-imagestream.yaml"),
-]
+
+def _version_suffix(idx: int) -> str:
+    """Return the version suffix for tag index *idx*: '-n', '-n-1', '-n-2', ..."""
+    return "-n" if idx == 0 else f"-n-{idx}"
+
+
+def _parse_env_keys(env_path: Path) -> set[str]:
+    """Read an .env file and return the set of keys (left side of '=')."""
+    keys: set[str] = set()
+    if not env_path.exists():
+        return keys
+    for line in env_path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        key, _, _ = line.partition("=")
+        keys.add(key.strip())
+    return keys
+
+
+def _parse_imagestream_name(yaml_path: Path) -> str | None:
+    """Extract ``metadata.name`` from an ImageStream YAML file.
+
+    Uses a simple regex to avoid a PyYAML dependency at runtime.
+    """
+    text = yaml_path.read_text()
+    # Match the top-level "  name: <value>" line that follows "metadata:"
+    m = re.search(r"^metadata:\s*\n(?:\s+\S+:.*\n)*?\s+name:\s+(\S+)", text, re.MULTILINE)
+    return m.group(1) if m else None
+
+
+def discover_config(base_dir: Path) -> tuple[list[str], list[Workbench], list[str], list[Runtime]]:
+    """Auto-discover workbenches, runtimes, resource files, and version chains.
+
+    Returns (resource_files, workbenches, runtime_resource_files, runtimes)
+    where *resource_files* is the workbench+extra resource list and
+    *runtime_resource_files* is the runtime resource list (both in the order
+    found in the existing kustomization.yaml).
+    """
+    # 1) Read the existing kustomization.yaml to get the resource ordering
+    kustomization = (base_dir / "kustomization.yaml").read_text()
+    resource_section = re.search(r"^resources:\n((?:\s+-\s+\S+\n)+)", kustomization, re.MULTILINE)
+    assert resource_section, "Could not find resources section in kustomization.yaml"
+    all_resources = [line.strip().lstrip("- ") for line in resource_section.group(1).splitlines() if line.strip()]
+
+    # 2) Collect all param keys from .env files
+    param_keys = _parse_env_keys(base_dir / "params.env") | _parse_env_keys(base_dir / "params-latest.env")
+
+    # 3) Build a map: resource_file -> imagestream_name (from YAML files)
+    resource_to_imagestream: dict[str, str] = {}
+    for res_file in all_resources:
+        path = base_dir / res_file
+        if path.exists():
+            name = _parse_imagestream_name(path)
+            if name:
+                resource_to_imagestream[res_file] = name
+
+    # 4) Parse param keys into structured form: base_key -> {version_index: full_base_key}
+    #    e.g. "odh-workbench-jupyter-minimal-cpu-py312-ubi9-n"   -> base "odh-workbench-...-ubi9", idx 0
+    #         "odh-workbench-jupyter-minimal-cpu-py311-ubi9-n-3" -> base "odh-workbench-...-ubi9", idx 3
+    #    We group by imagestream because different py versions share the same imagestream.
+
+    # First, figure out which resource file each param key belongs to by matching
+    # against the kustomization.yaml replacement blocks.  We do this by reading the
+    # existing file structure.
+    #
+    # Simpler approach: parse the existing kustomization.yaml replacements section
+    # to extract the ordered (key, imagestream) pairs.  This gives us exact ordering.
+
+    replacements_text = kustomization[kustomization.index("replacements:"):]
+    field_path_pattern = re.compile(r"fieldPath: data\.(\S+)")
+    imagestream_pattern = re.compile(r"kind: ImageStream\n\s+name: (\S+)")
+
+    # Extract pairs of (fieldPath_key, imagestream_name) from replacement blocks
+    field_paths = field_path_pattern.findall(replacements_text)
+    imagestreams = imagestream_pattern.findall(replacements_text)
+    assert len(field_paths) == len(imagestreams), (
+        f"Mismatch: {len(field_paths)} fieldPaths vs {len(imagestreams)} imagestreams"
+    )
+
+    # Split into params blocks and commit blocks
+    params_pairs: list[tuple[str, str]] = []  # (full_key, imagestream)
+    commit_pairs: list[tuple[str, str]] = []
+    for key, istream in zip(field_paths, imagestreams):
+        if "-commit-" in key:
+            commit_pairs.append((key, istream))
+        else:
+            params_pairs.append((key, istream))
+
+    # 5) Build workbenches and runtimes from the params pairs
+    workbench_resource_files: list[str] = []
+    runtime_resource_files: list[str] = []
+    workbenches: list[Workbench] = []
+    runtimes: list[Runtime] = []
+
+    # Track which imagestreams we've seen to group versions
+    seen_workbench_imagestreams: dict[str, Workbench] = {}
+
+    for full_key, istream in params_pairs:
+        m = _PARAM_KEY_RE.match(full_key)
+        assert m, f"Could not parse param key: {full_key}"
+        base_key = m.group(1)
+        idx_str = m.group(3)
+        idx = 0 if idx_str is None else int(idx_str)
+
+        if full_key.startswith("odh-pipeline-runtime-"):
+            # Runtime: always just one version (n), no commit hashes
+            res_file = _find_resource_file(all_resources, istream)
+            runtimes.append(Runtime(base_key, istream, res_file))
+            if res_file not in runtime_resource_files:
+                runtime_resource_files.append(res_file)
+        else:
+            # Workbench
+            if istream not in seen_workbench_imagestreams:
+                res_file = _find_resource_file(all_resources, istream)
+                wb = Workbench(istream, res_file)
+                seen_workbench_imagestreams[istream] = wb
+                workbenches.append(wb)
+                if res_file not in workbench_resource_files:
+                    workbench_resource_files.append(res_file)
+            wb = seen_workbench_imagestreams[istream]
+            # Ensure versions list is long enough
+            while len(wb.versions) <= idx:
+                wb.versions.append("")
+            wb.versions[idx] = base_key
+
+    # 6) Collect non-imagestream resources (buildconfigs, etc.) that are in
+    #    the resource list but not matched to any workbench/runtime
+    extra_resources: list[str] = []
+    wb_and_rt_files = set(workbench_resource_files) | set(runtime_resource_files)
+    for res in all_resources:
+        if res not in wb_and_rt_files:
+            extra_resources.append(res)
+
+    # Build final resource list: workbench files + extra files + runtime files
+    # Match the ordering in the existing kustomization.yaml
+    ordered_resources = _order_resources(all_resources, workbench_resource_files, extra_resources, runtime_resource_files)
+
+    return ordered_resources, workbenches, runtime_resource_files, runtimes
+
+
+def _find_resource_file(all_resources: list[str], imagestream_name: str) -> str:
+    """Find the resource file for a given imagestream name.
+
+    Tries exact match first, then falls back to substring matching.
+    """
+    # Common patterns: imagestream "runtime-minimal" -> "runtime-minimal-imagestream.yaml"
+    #                  imagestream "s2i-minimal-notebook" -> "jupyter-minimal-notebook-imagestream.yaml"
+    exact = f"{imagestream_name}-imagestream.yaml"
+    if exact in all_resources:
+        return exact
+    # Fall back: find any resource containing the imagestream name
+    for res in all_resources:
+        if imagestream_name in res:
+            return res
+    # If not found, this is likely a buildconfig or similar non-imagestream resource
+    # Return empty and let the caller handle it
+    return ""
+
+
+def _order_resources(
+    all_resources: list[str],
+    workbench_files: list[str],
+    extra_files: list[str],
+    runtime_files: list[str],
+) -> list[str]:
+    """Order resources matching the existing kustomization.yaml.
+
+    Walk through all_resources in order and emit each file once, categorized.
+    """
+    result: list[str] = []
+    seen: set[str] = set()
+    for res in all_resources:
+        if res not in seen:
+            result.append(res)
+            seen.add(res)
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -117,8 +266,7 @@ def _replacement_block(
 ) -> str:
     """One replacement stanza."""
     # language=yaml
-    return process_template_with_indents(t"""\
-  - source:
+    return process_template_with_indents(t"""  - source:
       fieldPath: data.{field_path_key}
       kind: ConfigMap
       name: {configmap_name}
@@ -134,47 +282,66 @@ def _replacement_block(
 
 
 def _workbench_params_replacements(wb: Workbench) -> list[str]:
-    """N and N-1 image-params replacements for a workbench."""
-    return [
-        _replacement_block(f"{wb.param_key}-n", "notebook-image-params", "spec.tags.0.from.name", wb.imagestream),
-        _replacement_block(f"{wb.param_key}-n-1", "notebook-image-params", "spec.tags.1.from.name", wb.imagestream),
-    ]
+    """Image-params replacements for all versions of a workbench."""
+    blocks: list[str] = []
+    for idx, base_key in enumerate(wb.versions):
+        suffix = _version_suffix(idx)
+        blocks.append(
+            _replacement_block(
+                f"{base_key}{suffix}",
+                "notebook-image-params",
+                f"spec.tags.{idx}.from.name",
+                wb.imagestream,
+            )
+        )
+    return blocks
 
 
 def _workbench_commit_replacements(wb: Workbench) -> list[str]:
-    """N and N-1 commit-hash replacements for a workbench."""
-    annotation = "spec.tags.{idx}.annotations.[opendatahub.io/notebook-build-commit]"
-    return [
-        _replacement_block(f"{wb.param_key}-commit-n", "notebook-image-commithash", annotation.format(idx=0),
-                           wb.imagestream),
-        _replacement_block(f"{wb.param_key}-commit-n-1", "notebook-image-commithash", annotation.format(idx=1),
-                           wb.imagestream),
-    ]
+    """Commit-hash replacements for all versions of a workbench."""
+    blocks: list[str] = []
+    for idx, base_key in enumerate(wb.versions):
+        suffix = _version_suffix(idx)
+        blocks.append(
+            _replacement_block(
+                f"{base_key}-commit{suffix}",
+                "notebook-image-commithash",
+                f"spec.tags.{idx}.annotations.[opendatahub.io/notebook-build-commit]",
+                wb.imagestream,
+            )
+        )
+    return blocks
 
 
 def _runtime_params_replacement(rt: Runtime) -> str:
     """Single image-params replacement for a runtime (N only)."""
-    return _replacement_block(f"{rt.param_key}-n", "notebook-image-params", "spec.tags.0.from.name", rt.imagestream)
+    return _replacement_block(
+        f"{rt.param_key}-n",
+        "notebook-image-params",
+        "spec.tags.0.from.name",
+        rt.imagestream,
+    )
 
 
-def generate() -> str:
+def generate(base_dir: Path = SCRIPT_DIR) -> str:
     """Produce the full kustomization.yaml content."""
-    resource_lines = "".join(f"  - {wb.resource_file}\n" for wb in WORKBENCHES)
-    resource_lines += "".join(f"  - {rf}\n" for rf in RUNTIME_RESOURCE_FILES)
+    all_resources, workbenches, _runtime_resource_files, runtimes = discover_config(base_dir)
+
+    resource_lines = "".join(f"  - {rf}\n" for rf in all_resources)
     resources = resource_lines.rstrip("\n")
 
     replacement_blocks: list[str] = []
 
-    # 1) Workbench image-params (N and N-1) for all workbenches
-    for wb in WORKBENCHES:
+    # 1) Workbench image-params for all workbenches (all versions)
+    for wb in workbenches:
         replacement_blocks.extend(_workbench_params_replacements(wb))
 
-    # 2) Workbench commit-hash (N and N-1) for all workbenches
-    for wb in WORKBENCHES:
+    # 2) Workbench commit-hash for all workbenches (all versions)
+    for wb in workbenches:
         replacement_blocks.extend(_workbench_commit_replacements(wb))
 
     # 3) Runtime image-params (N only) for all runtimes
-    for rt in RUNTIMES:
+    for rt in runtimes:
         replacement_blocks.append(_runtime_params_replacement(rt))
 
     # language=yaml
@@ -215,8 +382,7 @@ replacements:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--check", action="store_true",
-                       help="Verify existing kustomization.yaml matches generated output")
+    group.add_argument("--check", action="store_true", help="Verify existing kustomization.yaml matches generated output")
     group.add_argument("--stdout", action="store_true", help="Print to stdout instead of writing to file")
     args = parser.parse_args()
 
