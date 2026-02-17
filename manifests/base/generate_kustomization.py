@@ -266,7 +266,8 @@ def _replacement_block(
 ) -> str:
     """One replacement stanza."""
     # language=yaml
-    return process_template_with_indents(t"""  - source:
+    return process_template_with_indents(t"""\
+  - source:
       fieldPath: data.{field_path_key}
       kind: ConfigMap
       name: {configmap_name}
