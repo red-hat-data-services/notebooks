@@ -55,16 +55,16 @@ RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setop
 # upgrade first to avoid fixable vulnerabilities end
 
 # Install useful OS packages
-RUN --mount=type=cache,target=/var/cache/dnf \
-    echo "Building for architecture: ${TARGETARCH}" && \
-    if [ "$TARGETARCH" = "s390x" ]; then \
-        PACKAGES="perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel"; \
-    else \
-        PACKAGES="perl mesa-libGL skopeo"; \
-    fi && \
-    echo "Installing: $PACKAGES" && \
-    dnf install -y $PACKAGES && \
-    dnf clean all && rm -rf /var/cache/yum
+COPY jupyter/utils utils/
+RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
+set -Eeuxo pipefail
+echo "Building for architecture: ${TARGETARCH}"
+if [ "$TARGETARCH" = "s390x" ]; then
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel
+else
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo
+fi
+EOF
 
 RUN if [ "$TARGETARCH" = "s390x" ]; then \
     # Install Rust and set up environment
@@ -114,51 +114,58 @@ WORKDIR /tmp/build-wheels
 
 # Build pyarrow on ppc64le and s390x
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=cache,target=/root/.cache/dnf \
-    if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then \
-        # Install build dependencies (shared for pyarrow and onnx)
-        dnf install -y cmake make gcc-c++ pybind11-devel wget && \
-        dnf clean all && \
-        # Build and collect pyarrow wheel
-        git clone --depth 1 --branch "apache-arrow-17.0.0" https://github.com/apache/arrow.git && \
-        cd arrow/cpp && \
-        mkdir release && cd release && \
-        cmake -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=/usr/local \
-              -DARROW_PYTHON=ON \
-              -DARROW_PARQUET=ON \
-              -DARROW_ORC=ON \
-              -DARROW_FILESYSTEM=ON \
-              -DARROW_JSON=ON \
-              -DARROW_CSV=ON \
-              -DARROW_DATASET=ON \
-              -DARROW_DEPENDENCY_SOURCE=BUNDLED \
-              -DARROW_WITH_LZ4=OFF \
-              -DARROW_WITH_ZSTD=OFF \
-              -DARROW_WITH_SNAPPY=OFF \
-              -DARROW_BUILD_TESTS=OFF \
-              -DARROW_BUILD_BENCHMARKS=OFF \
-              .. && \
-        make -j$(nproc) VERBOSE=1 && \
-        make install -j$(nproc) && \
-        cd ../../python && \
-        pip install --no-cache-dir -r requirements-build.txt && \
-        PYARROW_WITH_PARQUET=1 \
-        PYARROW_WITH_DATASET=1 \
-        PYARROW_WITH_FILESYSTEM=1 \
-        PYARROW_WITH_JSON=1 \
-        PYARROW_WITH_CSV=1 \
-        PYARROW_PARALLEL=$(nproc) \
-        python setup.py build_ext --build-type=release --bundle-arrow-cpp bdist_wheel && \
-        mkdir -p /tmp/wheels && \
-        cp dist/pyarrow-*.whl /tmp/wheels/ && \
-        chmod -R 777 /tmp/wheels && \
-        # Ensure wheels directory exists and has content
-        ls -la /tmp/wheels/; \
-    else \
-        # Create empty wheels directory for non-s390x
-        mkdir -p /tmp/wheels; \
-    fi
+    --mount=type=cache,target=/root/.cache/dnf /bin/bash <<'EOF'
+set -Eeuxo pipefail
+
+if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then
+    /opt/app-root/bin/utils/install_with_retry.sh dnf-install cmake make gcc-c++ pybind11-devel wget
+
+    # Build and collect pyarrow wheel
+    git clone --depth 1 --branch "apache-arrow-17.0.0" https://github.com/apache/arrow.git
+    cd arrow/cpp && mkdir release && cd release
+
+    cmake -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_INSTALL_PREFIX=/usr/local \
+          -DARROW_PYTHON=ON \
+          -DARROW_PARQUET=ON \
+          -DARROW_ORC=ON \
+          -DARROW_FILESYSTEM=ON \
+          -DARROW_JSON=ON \
+          -DARROW_CSV=ON \
+          -DARROW_DATASET=ON \
+          -DARROW_DEPENDENCY_SOURCE=BUNDLED \
+          -DARROW_WITH_LZ4=OFF \
+          -DARROW_WITH_ZSTD=OFF \
+          -DARROW_WITH_SNAPPY=OFF \
+          -DARROW_BUILD_TESTS=OFF \
+          -DARROW_BUILD_BENCHMARKS=OFF \
+          ..
+
+    make -j$(nproc) VERBOSE=1
+    make install -j$(nproc)
+
+    cd ../../python
+
+    pip install --no-cache-dir -r requirements-build.txt
+
+    PYARROW_WITH_PARQUET=1 \
+    PYARROW_WITH_DATASET=1 \
+    PYARROW_WITH_FILESYSTEM=1 \
+    PYARROW_WITH_JSON=1 \
+    PYARROW_WITH_CSV=1 \
+    PYARROW_PARALLEL=$(nproc) \
+    python setup.py build_ext --build-type=release --bundle-arrow-cpp bdist_wheel
+
+    mkdir -p /tmp/wheels
+    cp dist/pyarrow-*.whl /tmp/wheels/
+    chmod -R 777 /tmp/wheels
+    # Ensure wheels directory exists and has content
+    ls -la /tmp/wheels/;
+else
+    # Create empty wheels directory for non-s390x
+    mkdir -p /tmp/wheels;
+fi
+EOF
 
 #######################################################
 # common-builder (for Power-only)
@@ -169,8 +176,7 @@ USER root
 RUN <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
-    dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip
-    dnf clean all
+    /opt/app-root/bin/utils/install_with_retry.sh dnf-install gcc-toolset-13 cmake ninja-build git wget unzip
 else
     echo "Skipping common-builder package install on non-Power"
 fi
@@ -235,7 +241,7 @@ COPY ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
 USER 0
 
 # Dependencies for PDF export begin
-RUN ./utils/install_pdf_deps.sh
+RUN ./utils/install_with_retry.sh texlive-install
 ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
 # Dependencies for PDF export end
 
@@ -272,8 +278,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat && \
-    dnf clean all && rm -rf /var/cache/yum
+RUN ./utils/install_with_retry.sh dnf-install jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat
 
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
