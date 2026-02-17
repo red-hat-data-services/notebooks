@@ -21,7 +21,7 @@ dependencies = [
     "scipy~=1.16.1",
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
-    "codeflare-sdk~=0.31.2",
+    "codeflare-sdk~=0.34.0",
     "kubeflow-training==1.9.3",
     "feast~=0.54.1",
 
@@ -66,7 +66,11 @@ explicit = true
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
+
 override-dependencies = [
+    # RHAIENG-2458: CVE-2026-26007 cryptography Subgroup Attack
+    # codeflare-sdk pins cryptography to 46.0.3 on latest
+    "cryptography>=46.0.5",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
     "urllib3>=2.6.0",
