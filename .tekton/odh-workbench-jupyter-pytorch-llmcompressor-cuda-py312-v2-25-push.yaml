@@ -39,7 +39,7 @@ spec:
     value:
     - '{{target_branch}}-{{revision}}'
   - name: rhoai-version
-    value: "2.25.2"
+    value: "2.25.3"
   - name: dockerfile
     value: jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
