@@ -18,7 +18,7 @@ dependencies = [
     # see https://redhat-internal.slack.com/archives/C0961HQ858Q/p1757007056725559?thread_ts=1756924127.136609&cid=C0961HQ858Q
 
     # llmcompressor packages
-    "llmcompressor~=0.7.1",
+    "llmcompressor~=0.9.0",
     "lm-eval~=0.4.9",
 
     # Datascience and useful extensions
@@ -110,7 +110,6 @@ constraint-dependencies = [
     "datasets==4.0.0",
     "accelerate==1.10.0",
     "pynvml==12.0.0",
-    "pillow==10.4.0",
 ]
 
 environments = [
