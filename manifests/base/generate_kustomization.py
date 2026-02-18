@@ -39,21 +39,24 @@ OUTPUT_FILE = SCRIPT_DIR / "kustomization.yaml"
 class Workbench:
     """A workbench image with a variable-length version chain.
 
-    Each entry in *versions* is the param_key base for that tag index.
+    Each entry in *versions* is a ``(base_key, suffix)`` tuple for that tag
+    index.  The suffix is the full version suffix including the leading dash
+    (e.g. ``"-n"``, ``"-2025-2"``, ``"-1-2"``).  This makes the script
+    agnostic to the suffix style used on a given branch.
+
     For example, on rhds/main ``s2i-minimal-notebook`` has::
 
         versions = [
-            "odh-workbench-jupyter-minimal-cpu-py312-ubi9",   # n   (tag 0)
-            "odh-workbench-jupyter-minimal-cpu-py312-ubi9",   # n-1 (tag 1)
-            "odh-workbench-jupyter-minimal-cpu-py311-ubi9",   # n-2 (tag 2)
-            "odh-workbench-jupyter-minimal-cpu-py311-ubi9",   # n-3 (tag 3)
+            ("odh-workbench-jupyter-minimal-cpu-py312-ubi9", "-n"),       # tag 0
+            ("odh-workbench-jupyter-minimal-cpu-py312-ubi9", "-2025-2"),  # tag 1
+            ("odh-workbench-jupyter-minimal-cpu-py311-ubi9", "-2025-1"),  # tag 2
             ...
         ]
     """
 
     imagestream: str
     resource_file: str
-    versions: list[str] = field(default_factory=list)
+    versions: list[tuple[str, str]] = field(default_factory=list)
 
 
 @dataclass
@@ -69,15 +72,23 @@ class Runtime:
 # Auto-discovery from .env and ImageStream YAML files
 # ---------------------------------------------------------------------------
 
-# Regex matching a params key like "odh-workbench-jupyter-minimal-cpu-py312-ubi9-n-3"
-#   group 1: everything before the version suffix  (e.g. "odh-workbench-...-ubi9")
-#   group 2: the "-n" or "-n-<digit>" suffix        (e.g. "-n-3")
-_PARAM_KEY_RE = re.compile(r"^(.+?)(-n(?:-(\d+))?)$")
+# Regex matching a params key like "odh-workbench-jupyter-minimal-cpu-py312-ubi9-2024-2"
+#   group 1: everything before the version suffix (e.g. "odh-workbench-...-ubi9")
+#   group 2: the "-n" or "-<version_major/year>-<version_minor>" suffix (e.g. "-2024-2")
+_PARAM_KEY_RE = re.compile(
+    r"""
+    ^                   # Match the start of the string
+    ( .+? )             # Group 1: Everything before the version suffix (non-greedy match)
+    (                   # Group 2: The complete suffix
+        -n              # Match the exact string "-n"
+      |                 # OR
+        -\d+-\d+        # Match a major/year and minor version (e.g., "-2024-2")
+    )
+    $                   # Match the end of the string
+    """,
+    re.VERBOSE
+)
 
-
-def _version_suffix(idx: int) -> str:
-    """Return the version suffix for tag index *idx*: '-n', '-n-1', '-n-2', ..."""
-    return "-n" if idx == 0 else f"-n-{idx}"
 
 
 def _parse_env_keys(env_path: Path) -> set[str]:
@@ -131,9 +142,9 @@ def discover_config(base_dir: Path) -> tuple[list[str], list[Workbench], list[st
             if name:
                 resource_to_imagestream[res_file] = name
 
-    # 4) Parse param keys into structured form: base_key -> {version_index: full_base_key}
-    #    e.g. "odh-workbench-jupyter-minimal-cpu-py312-ubi9-n"   -> base "odh-workbench-...-ubi9", idx 0
-    #         "odh-workbench-jupyter-minimal-cpu-py311-ubi9-n-3" -> base "odh-workbench-...-ubi9", idx 3
+    # 4) Parse param keys into (base_key, suffix) pairs.
+    #    e.g. "odh-workbench-...-ubi9-n"      -> ("odh-workbench-...-ubi9", "-n")
+    #         "odh-workbench-...-ubi9-2025-2"  -> ("odh-workbench-...-ubi9", "-2025-2")
     #    We group by imagestream because different py versions share the same imagestream.
 
     # First, figure out which resource file each param key belongs to by matching
@@ -163,6 +174,13 @@ def discover_config(base_dir: Path) -> tuple[list[str], list[Workbench], list[st
         else:
             params_pairs.append((key, istream))
 
+    # Sanity check, ensure all params have corresponding imagestreams
+    import unittest
+    tc = unittest.TestCase()
+    tc.maxDiff = None
+    tc.assertCountEqual(param_keys, {full_key for full_key, _imagestream in params_pairs},
+                        "Missing imagestream for param key")
+
     # 5) Build workbenches and runtimes from the params pairs
     workbench_resource_files: list[str] = []
     runtime_resource_files: list[str] = []
@@ -176,17 +194,14 @@ def discover_config(base_dir: Path) -> tuple[list[str], list[Workbench], list[st
         m = _PARAM_KEY_RE.match(full_key)
         assert m, f"Could not parse param key: {full_key}"
         base_key = m.group(1)
-        idx_str = m.group(3)
-        idx = 0 if idx_str is None else int(idx_str)
+        suffix = m.group(2)
 
         if full_key.startswith("odh-pipeline-runtime-"):
-            # Runtime: always just one version (n), no commit hashes
             res_file = _find_resource_file(all_resources, istream)
             runtimes.append(Runtime(base_key, istream, res_file))
             if res_file not in runtime_resource_files:
                 runtime_resource_files.append(res_file)
         else:
-            # Workbench
             if istream not in seen_workbench_imagestreams:
                 res_file = _find_resource_file(all_resources, istream)
                 wb = Workbench(istream, res_file)
@@ -195,10 +210,7 @@ def discover_config(base_dir: Path) -> tuple[list[str], list[Workbench], list[st
                 if res_file not in workbench_resource_files:
                     workbench_resource_files.append(res_file)
             wb = seen_workbench_imagestreams[istream]
-            # Ensure versions list is long enough
-            while len(wb.versions) <= idx:
-                wb.versions.append("")
-            wb.versions[idx] = base_key
+            wb.versions.append((base_key, suffix))
 
     # 6) Collect non-imagestream resources (buildconfigs, etc.) that are in
     #    the resource list but not matched to any workbench/runtime
@@ -285,8 +297,7 @@ def _replacement_block(
 def _workbench_params_replacements(wb: Workbench) -> list[str]:
     """Image-params replacements for all versions of a workbench."""
     blocks: list[str] = []
-    for idx, base_key in enumerate(wb.versions):
-        suffix = _version_suffix(idx)
+    for idx, (base_key, suffix) in enumerate(wb.versions):
         blocks.append(
             _replacement_block(
                 f"{base_key}{suffix}",
@@ -301,8 +312,7 @@ def _workbench_params_replacements(wb: Workbench) -> list[str]:
 def _workbench_commit_replacements(wb: Workbench) -> list[str]:
     """Commit-hash replacements for all versions of a workbench."""
     blocks: list[str] = []
-    for idx, base_key in enumerate(wb.versions):
-        suffix = _version_suffix(idx)
+    for idx, (base_key, suffix) in enumerate(wb.versions):
         blocks.append(
             _replacement_block(
                 f"{base_key}-commit{suffix}",
