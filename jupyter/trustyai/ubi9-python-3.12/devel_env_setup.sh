@@ -179,7 +179,7 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
     make -j${MAX_JOBS} VERBOSE=1 && \
     make install -j${MAX_JOBS} && \
     cd ../../python/ && \
-    uv pip install --extra-index-url https://pypi.org/simple -v -r requirements-build.txt && \
+    uv pip install --extra-index-url https://pypi.org/simple -v -r requirements-build.txt 'setuptools<82' && \
     if [[ $(uname -m) == "s390x" ]]; then
         PYARROW_WITH_PARQUET=1 \
         PYARROW_WITH_DATASET=1 \
