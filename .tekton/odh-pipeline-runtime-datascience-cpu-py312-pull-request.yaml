@@ -14,7 +14,7 @@ metadata:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-pipeline-runtime-datascience-cpu-py312-on-pull-request
+  name: odh-pipeline-runtime-datascience-cpu-py312-on-pull-request-97305
   namespace: rhoai-tenant
 spec:
   params:
