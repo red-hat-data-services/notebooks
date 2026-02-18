@@ -54,7 +54,7 @@ spec:
   - name: enable-slack-failure-notification
     value: "false"
   - name: rhoai-version
-    value: "2.25.0"
+    value: "2.25.3"
   pipelineRef:
     resolver: git
     params:
