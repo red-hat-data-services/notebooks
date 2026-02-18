@@ -19,7 +19,6 @@ metadata:
 spec:
   timeouts:
     pipeline: 6h
-    tasks: 4h
   params:
   - name: git-url
     value: '{{source_url}}'
