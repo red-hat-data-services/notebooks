@@ -26,6 +26,7 @@ WORKDIR /root
 
 ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 
+COPY ${TRUSTYAI_SOURCE_CODE}/pyproject.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/devel_env_setup.sh .
 
@@ -33,9 +34,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     pip install --no-cache uv && \
     # the devel script is ppc64le specific - sets up build-time dependencies
     source ./devel_env_setup.sh && \
-    # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
-    #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
-    UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
+    # Install setuptools==80.9.0 so build isolation has pkg_resources (removed in setuptools 82).
+    # Then install from lock with --no-build-isolation so pandas and other sdists build in this env.
+    UV_LINK_MODE=copy uv pip install setuptools==80.9.0 wheel && \
+    UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --no-build-isolation --requirements=./pylock.toml
 
 ####################
 # cpu-base         #

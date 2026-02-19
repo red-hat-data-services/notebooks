@@ -78,7 +78,14 @@ override-dependencies = [
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
     "urllib3>=2.6.0",
+    # Setuptools 82+ removes pkg_resources; pin exactly 80.9.0 for trustyai builds.
+    "setuptools==80.9.0",
 ]
+
+# Force setuptools==80.9.0 (provides pkg_resources) in PEP 517 build isolation for
+# packages that use it at build time but don't declare it.
+[tool.uv.extra-build-dependencies]
+pandas = ["setuptools==80.9.0"]
 
 [tool.uv.sources]
 torch = { index = "pytorch-cuda" }

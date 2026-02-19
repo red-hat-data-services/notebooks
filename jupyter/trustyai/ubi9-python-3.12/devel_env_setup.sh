@@ -52,7 +52,8 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     cd ${TMP}
     git clone --recursive https://github.com/pytorch/pytorch.git -b v${TORCH_VERSION}
     cd pytorch
-    uv pip install -r requirements.txt
+    # Pin setuptools==80.9.0 so pkg_resources is available (removed in setuptools 82)
+    uv pip install -r requirements.txt 'setuptools==80.9.0'
     python setup.py develop
     rm -f dist/torch*+git*whl
     MAX_JOBS=${MAX_JOBS:-$(nproc)} \
@@ -75,7 +76,8 @@ if [[ $(uname -m) == "ppc64le" ]]; then
         .. && \
     make install -j ${MAX_JOBS:-$(nproc)} && \
     cd ../../python/ && \
-    uv pip install -v -r requirements-wheel-build.txt && \
+    # Arrow's requirements-wheel-build.txt has setuptools>=58; pin 80.9.0 for pkg_resources
+    uv pip install -v -r requirements-wheel-build.txt 'setuptools==80.9.0' && \
     PYARROW_PARALLEL=${PYARROW_PARALLEL:-$(nproc)} \
     python setup.py build_ext \
     --build-type=release --bundle-arrow-cpp \
