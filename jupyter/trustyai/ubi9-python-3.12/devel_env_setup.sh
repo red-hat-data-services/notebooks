@@ -75,7 +75,7 @@ if [[ $(uname -m) == "ppc64le" ]]; then
         .. && \
     make install -j ${MAX_JOBS:-$(nproc)} && \
     cd ../../python/ && \
-    uv pip install -v -r requirements-wheel-build.txt 'setuptools<82' && \
+    uv pip install -v -r requirements-wheel-build.txt && \
     PYARROW_PARALLEL=${PYARROW_PARALLEL:-$(nproc)} \
     python setup.py build_ext \
     --build-type=release --bundle-arrow-cpp \
