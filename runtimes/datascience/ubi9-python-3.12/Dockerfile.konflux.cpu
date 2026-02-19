@@ -240,6 +240,8 @@ RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
         git clone -b apache-arrow-${PYARROW_VERSION} https://github.com/apache/arrow.git --recursive && \
     	cd arrow && rm -rf .git && mkdir dist                                  && \
     	pip3 install -r python/requirements-build.txt                          && \
+        pip3 install --upgrade pip                                             && \
+        pip3 install --force-reinstall setuptools==80.9.0 wheel                && \
     	export ARROW_HOME=$(pwd)/dist                                          && \
     	export LD_LIBRARY_PATH=$(pwd)/dist/lib:$LD_LIBRARY_PATH                && \
     	export CMAKE_PREFIX_PATH=$ARROW_HOME:$CMAKE_PREFIX_PATH                && \
@@ -269,7 +271,6 @@ RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
         export PYARROW_WITH_PARQUET=1       && \
         export PYARROW_WITH_DATASET=1       && \
         export PYARROW_BUNDLE_ARROW_CPP=1   && \
-        pip3 install wheel                  && \
         cd ../../python                     && \
         python setup.py build_ext              \
             --build-type=release               \
