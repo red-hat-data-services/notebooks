@@ -37,6 +37,8 @@ spec:
     value: jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: build-args-file
     value: jupyter/datascience/ubi9-python-3.12/build-args/cpu.conf
+  - name: rhoai-version
+    value: "2.25.3"
   - name: path-context
     value: .
   - name: hermetic
@@ -53,8 +55,6 @@ spec:
     value: 5d
   - name: enable-slack-failure-notification
     value: "false"
-  - name: rhoai-version
-    value: "2.25.3"
   pipelineRef:
     resolver: git
     params:
