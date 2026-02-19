@@ -23,7 +23,7 @@ dependencies = [
     "scipy~=1.16.1",
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
-    "codeflare-sdk~=0.31.2",
+    "codeflare-sdk~=0.34.0",
     "kubeflow-training==1.9.3",
     "feast~=0.54.1",
 
@@ -57,6 +57,9 @@ dependencies = [
 [tool.uv]
 
 override-dependencies = [
+    # RHAIENG-2458: CVE-2026-26007 cryptography Subgroup Attack
+    # codeflare-sdk pins cryptography to 46.0.3 on latest
+    "cryptography>=46.0.5",
     # tf2onnx has pinned protobuf version, that causes conflict with other packages
     "protobuf==6.31.1",
     "keras~=3.13.2",

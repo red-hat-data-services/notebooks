@@ -15,7 +15,7 @@ dependencies = [
     "scipy~=1.16.1",
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
-    "codeflare-sdk~=0.31.2; platform_machine != 's390x' and platform_machine != 'ppc64le'",
+    "codeflare-sdk~=0.34.0; platform_machine != 's390x' and platform_machine != 'ppc64le'",
     "feast~=0.54.1",
 
     # DB connectors
@@ -52,4 +52,10 @@ dependencies = [
 [tool.uv]
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
+]
+
+override-dependencies = [
+    # RHAIENG-2458: CVE-2026-26007 cryptography Subgroup Attack
+    # codeflare-sdk pins cryptography to 46.0.3 on latest
+    "cryptography>=46.0.5",
 ]
