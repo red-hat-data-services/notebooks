@@ -6,7 +6,7 @@ ARG TARGETARCH
 ARG BASE_IMAGE
 
 # External image alias for UBI repository configuration
-FROM registry.access.redhat.com/ubi9/ubi@sha256:dcd8128d7620b06e4bce291f30db6ffcfa339b04e6d66081e36eb8e2b1b700f8 AS ubi-repos
+FROM registry.access.redhat.com/ubi9/ubi@sha256:cecb1cde7bda7c8165ae27841c2335667f8a3665a349c0d051329c61660a496c AS ubi-repos
 
 ####################
 # cpu-base         #
