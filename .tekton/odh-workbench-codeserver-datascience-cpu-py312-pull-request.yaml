@@ -14,7 +14,7 @@ metadata:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-workbench-codeserver-datascience-cpu-py312-on-pull-request
+  name: odh-workbench-codeserver-datascience-cpu-py312-on-pull-request-75964
   namespace: rhoai-tenant
 spec:
   timeouts:
