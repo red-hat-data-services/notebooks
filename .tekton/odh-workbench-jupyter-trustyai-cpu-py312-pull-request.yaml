@@ -17,6 +17,9 @@ metadata:
   name: odh-workbench-jupyter-trustyai-cpu-py312-on-pull-request
   namespace: rhoai-tenant
 spec:
+  timeouts:
+    pipeline: 6h
+    tasks: 4h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -31,6 +34,8 @@ spec:
     value:
     - version=on-pr-{{revision}}
     - io.openshift.tags=odh-workbench-jupyter-trustyai-cpu-py312
+  - name: rhoai-version
+    value: "2.25.3"
   - name: dockerfile
     value: jupyter/trustyai/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: build-args-file
@@ -43,7 +48,9 @@ spec:
     value: true
   - name: build-platforms
     value:
-    - linux-extra-fast/amd64
+    - linux/x86_64
+    - linux-m2xlarge/arm64
+    - linux/ppc64le
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
