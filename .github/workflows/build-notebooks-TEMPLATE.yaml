@@ -166,7 +166,7 @@ jobs:
         # NOTE: the arm64 GitHub hosted runner does not have the /mnt-mounted scratch disk
         if: "${{ contains(inputs.target, 'rocm') || contains(inputs.target, 'cuda') ||
          contains(inputs.target, 'pytorch') || contains(inputs.target, 'tensorflow') ||
-         inputs.platform == 'linux/arm64' }}"
+         contains(inputs.target, 'codeserver') || inputs.platform == 'linux/arm64' }}"
 
       - id: install-compsize
         run: sudo apt-get install -y btrfs-compsize
@@ -237,6 +237,16 @@ jobs:
              # In qemu-user, CACHELINE_SIZE probe is undefined
              # Compiling pyzmq through UV needs this in CFLAGS
              extra_podman_build_args += '--env=CFLAGS=-Dundefined=64 --env=CXXFLAGS=-Dundefined=64 --unsetenv=CFLAGS --unsetenv=CXXFLAGS'
+
+          if "codeserver" in "${{ inputs.target }}":
+             # Hermetic codeserver builds compile from source on every run — there
+             # is no effective layer cache to reuse.  --layers=false stops podman
+             # from persisting intermediate layers within each stage, cutting peak
+             # disk use roughly in half.
+             extra_podman_build_args += ' --layers=false'
+             # Cap V8 heap + parallelism to fit GHA runners (4 vCPUs, 16 GB RAM).
+             # 1.5 GB heap × 2 JOBS ≈ 4.5 GB V8 + ~4 GB overhead ≤ 16 GB.
+             extra_podman_build_args += ' --env=NODE_OPTIONS=--max-old-space-size=1536 --env=JOBS=2'
 
           event_name: Literal['push', 'pull_request', 'pull_request_target', 'schedule', 'workflow_dispatch'] = "${{ fromJson(inputs.github).event_name }}"
           cache = "${{ env.CACHE }}"
