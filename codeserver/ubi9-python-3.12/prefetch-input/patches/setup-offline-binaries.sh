@@ -17,6 +17,11 @@
 #      - .build/node/v22.20.0/linux-x64/node (Node.js binary for bundling)
 #      - .build/builtInExtensions/<name>/ (extracted .vsix contents)
 #
+# NOTE: The VS Code build always uses the linux-x64 gulp task regardless of the
+# host architecture (see ci/build/build-vscode.sh: "Any platform here works since
+# we will do our own packaging"). All Node.js binary paths are therefore hardcoded
+# to linux-x64.
+#
 # All artifacts are prefetched by cachi2 via artifacts.in.yaml and stored at
 # /cachi2/output/deps/generic/.
 ############################################################################################
