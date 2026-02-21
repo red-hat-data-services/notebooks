@@ -24,11 +24,6 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
     # [HERMETIC] CODESERVER_SOURCE_PREFETCH is set by Dockerfile ENV (points to prefetched code-server source).
     cd "${CODESERVER_SOURCE_PREFETCH}"
 
-    # s390x: apply patch (from VSCodium: arch-4-s390x-package.json.patch)
-    if [[ "$ARCH" == "s390x" ]]; then
-        patch -p1 < "${CODESERVER_SOURCE_CODE}/patches/s390x.patch"
-    fi
-
     # ppc64le/s390x: Disable @vscode/vsce-sign's postinstall script.
     #
     # WHAT IS @vscode/vsce-sign?

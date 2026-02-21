@@ -161,9 +161,9 @@ spec:
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/code-server/lib/vscode
-      type: npm
     # patches/
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.106.3/lib/vscode
+      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.106.3/test
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.106.3/lib/vscode/extensions/microsoft-authentication

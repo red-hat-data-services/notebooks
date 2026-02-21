@@ -97,9 +97,10 @@ COPY scripts/lockfile-generators/rewrite-npm-urls.sh /root/scripts/lockfile-gene
 # [HERMETIC] Copy prefetched code-server source (git submodule checked out at the target version).
 COPY ${CODESERVER_CONTEXT}/prefetch-input/code-server/ ${CODESERVER_SOURCE_PREFETCH}/
 
-# [HERMETIC] Copy offline-build patches and s390x patch into the prefetched source tree.
-# These are applied by apply-patch.sh via `patch -p1`.
-COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/code-server-${CODESERVER_VERSION}/*.patch ${CODESERVER_SOURCE_CODE}/patches/
+# [HERMETIC] Overlay patched files onto the submodule source. Files in
+# patches/code-server-<version>/ mirror the submodule directory layout and
+# overwrite the originals (e.g. s390x web-tree-sitter upgrade, lockfile fixes).
+COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/code-server-${CODESERVER_VERSION}/ ${CODESERVER_SOURCE_PREFETCH}/
 COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/setup-offline-binaries.sh ${CODESERVER_SOURCE_CODE}/patches/
 COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/codeserver-offline-env.sh ${CODESERVER_SOURCE_CODE}/patches/
 COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/apply-patch.sh ${CODESERVER_SOURCE_CODE}/
