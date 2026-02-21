@@ -30,8 +30,16 @@ set -euo pipefail
 SCRIPTS_PATH="scripts/lockfile-generators"
 
 COMPONENT_DIR=""
-VARIANT="rhds" #temporary, it should be odh
 FLAVOR="cpu"
+
+# Auto-detect variant from git remotes: if any remote points to
+# red-hat-data-services/notebooks it's a downstream (rhds) checkout,
+# otherwise upstream (odh). The --rhds flag can still override this.
+if git remote -v 2>/dev/null | grep -q 'red-hat-data-services/notebooks'; then
+  VARIANT="rhds"
+else
+  VARIANT="odh"
+fi
 TEKTON_FILE=""
 ACTIVATION_KEY=""
 ORG=""
