@@ -61,7 +61,7 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-v3-4-ea-1
+    serviceAccountName: build-pipeline-odh-wb-jupyter-pytorch-llmcompressor-cuda-py312-v3-4-ea-1
   workspaces:
   - name: git-auth
     secret:
