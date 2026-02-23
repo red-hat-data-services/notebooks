@@ -24,6 +24,8 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/rhoai/pull-request-pipelines:notebooks-{{revision}}
+  - name: rhoai-version
+    value: "3.3.0"
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
