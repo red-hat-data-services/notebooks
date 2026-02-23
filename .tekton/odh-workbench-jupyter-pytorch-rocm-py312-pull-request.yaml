@@ -35,6 +35,8 @@ spec:
     value: jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.konflux.rocm
   - name: build-args-file
     value: jupyter/rocm/pytorch/ubi9-python-3.12/build-args/rocm.conf
+  - name: rhoai-version
+    value: "2.25.3"
   - name: path-context
     value: .
   - name: hermetic
@@ -43,7 +45,7 @@ spec:
     value: true
   - name: build-platforms
     value:
-    - linux-extra-fast/amd64
+    - linux/x86_64
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification

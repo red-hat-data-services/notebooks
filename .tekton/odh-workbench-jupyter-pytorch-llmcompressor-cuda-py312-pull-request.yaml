@@ -1,6 +1,5 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# retrigger Konflux builds to fix https://issues.redhat.com/browse/RHOAIENG-31914
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -14,12 +13,9 @@ metadata:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-workbench-jupyter-trustyai-cpu-py312-on-pull-request
+  name: odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-on-pull-request
   namespace: rhoai-tenant
 spec:
-  timeouts:
-    pipeline: 6h
-    tasks: 4h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -33,13 +29,13 @@ spec:
   - name: additional-labels
     value:
     - version=on-pr-{{revision}}
-    - io.openshift.tags=odh-workbench-jupyter-trustyai-cpu-py312
+    - io.openshift.tags=odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312
+  - name: dockerfile
+    value: jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
+  - name: build-args-file
+    value: jupyter/pytorch+llmcompressor/ubi9-python-3.12/build-args/cuda.conf
   - name: rhoai-version
     value: "2.25.3"
-  - name: dockerfile
-    value: jupyter/trustyai/ubi9-python-3.12/Dockerfile.konflux.cpu
-  - name: build-args-file
-    value: jupyter/trustyai/ubi9-python-3.12/build-args/cpu.conf
   - name: path-context
     value: .
   - name: hermetic
@@ -49,8 +45,6 @@ spec:
   - name: build-platforms
     value:
     - linux/x86_64
-    - linux-d160-m2xlarge/arm64
-    - linux/ppc64le
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
@@ -64,6 +58,26 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
+  taskRunSpecs:
+    - pipelineTaskName: ecosystem-cert-preflight-checks
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
+    - pipelineTaskName: clair-scan
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
