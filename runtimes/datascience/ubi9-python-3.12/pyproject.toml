@@ -53,3 +53,7 @@ dependencies = [
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
+override-dependencies = [
+    # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
+    "cryptography>=46.0.5",
+]
