@@ -68,18 +68,15 @@ EOF
 ### END upgrade first to avoid fixable vulnerabilities
 
 # Install useful OS packages
+COPY jupyter/utils utils/
 RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES="perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel"
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel
 else
-    PACKAGES="perl mesa-libGL skopeo"
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo
 fi
-echo "Installing: $PACKAGES"
-dnf install -y $PACKAGES
-dnf clean all
-rm -rf /var/cache/yum
 EOF
 
 RUN /bin/bash <<'EOF'
@@ -149,14 +146,10 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 set -Eeuxo pipefail
 if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then
     # Install build dependencies (shared for pyarrow and onnx)
-    packages=(
-        cmake make gcc-c++ pybind11-devel wget patch
-        # pyarrow -DARROW_S3=ON pulls in AWS C++ SDK
-        # libcurl-devel is required to build AWS C++ SDK
-        libcurl-devel openssl-devel
-    )
-    dnf install -y "${packages[@]}"
-    dnf clean all
+    # pyarrow -DARROW_S3=ON pulls in AWS C++ SDK
+    # libcurl-devel is required to build AWS C++ SDK
+    /opt/app-root/bin/utils/install_with_retry.sh dnf-install cmake make gcc-c++ pybind11-devel wget patch libcurl-devel openssl-devel
+
     # Build and collect pyarrow wheel
     git clone --depth 1 --branch "apache-arrow-21.0.0" https://github.com/apache/arrow.git
     cd arrow
@@ -217,8 +210,7 @@ USER root
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
-    dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip
-    dnf clean all
+    /opt/app-root/bin/utils/install_with_retry.sh dnf-install gcc-toolset-13 cmake ninja-build git wget unzip
 else
     echo "Skipping common-builder package install on non-Power"
 fi
@@ -295,7 +287,7 @@ COPY ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
 USER 0
 
 ### BEGIN Dependencies for PDF export
-RUN ./utils/install_pdf_deps.sh
+RUN ./utils/install_with_retry.sh texlive-install
 ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
 
 ### END Dependencies for PDF export
@@ -333,12 +325,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat
-dnf clean all
-rm -rf /var/cache/yum
-EOF
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat
 
 ### BEGIN Copy mongocli from builder
 # Copy dynamically-linked mongocli built in earlier build stage
