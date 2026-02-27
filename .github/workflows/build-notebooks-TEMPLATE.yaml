@@ -242,13 +242,17 @@ jobs:
       # region Pytest image tests
 
       # https://github.com/astral-sh/setup-uv
-      - name: Install the latest version of uv
+      - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          version: "latest"
-          python-version: "3.14"
+          version-file: uv.toml
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+      
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
 
       - name: Check uv is installed correctly
         run: uv version
