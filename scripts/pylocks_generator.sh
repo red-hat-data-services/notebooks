@@ -5,73 +5,103 @@ set -euo pipefail
 # pylocks_generator.sh
 #
 # This script generates Python dependency lock files (pylock.toml) for multiple
-# directories using either internal AIPCC wheel indexes or the public PyPI index.
+# directories using either internal Red Hat wheel indexes or the public PyPI index.
 #
 # Features:
 #   • Supports multiple Python project directories, detected by pyproject.toml.
-#   • Detects available Dockerfile flavors (CPU, CUDA, ROCm) for AIPCC index mode.
+#   • Detects available Dockerfile flavors (CPU, CUDA, ROCm) for rh-index mode.
 #   • Validates Python version extracted from directory name (expects format .../ubi9-python-X.Y).
-#   • Generates per-flavor locks in 'uv.lock/' for AIPCC index mode.
+#   • Generates per-flavor locks in 'uv.lock.d/' for rh-index mode.
 #   • Overwrites existing pylock.toml in-place for public PyPI index mode.
 #
 # Index Modes:
-#   • aipcc-index  -> Uses internal Red Hat AIPCC wheel indexes. Generates uv.lock/pylock.<flavor>.toml for each detected flavor.
-#   • public-index -> Uses public PyPI index. Updates pylock.toml in the project directory.
-#                    Default mode if not specified.
+#   • auto (default) -> Uses rh-index if uv.lock.d/ exists, public-index otherwise.
+#   • rh-index    -> Uses internal Red Hat wheel indexes. Generates uv.lock.d/pylock.<flavor>.toml .
+#   • public-index   -> Uses public PyPI index and updates pylock.toml in place.
+#
+# Fallback Index (RHAIENG-3071):
+#   For CUDA and ROCm flavors, if CPU_INDEX_URL is defined in the build-args/*.conf file,
+#   it will be added as a fallback index for packages not available in the specialized indexes.
 #
 # Usage:
-#   1. Lock using default public index for all projects in MAIN_DIRS:
+#   1. Lock using auto mode (default) for all projects in MAIN_DIRS:
 #        bash pylocks_generator.sh
 #
-#   2. Lock using AIPCC index for a specific directory:
-#        bash pylocks_generator.sh aipcc-index jupyter/minimal/ubi9-python-3.12
+#   2. Lock using rh-index for a specific directory:
+#        bash pylocks_generator.sh rh-index jupyter/minimal/ubi9-python-3.12
 #
 #   3. Lock using public index for a specific directory:
 #        bash pylocks_generator.sh public-index jupyter/minimal/ubi9-python-3.12
 #
+#   4. Force upgrade all packages to latest versions:
+#        FORCE_LOCKFILES_UPGRADE=1 bash pylocks_generator.sh
+#
 # Notes:
 #   • If the script fails for a directory, it lists the failed directories at the end.
-#   • Public index mode does not create uv.lock directories keeps the old format.
+#   • Public index mode does not create uv.lock.d directories and keeps the old format.
 #   • Python version extraction depends on directory naming convention; invalid formats are skipped.
 # =============================================================================
 
 # ----------------------------
 # CONFIGURATION
 # ----------------------------
-CPU_INDEX="--index-url=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cpu-ubi9/simple/"
-CUDA_INDEX="--index-url=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cuda-ubi9/simple/"
-ROCM_INDEX="--index-url=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/rocm-ubi9/simple/"
-PUBLIC_INDEX="--index-url=https://pypi.org/simple"
+PUBLIC_INDEX="--default-index=https://pypi.org/simple"
 
 MAIN_DIRS=("jupyter" "runtimes" "rstudio" "codeserver")
 
 # CVE constraints file - applied to all lock file generations
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+UV="${ROOT_DIR}/uv"
 CVE_CONSTRAINTS_FILE="$ROOT_DIR/dependencies/cve-constraints.txt"
 
 # ----------------------------
 # HELPER FUNCTIONS
 # ----------------------------
 info()  { echo -e "🔹 \033[1;34m$1\033[0m"; }
-warn()  { echo -e "⚠️  \033[1;33m$1\033[0m"; }
-error() { echo -e "❌ \033[1;31m$1\033[0m"; }
-ok()    { echo -e "✅ \033[1;32m$1\033[0m"; }
+warn()  { echo -e "⚠️ \033[1;33m$1\033[0m" >&2; }
+error() { echo -e "❌ \033[1;31m$1\033[0m" >&2; }
+ok()    { echo -e "✅ \033[1;32m$1\033[0m" >&2; }
 
 uppercase() {
   echo "$1" | tr '[:lower:]' '[:upper:]'
 }
 
+read_conf_value() {
+  local conf_file="$1"
+  local key="$2"
+
+  awk -F= -v key="$key" '
+    /^[[:space:]]*#/ { next }
+    NF < 2 { next }
+    {
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1)
+      if ($1 == key) {
+        $1=""
+        sub(/^=/, "", $0)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", $0)
+        print $0
+        exit
+      }
+    }
+  ' "$conf_file"
+}
+
 # ----------------------------
 # PRE-FLIGHT CHECK
 # ----------------------------
+if [[ ! -x "$UV" ]]; then
+  error "Expected uv wrapper at '$UV' but it is missing or not executable."
+  exit 1
+fi
+
 if ! command -v uv &>/dev/null; then
   error "uv command not found. Please install uv: https://github.com/astral-sh/uv"
   exit 1
 fi
 
 UV_MIN_VERSION="0.4.0"
-UV_VERSION=$(uv --version 2>/dev/null | awk '{print $2}' || echo "0.0.0")
+UV_VERSION=$("$UV" --version 2>/dev/null | awk '{print $2}' || echo "0.0.0")
 
 version_ge() {
   [ "$(printf '%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]
@@ -86,13 +116,21 @@ fi
 # ----------------------------
 # ARGUMENT PARSING
 # ----------------------------
-# default to public-index if not provided
-INDEX_MODE="${1:-public-index}"
+# default to auto if not provided
+INDEX_MODE="${1:-auto}"
 TARGET_DIR_ARG="${2:-}"
 
+# Check for upgrade flag via environment variable
+# Set FORCE_LOCKFILES_UPGRADE=1 to upgrade all packages to latest versions
+UPGRADE_FLAG=""
+if [[ "${FORCE_LOCKFILES_UPGRADE:-0}" == "1" ]]; then
+  UPGRADE_FLAG="--upgrade"
+  info "FORCE_LOCKFILES_UPGRADE=1 detected. Will upgrade all packages to latest versions."
+fi
+
 # Validate mode
-if [[ "$INDEX_MODE" != "aipcc-index" && "$INDEX_MODE" != "public-index" ]]; then
-  error "Invalid mode '$INDEX_MODE'. Valid options: aipcc-index, public-index"
+if [[ "$INDEX_MODE" != "auto" && "$INDEX_MODE" != "rh-index" && "$INDEX_MODE" != "public-index" ]]; then
+  error "Invalid mode '$INDEX_MODE'. Valid options: auto, rh-index, public-index"
   exit 1
 fi
 info "Using index mode: $INDEX_MODE"
@@ -163,41 +201,109 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
   $HAS_ROCM && echo "  • ROCm"
   echo
 
+  # Resolve effective mode for this directory
+  if [[ "$INDEX_MODE" == "auto" ]]; then
+    if [[ -d "uv.lock.d" ]]; then
+      EFFECTIVE_MODE="rh-index"
+    else
+      EFFECTIVE_MODE="public-index"
+    fi
+  else
+    EFFECTIVE_MODE="$INDEX_MODE"
+  fi
+  info "Effective mode for this directory: $EFFECTIVE_MODE"
+
   DIR_SUCCESS=true
+  CONF_DIR="build-args"
+
+  get_index_flags() {
+    local flavor="$1"
+    local conf_file="${CONF_DIR}/${flavor}.conf"
+    local index_url
+    local cpu_index_url
+    local index_flags
+
+    if [[ ! -f "$conf_file" ]]; then
+      warn "Missing build-args config for ${flavor}: $conf_file"
+      return 1
+    fi
+
+    index_url=$(read_conf_value "$conf_file" "INDEX_URL")
+    if [[ -z "$index_url" ]]; then
+      warn "INDEX_URL not found in $conf_file"
+      return 1
+    fi
+
+    index_flags="--default-index=${index_url} --index=${index_url}"
+
+    # For CUDA and ROCm flavors, add CPU index as fallback for packages
+    # not available in the specialized indexes (RHAIENG-3071)
+    if [[ "$flavor" == "cuda" || "$flavor" == "rocm" ]]; then
+      cpu_index_url=$(read_conf_value "$conf_file" "CPU_INDEX_URL")
+      if [[ -n "$cpu_index_url" ]]; then
+        index_flags="${index_flags} --index=${cpu_index_url}"
+        echo "  📎 Using CPU index as fallback" >&2
+      fi
+    fi
+
+    echo "$index_flags"
+  }
+
+  run_flavor_lock() {
+    local flavor="$1"
+    local index_flags
+
+    if ! index_flags=$(get_index_flags "$flavor"); then
+      DIR_SUCCESS=false
+      return
+    fi
+
+    run_lock "$flavor" "$index_flags" "$EFFECTIVE_MODE"
+  }
 
   run_lock() {
     local flavor="$1"
     local index="$2"
+    local mode="$3"
     local output
     local desc
 
-    if [[ "$INDEX_MODE" == "public-index" ]]; then
+    if [[ "$mode" == "public-index" ]]; then
       output="pylock.toml"
       desc="pylock.toml (public index)"
       echo "➡️ Generating pylock.toml from public PyPI index..."
     else
-      mkdir -p uv.lock
-      output="uv.lock/pylock.${flavor}.toml"
+      mkdir -p uv.lock.d
+      output="uv.lock.d/pylock.${flavor}.toml"
       desc="$(uppercase "$flavor") lock file"
       echo "➡️ Generating $(uppercase "$flavor") lock file..."
     fi
 
-    # The behavior has changed in uv 0.9.17 (https://github.com/astral-sh/uv/pull/16956)
+    # Tag filtering was added in uv 0.9.16 (https://github.com/astral-sh/uv/pull/16956)
+    # but bypassed in --universal mode. uv 0.10.5 (https://github.com/astral-sh/uv/pull/18081)
+    # now filters wheels by requires-python and marker disjointness even in --universal mode.
     # Documentation at https://docs.astral.sh/uv/reference/cli/#uv-pip-compile--python-platform says that
     #  `--python-platform linux` is alias for `x86_64-unknown-linux-gnu`; we cannot use this to get a multiarch pylock
     # Let's use --universal temporarily, and in the future we can switch to using uv.lock
-    #  when https://github.com/astral-sh/uv/issues/6830 is resolved, or link `ln -s uv.lock/lock.${flavor}.toml uv.lock`
+    #  when https://github.com/astral-sh/uv/issues/6830 is resolved, or symlink `ln -s uv.lock.d/uv.${flavor}.lock uv.lock`
+    # Note: currently generating uv.lock.d/pylock.${flavor}.toml; future rename to uv.${flavor}.lock is planned
     # See also --universal discussion with Gerard
     #  https://redhat-internal.slack.com/archives/C0961HQ858Q/p1757935641975969?thread_ts=1757542802.032519&cid=C0961HQ858Q
 
     # Build constraints flag if CVE constraints file exists
-    local constraints_flag=""
+    # Use relative path to avoid absolute paths in pylock.toml headers
+    # (which would differ between CI and local environments)
+    local -a constraints_flag=()
     if [[ -f "$CVE_CONSTRAINTS_FILE" ]]; then
-      constraints_flag="--constraints=$CVE_CONSTRAINTS_FILE"
+      local relative_constraints
+      # Use Python for cross-platform relative path computation (realpath --relative-to is GNU-only)
+      relative_constraints=$(python3 -c "import os; print(os.path.relpath('$CVE_CONSTRAINTS_FILE', '$PWD'))")
+      constraints_flag=(--constraints "$relative_constraints")
     fi
 
     set +e
-    uv pip compile pyproject.toml \
+    # shellcheck disable=SC2086
+    "$UV" pip compile pyproject.toml \
       --output-file "$output" \
       --format pylock.toml \
       --generate-hashes \
@@ -210,7 +316,8 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       --no-emit-package odh-notebooks-meta-runtime-elyra-deps \
       --no-emit-package odh-notebooks-meta-runtime-datascience-deps \
       --no-emit-package odh-notebooks-meta-workbench-datascience-deps \
-      $constraints_flag \
+      $UPGRADE_FLAG \
+      "${constraints_flag[@]}" \
       $index
     local status=$?
     set -e
@@ -220,22 +327,17 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       rm -f "$output"
       DIR_SUCCESS=false
     else
-      if [[ "$INDEX_MODE" == "public-index" ]]; then
-        ok "pylock.toml generated successfully."
-      else
-        ok "$(uppercase "$flavor") lock generated successfully."
-      fi
+      ok "$desc generated successfully."
     fi
   }
 
-  # Run lock generation
-  if [[ "$INDEX_MODE" == "public-index" ]]; then
-    # public-index always updates pylock.toml in place
-    run_lock "cpu" "$PUBLIC_INDEX"
+  # Run lock generation based on effective mode
+  if [[ "$EFFECTIVE_MODE" == "public-index" ]]; then
+    run_lock "cpu" "$PUBLIC_INDEX" "$EFFECTIVE_MODE"
   else
-    $HAS_CPU && run_lock "cpu" "$CPU_INDEX"
-    $HAS_CUDA && run_lock "cuda" "$CUDA_INDEX"
-    $HAS_ROCM && run_lock "rocm" "$ROCM_INDEX"
+    $HAS_CPU && run_flavor_lock "cpu"
+    $HAS_CUDA && run_flavor_lock "cuda"
+    $HAS_ROCM && run_flavor_lock "rocm"
   fi
 
   if $DIR_SUCCESS; then
@@ -267,7 +369,7 @@ if [ ${#FAILED_DIRS[@]} -gt 0 ]; then
   warn "Failed lock generation for:"
   for d in "${FAILED_DIRS[@]}"; do
     echo "  • $d"
-    echo "Please comment out the missing package to continue and report the missing package to aipcc"
+    echo "Please comment out the missing package to continue and report the missing package to the RH index maintainers"
   done
   exit 1
 fi
