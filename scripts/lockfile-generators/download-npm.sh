@@ -197,7 +197,11 @@ if [[ -n "$TEKTON_FILE" ]]; then
     npm_paths=$(extract_npm_paths_from_tekton "$TEKTON_FILE")
 
     if [[ -z "$npm_paths" ]]; then
-        error_exit "No npm-type prefetch-input entries found in $TEKTON_FILE"
+        echo "No npm-type prefetch-input entries in $TEKTON_FILE — nothing to download"
+        # If --lock-file was also provided, continue so lock-file processing still runs.
+        if [[ -z "$LOCKFILE" ]]; then
+            exit 0
+        fi
     fi
 
     while IFS= read -r npm_path; do
