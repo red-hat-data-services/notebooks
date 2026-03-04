@@ -23,6 +23,7 @@ ARG CODESERVER_VERSION=v4.104.0
 
 COPY ${CODESERVER_SOURCE_CODE}/get_code_server_rpm.sh .
 COPY ${CODESERVER_SOURCE_CODE}/s390x.patch /tmp/
+COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/utils utils/
 
 ### BEGIN Subscribe with subscription manager
 RUN /bin/bash <<'EOF'
@@ -36,9 +37,7 @@ EOF
 ### END Subscribe with subscription manager
 
 # install build dependencies
-RUN dnf install -y \
-    jq patch libtool rsync gettext gcc-toolset-14 krb5-devel libX11-devel libatomic gcc-toolset-14-libatomic-devel && \
-  dnf clean all
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq patch libtool rsync gettext gcc-toolset-14 krb5-devel libX11-devel libatomic gcc-toolset-14-libatomic-devel
 
 # Build code-server rpm
 RUN ./get_code_server_rpm.sh
@@ -84,6 +83,8 @@ RUN touch /tmp/control
 ####################
 FROM ${BASE_IMAGE} AS cpu-base
 
+ARG CODESERVER_SOURCE_CODE=codeserver/ubi9-python-3.12
+
 WORKDIR /opt/app-root/bin
 
 ### BEGIN RHAIENG-2189: this is AIPCC migration phase 1.5
@@ -118,12 +119,8 @@ EOF
 ### END upgrade first to avoid fixable vulnerabilities
 
 # Install useful OS packages
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-dnf install -y tar perl mesa-libGL skopeo
-dnf clean all
-rm -rf /var/cache/dnf
-EOF
+COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/utils utils/
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo
 
 # (ARCH-ppc64le): since wheels are compiled from source, we need shared libs available at runtime
 RUN --mount=type=cache,from=whl-cache,source=/root/OpenBLAS,target=/OpenBlas,rw /bin/bash <<'EOF'
@@ -177,17 +174,7 @@ USER 0
 WORKDIR /opt/app-root/bin
 
 # Install useful OS packages
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-PACKAGES=(
-    jq git-lfs libsndfile
-    # provides envsubst which is required by run-nginx.sh
-    gettext
-)
-dnf install -y "${PACKAGES[@]}"
-dnf clean all
-rm -rf /var/cache/dnf
-EOF
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq git-lfs libsndfile
 
 # wait for rpm-base stage (rpm builds for ppc64le and s390x)
 COPY --from=rpm-base /tmp/control /dev/null
@@ -206,8 +193,6 @@ dnf -y clean all
 cd /
 rpm2cpio "/code-server-rpm/code-server-${CODESERVER_VERSION/v/}-${TARGETARCH}.rpm" | cpio -idmv
 EOF
-
-COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/utils utils/
 
 # Create and intall the extensions though build-time on a temporary directory. Later this directory will copied on the `/opt/app-root/src/.local/share/code-server/extensions` via run-code-server.sh file when it starts up.
 # https://coder.com/docs/code-server/FAQ#how-do-i-install-an-extension
@@ -233,13 +218,10 @@ ENV NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
     NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
 
 # Modules does not exist
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-INSTALL_PKGS="bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd"
-dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS
-rpm -V $INSTALL_PKGS
-dnf -y clean all --enablerepo='*'
-EOF
+RUN --mount=type=cache,target=/var/cache/dnf \
+    DNF_EXTRA_OPTS="--setopt=tsflags=nodocs" ./utils/install_with_retry.sh dnf-install bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd \
+    && rpm -V bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd \
+    && dnf -y clean all --enablerepo='*'
 
 # Configure httpd for CGI processing
 COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/httpd/httpd.conf /etc/httpd/conf/httpd.conf
