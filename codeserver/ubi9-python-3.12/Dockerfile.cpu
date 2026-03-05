@@ -26,6 +26,7 @@ ARG NODE_VERSION=22.18.0
 ARG CODESERVER_VERSION=v4.104.0
 
 COPY ${CODESERVER_SOURCE_CODE}/get_code_server_rpm.sh .
+COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/utils utils/
 
 # create dummy file to ensure this stage is awaited before installing rpm
 RUN ./get_code_server_rpm.sh && touch /tmp/control
@@ -66,6 +67,8 @@ RUN touch /tmp/control
 ####################
 FROM ${BASE_IMAGE} AS cpu-base
 
+ARG CODESERVER_SOURCE_CODE=codeserver/ubi9-python-3.12
+
 WORKDIR /opt/app-root/bin
 
 # OS Packages needs to be installed as root
@@ -85,7 +88,8 @@ RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setop
 # upgrade first to avoid fixable vulnerabilities end
 
 # Install useful OS packages
-RUN dnf install -y perl mesa-libGL skopeo && dnf clean all && rm -rf /var/cache/yum
+COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/utils utils/
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo
 
 # (ARCH-ppc64le): since wheels are compiled from source, we need shared libs available at runtime
 RUN --mount=type=cache,from=whl-cache,source=/root/OpenBLAS,target=/OpenBlas,rw \
@@ -136,7 +140,7 @@ USER 0
 WORKDIR /opt/app-root/bin
 
 # Install useful OS packages
-RUN dnf install -y jq git-lfs libsndfile && dnf clean all && rm -rf /var/cache/yum
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq git-lfs libsndfile
 
 # wait for rpm-base stage (rpm builds for ppc64le)
 COPY --from=rpm-base /tmp/control /dev/null
@@ -151,8 +155,6 @@ RUN --mount=type=cache,from=rpm-base,source=/tmp/,target=/code-server-rpm/,rw \
     # dnf -y clean all --enablerepo='*'
     dnf install -y cpio && dnf -y clean all && \
     cd / && rpm2cpio "/code-server-rpm/code-server-${CODESERVER_VERSION/v/}-${TARGETARCH}.rpm" | cpio -idmv
-
-COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/utils utils/
 
 # Create and intall the extensions though build-time on a temporary directory. Later this directory will copied on the `/opt/app-root/src/.local/share/code-server/extensions` via run-code-server.sh file when it starts up.
 # https://coder.com/docs/code-server/FAQ#how-do-i-install-an-extension
@@ -175,10 +177,10 @@ ENV NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
     NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
 
 # Modules does not exist
-RUN INSTALL_PKGS="bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd" && \
-    dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
-    dnf -y clean all --enablerepo='*'
+RUN --mount=type=cache,target=/var/cache/dnf \
+    DNF_EXTRA_OPTS="--setopt=tsflags=nodocs" ./utils/install_with_retry.sh dnf-install bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd \
+    && rpm -V bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd \
+    && dnf -y clean all --enablerepo='*'
 
 # Configure httpd for CGI processing
 COPY --chown=1001:0 ${CODESERVER_SOURCE_CODE}/httpd/httpd.conf /etc/httpd/conf/httpd.conf
