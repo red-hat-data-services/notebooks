@@ -903,6 +903,7 @@ dev = [
     { name = "requests", marker = "sys_platform == 'darwin' or sys_platform == 'linux'" },
     { name = "ruff", marker = "sys_platform == 'darwin' or sys_platform == 'linux'" },
     { name = "testcontainers", marker = "sys_platform == 'darwin' or sys_platform == 'linux'" },
+    { name = "typer", marker = "sys_platform == 'darwin' or sys_platform == 'linux'" },
 ]
 
 [package.metadata]
@@ -924,6 +925,7 @@ dev = [
     { name = "requests" },
     { name = "ruff" },
     { name = "testcontainers" },
+    { name = "typer" },
 ]
 
 [[package]]
