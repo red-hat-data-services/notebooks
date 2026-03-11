@@ -526,4 +526,5 @@ print-release:
 .PHONY: test
 test:
 	@echo "Running quick static tests"
-	uv run pytest -m 'not buildonlytest'
+	./uv run pytest -m 'not buildonlytest'
+	@./scripts/check_dockerfile_alignment.sh
