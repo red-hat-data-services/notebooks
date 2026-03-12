@@ -19,6 +19,13 @@ RUN cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/ && \
 # wheel-cache-base #
 ####################
 FROM ${BASE_IMAGE} AS whl-cache
+### BEGIN RHAIENG-2189: this is AIPCC migration phase 1.5
+ENV PIP_INDEX_URL=https://pypi.org/simple
+# UV_INDEX_URL is deprecated in favor of UV_DEFAULT_INDEX
+ENV UV_INDEX_URL=https://pypi.org/simple
+# https://docs.astral.sh/uv/reference/environment/#uv_default_index
+ENV UV_DEFAULT_INDEX=https://pypi.org/simple
+### END RHAIENG-2189: this is AIPCC migration phase 1.5
 
 USER root
 ENV HOME=/root
@@ -41,6 +48,13 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # cpu-base         #
 ####################
 FROM ${BASE_IMAGE} AS cpu-base
+### BEGIN RHAIENG-2189: this is AIPCC migration phase 1.5
+ENV PIP_INDEX_URL=https://pypi.org/simple
+# UV_INDEX_URL is deprecated in favor of UV_DEFAULT_INDEX
+ENV UV_INDEX_URL=https://pypi.org/simple
+# https://docs.astral.sh/uv/reference/environment/#uv_default_index
+ENV UV_DEFAULT_INDEX=https://pypi.org/simple
+### END RHAIENG-2189: this is AIPCC migration phase 1.5
 
 WORKDIR /opt/app-root/bin
 
