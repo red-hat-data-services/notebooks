@@ -51,8 +51,11 @@ if [[ "$ARCH" == "ppc64le" ]]; then
   rm -rf /texlive-20250308-source /texlive-build
 
   # Step 2: Run TeX Live installer for runtime tree setup
+  # Pin to the TeX Live 2025 historic archive so the installer version and
+  # package repository version always match (mirror.ctan.org now serves 2026).
+  TEXLIVE_HISTORIC="https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/tlnet-final"
   cd /
-  wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+  wget "${TEXLIVE_HISTORIC}/install-tl-unx.tar.gz"
   tar -xzf install-tl-unx.tar.gz
   cd install-tl-2*/
 
@@ -67,7 +70,7 @@ option_doc 0
 option_src 0
 EOF
 
-  ./install-tl --profile=texlive.profile --custom-bin=$TEXLIVE_INSTALL_PREFIX/bin/powerpc64le-unknown-linux-gnu
+  ./install-tl --profile=texlive.profile --custom-bin=$TEXLIVE_INSTALL_PREFIX/bin/powerpc64le-unknown-linux-gnu --repository="${TEXLIVE_HISTORIC}"
 
 # TeX Live binary directory
 TEX_BIN_DIR="/usr/local/texlive/bin/powerpc64le-unknown-linux-gnu"
