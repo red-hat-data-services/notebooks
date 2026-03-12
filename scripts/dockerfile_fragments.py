@@ -1,134 +1,219 @@
 #!/usr/bin/env python3
+
+"""
+This script is inspired by the AIPCC `replace-markers.sh` script, invoked from `make regen`
+  https://gitlab.com/redhat/rhel-ai/core/base-images/app/-/blob/main/containerfiles/replace-markers.sh
+
+The original AIPCC version uses the `ed` command to replace everything between
+ `### BEGIN <filename>` and `### END <filename>` with the content of the <filename>.
+
+This script currently has the data inline, but this can be easily changed.
+We could also support files, or maybe even `### BEGIN funcname("param1", "param2")` that would
+ run Python function `funcname` and paste in the return value.
+"""
+
 from __future__ import annotations
 
-import os
 import textwrap
-import pathlib
 from typing import TYPE_CHECKING
 
+import ntb
+
 if TYPE_CHECKING:
+    import pathlib
+
     from pyfakefs.fake_filesystem import FakeFilesystem
 
-ROOT_DIR = pathlib.Path(__file__).parent.parent
+# restricting to the relevant directories significantly speeds up the processing
+docker_directories = (
+    ntb.ROOT_DIR / "base-images",
+    ntb.ROOT_DIR / "jupyter",
+    ntb.ROOT_DIR / "codeserver",
+    ntb.ROOT_DIR / "rstudio",
+    ntb.ROOT_DIR / "runtimes",
+)
+
+
+def sanity_check(dockerfile: pathlib.Path, replacements: dict[str, str]):
+    """Sanity check that we don't have any unexpected `### BEGIN`s and `### END`s"""
+    begin = "#" * 3 + " BEGIN"
+    end = "#" * 3 + " END"
+    with open(dockerfile, "rt") as fp:
+        for line_no, line in enumerate(fp, start=1):
+            for prefix in (begin, end):
+                if line.rstrip().startswith(prefix):
+                    suffix = line[len(prefix) + 1:].rstrip()
+                    if suffix not in replacements:
+                        raise ValueError(
+                            f"Expected replacement for '{prefix} {suffix}' "
+                            f"not found in {dockerfile}:{line_no}"
+                        )
 
 
 def main():
-    for dockerfile in ROOT_DIR.glob("**/Dockerfile*"):
-        if not dockerfile.is_file():
-            continue
-        if dockerfile.is_relative_to(ROOT_DIR / "base-images"):
-            continue
-        if dockerfile.is_relative_to(ROOT_DIR / "examples"):
-            continue
+    subscription_manager_register_refresh = textwrap.dedent(r"""
+        RUN /bin/bash <<'EOF'
+        # If we have a Red Hat subscription prepared, refresh it
+        set -Eeuxo pipefail
+        if command -v subscription-manager &> /dev/null; then
+          subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
+        fi
+        EOF
+    """)
 
-        blockinfile(
-            dockerfile,
-            textwrap.dedent(r"""
+    replacements = {
+        "AIPCC pip and uv config files": textwrap.dedent(r'''
+            ARG INDEX_URL
+            COPY --chmod=664 --chown=1001:0 base-images/utils/pip.conf.in /opt/app-root/pip.conf
+            COPY --chmod=664 --chown=1001:0 base-images/utils/uv.toml.in /opt/app-root/uv.toml
+            RUN /bin/bash <<'EOF'
+            set -Eeuxo pipefail
+            if [ -z "${INDEX_URL}" ]; then
+              echo "ERROR: INDEX_URL build arg is required" >&2
+              exit 1
+            fi
+            sed -i "s|@INDEX_URL@|${INDEX_URL}|g" /opt/app-root/pip.conf
+            sed -i "s|@INDEX_URL@|${INDEX_URL}|g" /opt/app-root/uv.toml
+            EOF
+
+            # Python and virtual env settings
+            ENV VIRTUAL_ENV=${APP_ROOT} \
+                PIP_CONFIG_FILE=/opt/app-root/pip.conf \
+                UV_CONFIG_FILE=/opt/app-root/uv.toml \
+                PIP_NO_CACHE_DIR=off \
+                UV_NO_CACHE=true \
+                PIP_DISABLE_PIP_VERSION_CHECK=1 \
+                PYTHONUNBUFFERED=1 \
+                PYTHONIOENCODING=utf-8 \
+                LANG=en_US.UTF-8 \
+                LC_ALL=en_US.UTF-8 \
+                PS1="(app-root) \w\$ "'''),
+        "RHAIENG-2189: this is AIPCC migration phase 1.5": textwrap.dedent(r"""
+            ENV PIP_INDEX_URL=https://pypi.org/simple
+            # UV_INDEX_URL is deprecated in favor of UV_DEFAULT_INDEX
+            ENV UV_INDEX_URL=https://pypi.org/simple
+            # https://docs.astral.sh/uv/reference/environment/#uv_default_index
+            ENV UV_DEFAULT_INDEX=https://pypi.org/simple"""),
+
+        "Subscribe with subscription manager": textwrap.dedent(subscription_manager_register_refresh),
+        "upgrade first to avoid fixable vulnerabilities": textwrap.dedent(ntb.process_template_with_indents(rt"""
+            {subscription_manager_register_refresh}
             # Problem: The operation would result in removing the following protected packages: systemd
             #  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
             # Solution: --best --skip-broken does not work either, so use --nobest
-            RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0 \
-                && dnf clean all -y
-            """),
-            prefix="upgrade first to avoid fixable vulnerabilities",
-        )
+            RUN /bin/bash <<'EOF'
+            set -Eeuxo pipefail
+            dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0
+            dnf clean all -y
+            EOF
 
-        blockinfile(
-            dockerfile,
-            textwrap.dedent('''RUN pip install --no-cache-dir -U "micropipenv[toml]==1.9.0" "uv==0.8.12"'''),
-            prefix="Install micropipenv and uv to deploy packages from requirements.txt",
-        )
+        """)),
+        "Install micropipenv and uv to deploy packages from requirements.txt": '''RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.10.0" "uv==0.9.28"''',
+        "Install the oc client": textwrap.dedent(r"""
+            RUN /bin/bash <<'EOF'
+            set -Eeuxo pipefail
+            curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
+                -o /tmp/openshift-client-linux.tar.gz
+            tar -xzvf /tmp/openshift-client-linux.tar.gz oc
+            rm -f /tmp/openshift-client-linux.tar.gz
+            EOF
 
-        if not is_rstudio(dockerfile):
-            blockinfile(
-                dockerfile,
-                textwrap.dedent(r"""
-                RUN curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
-                        -o /tmp/openshift-client-linux.tar.gz && \
-                    tar -xzvf /tmp/openshift-client-linux.tar.gz oc && \
-                    rm -f /tmp/openshift-client-linux.tar.gz
-                """),
-                prefix="Install the oc client",
-            )
+        """),
+        "Dependencies for PDF export": textwrap.dedent(r"""
+            RUN ./utils/install_pdf_deps.sh
+            ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
+        """),
+        "Download Elyra Bootstrapper": textwrap.dedent(r"""
+            RUN curl -fL https://raw.githubusercontent.com/opendatahub-io/elyra/refs/tags/v4.3.1/elyra/kfp/bootstrapper.py \
+                     -o ./utils/bootstrapper.py
+            # Prevent Elyra from re-installing the dependencies
+            ENV ELYRA_INSTALL_PACKAGES="false"
+        """),
 
-        if is_jupyter(dockerfile):
-            blockinfile(
-                dockerfile,
-                textwrap.dedent(r"""
-                RUN ./utils/install_pdf_deps.sh
-                ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
-                """),
-                prefix="Dependencies for PDF export",
-            )
+        "mongocli-builder stage": textwrap.dedent(r"""
+            ######################################################
+            # mongocli-builder (build stage only, not published) #
+            ######################################################
+            FROM registry.access.redhat.com/ubi9/go-toolset:latest AS mongocli-builder
 
+            ARG MONGOCLI_VERSION=2.0.4
 
-def blockinfile(filename: str | os.PathLike, contents: str, prefix: str | None = None, *, comment: str = "#"):
-    """This is similar to the functions in
-    * https://homely.readthedocs.io/en/latest/ref/files.html#homely-files-blockinfile-1
-    * ansible.modules.lineinfile
-    """
-    begin_marker = f"{comment} {prefix if prefix else ''} begin"
-    end_marker = f"{comment} {prefix if prefix else ''} end"
+            WORKDIR /tmp/
+            RUN /bin/bash <<'EOF'
+            set -Eeuxo pipefail
+            curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
+            unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
+            cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/
+            CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
+            EOF
+        """),
+        "mongocli-builder stage with s390x support": textwrap.dedent(r"""
+            ######################################################
+            # mongocli-builder (build stage only, not published) #
+            ######################################################
+            FROM registry.access.redhat.com/ubi9/go-toolset:latest AS mongocli-builder
 
-    begin = end = -1
-    try:
-        with open(filename, "rt") as fp:
-            original_lines = fp.readlines()
-    except (IOError, OSError) as e:
-        raise RuntimeError(f"Failed to read {filename}: {e}") from e
-    for line_no, line in enumerate(original_lines):
-        if line.rstrip() == begin_marker:
-            begin = line_no
-        elif line.rstrip() == end_marker:
-            end = line_no
+            ARG MONGOCLI_VERSION=2.0.4
 
-    if begin != -1 and end == -1:
-        raise ValueError(f"Found begin marker but no matching end marker in {filename}")
-    if begin == -1 and end != -1:
-        raise ValueError(f"Found end marker but no matching begin marker in {filename}")
-    if begin > end:
-        raise ValueError(f"Begin marker appears after end marker in {filename}")
+            WORKDIR /tmp/
 
-    lines = original_lines[:]
-    # NOTE: textwrap.dedent() with raw strings leaves leading and trailing newline
-    new_contents = contents.strip("\n").splitlines(keepends=True)
-    if begin == end == -1:
-        # add at the end if no markers found
-        lines.append(f"\n{begin_marker}\n")
-        lines.extend(new_contents)
-        lines.append(f"\n{end_marker}\n")
-    else:
-        lines[begin: end + 1] = [f"{begin_marker}\n", *new_contents, f"\n{end_marker}\n"]
+            ARG TARGETARCH
 
-    if lines == original_lines:
-        return
-    with open(filename, "wt") as fp:
-        fp.writelines(lines)
+            # Keep s390x special-case from original (create dummy binary) but
+            # include explicit curl/unzip steps from the delta for non-s390x.
+            RUN /bin/bash <<'EOF'
+            set -Eeuxo pipefail
+            arch="${TARGETARCH:-$(uname -m)}"
+            arch=$(echo "$arch" | cut -d- -f1)
+            if [ "$arch" = "s390x" ]; then
+                echo "Skipping mongocli build for ${arch}, creating dummy binary"
+                mkdir -p /tmp && printf '#!/bin/sh\necho "mongocli not supported on s390x"\n' > /tmp/mongocli
+                chmod +x /tmp/mongocli
+            else
+                echo "Building mongocli for ${arch}"
+                curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
+                unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
+                cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/
+                CGO_ENABLED=1 GOOS=linux GOARCH=${arch} GO111MODULE=on go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
+            fi
+            EOF
+        """),
+        "Copy mongocli from builder": textwrap.dedent(r"""
+            # Copy dynamically-linked mongocli built in earlier build stage
+            COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/"""),
+        "Install software and packages": textwrap.dedent(r"""
+            echo "Installing software and packages"
+            # Install Python packages from lockfile with hash verification
+            # All dependencies are explicitly listed in pylock.toml (--no-deps)
+            UV_NO_CACHE=true UV_LINK_MODE=copy UV_PREVIEW_FEATURES=pylock uv pip install \
+                --strict --no-deps --no-config --no-progress \
+                --require-hashes --compile-bytecode --index-strategy=unsafe-best-match \
+                --requirements=./pylock.toml"""),
+    }
 
+    for docker_dir in docker_directories:
+        for dockerfile in docker_dir.glob("**/Dockerfile*"):
+            if not dockerfile.is_file():
+                continue
+            if dockerfile.is_relative_to(ntb.ROOT_DIR / "examples"):
+                continue
 
-def is_jupyter(filename: pathlib.Path) -> bool:
-    return filename.is_relative_to(ROOT_DIR / "jupyter")
+            sanity_check(dockerfile, replacements)
 
-
-def is_rstudio(filename: pathlib.Path) -> bool:
-    return filename.is_relative_to(ROOT_DIR / "rstudio")
+            for prefix, contents in replacements.items():
+                ntb.blockinfile(
+                    filename=dockerfile,
+                    contents=contents,
+                    prefix=prefix,
+                )
 
 
 if __name__ == "__main__":
     main()
 
 
-class TestBlockinfile:
-    def test_adding_new_block(self, fs: FakeFilesystem):
-        fs.create_file("/config.txt", contents="hello\nworld")
-
-        blockinfile("/config.txt", "key=value")
-
-        assert fs.get_object("/config.txt").contents == "hello\nworld\n#  begin\nkey=value\n#  end\n"
-
-    def test_updating_value_in_block(self, fs: FakeFilesystem):
-        fs.create_file("/config.txt", contents="hello\nworld\n#  begin\nkey=value1\n#  end\n")
-
-        blockinfile("/config.txt", "key=value2")
-
-        assert fs.get_object("/config.txt").contents == "hello\nworld\n#  begin\nkey=value2\n#  end\n"
+class TestMain:
+    def test_dry_run(self, fs: FakeFilesystem):
+        for docker_dir in docker_directories:
+            fs.add_real_directory(source_path=docker_dir, read_only=False)
+        main()

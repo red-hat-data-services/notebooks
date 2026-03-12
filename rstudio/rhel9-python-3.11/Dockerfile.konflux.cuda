@@ -25,8 +25,8 @@ COPY --from=ubi-repos /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo
 COPY --from=ubi-repos /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 ### BEGIN upgrade first to avoid fixable vulnerabilities
-# If we have a Red Hat subscription prepared, refresh it
 RUN /bin/bash <<'EOF'
+# If we have a Red Hat subscription prepared, refresh it
 set -Eeuxo pipefail
 if command -v subscription-manager &> /dev/null; then
   subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
@@ -52,7 +52,7 @@ RUN dnf install -y perl mesa-libGL && dnf clean all && rm -rf /var/cache/yum
 USER 1001
 
 ### BEGIN Install micropipenv and uv to deploy packages from requirements.txt
-RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
+RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.10.0" "uv==0.9.28"
 ### END Install micropipenv and uv to deploy packages from requirements.txt
 
 WORKDIR /opt/app-root/src
