@@ -24,14 +24,17 @@ if [[ "$(uname -m)" == "s390x" || "$(uname -m)" == "ppc64le" ]]; then
 fi
 
 # tex live installation
+# Pin to the TeX Live 2025 historic archive so the installer version and
+# package repository version always match (mirror.ctan.org now serves 2026).
+TEXLIVE_HISTORIC="https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/tlnet-final"
 echo "Installing TexLive to allow PDf export from Notebooks"
-curl -fL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz -o install-tl-unx.tar.gz
+curl -fL "${TEXLIVE_HISTORIC}/install-tl-unx.tar.gz" -o install-tl-unx.tar.gz
 zcat < install-tl-unx.tar.gz | tar xf -
 cd install-tl-2*
-perl ./install-tl --no-interaction --scheme=scheme-small --texdir=/usr/local/texlive
-mv /usr/local/texlive/bin/"$(uname -m)-linux" /usr/local/texlive/bin/linux
+perl ./install-tl --no-interaction --scheme=scheme-small --texdir=/usr/local/texlive --repository="${TEXLIVE_HISTORIC}"
+ln -s /usr/local/texlive/bin/"$(uname -m)-linux" /usr/local/texlive/bin/linux
 cd /usr/local/texlive/bin/linux
-./tlmgr install tcolorbox pdfcol adjustbox titling enumitem soul ucs collection-fontsrecommended
+./tlmgr --repository="${TEXLIVE_HISTORIC}" install tcolorbox pdfcol adjustbox titling enumitem soul ucs collection-fontsrecommended
 
 # pandoc installation
 curl -fL "https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-${ARCH}.tar.gz"  -o /tmp/pandoc.tar.gz
