@@ -17,7 +17,8 @@ UNAME_TO_GOARCH["s390x"]="s390x"
 
 ARCH="${UNAME_TO_GOARCH[$(uname -m)]}"
 
-if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH" == "s390x" ]]; then   
+if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH" == "s390x" ]]; then
+
     # starting with node-22, c++20 is required (gcc-toolset-14 installed from prefetched RPMs)
     . /opt/rh/gcc-toolset-14/enable
 
@@ -133,6 +134,11 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
     # GHA_BUILD is passed from the Dockerfile ARG, set only in the GHA workflow.
     if [[ "${GHA_BUILD:-false}" == "true" ]]; then
         "${CODESERVER_SOURCE_CODE}/patches/tweak-gha.sh"
+
+        # Work around to prefetch ripgrep
+        uv pip install \
+            --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode \
+            --index-strategy=unsafe-best-match --requirements=./requirements.cpu-ripgrep.txt
     fi
 else
   echo "Unsupported architecture: $ARCH" >&2
