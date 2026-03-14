@@ -1,0 +1,6 @@
+--index-url https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4-EA2/cpu-ubi9/simple/
+ripgrep==15.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:93ed0069ccab915caa2febf6891c2c6cbcb380a02c091f31cb69d114b0006e35 \
+    --hash=sha256:6fa60d858a5d3f336e60e8a7564b812970e3d429d3093cd6f9cec99e420a3697 \
+    --hash=sha256:1c87d0ab0385598981275fa5dc8d27b67727cf9a43a9b6825baecd7592ec616a \
+    --hash=sha256:80e5dded9a3543d6be49816a4c0c526ae74f948832291687b8c213945037e87e
