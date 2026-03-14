@@ -97,6 +97,8 @@ COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/apply-patch.sh ${CODESERVER_SO
 # [HERMETIC] utils/ contains git-tracked .vsix (built-in extensions + Python/Jupyter); used by setup-offline-binaries.sh and final stage.
 COPY ${CODESERVER_CONTEXT}/utils/ ${CODESERVER_SOURCE_CODE}/utils/
 
+COPY ${CODESERVER_SOURCE_CODE}/requirements.cpu-ripgrep.txt ${CODESERVER_SOURCE_CODE}/
+
 # [HERMETIC] apply-patch.sh enables gcc-toolset-14 and applies patches (ripgrep, vsce-sign,
 # patches/series). npm ci, build, and release run in separate RUN steps below for caching.
 RUN cd ${CODESERVER_SOURCE_CODE} && GHA_BUILD="${GHA_BUILD}" ./apply-patch.sh

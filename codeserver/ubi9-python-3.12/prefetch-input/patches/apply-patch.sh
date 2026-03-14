@@ -136,9 +136,9 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
         "${CODESERVER_SOURCE_CODE}/patches/tweak-gha.sh"
 
         # Work around to prefetch ripgrep
-        uv pip install \
-            --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode \
-            --index-strategy=unsafe-best-match --requirements=./requirements.cpu-ripgrep.txt
+        pip install \
+            --no-deps --require-hashes --no-cache-dir \
+            -r "${CODESERVER_SOURCE_CODE}/requirements.cpu-ripgrep.txt"
     fi
 else
   echo "Unsupported architecture: $ARCH" >&2
