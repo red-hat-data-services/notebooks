@@ -1,6 +1,6 @@
 ############################################################################################
 # Hermetic Dockerfile for codeserver/ubi9-python-3.12
-# Test #1
+#
 # RHAIENG-2846: All build steps run without network access. Every dependency
 # (RPMs, npm packages, Python wheels, generic tarballs) is prefetched by cachi2
 # and mounted at /cachi2/output/deps/{rpm,pip,generic}/ during the build.
@@ -96,6 +96,8 @@ COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/tweak-gha.sh ${CODESERVER_SOUR
 COPY ${CODESERVER_CONTEXT}/prefetch-input/patches/apply-patch.sh ${CODESERVER_SOURCE_CODE}/
 # [HERMETIC] utils/ contains git-tracked .vsix (built-in extensions + Python/Jupyter); used by setup-offline-binaries.sh and final stage.
 COPY ${CODESERVER_CONTEXT}/utils/ ${CODESERVER_SOURCE_CODE}/utils/
+
+COPY ${CODESERVER_CONTEXT}/requirements.cpu-ripgrep.txt ${CODESERVER_SOURCE_CODE}/
 
 # [HERMETIC] apply-patch.sh enables gcc-toolset-14 and applies patches (ripgrep, vsce-sign,
 # patches/series). npm ci, build, and release run in separate RUN steps below for caching.
@@ -276,7 +278,7 @@ fi
 EOF
 
 # Install micropipenv and uv from cachi2 pip cache
-RUN pip install --no-cache-dir --no-index --find-links /cachi2/output/deps/pip "micropipenv[toml]==1.10.0" "uv==0.10.8"
+RUN pip install --no-cache-dir --no-index --find-links /cachi2/output/deps/pip "micropipenv[toml]==1.10.0" "uv==0.9.28"
 
 # Other apps and tools installed as default user
 USER 1001
