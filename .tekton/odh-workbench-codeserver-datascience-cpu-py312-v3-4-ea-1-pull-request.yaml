@@ -63,8 +63,6 @@ spec:
     value:
     - path: codeserver/ubi9-python-3.12/prefetch-input/rhds
       type: rpm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/rhds
-      type: generic
     - path: codeserver/ubi9-python-3.12
       type: pip
       binary:
