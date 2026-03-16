@@ -17,7 +17,8 @@ UNAME_TO_GOARCH["s390x"]="s390x"
 
 ARCH="${UNAME_TO_GOARCH[$(uname -m)]}"
 
-if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH" == "s390x" ]]; then   
+if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH" == "s390x" ]]; then
+
     # starting with node-22, c++20 is required (gcc-toolset-14 installed from prefetched RPMs)
     . /opt/rh/gcc-toolset-14/enable
 
@@ -74,7 +75,9 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
     #   adds defence in depth.
     #
     # [RIPGREP] Overwrite @vscode/ripgrep postinstall in the cached npm tarball with our
-    # patched version (ripgrep/postinstall.js) so a single v13.0.0-13 is used for all arches.
+    # patched version (ripgrep/postinstall.js). When RIPGREP_BINARY_PATH is set (by
+    # setup-offline-binaries.sh from the RHOAI Python wheel), the binary is copied from
+    # there; otherwise the script falls back to downloading the prebuilt v13.0.0-13.
     RIPGREP_PATCHED="${CODESERVER_SOURCE_PREFETCH}/ripgrep/postinstall.js"
     RIPGREP_TGZ=$(find /cachi2/output/deps/npm -name "*ripgrep*.tgz" -type f 2>/dev/null | head -1)
     if [[ -n "${RIPGREP_TGZ}" && -f "${RIPGREP_PATCHED}" ]]; then
@@ -131,6 +134,11 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
     # GHA_BUILD is passed from the Dockerfile ARG, set only in the GHA workflow.
     if [[ "${GHA_BUILD:-false}" == "true" ]]; then
         "${CODESERVER_SOURCE_CODE}/patches/tweak-gha.sh"
+
+        # Work around to prefetch ripgrep
+        pip install \
+            --no-deps --require-hashes --no-cache-dir \
+            -r "${CODESERVER_SOURCE_CODE}/requirements.cpu-ripgrep.txt"
     fi
 else
   echo "Unsupported architecture: $ARCH" >&2
