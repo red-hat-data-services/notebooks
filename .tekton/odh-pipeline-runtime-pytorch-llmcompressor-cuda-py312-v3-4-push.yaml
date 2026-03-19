@@ -1,6 +1,5 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# retrigger Konflux builds to fix https://issues.redhat.com/browse/RHOAIENG-31914
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -13,8 +12,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-3.4"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-4-push.yaml".pathChanged() ||
-           "runtimes/pytorch-llmcompressor/ubi9-python-3.12/**".pathChanged())
+      && ( ".tekton/odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-4-push.yaml".pathChanged() || "runtimes/pytorch-llmcompressor/ubi9-python-3.12/**".pathChanged())
   labels:
     appstudio.openshift.io/application: rhoai-v3-4
     appstudio.openshift.io/component: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-4
@@ -22,31 +20,36 @@ metadata:
   name: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-4-on-push
   namespace: rhoai-tenant
 spec:
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
   params:
   - name: git-url
     value: '{{source_url}}'
   - name: revision
     value: '{{revision}}'
+  - name: additional-tags
+    value:
+    - '{{target_branch}}-{{revision}}'
   - name: output-image
     value: quay.io/rhoai/odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-rhel9:{{target_branch}}
   - name: rhoai-version
     value: "3.4.0"
-  - name: additional-tags
-    value:
-    - '{{target_branch}}-{{revision}}'
   - name: dockerfile
     value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
-  - name: build-args-file
-    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/build-args/konflux.cuda.conf
   - name: path-context
     value: .
   - name: hermetic
     value: false
+  - name: build-source-image
+    value: true
   - name: build-image-index
     value: true
   - name: build-platforms
     value:
     - linux/x86_64
+  - name: build-args-file
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/build-args/konflux.cuda.conf
   pipelineRef:
     resolver: git
     params:
@@ -56,26 +59,6 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
-  timeouts:
-    pipeline: 8h
-    tasks: 4h
-  taskRunSpecs:
-    - pipelineTaskName: ecosystem-cert-preflight-checks
-      computeResources:
-        requests:
-          cpu: '8'
-          memory: 16Gi
-        limits:
-          cpu: '16'
-          memory: 32Gi
-    - pipelineTaskName: clair-scan
-      computeResources:
-        requests:
-          cpu: '8'
-          memory: 16Gi
-        limits:
-          cpu: '16'
-          memory: 32Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-4
   workspaces:
