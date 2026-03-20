@@ -15,4 +15,4 @@
 - name: rhel-subscription-activation-key
   value: "rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6"
 - name: prefetch-input
-  value: ./codeserver/ubi9-python-3.12/prefetch-input/hermeto.json
+  value: /workspaces/source/codeserver/ubi9-python-3.12/prefetch-input/hermeto.json
