@@ -46,6 +46,8 @@ spec:
     - io.openshift.tags=odh-workbench-codeserver-datascience-cpu-py312
   - name: params-file
     value: codeserver/ubi9-python-3.12/build-params.yaml
+  - name: rhoai-version
+    value: "3.4.0-ea.2"
   - name: build-image-index
     value: true
   - name: image-expires-after
