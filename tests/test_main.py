@@ -316,7 +316,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         ("wheel", ("==0.46.3", "~=0.46.3")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
         ("torchvision", ("==0.24.1", "~=0.24.1")),
-        ("triton", ("~=3.5.1", "==3.5.1")),
+        ("torch", ("==2.9.1", "~=2.10.0")),
+        ("triton", ("~=3.5.1", "~=3.6.0")),
         (
             "numpy",
             (
