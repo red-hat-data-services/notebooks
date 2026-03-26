@@ -294,9 +294,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "jupyterlab"
-version = "4.5.5"
+version = "4.5.6"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/rocm6.4-ubi9/jupyterlab-4.5.5-12-py3-none-any.whl", hashes = { sha256 = "a5c8d4597144db133603bcc6bcd6432ddf4cef4b6a0b4eef94c1836c07cd6c2f" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/rocm6.4-ubi9/jupyterlab-4.5.6-12-py3-none-any.whl", hashes = { sha256 = "64a89bae77943750db27bb2a36e702951432c5dad1665ee9597f8d48e53d1532" } }]
 
 [[packages]]
 name = "jupyterlab-git"
@@ -588,9 +588,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "tornado"
-version = "6.5.4"
+version = "6.5.5"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/rocm6.4-ubi9/tornado-6.5.4-12-cp39-abi3-linux_x86_64.whl", hashes = { sha256 = "8a6e25fe75f402b6932c5a2f296ef45c4c138025f664cd9fb086b8f8fe06afa4" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/rocm6.4-ubi9/tornado-6.5.5-12-cp39-abi3-linux_x86_64.whl", hashes = { sha256 = "4a4fa3342ebf8f69a1f439f684fdc8984cadddc6f571fccd71768989d8ab27cb" } }]
 
 [[packages]]
 name = "traitlets"
