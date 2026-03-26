@@ -810,11 +810,11 @@ wheels = [
 
 [[packages]]
 name = "protobuf"
-version = "7.34.1"
+version = "7.34.0"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cuda12.9-ubi9/protobuf-7.34.1-8-cp312-cp312-linux_aarch64.whl", hashes = { sha256 = "6ccd12e20a14044aea9bcf29c86426834b4cc94d3c971e927453de88eb8ae0f8" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cuda12.9-ubi9/protobuf-7.34.1-8-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "86298a3f164fc3a745f0c672a93dfb7d5f8729959abea7bb25d54b4bb1d96560" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cuda12.9-ubi9/protobuf-7.34.0-8-cp312-cp312-linux_aarch64.whl", hashes = { sha256 = "82fed737fd9031955720f252d17b495e62ffb65c9e0648e9370f0b49f6f847f7" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cuda12.9-ubi9/protobuf-7.34.0-8-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "eb5b39a5be6e9fe8b8c52e14457119a57263f52706e91d20daca8bc3781dd425" } },
 ]
 
 [[packages]]
