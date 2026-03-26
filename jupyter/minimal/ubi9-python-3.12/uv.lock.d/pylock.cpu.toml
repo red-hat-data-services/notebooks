@@ -70,9 +70,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "attrs"
-version = "25.4.0"
+version = "26.1.0"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/attrs-25.4.0-2-py3-none-any.whl", hashes = { sha256 = "e1dc38a2bc0bd08b70d628566c13bd92a68a9ebb82553a20ea4c7f9d6a8c5597" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/attrs-26.1.0-2-py3-none-any.whl", hashes = { sha256 = "c05d9d58b0411fa7bcabceef61ac716468836735dbbf39ef17e34e952cea5e31" } }]
 
 [[packages]]
 name = "babel"
@@ -726,4 +726,8 @@ wheels = [
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-2-cp312-cp312-linux_ppc64le.whl", hashes = { sha256 = "cc9821009f2a8a44c518a93ac2108b13bccc5907bc34204ed7d80cc23b56c6cf" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-2-cp312-cp312-linux_s390x.whl", hashes = { sha256 = "cc4efffe1520f4decfd4cb32ea12c985ca91a1150d0a60812dc9e59834126f8c" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-2-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "01096c612974da308601fd776d0456bbe34237c3caea6f38856491da554bb17d" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-3-cp312-cp312-linux_aarch64.whl", hashes = { sha256 = "71f6065dbf8b8aa60e95fc1c674df2c9b7fb7a3351396dac795f588e9ba89032" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-3-cp312-cp312-linux_ppc64le.whl", hashes = { sha256 = "37b0c4e2e934574aa0338c6a8141aba248dc0ffe7112c1fc3c7d1e12cc8de8a1" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-3-cp312-cp312-linux_s390x.whl", hashes = { sha256 = "9b42c797d1a45bb859278d4efd76c476b54244b46f3504678d22d2fdb3429b60" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/yarl-1.23.0-3-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "a220a1801c3d62b6dd716fb3c3d71f94ef41a1853fdbfad819d60f32d1f03d59" } },
 ]
