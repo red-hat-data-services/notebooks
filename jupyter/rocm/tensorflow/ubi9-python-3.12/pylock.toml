@@ -268,7 +268,6 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/47/0b/bdf449df87be3f0
 name = "boto3"
 version = "1.42.76"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/f1/13/33c8b8704d677fcaf5555ba8c6cc39468fc7b9a0c6b6c496e008cd5557fc/boto3-1.42.76.tar.gz", upload-time = 2026-03-25T19:33:25Z, size = 112789, hashes = { sha256 = "aa2b1973eee8973a9475d24bb579b1dee7176595338d4e4f7880b5c6189b8814" } }
 wheels = [{ url = "https://files.pythonhosted.org/packages/f0/dc/21b3dfb135125eb7e3a46b9aab0aede847726f239fc8f39474742a87ebb0/boto3-1.42.76-py3-none-any.whl", upload-time = 2026-03-25T19:33:23Z, size = 140557, hashes = { sha256 = "63c6779c814847016b89ae1b72ed968f8a63d80e589ba337511aa6fc1b59585e" } }]
 
 [[packages]]
