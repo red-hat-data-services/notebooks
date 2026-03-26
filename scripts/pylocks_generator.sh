@@ -53,6 +53,7 @@ MAIN_DIRS=("jupyter" "runtimes" "rstudio" "codeserver")
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 CVE_CONSTRAINTS_FILE="$ROOT_DIR/dependencies/cve-constraints.txt"
+UV_WRAPPER="$ROOT_DIR/uv"
 
 # ----------------------------
 # HELPER FUNCTIONS
@@ -89,13 +90,13 @@ read_conf_value() {
 # ----------------------------
 # PRE-FLIGHT CHECK
 # ----------------------------
-if ! command -v uv &>/dev/null; then
-  error "uv command not found. Please install uv: https://github.com/astral-sh/uv"
+if [[ ! -x "$UV_WRAPPER" ]]; then
+  error "Pinned uv wrapper not found or not executable at $UV_WRAPPER"
   exit 1
 fi
 
 UV_MIN_VERSION="0.4.0"
-UV_VERSION=$(uv --version 2>/dev/null | awk '{print $2}' || echo "0.0.0")
+UV_VERSION=$("$UV_WRAPPER" --version 2>/dev/null | awk '{print $2}' || echo "0.0.0")
 
 version_ge() {
   [ "$(printf '%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]
@@ -103,7 +104,7 @@ version_ge() {
 
 if ! version_ge "$UV_VERSION" "$UV_MIN_VERSION"; then
   error "uv version $UV_VERSION found, but >= $UV_MIN_VERSION is required."
-  error "Please upgrade uv: https://github.com/astral-sh/uv"
+  error "Please update the pinned branch uv version."
   exit 1
 fi
 
@@ -295,7 +296,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 
     set +e
     # shellcheck disable=SC2086
-    uv pip compile pyproject.toml \
+    "$UV_WRAPPER" pip compile pyproject.toml \
       --output-file "$output" \
       --format pylock.toml \
       --generate-hashes \

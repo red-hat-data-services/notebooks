@@ -461,7 +461,7 @@ refresh-pipfilelock-files:
 			echo "Updating $(PYTHON_VERSION) uv.lock in $$dir"
 			cd $$dir
 			if [ -f "pyproject.toml" ]; then
-				uv lock && rm uv.lock
+				$(ROOT_DIR)/uv lock && rm uv.lock
 			else
 				echo "No pyproject.toml found in $$dir, skipping."
 			fi
@@ -526,4 +526,4 @@ print-release:
 .PHONY: test
 test:
 	@echo "Running quick static tests"
-	uv run pytest -m 'not buildonlytest'
+	$(ROOT_DIR)/uv run pytest -m 'not buildonlytest'
