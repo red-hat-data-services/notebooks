@@ -9,4 +9,10 @@ reviews:
   auto_review:
     base_branches:
       - main
+      - stable
+      # opendatahub-io/notebooks
+      - 2024a
       - 2024b
+      # red-hat-data-services/notebooks
+      - rhoai-.*
+      - release-.*
