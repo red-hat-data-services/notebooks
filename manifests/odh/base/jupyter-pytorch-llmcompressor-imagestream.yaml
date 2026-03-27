@@ -92,7 +92,7 @@ spec:
             {"name": "MySQL Connector/Python", "version": "9.4"},
             {"name": "Kubeflow-Training", "version": "1.9"}
           ]
-        openshift.io/imported-from: quay.io/modh/cuda-notebooks
+        openshift.io/imported-from: quay.io/opendatahub/workbench-images
         opendatahub.io/workbench-image-recommended: 'false'
         opendatahub.io/notebook-build-commit: odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-ubi9-commit-2025-2_PLACEHOLDER
       from:
