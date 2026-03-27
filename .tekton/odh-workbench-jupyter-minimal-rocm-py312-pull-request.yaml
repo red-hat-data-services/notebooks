@@ -49,7 +49,6 @@ spec:
   - name: build-platforms
     value:
     - linux-d160-m8xlarge/amd64
-    - linux-d160-m8xlarge/arm64
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
