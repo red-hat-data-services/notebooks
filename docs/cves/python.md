@@ -31,7 +31,7 @@ This file is automatically applied during lock file generation via `uv pip compi
    package>=fixed_version
    ```
 
-2. **Automatic application**: The `pylocks_generator.sh` script applies these constraints to all lock file generations.
+2. **Automatic application**: The `pylocks_generator.py` script applies these constraints to all lock file generations.
 
 3. **Override for conflicts**: Some packages (like odh-elyra's appengine-python-standard) have conflicting version requirements. For these, use `override-dependencies` in the specific image's `pyproject.toml`.
 
@@ -48,7 +48,7 @@ This file is automatically applied during lock file generation via `uv pip compi
    ```bash
    make refresh-lock-files
    # or
-   bash scripts/pylocks_generator.sh public-index
+   ./uv run scripts/pylocks_generator.py auto
    ```
 
 3. If resolution fails due to conflicts, add `override-dependencies` to the affected image's `pyproject.toml`.
@@ -202,7 +202,7 @@ make jupyter-datascience-ubi9-python-3.12
 ## Related Files
 
 - `dependencies/cve-constraints.txt` - Centralized CVE constraints
-- `scripts/pylocks_generator.sh` - Lock file generator (applies constraints)
+- `scripts/pylocks_generator.py` - Lock file generator (applies constraints)
 - `pyproject.toml` - Direct dependencies and override-dependencies
 - `pylock.toml` / `uv.lock.d/` - Generated lock files
 
@@ -213,7 +213,7 @@ make jupyter-datascience-ubi9-python-3.12
 make refresh-lock-files
 
 # Regenerate lock files for specific directory
-bash scripts/pylocks_generator.sh public-index jupyter/datascience/ubi9-python-3.12
+./uv run scripts/pylocks_generator.py auto jupyter/datascience/ubi9-python-3.12
 
 # Check dependency tree
 uv tree
