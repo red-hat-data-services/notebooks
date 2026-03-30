@@ -3261,12 +3261,12 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/14/1b/a298b06749107c3
 name = "pytorch-triton-rocm"
 version = "3.3.1"
 wheels = [
-    { url = "https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp310-cp310-linux_x86_64.whl", hashes = { sha256 = "d54db030d74dcd0df1d166f4d6a63c0a59310297af4a57cbe867dea6e82fb07b" } },
-    { url = "https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp311-cp311-linux_x86_64.whl", hashes = { sha256 = "8eb26aec84408b2be3d5b942a9edef9fadc6e249afe6aab795872e227ce8f579" } },
-    { url = "https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "977423eee5c542a3f8aa4f527aec1688c4d485f207089cb595a8e638fcc3888a" } },
-    { url = "https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp313-cp313-linux_x86_64.whl", hashes = { sha256 = "104d1087692ea24dbfdb178b7a245c59b04d2121540587e392e30a668cf98edd" } },
-    { url = "https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp313-cp313t-linux_x86_64.whl", hashes = { sha256 = "dd521c3f3679a79081ebaa9a416d2090b0d3970a157e0bbe1e163dc75e8da4bf" } },
-    { url = "https://download.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp39-cp39-linux_x86_64.whl", hashes = { sha256 = "126dc1abacb6b48c24ba0a4850423dc5395169ca03ecb242c789c4ad0d25ce88" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp310-cp310-linux_x86_64.whl", hashes = { sha256 = "d54db030d74dcd0df1d166f4d6a63c0a59310297af4a57cbe867dea6e82fb07b" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp311-cp311-linux_x86_64.whl", hashes = { sha256 = "8eb26aec84408b2be3d5b942a9edef9fadc6e249afe6aab795872e227ce8f579" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "977423eee5c542a3f8aa4f527aec1688c4d485f207089cb595a8e638fcc3888a" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp313-cp313-linux_x86_64.whl", hashes = { sha256 = "104d1087692ea24dbfdb178b7a245c59b04d2121540587e392e30a668cf98edd" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp313-cp313t-linux_x86_64.whl", hashes = { sha256 = "dd521c3f3679a79081ebaa9a416d2090b0d3970a157e0bbe1e163dc75e8da4bf" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp39-cp39-linux_x86_64.whl", hashes = { sha256 = "126dc1abacb6b48c24ba0a4850423dc5395169ca03ecb242c789c4ad0d25ce88" } },
 ]
 
 [[packages]]
