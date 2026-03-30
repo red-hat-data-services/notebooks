@@ -89,6 +89,7 @@ explicit = true
 [tool.uv]
 # https://github.com/astral-sh/uv/issues/2686
 # https://github.com/astral-sh/uv/issues/4422
+
 override-dependencies = [
     # vllm is a requirement, however, as compressed-tensors is pinned, this can't be installed together
     "compressed-tensors",

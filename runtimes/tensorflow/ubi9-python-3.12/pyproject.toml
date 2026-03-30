@@ -59,6 +59,8 @@ dependencies = [
 [tool.uv]
 
 override-dependencies = [
+    # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
+    "cryptography>=46.0.5",
     # tf2onnx has pinned protobuf version, that causes conflict with other packages
     "protobuf==6.31.1",
     "keras~=3.13.2",
