@@ -3,5 +3,5 @@ set -Eeuxo pipefail
 
 uv --version || pip install "uv==0.8.12"
 
-python3 scripts/dockerfile_fragments.py
+uv run scripts/dockerfile_fragments.py
 bash scripts/pylocks_generator.sh

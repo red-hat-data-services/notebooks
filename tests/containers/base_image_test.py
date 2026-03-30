@@ -13,7 +13,6 @@ from typing import TYPE_CHECKING, Any
 
 import pytest
 import testcontainers.core.container
-import testcontainers.core.waiting_utils
 
 from tests.containers import docker_utils, utils
 
@@ -116,6 +115,12 @@ class TestBaseImage:
                         continue  # it's in ../server
                     if deps.startswith("libtracker-extract.so"):
                         continue  # it's in ../
+
+                    # AIPCC-6072: Unsatisfied library dependencies in the cuda aipcc image
+                    if deps.startswith("libmpi.so"):
+                        continue  # it's in ${MPI_HOME}/lib
+                    if deps.startswith("liboshmem.so"):
+                        continue  # it's in ${MPI_HOME}/lib
 
                     with subtests.test(f"{dlib=}"):
                         pytest.fail(f"{dlib=} has unsatisfied dependencies {deps=}")
