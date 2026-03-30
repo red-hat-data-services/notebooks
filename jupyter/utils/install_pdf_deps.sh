@@ -68,7 +68,7 @@ pdflatex --version
 dnf install -y cpio
 dnf clean all
 pushd /
-texlive_toolbox_rpm=https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/t/texlive-tcolorbox-20200406-37.el9.noarch.rpm
+texlive_toolbox_rpm=https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/t/texlive-tcolorbox-20200406-38.el9.noarch.rpm
 curl -sSfL ${texlive_toolbox_rpm} | rpm2cpio /dev/stdin | cpio -idmv
 popd
 texhash
