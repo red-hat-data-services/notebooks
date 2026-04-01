@@ -12,7 +12,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-3.4"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-v3-4-push.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() )
+      && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-v3-4-push.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged() || "jupyter/datascience/ubi9-python-3.12/prefetch-input/rhds/**".pathChanged() || "jupyter/pytorch+llmcompressor/ubi9-python-3.12/prefetch-input/mongocli/**".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v3-4
     appstudio.openshift.io/component: odh-workbench-jupyter-datascience-cpu-py312-v3-4
@@ -21,8 +21,8 @@ metadata:
   namespace: rhoai-tenant
 spec:
   timeouts:
-    pipeline: 8h0m0s
-    tasks: 4h0m0s
+    pipeline: 8h
+    tasks: 4h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -39,20 +39,38 @@ spec:
     value: jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: path-context
     value: .
+  - name: enable-cache-proxy
+    value: true
+  # Hermetic: gomod (mongocli), RPM (datascience prefetch-input/rhds), pip (requirements.cpu.txt); same as odh-workbench-jupyter-datascience-cpu-py312-pull-request
   - name: hermetic
-    value: false
+    value: false # Set to false, pending AIPCC-7795
   - name: build-source-image
     value: true
   - name: build-image-index
     value: true
   - name: build-platforms
     value:
-    - linux/x86_64
-    - linux-m2xlarge/arm64
+    - linux-d160-m8xlarge/amd64
+    - linux-d160-m8xlarge/arm64
     - linux/ppc64le
     - linux/s390x
   - name: build-args-file
     value: jupyter/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf
+  - name: enable-slack-failure-notification
+    value: "false"
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
+  - name: prefetch-input
+    value:
+    - path: jupyter/pytorch+llmcompressor/ubi9-python-3.12/prefetch-input/mongocli
+      type: gomod
+    - path: jupyter/datascience/ubi9-python-3.12/prefetch-input/rhds
+      type: rpm
+    - path: jupyter/datascience/ubi9-python-3.12
+      type: pip
+      binary:
+        arch: "x86_64,aarch64,ppc64le,s390x"
+      requirements_files: [requirements.cpu.txt]
   pipelineRef:
     resolver: git
     params:
@@ -62,6 +80,57 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
+  - pipelineTaskName: build-images
+    stepSpecs:
+    - name: prepare-sboms
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+    - name: sbom-syft-generate
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+    - name: build
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+  - pipelineTaskName: clair-scan
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
+  - pipelineTaskName: ecosystem-cert-preflight-checks
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-datascience-cpu-py312-v3-4
   workspaces:
