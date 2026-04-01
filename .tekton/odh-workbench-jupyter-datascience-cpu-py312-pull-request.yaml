@@ -61,7 +61,7 @@ spec:
     value:
     - path: jupyter/pytorch+llmcompressor/ubi9-python-3.12/prefetch-input/mongocli
       type: gomod
-    - path: jupyter/datascience/ubi9-python-3.12/prefetch-input/rdhs
+    - path: jupyter/datascience/ubi9-python-3.12/prefetch-input/rhds
       type: rpm
     - path: jupyter/datascience/ubi9-python-3.12
       type: pip
