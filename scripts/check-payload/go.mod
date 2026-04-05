@@ -82,7 +82,7 @@ require (
 	github.com/opencontainers/image-spec v1.0.3-0.20220114050600-8b9d41f48198 // indirect
 	github.com/opencontainers/runc v1.2.0 // indirect
 	github.com/opencontainers/runtime-spec v1.2.0 // indirect
-	github.com/openshift/api v0.0.0-20230120195050-6ba31fa438f2 // indirect
+	github.com/openshift/api ad9eb11110b6 // indirect
 	github.com/openshift/client-go v0.0.0-20230120202327-72f107311084 // indirect
 	github.com/openshift/library-go v0.0.0-20230227140230-39892725eed1 // indirect
 	github.com/openshift/oc v0.0.0-alpha.0.0.20230323133703-92b1a3d0e5d0 // indirect
