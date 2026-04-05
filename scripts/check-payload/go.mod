@@ -78,7 +78,7 @@ require (
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/opencontainers/runtime-spec v1.2.1 // indirect
-	github.com/openshift/api v0.0.0-20250710082954-674ad74beffc // indirect
+	github.com/openshift/api ad9eb11110b6 // indirect
 	github.com/openshift/client-go v0.0.0-20250710075018-396b36f983ee // indirect
 	github.com/openshift/library-go v0.0.0-20250711143941-47604345e7ea // indirect
 	github.com/openshift/oc v0.0.0-alpha.0.0.20251209043725-dc61926008ad // indirect
