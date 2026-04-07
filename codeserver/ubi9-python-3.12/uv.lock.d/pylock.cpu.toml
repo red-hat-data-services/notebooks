@@ -118,13 +118,13 @@ wheels = [
 
 [[packages]]
 name = "cryptography"
-version = "46.0.5"
+version = "46.0.6"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.5-2-cp312-abi3-linux_aarch64.whl", hashes = { sha256 = "d57052580aec62f400d9df7470d4c00167a333930bcded70546c5986e9b7303d" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.5-2-cp312-abi3-linux_ppc64le.whl", hashes = { sha256 = "2f7db0b31a9bcff27b73ccff2ad7d9837bf2431f55b5e59e45d0eaa2719833d8" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.5-2-cp312-abi3-linux_s390x.whl", hashes = { sha256 = "292f63e7be88979c0f7c02d051812a8e175bda71b5e3d030635b84ff9bfd9e1f" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.5-2-cp312-abi3-linux_x86_64.whl", hashes = { sha256 = "0feb61d4bee5626285a54cc8228d6fcd9eb3e3e78d097d47d4467407aadec3e0" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.6-2-cp312-abi3-linux_aarch64.whl", hashes = { sha256 = "f770efd25bde5e801875ca086fec1847fab0ec033b5faad80f1a09118d2c31e0" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.6-2-cp312-abi3-linux_ppc64le.whl", hashes = { sha256 = "2a80397c7887f26b1f1d993da69eefadbd6848d82ad072c68c503f86d4b7f17a" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.6-2-cp312-abi3-linux_s390x.whl", hashes = { sha256 = "b252e00327dad719a6f5aef373016eff55f6ec3f667fb4bfec006d09411dd2dc" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/cryptography-46.0.6-2-cp312-abi3-linux_x86_64.whl", hashes = { sha256 = "1fa8d8b4535b95cce0b954d34eb4d330aa6f6cda37b7c395f7b2eb45fcfa0132" } },
 ]
 
 [[packages]]
@@ -643,13 +643,13 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "protobuf"
-version = "6.33.5"
+version = "6.33.6"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.5-2-cp312-cp312-linux_aarch64.whl", hashes = { sha256 = "ca63597a67b36a20819a198590452bb386312d530de4703472a16e88e159975e" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.5-2-cp312-cp312-linux_ppc64le.whl", hashes = { sha256 = "acb45f1a2e516c8d7a44cfbc9046d832d3aa8730e20dd389be3bc0f6f63079cb" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.5-2-cp312-cp312-linux_s390x.whl", hashes = { sha256 = "5a31841ea2079fdfef6821f75b8955847201488945db2049e652aee8fcce77f5" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.5-2-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "8bcf60a75dc286cf4d9410de1a2c90c55648a157e12e760bbec2820dfbb8e0d3" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.6-2-cp312-cp312-linux_aarch64.whl", hashes = { sha256 = "3b825be3b33c315cd7d535d78cf3943687cae423c3db822dd327f15016155a99" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.6-2-cp312-cp312-linux_ppc64le.whl", hashes = { sha256 = "af768c97526998614e400dfc1f72bbbc7efb2d9068eb0ddbbba55022da81f710" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.6-2-cp312-cp312-linux_s390x.whl", hashes = { sha256 = "ac629f7fa3fdd42c95fcce3795a95f47bba5b4208984b8d99b457ba270d18396" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4-EA2/cpu-ubi9/protobuf-6.33.6-2-cp312-cp312-linux_x86_64.whl", hashes = { sha256 = "9032e57769d206b9a013583bb68ebfac9516b2311bc93665419b4968b762e410" } },
 ]
 
 [[packages]]
