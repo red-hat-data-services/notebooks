@@ -271,7 +271,20 @@ function _create_test_versions_source_of_truth()
     # Get the requirements file path for this notebook to extract actual package versions
     local notebook_dir
     notebook_dir="$(_get_jupyter_notebook_directory "${notebook_id}")"
+    # CUDA/ROCM stacks use requirements.{cuda,rocm}.txt only (e.g. pytorch+llmcompressor has no requirements.cpu.txt)
     local requirements_file="${notebook_dir}/requirements.cpu.txt"
+    case "${accelerator_flavor}" in
+        cuda)
+            if [ -f "${notebook_dir}/requirements.cuda.txt" ]; then
+                requirements_file="${notebook_dir}/requirements.cuda.txt"
+            fi
+            ;;
+        rocm)
+            if [ -f "${notebook_dir}/requirements.rocm.txt" ]; then
+                requirements_file="${notebook_dir}/requirements.rocm.txt"
+            fi
+            ;;
+    esac
 
     # Extract versions from the notebook's requirements file, with fallbacks for compatibility
     local nbdime_version
@@ -304,6 +317,9 @@ function _create_test_versions_source_of_truth()
 function _run_test()
 {
     local notebook_id="${1:-}"
+
+    # Create expected_versions.json from the correct imagestream for THIS test
+    _create_test_versions_source_of_truth "${notebook_id}"
 
     local test_notebook_file='test_notebook.ipynb'
     local repo_test_directory=
@@ -415,8 +431,6 @@ function _handle_test()
 {
     local notebook_id=
     notebook_id=$(_get_notebook_id)
-
-    _create_test_versions_source_of_truth "${notebook_id}"
 
     "${kbin}" exec "${notebook_workload_name}" -- /bin/sh -c "python3 -m pip install papermill"
 
