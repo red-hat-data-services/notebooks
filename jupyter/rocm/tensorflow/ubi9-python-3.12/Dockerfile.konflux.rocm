@@ -120,6 +120,10 @@ ARG TENSORFLOW_SOURCE_CODE=jupyter/rocm/tensorflow/ubi9-python-3.12
 
 WORKDIR /opt/app-root/bin
 
+# CVE-2026-2492: Disable HDF5 plugin loading to prevent local privilege escalation
+# via unsecured plugin search path in TensorFlow's h5py integration
+ENV HDF5_PLUGIN_PATH=disable
+
 COPY ${TENSORFLOW_SOURCE_CODE}/pylock.toml ./
 
 RUN echo "Installing softwares and packages" && \
