@@ -55,6 +55,10 @@ FROM cuda-base AS cuda-runtime-tensorflow
 ARG JUPYTER_REUSABLE_UTILS=jupyter/utils
 ARG TENSORFLOW_SOURCE_CODE=runtimes/tensorflow/ubi9-python-3.12
 
+# CVE-2026-2492: Disable HDF5 plugin loading to prevent local privilege escalation
+# via unsecured plugin search path in TensorFlow's h5py integration
+ENV HDF5_PLUGIN_PATH=disable
+
 LABEL name="odh-notebook-cuda-runtime-tensorflow-ubi9-python-3.12" \
     summary="Runtime CUDA tensorflow notebook image for ODH notebooks" \
     description="Runtime CUDA tensorflow notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
