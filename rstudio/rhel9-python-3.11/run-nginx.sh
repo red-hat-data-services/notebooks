@@ -20,7 +20,14 @@ if [ -z "$NB_PREFIX" ]; then
 else
     export BASE_URL=$(echo $NB_PREFIX | awk -F/ '{ print $4"-"$3 }')$(echo $NOTEBOOK_ARGS | grep -Po 'hub_host":"\K.*?(?=")' | awk -F/ '{ print $3 }' | awk -F. '{for (i=2; i<=NF; i++) printf ".%s", $i}')
     envsubst '${NB_PREFIX},${BASE_URL}' < /opt/app-root/etc/nginx.default.d/proxy.conf.template_nbprefix > /opt/app-root/etc/nginx.default.d/proxy.conf
-    envsubst '${BASE_URL}' < /etc/nginx/nginx.conf | tee /etc/nginx/nginx.conf
+
+    # A temp file is used because piping envsubst directly into the same file via `tee`
+    # is a race condition: `tee` can truncate the file before `envsubst` finishes reading it,
+    # resulting in an empty/corrupt config and "no events section" errors from nginx.
+    tmp=$(mktemp)
+    envsubst '${BASE_URL}' < /etc/nginx/nginx.conf > "$tmp"
+    cat "$tmp" > /etc/nginx/nginx.conf
+    rm -f "$tmp"
 fi
 
 nginx
