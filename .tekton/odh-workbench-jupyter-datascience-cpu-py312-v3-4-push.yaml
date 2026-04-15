@@ -12,7 +12,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-3.4"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-v3-4-push.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged() || "jupyter/datascience/ubi9-python-3.12/prefetch-input/rhds/**".pathChanged() || "jupyter/pytorch+llmcompressor/ubi9-python-3.12/prefetch-input/mongocli/**".pathChanged() )
+      && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-v3-4-push.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged() || "prefetch-input/rhds/**".pathChanged() || "prefetch-input/mongocli/**".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v3-4
     appstudio.openshift.io/component: odh-workbench-jupyter-datascience-cpu-py312-v3-4
@@ -62,9 +62,9 @@ spec:
     value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
   - name: prefetch-input
     value:
-    - path: jupyter/pytorch+llmcompressor/ubi9-python-3.12/prefetch-input/mongocli
+    - path: prefetch-input/mongocli
       type: gomod
-    - path: jupyter/datascience/ubi9-python-3.12/prefetch-input/rhds
+    - path: prefetch-input/rhds
       type: rpm
     - path: jupyter/datascience/ubi9-python-3.12
       type: pip
