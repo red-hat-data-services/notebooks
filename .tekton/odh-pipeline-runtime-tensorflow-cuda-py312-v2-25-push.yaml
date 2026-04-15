@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# konflux build manual retrigger - 2026-03-18 19:36:06
+# konflux build manual retrigger - 2026-04-15 14:16:12
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -34,7 +34,7 @@ spec:
     value:
     - '{{target_branch}}-{{revision}}'
   - name: rhoai-version
-    value: "2.25.4"
+    value: "2.25.5"
   - name: dockerfile
     value: runtimes/tensorflow/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
