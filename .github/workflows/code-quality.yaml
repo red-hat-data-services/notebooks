@@ -14,6 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # older uv installs buggy python 3.14 RC
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
       # https://github.com/astral-sh/setup-uv
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -43,6 +48,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # older uv installs buggy python 3.14 RC
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
       # https://github.com/astral-sh/setup-uv
       - name: Install uv
         uses: astral-sh/setup-uv@v7
