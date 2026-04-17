@@ -39,18 +39,31 @@ spec:
     value: jupyter/tensorflow/ubi9-python-3.12/build-args/konflux.cuda.conf
   - name: path-context
     value: .
+  - name: enable-cache-proxy
+    value: true
   - name: hermetic
     value: false
   - name: build-image-index
     value: true
   - name: build-platforms
     value:
-    - linux-extra-fast/amd64
-    - linux-m2xlarge/arm64
+    - linux-d160-m8xlarge/amd64
+    - linux-d160-m8xlarge/arm64
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
     value: "false"
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
+  - name: prefetch-input
+    value:
+    - path: prefetch-input/rhds
+      type: rpm
+    - path: jupyter/tensorflow/ubi9-python-3.12
+      type: pip
+      binary:
+        arch: "x86_64,aarch64"
+      requirements_files: [requirements.cuda.txt]
   pipelineRef:
     resolver: git
     params:
@@ -64,6 +77,14 @@ spec:
     pipeline: 8h
     tasks: 4h
   taskRunSpecs:
+    - pipelineTaskName: prefetch-dependencies
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
     - pipelineTaskName: ecosystem-cert-preflight-checks
       computeResources:
         requests:
