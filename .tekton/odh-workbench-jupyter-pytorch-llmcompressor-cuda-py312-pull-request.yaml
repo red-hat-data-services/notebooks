@@ -63,7 +63,7 @@ spec:
     - path: jupyter/pytorch+llmcompressor/ubi9-python-3.12
       type: pip
       binary:
-        arch: "x86_64,aarch64"
+        arch: "x86_64"
       requirements_files: [requirements.cuda.txt]
   pipelineRef:
     resolver: git
