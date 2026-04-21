@@ -8,15 +8,15 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-datascience-cpu)"
-    pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-cpu, kfbuild-datascience, kfbuild-runtime-datascience-cpu]"
+    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-pytorch-llmcompressor-cuda)"
+    pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-pytorch, kfbuild-cuda, kfbuild-llmcompressor, kfbuild-runtime-pytorch-llmcompressor-cuda]"
     pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-pipeline-runtime-datascience-cpu-py312-on-pull-request-97305
+  name: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-on-pull-request-77104
   namespace: rhoai-tenant
 spec:
   params:
@@ -32,11 +32,11 @@ spec:
   - name: additional-labels
     value:
     - version=on-pr-{{revision}}
-    - io.openshift.tags=odh-pipeline-runtime-datascience-cpu-py312
+    - io.openshift.tags=odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312
   - name: dockerfile
-    value: runtimes/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
-    value: runtimes/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/build-args/konflux.cuda.conf
   - name: path-context
     value: .
   - name: enable-cache-proxy
@@ -47,10 +47,7 @@ spec:
     value: true
   - name: build-platforms
     value:
-    - linux/x86_64
-    - linux-m2xlarge/arm64
-    - linux/ppc64le
-    - linux/s390x
+    - linux-extra-fast/amd64
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
@@ -61,11 +58,11 @@ spec:
     value:
     - path: prefetch-input/rhds
       type: rpm
-    - path: runtimes/datascience/ubi9-python-3.12
+    - path: runtimes/pytorch+llmcompressor/ubi9-python-3.12
       type: pip
       binary:
-        arch: "x86_64,aarch64,ppc64le,s390x"
-      requirements_files: [requirements.cpu.txt]
+        arch: "x86_64"
+      requirements_files: [requirements.cuda.txt]
   pipelineRef:
     resolver: git
     params:
@@ -87,6 +84,22 @@ spec:
         limits:
           cpu: '3'
           memory: 8Gi
+    - pipelineTaskName: ecosystem-cert-preflight-checks
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
+    - pipelineTaskName: clair-scan
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
