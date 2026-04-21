@@ -1,4 +1,3 @@
-#rebuild
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
@@ -95,4 +94,3 @@ spec:
       secret:
         secretName: "{{ git_auth_secret }}"
 status: {}
-#restart
