@@ -8,7 +8,7 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: "^/build-konflux"
+    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-pytorch-rocm)"
     pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-pytorch, kfbuild-rocm, kfbuild-runtime-pytorch-rocm]"
     pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
@@ -39,6 +39,8 @@ spec:
     value: runtimes/rocm-pytorch/ubi9-python-3.12/build-args/konflux.rocm.conf
   - name: path-context
     value: .
+  - name: enable-cache-proxy
+    value: true
   - name: hermetic
     value: false
   - name: build-image-index
@@ -50,6 +52,17 @@ spec:
     value: 5d
   - name: enable-slack-failure-notification
     value: "false"
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
+  - name: prefetch-input
+    value:
+    - path: prefetch-input/rhds
+      type: rpm
+    - path: runtimes/rocm-pytorch/ubi9-python-3.12
+      type: pip
+      binary:
+        arch: "x86_64"
+      requirements_files: [requirements.rocm.txt]
   pipelineRef:
     resolver: git
     params:
@@ -63,6 +76,14 @@ spec:
     pipeline: 8h
     tasks: 4h
   taskRunSpecs:
+    - pipelineTaskName: prefetch-dependencies
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
     - pipelineTaskName: ecosystem-cert-preflight-checks
       computeResources:
         requests:
