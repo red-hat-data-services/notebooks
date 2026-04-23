@@ -17,7 +17,7 @@ metadata:
     appstudio.openshift.io/application: rhoai-v3-4
     appstudio.openshift.io/component: odh-wb-jupyter-pytorch-llmcompressor-cuda-py312-v3-4
     pipelines.appstudio.openshift.io/type: build
-  name: odh--jupyter-pytorch-llmcompressor-cuda-py312-v3-4-on-push
+  name: odh-wb-jupyter-pytorch-llmcompressor-cuda-py312-v3-4-on-push
   namespace: rhoai-tenant
 spec:
   timeouts:
