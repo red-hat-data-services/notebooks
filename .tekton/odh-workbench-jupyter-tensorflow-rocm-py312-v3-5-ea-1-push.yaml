@@ -12,7 +12,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-3.5-ea.1"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-tensorflow-rocm-py312-v3-5-ea-1-push.yaml".pathChanged() || "jupyter/rocm/tensorflow/ubi9-python-3.12/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.5.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() )
+      && ( ".tekton/odh-workbench-jupyter-tensorflow-rocm-py312-v3-5-ea-1-push.yaml".pathChanged() || "jupyter/rocm/tensorflow/ubi9-python-3.12/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.5.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() || "prefetch-input/rhds/**".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v3-5-ea-1
     appstudio.openshift.io/component: odh-workbench-jupyter-tensorflow-rocm-py312-v3-5-ea-1
@@ -39,6 +39,9 @@ spec:
     value: jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm
   - name: path-context
     value: .
+  - name: enable-cache-proxy
+    value: true
+  # Hermetic: RPMs from prefetch-input/rhds; pip from requirements.rocm.txt (see opendatahub-io/notebooks/.tekton ROCm TensorFlow PR pipeline)
   - name: hermetic
     value: false
   - name: build-source-image
@@ -50,6 +53,17 @@ spec:
     - linux/x86_64
   - name: build-args-file
     value: jupyter/rocm/tensorflow/ubi9-python-3.12/build-args/konflux.rocm.conf
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
+  - name: prefetch-input
+    value:
+    - path: prefetch-input/rhds
+      type: rpm
+    - path: jupyter/rocm/tensorflow/ubi9-python-3.12
+      type: pip
+      binary:
+        arch: "x86_64"
+      requirements_files: [requirements.rocm.txt]
   pipelineRef:
     resolver: git
     params:
@@ -59,6 +73,57 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
+  - pipelineTaskName: build-images
+    stepSpecs:
+    - name: prepare-sboms
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+    - name: sbom-syft-generate
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+    - name: build
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+  - pipelineTaskName: clair-scan
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
+  - pipelineTaskName: ecosystem-cert-preflight-checks
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-tensorflow-rocm-py312-v3-5-ea-1
   workspaces:
