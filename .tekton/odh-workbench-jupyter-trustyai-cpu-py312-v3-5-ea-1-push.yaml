@@ -12,7 +12,7 @@ metadata:
       event == "push"
       && target_branch == "rhoai-3.5-ea.1"
       && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-trustyai-cpu-py312-v3-5-ea-1-push.yaml".pathChanged() || "jupyter/trustyai/ubi9-python-3.12/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.5.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() || "prefetch-input/rhds/**".pathChanged() )
+      && ( ".tekton/odh-workbench-jupyter-trustyai-cpu-py312-v3-5-ea-1-push.yaml".pathChanged() || "jupyter/trustyai/ubi9-python-3.12/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.5.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() || "prefetch-input/rhds/**".pathChanged() || "prefetch-input/mongocli/**".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v3-5-ea-1
     appstudio.openshift.io/component: odh-workbench-jupyter-trustyai-cpu-py312-v3-5-ea-1
@@ -41,7 +41,7 @@ spec:
     value: .
   - name: enable-cache-proxy
     value: true
-  # Hermetic: RPMs from prefetch-input/rhds; pip from requirements.cpu.txt (see opendatahub-io/notebooks/.tekton TrustyAI PR pipeline)
+  # Hermetic: gomod (mongocli), RPM (prefetch-input/rhds), pip (requirements.cpu.txt); same pattern as odh-workbench-jupyter-datascience-cpu-py312-v3-5-ea-1-push
   - name: hermetic
     value: false
   - name: build-source-image
@@ -62,6 +62,8 @@ spec:
     value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
   - name: prefetch-input
     value:
+    - path: prefetch-input/mongocli
+      type: gomod
     - path: prefetch-input/rhds
       type: rpm
     - path: jupyter/trustyai/ubi9-python-3.12
