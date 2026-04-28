@@ -11,6 +11,8 @@ SHELL := bash
 .DELETE_ON_ERROR:
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
+# Used where we need an empty expansion (avoids undefined variable warning).
+empty :=
 
 # todo: leave the default recipe prefix for now
 ifeq ($(origin .RECIPEPREFIX), undefined)
@@ -25,6 +27,11 @@ RELEASE_PYTHON_VERSION	 ?= 3.12
 CONTAINER_BUILD_CACHE_ARGS ?= --no-cache
 # whether to push the images to a registry as they are built
 PUSH_IMAGES ?= yes
+# INDEX_MODE: auto (default), public-index, or rh-index - controls lock file generation
+INDEX_MODE ?= auto
+# KONFLUX: whether to build images from Dockerfile.konflux.* (default: no)
+KONFLUX ?= no
+
 
 # OS dependant: Generate date, select appropriate cmd to locate container engine
 ifdef OS
@@ -65,13 +72,14 @@ endif
 # Build function for the notebook image:
 #   ARG 1: Image tag name.
 #   ARG 2: Path of Dockerfile we want to build.
+#   ARG 3: Path of the build-args conf file to use.
 define build_image
 	$(eval IMAGE_NAME := $(IMAGE_REGISTRY):$(1)-$(IMAGE_TAG))
 
 	# Checks if there’s a build-args/*.conf matching the Dockerfile
 	$(eval BUILD_DIR := $(dir $(2)))
 	$(eval DOCKERFILE_NAME := $(notdir $(2)))
-	$(eval CONF_FILE := $(BUILD_DIR)build-args/$(shell echo $(DOCKERFILE_NAME) | cut -d. -f2).conf)
+	$(eval CONF_FILE := $(3))
 
 	# if the conf file exists, transform it into --build-arg KEY=VALUE flags
 	$(eval BUILD_ARGS := $(shell \
@@ -79,10 +87,20 @@ define build_image
 			awk -F= '!/^#/ && NF {gsub(/^[ \t]+|[ \t]+$$/, "", $$1); gsub(/^[ \t]+|[ \t]+$$/, "", $$2); printf "--build-arg %s=%s ", $$1, $$2}' $(CONF_FILE); \
 		fi))
 
+	# Make is only used for local and GHA builds (Konflux does not run make).
+	# Default to local build for hermetic-capable targets: always set LOCAL_BUILD=true
+	# when prefetch-input/ exists; mount cachi2/output only when it exists (after prefetch).
+	$(eval LOCAL_BUILD_ARG := $(if $(wildcard $(BUILD_DIR)prefetch-input),--build-arg LOCAL_BUILD=true,))
+	$(eval CACHI2_VOLUME := $(if $(and $(wildcard cachi2/output),$(wildcard $(BUILD_DIR)prefetch-input)),--volume $(ROOT_DIR)cachi2/output:/cachi2/output:Z,))
+
 	$(info # Building $(IMAGE_NAME) using $(DOCKERFILE_NAME) with $(CONF_FILE) and $(BUILD_ARGS)...)
 
+	@if [ -d '$(BUILD_DIR)prefetch-input' ] && [ ! -d cachi2/output ]; then \
+	  echo "Prefetch required for hermetic build. Run: scripts/lockfile-generators/prefetch-all.sh --component-dir $(patsubst %/,%,$(BUILD_DIR)) -- see scripts/lockfile-generators/README.md"; \
+	  exit 1; \
+	fi
 	$(ROOT_DIR)/scripts/sandbox.py --dockerfile '$(2)' --platform '$(BUILD_ARCH)' -- \
-		$(CONTAINER_ENGINE) build $(CONTAINER_BUILD_CACHE_ARGS) --platform=$(BUILD_ARCH) --label release=$(RELEASE) --tag $(IMAGE_NAME) --file '$(2)' $(BUILD_ARGS) {}\;
+		$(CONTAINER_ENGINE) build $(CONTAINER_BUILD_CACHE_ARGS) $(LOCAL_BUILD_ARG) $(CACHI2_VOLUME) --platform=$(BUILD_ARCH) --label release=$(RELEASE) --tag $(IMAGE_NAME) --file '$(2)' $(BUILD_ARGS) {}\;
 endef
 
 # Push function for the notebook image:
@@ -99,11 +117,14 @@ endef
 #
 # PUSH_IMAGES: allows skipping podman push
 define image
-	$(info #*# Image build Dockerfile: <$(2)> #(MACHINE-PARSED LINE)#*#...)
 	$(eval BUILD_DIRECTORY := $(shell echo $(2) | sed 's/\/Dockerfile.*//'))
+	$(eval VARIANT := $(shell echo $(notdir $(2)) | cut -d. -f2))
+	$(eval DOCKERFILE := $(BUILD_DIRECTORY)/Dockerfile$(if $(KONFLUX:no=),.konflux,$(empty)).$(VARIANT))
+	$(eval CONF_FILE := $(BUILD_DIRECTORY)/build-args/$(if $(KONFLUX:no=),konflux.,$(empty))$(shell echo $(VARIANT)).conf)
+	$(info #*# Image build Dockerfile: <$(DOCKERFILE)> #(MACHINE-PARSED LINE)#*#...)
 	$(info #*# Image build directory: <$(BUILD_DIRECTORY)> #(MACHINE-PARSED LINE)#*#...)
 
-	$(call build_image,$(1),$(2))
+	$(call build_image,$(1),$(DOCKERFILE),$(CONF_FILE))
 
 	$(if $(PUSH_IMAGES:no=),
 		$(call push_image,$(1))
@@ -113,7 +134,7 @@ endef
 #######################################        Build helpers                 #######################################
 
 # https://stackoverflow.com/questions/78899903/how-to-create-a-make-target-which-is-an-implicit-dependency-for-all-other-target
-skip-init-for := all-images deploy% undeploy% test% validate% refresh-pipfilelock-files scan-image-vulnerabilities print-release
+skip-init-for := all-images deploy% undeploy% test% validate% refresh-lock-files scan-image-vulnerabilities print-release
 ifneq (,$(filter-out $(skip-init-for),$(MAKECMDGOALS) $(.DEFAULT_GOAL)))
 $(SELF): bin/buildinputs
 endif
@@ -406,74 +427,20 @@ validate-rstudio-image: bin/kubectl
 		continue
 	fi
 
-# This recipe used mainly from the Pipfile.locks Renewal Action
-# Default Python version
-PYTHON_VERSION ?= 3.12
-ROOT_DIR := $(shell pwd)
-ifeq ($(PYTHON_VERSION), 3.11)
-	BASE_DIRS := \
-		rstudio/rhel9-python-$(PYTHON_VERSION) \
-		rstudio/c9s-python-$(PYTHON_VERSION)
-else ifeq ($(PYTHON_VERSION), 3.12)
-	BASE_DIRS := \
-	    jupyter/minimal/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/datascience/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/pytorch/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/tensorflow/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/trustyai/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/rocm/pytorch/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/pytorch+llmcompressor/ubi9-python-$(PYTHON_VERSION) \
-		codeserver/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/minimal/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/datascience/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/pytorch/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/tensorflow/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/rocm-pytorch/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/pytorch+llmcompressor/ubi9-python-$(PYTHON_VERSION) \
-		runtimes/rocm-tensorflow/ubi9-python-$(PYTHON_VERSION) \
-		jupyter/rocm/tensorflow/ubi9-python-$(PYTHON_VERSION)
-		# rstudio/rhel9-python-$(PYTHON_VERSION)
-		# rstudio/c9s-python-$(PYTHON_VERSION)
-else
-	$(error Invalid Python version $(PYTHON_VERSION))
-endif
-
-# Default value is false, can be overridden
-# The below directories are not supported on tier-1
-INCLUDE_OPT_DIRS ?= false
-OPT_DIRS :=
-
-# This recipe gets args, can be used like
-# make refresh-pipfilelock-files PYTHON_VERSION=3.11 INCLUDE_OPT_DIRS=false
-.PHONY: refresh-pipfilelock-files
-refresh-pipfilelock-files:
-	@echo "Updating Pipfile.lock files for Python $(PYTHON_VERSION)"
-	@if [ "$(INCLUDE_OPT_DIRS)" = "true" ]; then
-		echo "Including optional directories"
-		DIRS="$(BASE_DIRS) $(OPT_DIRS)"
-	else
-		DIRS="$(BASE_DIRS)"
-	fi
-	for dir in $$DIRS; do
-		echo "Processing directory: $$dir"
-		cd $(ROOT_DIR)
-		if [ -d "$$dir" ]; then
-			echo "Updating $(PYTHON_VERSION) uv.lock in $$dir"
-			cd $$dir
-			if [ -f "pyproject.toml" ]; then
-				$(ROOT_DIR)/uv lock && rm uv.lock
-			else
-				echo "No pyproject.toml found in $$dir, skipping."
-			fi
-		else
-			echo "Skipping $$dir as it does not exist"
-		fi
-	done
-
-	echo "Regenerating requirements.txt files"
-	pushd $(ROOT_DIR)
-		bash $(ROOT_DIR)/scripts/sync-python-lockfiles.sh
-	popd
+# ======================================================================================
+# Refresh lock files
+# Usage examples:
+#   gmake refresh-lock-files                                                   <- auto mode (rh-index if uv.lock.d/ exists, else public-index)
+#   gmake refresh-lock-files INDEX_MODE=public-index                           <- force public-index
+#   gmake refresh-lock-files INDEX_MODE=public-index DIR=jupyter/minimal/ubi9-python-3.12
+# ======================================================================================
+DIR ?=
+.PHONY: refresh-lock-files
+refresh-lock-files:
+	@echo "==================================================================="
+	@echo "🔁 Refreshing lock files using INDEX_MODE=$(INDEX_MODE)"
+	@echo "==================================================================="
+	@cd $(ROOT_DIR) && ./uv run scripts/pylocks_generator.py $(INDEX_MODE) $(DIR)
 
 # This is only for the workflow action
 # For running manually, set the required environment variables
@@ -483,13 +450,7 @@ scan-image-vulnerabilities:
 
 # This is used primarily for gen_gha_matrix_jobs.py to we know the set of all possible images we may want to build
 .PHONY: all-images
-ifeq ($(RELEASE_PYTHON_VERSION), 3.11)
-all-images: \
-	rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-else ifeq ($(RELEASE_PYTHON_VERSION), 3.12)
+ifeq ($(RELEASE_PYTHON_VERSION), 3.12)
 all-images: \
 	jupyter-minimal-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	jupyter-datascience-ubi9-python-$(RELEASE_PYTHON_VERSION) \
@@ -508,12 +469,11 @@ all-images: \
  	rocm-jupyter-pytorch-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	rocm-runtime-pytorch-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	rocm-runtime-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION) \
-	rocm-jupyter-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION)
-# rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-# cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-# rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-# cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-
+	rocm-jupyter-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION) \
+	rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
+	cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
+	rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION) \
+	cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
 else
 	$(error Invalid Python version $(RELEASE_PYTHON_VERSION))
 endif
@@ -527,3 +487,4 @@ print-release:
 test:
 	@echo "Running quick static tests"
 	./uv run pytest -m 'not buildonlytest'
+	@./scripts/check_dockerfile_alignment.sh
