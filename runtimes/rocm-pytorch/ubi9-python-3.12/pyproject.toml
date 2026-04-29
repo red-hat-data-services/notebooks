@@ -67,6 +67,10 @@ url = "https://download.pytorch.org/whl/rocm6.3"
 explicit = true
 
 [tool.uv]
+constraint-dependencies = [
+    # CVE-2026-23490: https://www.cve.org/CVERecord?id=CVE-2026-23490
+    "pyasn1>=0.6.2",
+]
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
