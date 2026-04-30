@@ -56,3 +56,6 @@ explicit = true
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
+override-dependencies = [
+    "pillow>=12.2.0",
+]
