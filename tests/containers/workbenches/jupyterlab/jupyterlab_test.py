@@ -20,27 +20,26 @@ class TestJupyterLabImage:
     @allure.issue("RHOAIENG-11156")
     @allure.description("Check that the HTML for the spinner is contained in the initial page.")
     def test_spinner_html_loaded(self, jupyterlab_image: conftest.Image) -> None:
-        container = WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0])
-        # if no env is specified, the image will run
-        # > 4321        3334    3319  0 10:36 pts/0    00:00:01 /mnt/rosetta /opt/app-root/bin/python3.11 /opt/app-root/bin/jupyter-lab
-        # > --ServerApp.root_dir=/opt/app-root/src --ServerApp.ip= --ServerApp.allow_origin=* --ServerApp.open_browser=False
-        # which does not let us open a notebook and get a spinner, we need to disable auth at a minimum
+        with WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0]) as container:
+            # if no env is specified, the image will run
+            # > 4321        3334    3319  0 10:36 pts/0    00:00:01 /mnt/rosetta /opt/app-root/bin/python3.11 /opt/app-root/bin/jupyter-lab
+            # > --ServerApp.root_dir=/opt/app-root/src --ServerApp.ip= --ServerApp.allow_origin=* --ServerApp.open_browser=False
+            # which does not let us open a notebook and get a spinner, we need to disable auth at a minimum
 
-        # These NOTEBOOK_ARGS are what ODH Dashboard uses,
-        # and we also have them in the Kustomize test files for Makefile tests
-        container.with_env(
-            "NOTEBOOK_ARGS",
-            "\n".join(  # noqa: FLY002 Consider f-string instead of string join
-                [
-                    "--ServerApp.port=8888",
-                    "--ServerApp.token=''",
-                    "--ServerApp.password=''",
-                    "--ServerApp.base_url=/notebook/opendatahub/jovyan",
-                    "--ServerApp.quit_button=False",
-                ]
-            ),
-        )
-        try:
+            # These NOTEBOOK_ARGS are what ODH Dashboard uses,
+            # and we also have them in the Kustomize test files for Makefile tests
+            container.with_env(
+                "NOTEBOOK_ARGS",
+                "\n".join(  # noqa: FLY002 Consider f-string instead of string join
+                    [
+                        "--ServerApp.port=8888",
+                        "--ServerApp.token=''",
+                        "--ServerApp.password=''",
+                        "--ServerApp.base_url=/notebook/opendatahub/jovyan",
+                        "--ServerApp.quit_button=False",
+                    ]
+                ),
+            )
             # we changed base_url, and wait_for_readiness=True would attempt connections to /
             container.start(wait_for_readiness=False)
             container._connect(base_url="/notebook/opendatahub/jovyan")
@@ -54,15 +53,12 @@ class TestJupyterLabImage:
             assert 'class="pf-v6-c-spinner"' in response.text or (
                 "jp-ThemedContainer" in response.text and "JupyterLab" in response.text
             ), "Expected PatternFly spinner or JupyterLab shell in initial page HTML"
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
 
     @allure.issue("RHOAIENG-32156")
     @allure.description("Check that Trash Cleanup extension is installed and enabled")
     def test_trash_cleanup_installed(self, jupyterlab_image: conftest.Image) -> None:
-        container = WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0])
-        extension_check_pattern = r"^\s*odh-jupyter-trash-cleanup[^\n]*enabled[^\n]*OK"
-        try:
+        with WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0]) as container:
+            extension_check_pattern = r"^\s*odh-jupyter-trash-cleanup[^\n]*enabled[^\n]*OK"
             container.start(wait_for_readiness=False)
             exit_code, output = container.exec(["jupyter", "labextension", "list"])
             result_output = output.decode(errors="replace")
@@ -70,23 +66,13 @@ class TestJupyterLabImage:
             assert re.search(extension_check_pattern, result_output, re.MULTILINE) is not None, (
                 "Trash Cleanup extension not reported as enabled/OK:\n" + result_output
             )
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
 
     @allure.issue("RHOAIENG-16568")
     @allure.description("Check that PDF export is working correctly")
-    def test_pdf_export(self, jupyterlab_image: conftest.Image) -> None:
-        container = WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0])
-        # Skip if we're running architectures where PDF export is not supported
-        container.start(wait_for_readiness=False)
-        try:
-            exit_code, arch_output = container.exec(["uname", "-m"])
-            arch = arch_output.decode().strip()
-            if exit_code == 0 and arch in ("s390x", "ppc64le"):
-                pytest.skip("PDF export functionality is not supported on s390x/ppc64le architecture")
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
-        test_file_name = "test.ipybn"
+    def test_pdf_export(self, jupyterlab_image: conftest.Image, container_arch: str) -> None:
+        if container_arch in ("s390x", "ppc64le"):
+            pytest.skip(f"PDF export not supported on {container_arch} architecture")
+        test_file_name = "test.ipynb"
         test_file_content = """{
                 "cells": [
                     {
@@ -113,7 +99,7 @@ class TestJupyterLabImage:
                 "nbformat_minor": 5
             }
         """.replace("\n", "")
-        try:
+        with WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0]) as container:
             container.start(wait_for_readiness=True)
             with tempfile.TemporaryDirectory() as tmpdir:
                 tmpdir = pathlib.Path(tmpdir)
@@ -124,8 +110,6 @@ class TestJupyterLabImage:
             exit_code, convert_output = container.exec(["jupyter", "nbconvert", test_file_name, "--to", "pdf"])
             assert "PDF successfully created" in convert_output.decode()
             assert 0 == exit_code
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
 
     @allure.issue("RHOAIENG-24348")
     @allure.description("Check that custom-built (to be FIPS-compliant) mongocli binary runs.")
@@ -134,11 +118,8 @@ class TestJupyterLabImage:
             accelerator not in jupyterlab_image.name for accelerator in ["-cuda-", "-rocm-"]
         ):
             pytest.skip("Skipping monglicli binary test for jupyter minimal image because it does not ship mongocli")
-        container = WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0])
-        container.start(wait_for_readiness=False)
-        try:
+        with WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0]) as container:
+            container.start(wait_for_readiness=False)
             # https://github.com/opendatahub-io/notebooks/pull/1087#discussion_r2089094962
             # we did not manage to get `mongocli --version` to work, so we'll run this instead
             docker_utils.container_exec(container.get_wrapped_container(), "mongocli config --help")
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)  # if no env is specified, the image will run

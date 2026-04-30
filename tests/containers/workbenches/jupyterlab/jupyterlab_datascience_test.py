@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pathlib
-import tempfile
 import typing
 
 import allure
@@ -10,10 +8,10 @@ import testcontainers.core.network
 from testcontainers.core.waiting_utils import wait_for_logs
 from testcontainers.mysql import MySqlContainer
 
-from tests.containers import conftest, docker_utils
 from tests.containers.workbenches.workbench_image_test import WorkbenchContainer
 
 if typing.TYPE_CHECKING:
+    from tests.containers import conftest
     from tests.containers.conftest import Image
     from tests.containers.kubernetes_utils import TestFrame
 
@@ -54,31 +52,15 @@ assert pred[0] == 1, "Prediction is not as expected"
 
 print("Scikit-learn smoke test completed successfully.")
 """
-        test_script_name = "test_sklearn.py"
-        try:
+        with container:
             container.start(wait_for_readiness=True)
-            with tempfile.TemporaryDirectory() as tmpdir:
-                tmpdir_path = pathlib.Path(tmpdir)
-                script_path = tmpdir_path / test_script_name
-                script_path.write_text(test_script_content)
-                docker_utils.container_cp(
-                    container.get_wrapped_container(),
-                    src=str(script_path),
-                    dst=self.APP_ROOT_HOME,
-                )
-
-            script_container_path = f"{self.APP_ROOT_HOME}/{test_script_name}"
-            exit_code, output = container.exec(["python", script_container_path])
-            output_str = output.decode()
+            exit_code, output_str = container.exec_script(test_script_content, script_name="test_sklearn.py")
 
             print(f"Script output:\n{output_str}")
 
             assert exit_code == 0, f"Script execution failed with exit code {exit_code}. Output:\n{output_str}"
             assert "Scikit-learn smoke test completed successfully." in output_str
             assert "Prediction: [1]" in output_str
-
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
 
     @allure.description("Check that mysql client functionality is working with SASL plain auth.")
     def test_mysql_connection(self, tf: TestFrame, datascience_image: Image, subtests):
@@ -158,9 +140,8 @@ except Exception as e:
     raise
 """
 
-        container = WorkbenchContainer(image=datascience_image.name, user=4321, group_add=[0])
-        (container.with_network(network).with_command("/bin/sh -c 'sleep infinity'"))
-        try:
+        with WorkbenchContainer(image=datascience_image.name, user=4321, group_add=[0]) as container:
+            container.with_network(network).with_command("/bin/sh -c 'sleep infinity'")
             container.start(wait_for_readiness=False)
 
             # Use same interpreter for pip and -c so runtime-installed package is visible (PYTHONPATH).
@@ -197,5 +178,3 @@ except Exception as e:
 
                 assert "MySQL connection successful!" in output_str
                 assert exit_code == 0
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
