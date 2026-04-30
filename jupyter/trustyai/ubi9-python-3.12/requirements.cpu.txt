@@ -694,7 +694,9 @@ torch==2.10.0 ; implementation_name == 'cpython' and platform_machine != 'ppc64l
     --hash=sha256:37895758f0d3b488ab79aa85b42ec62fc64bf6f3f118670de952ce84464e2696 \
     --hash=sha256:75e3df5a49803ad782d1b8ff48ac1b717801934a5f5d0929ae8a912d2feb3d01 \
     --hash=sha256:35423d92cce060fbff5984546fc1aae21e7f28f3abd825b612c41dff32794e60 \
-    --hash=sha256:15bc60945f49811b7a1441aec7d6055c5322885cda0ed20673b24a680cec7a4d
+    --hash=sha256:15bc60945f49811b7a1441aec7d6055c5322885cda0ed20673b24a680cec7a4d \
+    --hash=sha256:eb65eeff883125b529a5e42d1c26cba61eaa953d6c1d4b508a9294b2861093e4 \
+    --hash=sha256:4775adf7da98b31db9529f19d9462e22f5a8d3797c10febe5b7d1235db12c1fd
 tornado==6.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1a902b88db666a23eb3df3c8249ab13f459524f6bd7073df6a9b39c1f1b65ee5 \
     --hash=sha256:357b777e0d9cc1cb1de849708e59cf79dfc95aeabce42b584ea818005b022d05 \
