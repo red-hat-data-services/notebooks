@@ -159,34 +159,6 @@ odh-pipeline-runtime-tensorflow-rocm-py312-ubi9-n:
   variants:
     - odh
     - rhoai
-odh-workbench-rstudio-minimal-cpu-py312-c9s-n:
-  name: odh-notebook-rstudio-server-c9s-python-3.12
-  commitref: main
-  build_name: konflux
-  size_mb: 1502
-  variants:
-    - odh
-odh-workbench-rstudio-minimal-cpu-py312-c9s-2025-2:
-  name: odh-notebook-rstudio-server-c9s-python-3.12
-  commitref: main
-  build_name: konflux
-  size_mb: 1503
-  variants:
-    - odh
-odh-workbench-rstudio-minimal-cuda-py312-c9s-n:
-  name: odh-notebook-rstudio-server-cuda-c9s-python-3.12
-  commitref: main
-  build_name: konflux
-  size_mb: 9614
-  variants:
-    - odh
-odh-workbench-rstudio-minimal-cuda-py312-c9s-2025-2:
-  name: odh-notebook-rstudio-server-cuda-c9s-python-3.12
-  commitref: main
-  build_name: konflux
-  size_mb: 8653
-  variants:
-    - odh
 
 # --- py312 2025-2 workbench entries (both ODH and RHOAI) ---
 

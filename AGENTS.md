@@ -8,7 +8,6 @@ The OpenDataHub Notebooks repository provides a collection of containerized note
 
 - **Jupyter Notebooks**: Various flavors (minimal, datascience, pytorch, tensorflow, trustyai)
 - **Code Server**: VS Code-based development environments
-- **RStudio**: R development environments
 - **Runtime Images**: For pipeline execution with Elyra
 - **Base Images**: CUDA and ROCm GPU-accelerated base images
 
@@ -39,9 +38,6 @@ The OpenDataHub Notebooks repository provides a collection of containerized note
 │ └── tensorflow/
 ├── codeserver/ # Code-Server (VS Code in the browser) image definitions and configs
 │ ├── ubi9-python-3.11/
-├── rstudio/ # RStudio image definitions and configs
-│ ├── rhel9-python-3.11/
-│ └── c9s-python-3.11/
 ├── ci/ # Continuous Integration scripts, checks, and configuration
 ├── cuda/ # CUDA-specific files (NVIDIA GPU support), e.g., repo files, licenses
 ├── manifests/ # Kubernetes manifests for deploying the images

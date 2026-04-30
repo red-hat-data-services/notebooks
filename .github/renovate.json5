@@ -106,7 +106,7 @@
       "description": "Update BASE_IMAGE in konflux build-args conf files",
       "managerFilePatterns": [
         // Workbenches and runtimes only — excludes base-images/
-        "/(jupyter|rstudio|codeserver|runtimes)/.+/build-args/konflux\\..+\\.conf$/",
+        "/(jupyter|codeserver|runtimes)/.+/build-args/konflux\\..+\\.conf$/",
       ],
       "matchStrings": [
         "BASE_IMAGE=(?<depName>[^:]+):(?<currentValue>\\S+)",

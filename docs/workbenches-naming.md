@@ -13,7 +13,6 @@ odh-<image type>-<image-feature>-<image-scope>-<accelerator>-<python version>-<o
 - Image feature:
   - jupyter
   - codeserver
-  - rstudio
   - runtime
 - Image scope:
   - minimal
@@ -34,7 +33,6 @@ Standards example:
 * odh-workbench-jupyter-minimal-cpu-py311-rhel9
 * odh-workbench-jupyter-minimal-cpu-py312-rhel9
 * odh-workbench-codeserver-datascience-cpu-py311-rhel9
-* odh-workbench-rstudio-minimal-cuda-py311-rhel9
 * odh-pipeline-runtime-minimal-cpu-py311-rhel9
 
 

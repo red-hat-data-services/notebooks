@@ -3,7 +3,6 @@ from __future__ import annotations
 import typing
 
 import allure
-import pytest
 import testcontainers.core.network
 from testcontainers.core.waiting_utils import wait_for_logs
 from testcontainers.mysql import MySqlContainer
@@ -64,10 +63,6 @@ print("Scikit-learn smoke test completed successfully.")
 
     @allure.description("Check that mysql client functionality is working with SASL plain auth.")
     def test_mysql_connection(self, tf: TestFrame, datascience_image: Image, subtests):
-        name_label = datascience_image.labels.get("name", "")
-        if "-rstudio-" in name_label:
-            pytest.skip(f"Image {datascience_image.name} has '-rstudio-' in {datascience_image.labels['name']}")
-
         MYSQL_CONNECTOR_PYTHON_VERSION = "9.6.0"
 
         network = testcontainers.core.network.Network()
@@ -148,6 +143,7 @@ except Exception as e:
             # Code-server image uses /opt/app-root/bin/python3; others use default python.
             # Detection: label "name" contains "-code-server-" (set in Dockerfile.cpu). Fallback: image ref
             # contains "codeserver" when daemon is Podman and labels came from ContainerConfig (conftest handles that).
+            name_label = datascience_image.labels.get("name", "")
             is_codeserver = "-code-server-" in name_label or "codeserver" in datascience_image.name.lower()
             python_exe = "/opt/app-root/bin/python3" if is_codeserver else "python"
             print(f"Using python executable: {python_exe}")
