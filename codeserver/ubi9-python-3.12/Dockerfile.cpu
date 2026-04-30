@@ -73,8 +73,8 @@ source ./devel_env_setup.sh
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds on ppc64le/s390x
-echo "meson<1.11" > build_constraints.txt
-UV_NO_CACHE=false UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
+echo "meson<1.11" >> constraint.txt
+UV_NO_CACHE=false UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml --build-constraint constraint.txt
 EOF
 
 # dummy file to make image build wait for this stage
@@ -176,7 +176,7 @@ USER 0
 WORKDIR /opt/app-root/bin
 
 # Install useful OS packages
-RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq git-lfs libsndfile
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq git-lfs libsndfile gettext
 
 # wait for rpm-base stage (rpm builds for ppc64le and s390x)
 COPY --from=rpm-base /tmp/control /dev/null
