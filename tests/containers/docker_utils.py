@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import io
 import logging
 import os.path
@@ -11,15 +12,61 @@ from os import PathLike
 from typing import TYPE_CHECKING
 
 import podman
+import testcontainers.core.container
 
 import tests.containers.pydantic_schemas
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
 
     import docker.client
-    import testcontainers.core.container
     from docker.models.containers import Container
+
+
+class BestEffortCleanup:
+    """Context manager that suppresses cleanup errors only when another exception is in-flight.
+
+    If cleanup raises and no other exception is active, the error propagates normally.
+    If cleanup raises while handling another exception, the error is logged and suppressed
+    so the original exception is not masked.
+
+    Design choices:
+
+    - Class-based, not @contextmanager: a generator-based CM's try/yield/except
+      catches body and cleanup exceptions indistinguishably.
+
+    - Auto-detection uses sys.exc_info() in __enter__, not __exit__: inside
+      __exit__, sys.exc_info() already reflects the cleanup error being handled,
+      not the original. Capturing in __enter__ gets the correct answer.
+
+    Usage in __exit__ (pass exc_type so auto-detect is skipped):
+        with BestEffortCleanup(exc_type):
+            container.stop()
+
+    Usage in @contextmanager finally (auto-detects via sys.exc_info):
+        with BestEffortCleanup():
+            container.stop()
+    """
+
+    def __init__(self, exc_type: type[BaseException] | None = None) -> None:
+        self._has_active_exception = exc_type is not None
+
+    def __enter__(self) -> None:
+        if not self._has_active_exception:
+            self._has_active_exception = sys.exc_info()[0] is not None
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: object,
+    ) -> bool:
+        if exc_type is None:
+            return False
+        if not self._has_active_exception:
+            return False
+        logging.exception("Cleanup failed (suppressed because another exception is active)")
+        return True
 
 
 class NotebookContainer:
@@ -46,6 +93,33 @@ class NotebookContainer:
             time.sleep(0.2)
             container.reload()
         return container.attrs["State"]["ExitCode"]
+
+
+@contextlib.contextmanager
+def running_container(
+    image: str,
+    *,
+    user: int = 23456,
+    group_add: list[int] | None = None,
+    env: dict[str, str] | None = None,
+    **kwargs,
+) -> Generator[testcontainers.core.container.DockerContainer]:
+    """Start a container with 'sleep infinity' and stop it on exit.
+
+    GID 0 is always added (OpenShift runs with root supplemental group for /opt/app-root access).
+    """
+    groups = sorted({0, *(group_add or [])})
+    container = testcontainers.core.container.DockerContainer(image=image, user=user, group_add=groups, **kwargs)
+    if env:
+        for key, value in env.items():
+            container.with_env(key, value)
+    container.with_command("/bin/sh -c 'sleep infinity'")
+    try:
+        container.start()
+        yield container
+    finally:
+        with BestEffortCleanup():
+            NotebookContainer(container).stop(timeout=0)
 
 
 def container_cp(
