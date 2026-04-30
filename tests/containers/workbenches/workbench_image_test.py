@@ -4,11 +4,13 @@ import functools
 import http.cookiejar
 import logging
 import os
+import pathlib
 import platform
+import tempfile
 import time
 import urllib.error
 import urllib.request
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 
 import docker.types
 import pytest
@@ -20,6 +22,8 @@ import testcontainers.core.waiting_utils
 from tests.containers import docker_utils, kubernetes_utils, podman_machine_utils
 
 if TYPE_CHECKING:
+    from types import TracebackType
+
     import pytest_subtests
 
 
@@ -36,8 +40,7 @@ class TestWorkbenchImage:
         ],
     )
     def test_image_entrypoint_starts(self, subtests: pytest_subtests.SubTests, workbench_image: str, sysctls) -> None:
-        container = WorkbenchContainer(image=workbench_image, user=1000, group_add=[0], sysctls=sysctls)
-        try:
+        with WorkbenchContainer(image=workbench_image, user=1000, group_add=[0], sysctls=sysctls) as container:
             try:
                 container.start()
                 # check explicitly that we can connect to the ide running in the workbench
@@ -46,8 +49,6 @@ class TestWorkbenchImage:
             finally:
                 # try to grab logs regardless of whether container started or not
                 grab_and_check_logs(subtests, container)
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
 
     def test_ipv6_only(self, subtests: pytest_subtests.SubTests, workbench_image: str, test_frame):
         """Test that workbench image is accessible via IPv6.
@@ -67,9 +68,8 @@ class TestWorkbenchImage:
         )
         test_frame.append(network)
 
-        container = WorkbenchContainer(image=workbench_image)
-        container.with_network(network)
-        try:
+        with WorkbenchContainer(image=workbench_image) as container:
+            container.with_network(network)
             try:
                 client = testcontainers.core.docker_client.DockerClient()
                 rootless: bool = client.client.info()["Rootless"]
@@ -109,8 +109,6 @@ class TestWorkbenchImage:
             finally:
                 # try to grab logs regardless of whether container started or not
                 grab_and_check_logs(subtests, container)
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
 
     @pytest.mark.openshift
     def test_image_run_on_openshift(self, workbench_image: str):
@@ -186,6 +184,15 @@ class WorkbenchContainer(testcontainers.core.container.DockerContainer):
         finally:
             result.close()
 
+    def __enter__(self) -> Self:
+        return self
+
+    def __exit__(
+        self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None
+    ) -> None:
+        with docker_utils.BestEffortCleanup(exc_type):
+            docker_utils.NotebookContainer(self).stop(timeout=0)
+
     def start(self, wait_for_readiness: bool = True) -> WorkbenchContainer:
         super().start()
         container_id = self.get_wrapped_container().id
@@ -194,6 +201,25 @@ class WorkbenchContainer(testcontainers.core.container.DockerContainer):
         if wait_for_readiness:
             self._connect()
         return self
+
+    def exec_script(
+        self,
+        script_content: str,
+        script_name: str = "test_script.py",
+        dest: str = "/opt/app-root/src",
+        python: str = "python",
+    ) -> tuple[int, str]:
+        """Copy a Python script into the container and execute it.
+
+        Note: script_name and dest are not sanitized against path traversal (CWE-22)
+        because all callers are hardcoded test code in this repo, not user input.
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            script_path = pathlib.Path(tmpdir) / script_name
+            script_path.write_text(script_content)
+            docker_utils.container_cp(self.get_wrapped_container(), src=str(script_path), dst=dest)
+        exit_code, output = self.exec([python, f"{dest}/{script_name}"])
+        return exit_code, output.decode()
 
 
 def grab_and_check_logs(subtests: pytest_subtests.SubTests, container: WorkbenchContainer) -> None:
