@@ -63,6 +63,9 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" ||"$ARCH" == "ppc64le" ]]; then
 	git clone --depth 1 --branch "${CODESERVER_VERSION}" --recurse-submodules --shallow-submodules https://github.com/coder/code-server.git
 	cd code-server
 	source ${NVM_DIR}/nvm.sh
+	# CVE-2026-4926: path-to-regexp ReDoS via sequential optional groups (GHSA-j3q9-mxjg-w52f)
+	# Affects path-to-regexp 8.0.0–8.3.x (transitive via express → router). Fixed upstream in v4.116.0.
+	jq '.overrides["path-to-regexp"] = "~8.4.0"' package.json > /tmp/pkg.json && mv /tmp/pkg.json package.json
 	while IFS= read -r src_patch; do echo "patches/$src_patch"; patch -p1 < "patches/$src_patch"; done < patches/series
 	nvm use ${NODE_VERSION}
 	npm install
