@@ -412,7 +412,8 @@ toolz==1.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
 torch==2.10.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:acaf1651ffe79eaa11337178b6f0f0ba98071b9a99056e581a866addca2562c9 \
     --hash=sha256:0232e1735347bb8927b98bae4cc8622044e9c209254530245bd79451667d409d \
-    --hash=sha256:c45510777d02000a95cd3b882f5388fee70fba0bcda52c99969446486138d6a6
+    --hash=sha256:c45510777d02000a95cd3b882f5388fee70fba0bcda52c99969446486138d6a6 \
+    --hash=sha256:05458fc350ee2cc9729a1adba9c55dc3c878e0ef4dbef42402f2875416c1ee7b
 torchvision==0.25.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c17e6f65fd8147fdb1cda9b0e935c46902e1952f62fa153a618696d0867e4fc2
 tornado==6.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
