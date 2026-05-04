@@ -116,9 +116,9 @@
       // reconstruct the BASE_IMAGE=… line correctly.
       "autoReplaceStringTemplate": "BASE_IMAGE={{{depName}}}:{{{newValue}}}",
       "datasourceTemplate": "docker",
-      // Parses 3.4.0-1773428606 as major=3, minor=4, patch=0, build=1773428606
+      // Parses 3.4.0-ea.1-1773428606 as major=3, minor=4, patch=0, prerelease=ea.x, build=1773428606
       // so Renovate can correctly classify update types and block cross-version upgrades.
-      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)$",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?:-ea\\.(?<prerelease>\\d+))?-(?<build>\\d+)$",
     },
   ],
 
@@ -184,6 +184,7 @@
       "matchUpdateTypes": ["major", "minor"],
       "matchBaseBranches": ["main"],
       "matchRepositories": ["opendatahub-io/notebooks"],
+      "ignoreUnstable": false,
       "enabled": true,
     },
     {
