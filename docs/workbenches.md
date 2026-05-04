@@ -12,7 +12,6 @@ Open Data Hub contains the following workbench images with different variations:
 | Jupyter PyTorch            | &#9745; | &#9745;      | UBI8/9 | &#9745; | &#9745;  |
 | Jupyter TrustyAI           | &#9745; | &#9745;      | UBI9   | &#9746; | &#9746;  |
 | code-server                | &#9745; | &#9746;      | C9S    | &#9746; | &#9746;  |
-| RStudio Server            | &#9745; | &#9746;      | C9S    | &#9745; | &#9746;  |
 
 These notebooks are incorporated to be used in conjunction with Open Data Hub, specifically utilizing the ODH Notebook Controller as the launching platform. The table above provides insights into the characteristics of each notebook, including their availability in both ODH and OpenShift AI environments, GPU support, and whether they are offered as runtimes ie without the JupyterLab UI.  
 
@@ -62,14 +61,6 @@ Use the TrustyAI notebook image to leverage your data science work with model ex
  ## code-server
 
 code-server provides a browser-based integrated development environment (IDE) where you can write, edit, and debug code using the familiar interface and features of code-server. It is particularly useful for collaborating with team members, as everyone can access the same development environment from their own devices.
-
-
-
-## RStudio Server
-
-It provides a powerful integrated development environment specifically designed for R programming. By integrating RStudio Server IDE into ODH, you equip data analysts with a dedicated environment for exploring and manipulating data, building models, and generating insightful visualizations. Moreover, If you are working with compute-intensive data science models that require GPU support, use the CUDA RStudio Server notebook image to gain access to the NVIDIA CUDA Toolkit. 
-
-
 
   
   

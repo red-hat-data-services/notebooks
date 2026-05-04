@@ -137,7 +137,6 @@ def test_dockerfiles_unintended_subscription_manager_pattern():
     pattern = re.compile(r"^[^#]*subscription-manager.[^#]*register")
 
     skip_dirs = (
-        PROJECT_ROOT / "rstudio/rhel9-python-3.12",  # RStudio Dockerfiles
         PROJECT_ROOT / "scripts/lockfile-generators",  # RPM lockfile image optionally uses subscription-manager
     )
     for file in PROJECT_ROOT.glob("**/Dockerfile*"):
@@ -288,10 +287,6 @@ def test_image_pyprojects(subtests: pytest_subtests.plugin.SubTests, manifests_d
                             and manifest.metadata.type == manifests.NotebookType.RUNTIME
                             and name == "LLM-Compressor"
                         ):
-                            continue
-
-                        if name == "rstudio-server":
-                            # TODO(jdanek): figure out how to check rstudio version statically
                             continue
 
                         normalized_name = manifest_name_to_pip(name)
@@ -448,8 +443,6 @@ def test_files_that_should_be_same_are_same(subtests: pytest_subtests.plugin.Sub
         ],
         "nginx/common.sh": [
             PROJECT_ROOT / "codeserver/ubi9-python-3.12/nginx/root/usr/share/container-scripts/nginx/common.sh",
-            PROJECT_ROOT / "rstudio/c9s-python-3.12/nginx/root/usr/share/container-scripts/nginx/common.sh",
-            PROJECT_ROOT / "rstudio/rhel9-python-3.12/nginx/root/usr/share/container-scripts/nginx/common.sh",
         ],
     }
     for group_name, (first_file, *rest) in file_groups.items():
@@ -794,12 +787,8 @@ def load_manifests_file_for(directory: pathlib.Path, manifests_directory: pathli
             f"Computed filepath '{manifest_file}' does not exist."
         )
 
-    # BEWARE: rhds rstudio has imagestream bundled in the buildconfig yaml
-    if "buildconfig" in manifest_file.name:
-        # imagestream is the first document in the file
-        imagestream = next(yaml.safe_load_all(manifest_file.read_text()))
-    else:
-        imagestream = yaml.safe_load(manifest_file.read_text())
+    # ``get_source_of_truth_filepath`` always points at a single-document ImageStream manifest.
+    imagestream = yaml.safe_load(manifest_file.read_text())
     recommended_tags = [
         tag
         for tag in imagestream["spec"]["tags"]

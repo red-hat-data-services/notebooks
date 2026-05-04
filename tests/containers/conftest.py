@@ -13,7 +13,7 @@ import testcontainers.core.config
 import testcontainers.core.container
 import testcontainers.core.docker_client
 
-from tests.containers import docker_utils, skopeo_utils, utils
+from tests.containers import docker_utils, skopeo_utils
 from tests.containers.kubernetes_utils import TestFrame
 
 if TYPE_CHECKING:
@@ -122,9 +122,10 @@ def get_image_metadata(image: str) -> Image:
 
 
 def skip_if_not_workbench_image(image: str) -> Image:
+    """Skip unless the image is JupyterLab or code-server (RStudio is no longer in this repo)."""
     image_metadata = get_image_metadata(image)
 
-    ide_server_label_fragments = ("-code-server-", "-jupyter-", "-rstudio-")
+    ide_server_label_fragments = ("-code-server-", "-jupyter-")
     if not any(ide in image_metadata.labels["name"] for ide in ide_server_label_fragments):
         pytest.skip(
             f"Image {image} does not have any of '{ide_server_label_fragments=} in {image_metadata.labels['name']=}'"
@@ -250,15 +251,6 @@ def datascience_image(image: str) -> Image:
         pytest.skip(
             f"Image {image_metadata.name} is not datascience image because it has '-minimal-' in {image_metadata.labels['name']=}'"
         )
-
-    return image_metadata
-
-
-@pytest.fixture(scope="session")
-def rstudio_image(image: str) -> Image:
-    image_metadata = skip_if_not_workbench_image(image)
-    if not utils.is_rstudio_image(image):
-        pytest.skip(f"Image {image} does not have '-rstudio-' in {image_metadata.labels['name']=}'")
 
     return image_metadata
 

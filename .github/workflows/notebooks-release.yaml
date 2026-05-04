@@ -16,15 +16,6 @@ permissions:
         required: true
         default: '2025a'
         type: string
-      buildconfigs_version:
-        description: 'Version to update the BuildConfigs to (if applicable)'
-        required: false
-        type: string
-      update_buildconfigs:
-        description: 'Update BuildConfigs for CUDA RStudio and RStudio'
-        required: true
-        default: true
-        type: boolean
       branch:
         description: "Optional: Provide branch name"
         required: false
@@ -50,7 +41,6 @@ env:
   USER_HASH: ${{ github.event.inputs.user_hash }}
   REPO_OWNER: ${{ github.repository_owner }}
   REPO_NAME: ${{ github.event.repository.name }}
-  VERSION: ${{ github.event.inputs.buildconfigs_version }}
 
 jobs:
   # 1. Update the params-latest.env and commit-latest.env files with new SHAs
@@ -84,55 +74,10 @@ jobs:
         run: |
           bash "${GITHUB_WORKSPACE}/ci/check-pr-merged.sh" "[Updater Action] Update Notebook and Runtime Images as well as the Commits With New SHAs" "${REPO_OWNER}" "${REPO_NAME}"
 
-  # 3. Update the BuildConfigs for CUDA RStudio and RStudio
-  Update_buildConfigs:
-    if: ${{ inputs.update_buildconfigs && github.event.inputs.release_type == 'Release' }}
-    # grant the permissions that update-buildconfigs.yaml needs
-    permissions:
-      contents: write
-      pull-requests: write
-    uses: ./.github/workflows/update-buildconfigs.yaml
-    with:
-      branch: ${{ github.event.inputs.branch }}
-      version: ${{ github.event.inputs.buildconfigs_version }}
-
-  # 4. Check if the BuildConfigs PR is merged
-  BuildConfigs_merged:
-    needs: Update_buildConfigs
-    if: ${{ inputs.update_buildconfigs && github.event.inputs.release_type == 'Release' }}
-    runs-on: ubuntu-latest
-    outputs:
-      pr_merged_b: ${{ steps.check_pr.outputs.pr_merged }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
-        with:
-          fetch-depth: 0
-
-      - name: Check if PR is merged
-        id: check_pr
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: |
-          bash "${GITHUB_WORKSPACE}/ci/check-pr-merged.sh" "[Updater Action] Update BuildConfigs for CUDA RStudio and RStudio" "${REPO_OWNER}" "${REPO_NAME}"
-
-  # 5. Generate the release with BuildConfigs if needed
-  Generate_release_with_buildconfigs:
-    needs: [Update_manifests, Manifests_merged, Update_buildConfigs, BuildConfigs_merged]
-    if: ${{ needs.Manifests_merged.outputs.pr_merged_m == 'true' && needs.BuildConfigs_merged.outputs.pr_merged_b == 'true' && inputs.update_buildconfigs && github.event.inputs.release_type == 'Release' }}
-    permissions:
-      contents: write
-    uses: ./.github/workflows/create-release.yaml
-    with:
-      release_tag: ${{ github.event.inputs.release_tag }}
-      release_name: ${{ github.event.inputs.release_name }}
-      branch: ${{ github.event.inputs.branch }}
-
-  # 6. Generate the release without BuildConfigs
+  # 3. Generate the release after manifests PR is merged
   Generate_release:
     needs: [Update_manifests, Manifests_merged]
-    if: ${{ needs.Manifests_merged.outputs.pr_merged_m == 'true' && github.event.inputs.update_buildconfigs == 'false' && github.event.inputs.release_type == 'Release' }}
+    if: ${{ needs.Manifests_merged.outputs.pr_merged_m == 'true' && github.event.inputs.release_type == 'Release' }}
     permissions:
       contents: write
     uses: ./.github/workflows/create-release.yaml

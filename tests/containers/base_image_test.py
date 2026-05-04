@@ -16,7 +16,7 @@ import pytest
 import testcontainers.core.container
 
 import ntb
-from tests.containers import conftest, docker_utils, skopeo_utils, utils
+from tests.containers import conftest, docker_utils, skopeo_utils
 
 logging.basicConfig(level=logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -161,9 +161,6 @@ class TestBaseImage:
         self._run_test(image=image, test_fn=test_fn)
 
     def test_oc_command_runs(self, image: str):
-        if utils.is_rstudio_image(image):
-            pytest.skip("oc command is not preinstalled in RStudio images.")
-
         def test_fn(container: testcontainers.core.container.DockerContainer):
             ecode, output = container.exec(["/bin/sh", "-c", "oc version"])
 
@@ -173,9 +170,6 @@ class TestBaseImage:
         self._run_test(image=image, test_fn=test_fn)
 
     def test_skopeo_command_runs(self, image: str):
-        if utils.is_rstudio_image(image):
-            pytest.skip("skopeo command is not preinstalled in RStudio images.")
-
         def test_fn(container: testcontainers.core.container.DockerContainer):
             ecode, output = container.exec(["/bin/sh", "-c", "skopeo --version"])
 
@@ -216,8 +210,6 @@ class TestBaseImage:
         that proc file, so the RPM oc correctly fails with "required OpenSSL backend is unavailable".
         On real FIPS-enabled RHEL/UBI the backend would be present. We skip the test for RPM-based oc.
         """
-        if utils.is_rstudio_image(image):
-            pytest.skip("oc command is not preinstalled in RStudio images.")
         # Skip when oc comes from openshift-clients RPM: fake FIPS is insufficient for RPM (needs real OpenSSL).
         with docker_utils.running_container(image=image) as container:
             rpm_ecode, _ = container.exec(["/bin/sh", "-c", "rpm -q openshift-clients 2>/dev/null"])
@@ -289,10 +281,8 @@ class TestBaseImage:
         # Directories to assert permissions and ownerships as we did in ODS-CI
         directories_to_check: list[list[str]] = [
             [f"{app_root_path}/lib", "775", expected_gid, expected_uid],
+            [f"{app_root_path}/share", "775", expected_gid, expected_uid],
         ]
-        if not utils.is_rstudio_image(image):
-            # RStudio image doesn't have '/opt/app-root/share' directory
-            directories_to_check.append([f"{app_root_path}/share", "775", expected_gid, expected_uid])
 
         def test_fn(container: testcontainers.core.container.DockerContainer):
             for item in directories_to_check:

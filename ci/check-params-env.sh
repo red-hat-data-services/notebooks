@@ -35,8 +35,8 @@ else
     _MANIFESTS_VARIANT="odh"
     # This value needs to be updated everytime we deliberately change number of the
     # images we want to have in the `params.env` or `params-latest.env` file.
-    EXPECTED_COMMIT_NUM_RECORDS=39
-    EXPECTED_PARAMS_NUM_RECORDS=33
+    EXPECTED_COMMIT_NUM_RECORDS=35
+    EXPECTED_PARAMS_NUM_RECORDS=29
 fi
 
 COMMIT_LATEST_ENV_PATH="manifests/${_MANIFESTS_VARIANT}/base/commit-latest.env"
@@ -546,42 +546,6 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_commitref="main"
             expected_build_name="konflux"
             expected_img_size=5859
-            ;;
-        odh-workbench-rstudio-minimal-cpu-py312-c9s-n)
-            expected_name="odh-notebook-rstudio-server-c9s-python-3.12"
-            expected_commitref="main"
-            expected_build_name="konflux"
-            expected_img_size=1502
-            ;;
-        odh-workbench-rstudio-minimal-cpu-py312-c9s-2025-2)
-            expected_name="odh-notebook-rstudio-server-c9s-python-3.12"
-            expected_commitref="main"
-            expected_build_name="konflux"
-            expected_img_size=1503
-            ;;
-        odh-workbench-rstudio-minimal-cpu-py312-c9s-3-4)
-            expected_name="odh-notebook-rstudio-server-c9s-python-3.12"
-            expected_commitref="main"
-            expected_build_name="konflux"
-            expected_img_size=1465
-            ;;
-        odh-workbench-rstudio-minimal-cuda-py312-c9s-n)
-            expected_name="odh-notebook-rstudio-server-cuda-c9s-python-3.12"
-            expected_commitref="main"
-            expected_build_name="konflux"
-            expected_img_size=9614
-            ;;
-        odh-workbench-rstudio-minimal-cuda-py312-c9s-2025-2)
-            expected_name="odh-notebook-rstudio-server-cuda-c9s-python-3.12"
-            expected_commitref="main"
-            expected_build_name="konflux"
-            expected_img_size=8653
-            ;;
-        odh-workbench-rstudio-minimal-cuda-py312-c9s-3-4)
-            expected_name="odh-notebook-rstudio-server-cuda-c9s-python-3.12"
-            expected_commitref="main"
-            expected_build_name="konflux"
-            expected_img_size=9558
             ;;
         *)
             echo "Unimplemented variable name: '${image_variable}'"

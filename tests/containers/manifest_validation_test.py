@@ -57,14 +57,8 @@ _LOG = logging.getLogger(__name__)
 # Software annotation items that cannot be validated from SBOM data.
 _SKIP_SOFTWARE: frozenset[str] = frozenset()
 
+
 # Packages listed in manifest annotations that are not pip packages.
-_NON_PIP_PACKAGES: frozenset[str] = frozenset(
-    {
-        "rstudio-server",
-    }
-)
-
-
 def _imagestream_to_source_hint(is_name: str) -> str:
     """Derive SBOM sourceInfo path fragment from imagestream filename.
 
@@ -83,8 +77,6 @@ def _imagestream_to_source_hint(is_name: str) -> str:
         return f"/jupyter/{middle}/"
     if stem.startswith("code-server"):
         return "/codeserver/"
-    if stem.startswith("rstudio"):
-        return "/rstudio/"
     if stem.startswith("runtime-"):
         middle = stem.removeprefix("runtime-")
         middle = middle.replace("pytorch-llmcompressor", "pytorch+llmcompressor")
@@ -321,11 +313,6 @@ def _collect_software_versions(container: object, packages: dict[str, str]) -> N
         if m:
             packages["rpm:R-core"] = m.group(1)
 
-    # rstudio-server
-    out = _exec_or_none(container, ["rpm", "-q", "--queryformat", "%{VERSION}", "rstudio-server"])
-    if out and "not installed" not in out:
-        packages["rpm:rstudio-server"] = out
-
     # code-server --version outputs e.g. "0.0.0 <hash> with Code 1.104.0"
     # The "1.104.0" is the internal VS Code version; _resolve_software_version
     # maps it to the release version "4.104" for manifest comparison.
@@ -456,9 +443,6 @@ def _resolve_software_version(sw_item: dict[str, str], actual_packages: dict[str
     if name == "R":
         return actual_packages.get("rpm:R-core")
 
-    if name == "rstudio-server":
-        return actual_packages.get("rpm:rstudio-server")
-
     if name == "code-server":
         # The manifest uses code-server release version (e.g. "4.104") while the
         # npm SBOM reports the internal VS Code server version (e.g. "1.104.0").
@@ -500,8 +484,6 @@ def _compare_manifest_vs_actual(
             lookup = manifest_name
             actual_version_str = _resolve_software_version(dep, actual_packages)
         else:
-            if manifest_name in _NON_PIP_PACKAGES:
-                continue
             lookup = _normalize_pip_name(manifest_name_to_pip(manifest_name))
             actual_version_str = actual_packages.get(lookup)
 

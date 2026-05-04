@@ -60,7 +60,6 @@ YQ_VERSION  ?= v4.44.6
 NOTEBOOK_REPO_BRANCH_BASE ?= https://raw.githubusercontent.com/opendatahub-io/notebooks/main
 REQUIRED_RUNTIME_IMAGE_COMMANDS="curl python3"
 REQUIRED_CODE_SERVER_IMAGE_COMMANDS="curl python oc code-server"
-REQUIRED_R_STUDIO_IMAGE_COMMANDS="curl python oc /usr/lib/rstudio-server/bin/rserver"
 
 # Detect and select the system's available container engine
 ifeq (, $(shell $(WHERE_WHICH) podman))
@@ -218,26 +217,6 @@ runtime-cuda-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION):
 .PHONY: codeserver-ubi9-python-$(RELEASE_PYTHON_VERSION)
 codeserver-ubi9-python-$(RELEASE_PYTHON_VERSION):
 	$(call image,$@,codeserver/ubi9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
-
-####################################### Buildchain for Python using C9S #######################################
-
-.PHONY: rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/c9s-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
-
-.PHONY: cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/c9s-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cuda)
-
-####################################### Buildchain for Python using rhel9 #######################################
-
-.PHONY: rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/rhel9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
-
-.PHONY: cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/rhel9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cuda)
 
 ####################################### Buildchain for AMD Python using UBI9 #######################################
 .PHONY: rocm-jupyter-minimal-ubi9-python-$(RELEASE_PYTHON_VERSION)
@@ -410,46 +389,6 @@ validate-codeserver-image: bin/kubectl
 		fi
 	done
 
-.PHONY: validate-rstudio-image
-validate-rstudio-image: bin/kubectl
-	$(eval NOTEBOOK_NAME := $(subst .,-,$(subst cuda-,,$(image))))
-	$(eval PYTHON_VERSION := $(shell echo $(image) | sed 's/.*-python-//'))
-	$(info # Running tests for $(NOTEBOOK_NAME) RStudio Server image...)
-	$(KUBECTL_BIN) wait --for=condition=ready pod rstudio-pod --timeout=300s
-	@required_commands=$(REQUIRED_R_STUDIO_IMAGE_COMMANDS)
-	if [[ $$image == "" ]] ; then
-		echo "Usage: make validate-rstudio-image image=<container-image-name>"
-		exit 1
-	fi
-	echo "=> Checking container image $$image for package installation..."
-	$(KUBECTL_BIN) exec -it rstudio-pod -- mkdir -p /opt/app-root/src/R/temp-library > /dev/null 2>&1
-	if $(KUBECTL_BIN) exec rstudio-pod -- R -e "install.packages('tinytex', lib='/opt/app-root/src/R/temp-library')" > /dev/null 2>&1 ; then
-		echo "Tinytex installation successful!"
-	else
-		echo "Error: Tinytex installation failed."
-	fi
-	for cmd in $$required_commands ; do
-		echo "=> Checking container image $$image for $$cmd..."
-		if $(KUBECTL_BIN) exec rstudio-pod which $$cmd > /dev/null 2>&1 ; then
-			echo "$$cmd executed successfully!"
-		else
-			echo "ERROR: Container image $$image  does not meet criteria for command: $$cmd"
-			fail=1
-			continue
-		fi
-	done
-	echo "=> Fetching R script from URL and executing on the container..."
-	curl -sSL -o test_script.R "${NOTEBOOK_REPO_BRANCH_BASE}/rstudio/c9s-python-$(PYTHON_VERSION)/test/test_script.R" > /dev/null 2>&1
-	$(KUBECTL_BIN) cp test_script.R rstudio-pod:/opt/app-root/src/test_script.R > /dev/null 2>&1
-	if $(KUBECTL_BIN) exec rstudio-pod -- Rscript /opt/app-root/src/test_script.R > /dev/null 2>&1 ; then
-		echo "R script executed successfully!"
-		rm test_script.R
-	else
-		echo "Error: R script failed."
-		fail=1
-		continue
-	fi
-
 # ======================================================================================
 # Refresh lock files
 # Usage examples:
@@ -528,11 +467,7 @@ all-images: \
  	rocm-jupyter-pytorch-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	rocm-runtime-pytorch-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	rocm-runtime-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION) \
-	rocm-jupyter-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION) \
-	rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
+	rocm-jupyter-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION)
 else
 	$(error Invalid Python version $(RELEASE_PYTHON_VERSION))
 endif

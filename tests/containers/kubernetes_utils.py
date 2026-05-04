@@ -15,7 +15,6 @@ import kubernetes.dynamic.exceptions
 import kubernetes.stream.ws_client
 import ocp_resources.deployment
 import ocp_resources.namespace
-import ocp_resources.persistent_volume_claim
 import ocp_resources.pod
 import ocp_resources.project_project_openshift_io
 import ocp_resources.project_request
@@ -141,14 +140,6 @@ class ImageDeployment:
         ns = create_namespace(privileged_client=True, name=f"test-ns-{container_name}")
         self.tf.defer_resource(ns)
 
-        pvc = ocp_resources.persistent_volume_claim.PersistentVolumeClaim(
-            name=container_name,
-            namespace=ns.name,
-            accessmodes=ocp_resources.persistent_volume_claim.PersistentVolumeClaim.AccessMode.RWO,
-            volume_mode=ocp_resources.persistent_volume_claim.PersistentVolumeClaim.VolumeMode.FILE,
-            size="1Gi",
-        )
-        self.tf.defer_resource(pvc, wait=True)
         deployment = ocp_resources.deployment.Deployment(
             client=self.client,
             name=container_name,
@@ -211,18 +202,7 @@ class ImageDeployment:
                                 if accelerator
                                 else {}
                             ),
-                            # rstudio will not start without its volume mount and it does not log the error for it
-                            # See the testcontainers implementation of this (the tty=True part)
-                            "volumeMounts": [{"mountPath": "/opt/app-root/src", "name": "my-workbench"}],
                         },
-                    ],
-                    "volumes": [
-                        {
-                            "name": "my-workbench",
-                            "persistentVolumeClaim": {
-                                "claimName": container_name,
-                            },
-                        }
                     ],
                 },
             },

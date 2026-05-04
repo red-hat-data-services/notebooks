@@ -80,7 +80,7 @@ UV = ROOT_DIR / "uv"
 CVE_CONSTRAINTS_FILE = ROOT_DIR / "dependencies" / "cve-constraints.txt"
 PYLOCK_TO_REQUIREMENTS = ROOT_DIR / "scripts" / "lockfile-generators" / "helpers" / "pylock-to-requirements.py"
 PUBLIC_INDEX = "--default-index=https://pypi.org/simple"
-MAIN_DIRS = ("jupyter", "runtimes", "rstudio", "codeserver")
+MAIN_DIRS = ("jupyter", "runtimes", "codeserver")
 UV_MIN_VERSION = (0, 4, 0)
 
 NO_EMIT_PACKAGES = (
