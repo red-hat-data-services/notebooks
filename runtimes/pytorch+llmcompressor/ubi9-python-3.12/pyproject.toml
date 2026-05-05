@@ -52,6 +52,10 @@ url = "https://download.pytorch.org/whl/cu128"
 explicit = true
 
 [tool.uv]
+override-dependencies = [
+    # RHOAIENG-59282: CVE-2026-23490 pyasn1 DoS via malformed RELATIVE-OID parsing
+    "pyasn1>=0.6.2",
+]
 
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",

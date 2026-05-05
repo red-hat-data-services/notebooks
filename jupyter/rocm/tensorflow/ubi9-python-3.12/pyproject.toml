@@ -58,6 +58,8 @@ dependencies = [
 [tool.uv]
 
 override-dependencies = [
+    # RHOAIENG-59282: CVE-2026-23490 pyasn1 DoS via malformed RELATIVE-OID parsing
+    "pyasn1>=0.6.2",
     # tf2onnx has pinned protobuf version, that causes conflict with other packages
     "protobuf==6.31.1",
     "keras~=3.12.0",
