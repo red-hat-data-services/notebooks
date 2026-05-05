@@ -1,0 +1,53 @@
+import querystring from 'node:querystring';
+import { isResizable, TerminalSizeQueue } from './terminal-size-queue.js';
+import { WebSocketHandler } from './web-socket-handler.js';
+export class Exec {
+    constructor(config, wsInterface) {
+        this.handler = wsInterface || new WebSocketHandler(config);
+    }
+    /**
+     * @param {string}  namespace - The namespace of the pod to exec the command inside.
+     * @param {string} podName - The name of the pod to exec the command inside.
+     * @param {string} containerName - The name of the container in the pod to exec the command inside.
+     * @param {(string|string[])} command - The command or command and arguments to execute.
+     * @param {stream.Writable} stdout - The stream to write stdout data from the command.
+     * @param {stream.Writable} stderr - The stream to write stderr data from the command.
+     * @param {stream.Readable} stdin - The stream to write stdin data into the command.
+     * @param {boolean} tty - Should the command execute in a TTY enabled session.
+     * @param {(V1Status) => void} statusCallback -
+     *       A callback to received the status (e.g. exit code) from the command, optional.
+     * @return {Promise<WebSocket>} A promise that will return the web socket created for this command.
+     */
+    async exec(namespace, podName, containerName, command, stdout, stderr, stdin, tty, statusCallback) {
+        const query = {
+            stdout: stdout != null,
+            stderr: stderr != null,
+            stdin: stdin != null,
+            tty,
+            command,
+            container: containerName,
+        };
+        const queryStr = querystring.stringify(query);
+        const path = `/api/v1/namespaces/${namespace}/pods/${podName}/exec?${queryStr}`;
+        const conn = await this.handler.connect(path, null, (streamNum, buff) => {
+            const status = WebSocketHandler.handleStandardStreams(streamNum, buff, stdout, stderr);
+            if (status != null) {
+                if (statusCallback) {
+                    statusCallback(status);
+                }
+                return false;
+            }
+            return true;
+        });
+        if (stdin != null) {
+            WebSocketHandler.handleStandardInput(conn, stdin, WebSocketHandler.StdinStream);
+        }
+        if (isResizable(stdout)) {
+            this.terminalSizeQueue = new TerminalSizeQueue();
+            WebSocketHandler.handleStandardInput(conn, this.terminalSizeQueue, WebSocketHandler.ResizeStream);
+            this.terminalSizeQueue.handleResizes(stdout);
+        }
+        return conn;
+    }
+}
+//# sourceMappingURL=exec.js.map
