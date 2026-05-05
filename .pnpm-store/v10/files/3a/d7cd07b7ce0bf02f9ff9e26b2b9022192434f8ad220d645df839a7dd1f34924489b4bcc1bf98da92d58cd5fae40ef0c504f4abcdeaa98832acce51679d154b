@@ -1,0 +1,107 @@
+{
+    "name": "@kubernetes/client-node",
+    "version": "1.4.0",
+    "description": "NodeJS client for kubernetes",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kubernetes-client/javascript.git"
+    },
+    "files": [
+        "dist/**/*.ts",
+        "dist/**/*.js",
+        "dist/**/*.map"
+    ],
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "format": "prettier --log-level error --write \"./src/**/*.ts\"",
+        "lint": "eslint \".\" && prettier --check \"./src/**/*.ts\"",
+        "clean": "rm -Rf node_modules/ dist/",
+        "build": "tsc",
+        "build-with-tests": "tsc --project tsconfig-with-tests.json && cp 'src/test/echo space.js' dist/test",
+        "generate": "./generate-client.sh",
+        "watch": "tsc --watch",
+        "test": "c8 node --test --test-reporter=spec --import tsx src/*_test.ts",
+        "test-transpiled": "node --test --test-reporter=spec dist/*_test.js",
+        "integration-test": "tsx src/test/integration/index.ts",
+        "prepare": "npm run build && husky",
+        "prepack": "npm run build",
+        "docs": "typedoc src/gen"
+    },
+    "c8": {
+        "include": [
+            "src/**/*.ts"
+        ],
+        "exclude": [
+            "src/gen/**/*.ts",
+            "src/index.ts",
+            "src/*_test.ts",
+            "src/test"
+        ],
+        "extension": [
+            ".ts"
+        ],
+        "reporter": [
+            "text",
+            "lcov",
+            "text-summary",
+            "html"
+        ],
+        "sourceMap": true,
+        "instrument": true,
+        "all": true
+    },
+    "author": "Kubernetes Authors",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "@types/js-yaml": "^4.0.1",
+        "@types/node": "^24.0.0",
+        "@types/node-fetch": "^2.6.13",
+        "@types/stream-buffers": "^3.0.3",
+        "form-data": "^4.0.0",
+        "hpagent": "^1.2.0",
+        "isomorphic-ws": "^5.0.0",
+        "js-yaml": "^4.1.0",
+        "jsonpath-plus": "^10.3.0",
+        "node-fetch": "^2.7.0",
+        "openid-client": "^6.1.3",
+        "rfc4648": "^1.3.0",
+        "socks-proxy-agent": "^8.0.4",
+        "stream-buffers": "^3.0.2",
+        "tar-fs": "^3.0.9",
+        "ws": "^8.18.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.18.0",
+        "@types/mock-fs": "^4.13.1",
+        "c8": "^10.0.0",
+        "eslint": "^9.18.0",
+        "eslint-plugin-erasable-syntax-only": "^0.3.0",
+        "husky": "^9.0.6",
+        "mock-fs": "^5.2.0",
+        "nock": "^14.0.5",
+        "prettier": "^3.0.0",
+        "pretty-quick": "^4.0.0",
+        "ts-mockito": "^2.3.1",
+        "tsx": "^4.19.1",
+        "typedoc": "^0.28.0",
+        "typescript": "~5.9.2",
+        "typescript-eslint": "^8.26.0"
+    },
+    "bugs": {
+        "url": "https://github.com/kubernetes-client/javascript/issues"
+    },
+    "homepage": "https://github.com/kubernetes-client/javascript#readme",
+    "keywords": [
+        "kubernetes",
+        "client"
+    ],
+    "prettier": {
+        "tabWidth": 4,
+        "printWidth": 110,
+        "trailingComma": "all",
+        "singleQuote": true,
+        "arrowParens": "always"
+    }
+}
