@@ -285,11 +285,9 @@ function install_scl_packages() {
         "mod_session"
         "mod_ssl"
         "ncurses"
-        "nodejs"
-        "nodejs-docs"
-        "nodejs-full-i18n"
-        "nodejs-libs"
-        "npm"
+        # nodejs, nodejs-docs, nodejs-full-i18n, nodejs-libs, npm removed:
+        # CVE-2026-41242 (protobufjs bundled in nodejs RPM). These packages
+        # are not needed by base-image consumers; codeserver installs its own.
         "nss_wrapper-libs"
         "ocaml-srpm-macros"
         "openblas-srpm-macros"
