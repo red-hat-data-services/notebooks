@@ -35,6 +35,8 @@ environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
 override-dependencies = [
+    # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
+    "pyasn1>=0.6.3",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # Upstream: https://github.com/kubernetes-client/python/issues/2458
     "urllib3>=2.6.0",
