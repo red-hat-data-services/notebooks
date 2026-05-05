@@ -37,7 +37,7 @@ gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 # Archived repo definitions below were considered during development but are
 # not currently used. Kept for reference in case they are needed for future
-# workbench images (e.g. rstudio-server, R packages, EPEL metalink).
+# workbench images (e.g. R packages, EPEL metalink).
 
 # mcurlej copr, provides R-*
 # [copr:copr.devel.redhat.com:mcurlej:rstudio-server-dependencies]

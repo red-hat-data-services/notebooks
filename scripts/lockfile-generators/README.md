@@ -119,7 +119,7 @@ lockfile regeneration) — this avoids cross-platform issues on arm64 CI runners
 The GHA workflow template (`.github/workflows/build-notebooks-TEMPLATE.yaml`)
 derives the component directory from the **Makefile** (dry-run of the build
 target, parsing `#*# Image build directory: <...>`), so it works for all image
-targets (codeserver, jupyter-*, runtime-*, rstudio-*, base-images-*). Prefetch
+targets (codeserver, jupyter-*, runtime-*, base-images-*). Prefetch
 runs when `COMPONENT_DIR/prefetch-input` exists; otherwise the step is skipped.
 After the build, container tests run (e.g. `tests/containers` with pytest);
 image metadata is read from both Docker `Config` and `ContainerConfig` so

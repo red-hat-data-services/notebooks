@@ -379,7 +379,7 @@ jobs:
         run: |
           set -Eeuxo pipefail
           # Derive component dir from Makefile (single source of truth). Works for all
-          # image targets (codeserver, jupyter-*, runtime-*, rstudio-*, base-images-*).
+          # image targets (codeserver, jupyter-*, runtime-*, base-images-*).
           # Reuse ci/cached-builds Python helpers (same parsing as has_tests.py, make_test.py)
           COMPONENT_DIR=$(python3 -c "import sys, os; sys.path.insert(0, 'ci/cached-builds'); import gha_pr_changed_files as g; print(g.get_build_directory(os.environ['MAKE_TARGET']))")
           DOCKERFILE=$(python3 -c "import sys, os; sys.path.insert(0, 'ci/cached-builds'); import gha_pr_changed_files as g; print(g.get_build_dockerfile(os.environ['MAKE_TARGET']))")

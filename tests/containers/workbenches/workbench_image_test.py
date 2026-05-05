@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import functools
-import http.cookiejar
 import logging
 import os
 import pathlib
@@ -28,8 +27,11 @@ if TYPE_CHECKING:
 
 
 class TestWorkbenchImage:
-    """Tests for workbench images in this repository.
-    A workbench image is an image running a web IDE that listens on port 8888."""
+    """Smoke tests for JupyterLab and code-server images (``workbench_image`` / ``skip_if_not_workbench_image``).
+
+    RStudio is removed from the repo; older harness bits (TTY, tmpfs, cookies, extra PVC mounts) applied only there
+    and are not used for these IDEs.
+    """
 
     @pytest.mark.parametrize(
         "sysctls",
@@ -123,28 +125,15 @@ class TestWorkbenchImage:
 
 
 class WorkbenchContainer(testcontainers.core.container.DockerContainer):
+    """Testcontainer for JupyterLab and code-server only (see ``skip_if_not_workbench_image``)."""
+
     @functools.wraps(testcontainers.core.container.DockerContainer.__init__)
     def __init__(
         self,
         port: int = 8888,
         **kwargs,
     ) -> None:
-        defaults = {
-            # because rstudio only prints out errors when TTY is present
-            # > TTY detected. Printing informational message about logging configuration.
-            "tty": True,
-            # another rstudio speciality, without this, it gives
-            # > system error 13 (Permission denied) [path: /opt/app-root/src/.cache/rstudio
-            # equivalent podman command may include
-            # > --mount type=tmpfs,dst=/opt/app-root/src,notmpcopyup
-            # can't use mounts= because testcontainers already sets volumes=
-            # > mounts=[docker.types.Mount(target="/opt/app-root/src/", source="", type="volume", no_copy=True)],
-            # can use tmpfs=, keep in mind `notmpcopyup` opt is podman specific
-            "tmpfs": {"/opt/app-root/src": "rw,notmpcopyup"},
-        }
-        if not kwargs.keys().isdisjoint(defaults.keys()):
-            raise TypeError(f"Keyword arguments in {defaults.keys()=} are not allowed, for good reasons")
-        super().__init__(**defaults, **kwargs)
+        super().__init__(**kwargs)
 
         self.port = port
         self.with_exposed_ports(self.port)
@@ -166,14 +155,10 @@ class WorkbenchContainer(testcontainers.core.container.DockerContainer):
         host = container_host or self.get_container_host_ip()
         port = container_port or self.get_exposed_port(self.port)
         try:
-            # if we did not enable cookie support here, with RStudio we'd end up looping and getting
-            # HTTP 302 (i.e. `except urllib.error.HTTPError as e: assert e.code == 302`) every time
-            cookie_jar = http.cookiejar.CookieJar()
-            opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
             # host may be an ipv6 address, need to be careful with formatting this
             if ":" in host:
                 host = f"[{host}]"
-            result = opener.open(urllib.request.Request(f"http://{host}:{port}{base_url}"), timeout=1)
+            result = urllib.request.urlopen(urllib.request.Request(f"http://{host}:{port}{base_url}"), timeout=1)
         except urllib.error.URLError as e:
             raise e
 
@@ -224,7 +209,7 @@ class WorkbenchContainer(testcontainers.core.container.DockerContainer):
 
 def grab_and_check_logs(subtests: pytest_subtests.SubTests, container: WorkbenchContainer) -> None:
     # Here is a list of blocked keywords we don't want to see in the log messages during the container/workbench
-    # startup (e.g., log messages from Jupyter IDE, code-server IDE or RStudio IDE).
+    # startup (e.g., log messages from Jupyter IDE or code-server IDE).
     blocked_keywords = [
         "Error",
         "error",

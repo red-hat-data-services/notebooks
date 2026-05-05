@@ -5,8 +5,7 @@
 Node.js vulnerabilities may come from
 * tests and developer utilities in `tests/containers` (false positive, Component Not Present)
 * css minifier in `jupyter/utils/addon` (false positive, Component Not Present)
-* RStudio components replacement hack in `rstudio/utils` (needs investigation, probably true finding)
-* the codeserver or RStudio IDEs themselves (needs investigation, probably true finding)
+* the code-server IDE itself (needs investigation, probably true finding)
 
 ## Determine where the vulnerability came from
 

@@ -349,10 +349,6 @@ See these files for complete examples:
 - **nginx config**: `codeserver/ubi9-python-3.12/nginx/serverconf/proxy.conf.template_nbprefix`
 - **startup script**: `codeserver/ubi9-python-3.12/run-nginx.sh`
 
-### RStudio
-- **nginx config**: `rstudio/c9s-python-3.11/nginx/serverconf/proxy.conf.template_nbprefix`
-- **startup script**: `rstudio/c9s-python-3.11/run-nginx.sh`
-
 ## Understanding nginx Location Matching
 
 nginx location blocks have different matching priorities:

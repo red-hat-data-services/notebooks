@@ -14,5 +14,5 @@ s%/usr/share/nginx/html%/opt/app-root/src%
 /40x.html/,+1d
 /50x.html/,+1d
 
-# Addition for RStudio Server
+# Route nginx server_name through NB_PREFIX when set by the platform
 /server_name/s%server_name  _%server_name  ${BASE_URL}%

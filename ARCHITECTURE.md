@@ -7,7 +7,7 @@ For contributing guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 ## What this repo produces
 
 The repository builds **container images** for interactive data science workbenches:
-Jupyter notebooks, RStudio, and Code-Server (VS Code in the browser).
+Jupyter notebooks and Code-Server (VS Code in the browser).
 These images run on OpenShift as part of OpenDataHub (ODH) and Red Hat OpenShift AI (RHOAI).
 
 ## Image hierarchy
@@ -46,7 +46,6 @@ The `runtimes/` directory mirrors the same flavor structure (minimal, datascienc
 | `jupyter/` | Jupyter notebook image definitions, organized by flavor and accelerator |
 | `runtimes/` | Pipeline runtime images used by Elyra to execute notebook pipeline nodes |
 | `codeserver/` | Code-Server (VS Code in the browser) image definitions |
-| `rstudio/` | RStudio Server image definitions |
 | `ci/` | CI utility scripts — Makefile helpers, PR change detection, validation, cached build logic |
 | `scripts/` | Maintenance scripts — lockfile generation, CVE tracking, image analysis |
 | `ntb/` | Shared Python library — string utilities, assertions, constants used across CI and tests |
@@ -139,19 +138,17 @@ runs a mutating webhook that transforms Notebook CR pods at creation time:
 The notebook controller's culler expects a Jupyter-compatible API at `/api/kernels/` that reports
 `last_activity` timestamps and `execution_state` (busy/idle). JupyterLab provides this natively.
 
-Code-Server and RStudio **do not** have a Jupyter-compatible API, so this repo fakes it using
+Code-Server **does not** have a Jupyter-compatible API, so this repo fakes it using
 a three-process stack per workbench container:
 
 - **nginx** (port 80) — reverse proxy with custom JSON access logging for activity tracking
 - **httpd** (port 8080) — Apache acting as a CGI gateway
-- **bash CGI scripts** — `access.cgi` implements the `/api/kernels/` endpoint by either polling
-  the IDE's heartbeat (Code-Server) or parsing nginx access logs (RStudio)
+- **bash CGI scripts** — `access.cgi` implements the `/api/kernels/` endpoint by polling
+  the IDE's heartbeat (Code-Server)
 
 Key files:
 - `codeserver/*/nginx/api/kernels/access.cgi` — polls `localhost:8888/codeserver/healthz`,
   converts heartbeat to Jupyter kernel format
-- `rstudio/*/nginx/api/kernels/access.cgi` — parses nginx access logs, marks idle after
-  10 minutes of inactivity
 - `codeserver/*/nginx/httpconf/http.conf` — custom nginx log format producing JSON with
   `last_activity` in ISO 8601 format
 
