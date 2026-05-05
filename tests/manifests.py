@@ -30,8 +30,6 @@ JUPYTER_TENSORFLOW_NOTEBOOK_ID = "tensorflow"
 
 CODESERVER_NOTEBOOK_ID = "codeserver"
 
-RSTUDIO_NOTEBOOK_ID = "rstudio"
-
 MAKE = shutil.which("gmake") or shutil.which("make")
 
 
@@ -89,7 +87,7 @@ def extract_metadata_from_path(directory: Path) -> NotebookMetadata:
     # 2. Find the notebook's characteristic path components
     path_parts = directory.parts
     # Find the root component ('jupyter', 'runtimes', etc.) to anchor the search
-    for root_candidate in ("jupyter", "codeserver", "rstudio", "runtimes"):
+    for root_candidate in ("jupyter", "codeserver", "runtimes"):
         try:
             start_index = path_parts.index(root_candidate)
             break
@@ -107,7 +105,7 @@ def extract_metadata_from_path(directory: Path) -> NotebookMetadata:
     try:
         scope = notebook_identity_parts[-1]
     except IndexError:
-        # rstudio and codeserver don't have scope
+        # codeserver doesn't have scope
         scope = ""
     if "-" in scope:
         assert path_parts[start_index] == "runtimes", "this naming pattern only appears in rocm runtime images"
@@ -190,12 +188,6 @@ def get_source_of_truth_filepath(
     elif CODESERVER_NOTEBOOK_ID in notebook_id:
         filename = f"code-server-{file_suffix}"
 
-    elif RSTUDIO_NOTEBOOK_ID in notebook_id:
-        imagestream_filename = f"rstudio-gpu-{file_suffix}"
-        buildconfig_filename = "cuda-rstudio-buildconfig.yaml"
-        _ = imagestream_filename
-        filename = buildconfig_filename
-
     if not filename:
         raise ValueError(f"Unable to determine imagestream filename for '{metadata=}'")
 
@@ -203,22 +195,6 @@ def get_source_of_truth_filepath(
 
 
 class TestManifests:
-    def test_rstudio_path(self):
-        metadata = extract_metadata_from_path(Path("notebooks/rstudio/rhel9-python-3.11"))
-        assert metadata == NotebookMetadata(
-            type=NotebookType.WORKBENCH,
-            feature="rstudio",
-            scope="",
-            os_flavor="rhel9",
-            python_flavor="python-3.11",
-            accelerator_flavor=None,
-        )
-
-    def test_rstudio_truth_manifest(self):
-        metadata = extract_metadata_from_path(Path("notebooks/rstudio/rhel9-python-3.11"))
-        path = get_source_of_truth_filepath(manifests_directory=_TEST_MANIFESTS_ODH_DIR, metadata=metadata)
-        assert path == _TEST_MANIFESTS_ODH_DIR / "base" / "cuda-rstudio-buildconfig.yaml"
-
     def test_jupyter_path(self):
         metadata = extract_metadata_from_path(Path("notebooks/jupyter/rocm/tensorflow/ubi9-python-3.12"))
         assert metadata == NotebookMetadata(
@@ -358,16 +334,9 @@ class TestManifests:
             / "base"
             / "jupyter-trustyai-notebook-imagestream.yaml",
             "codeserver-ubi9-python-3.12": MANIFESTS_ODH_DIR / "base" / "code-server-notebook-imagestream.yaml",
-            "rstudio-ubi9-python-3.11": MANIFESTS_ODH_DIR / "base" / "rstudio-buildconfig.yaml",
-            "rstudio-c9s-python-3.11": MANIFESTS_ODH_DIR / "base" / "rstudio-buildconfig.yaml",
-            "cuda-rstudio-c9s-python-3.11": MANIFESTS_ODH_DIR / "base" / "cuda-rstudio-buildconfig.yaml",
-            "rstudio-rhel9-python-3.11": MANIFESTS_ODH_DIR / "base" / "rstudio-buildconfig.yaml",
-            "cuda-rstudio-rhel9-python-3.11": MANIFESTS_ODH_DIR / "base" / "cuda-rstudio-buildconfig.yaml",
         }
         for target in targets:
             if "codeserver" in target:
-                continue
-            if "rstudio" in target:
                 continue
             try:
                 expected_manifest_path = expected_manifest_paths[target]

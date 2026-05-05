@@ -39,7 +39,6 @@ docker_directories = (
     ntb.ROOT_DIR / "base-images",
     ntb.ROOT_DIR / "jupyter",
     ntb.ROOT_DIR / "codeserver",
-    ntb.ROOT_DIR / "rstudio",
     ntb.ROOT_DIR / "runtimes",
 )
 

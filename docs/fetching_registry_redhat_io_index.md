@@ -342,14 +342,12 @@ This happens because the images are built by separate Konflux pipelines that may
 
 ## Repository Name Mapping
 
-The Red Hat catalog uses `rhel9` in repository names, while the upstream ODH/params.env convention uses `ubi9`. RStudio images use `c9s` (CentOS Stream 9) and are **not published to the Red Hat catalog** at all.
+The Red Hat catalog uses `rhel9` in repository names, while the upstream ODH/params.env convention uses `ubi9`.
 
 | Catalog repository | params.env variable name | Notes |
 |-------------------|--------------------------|-------|
 | `rhoai/odh-workbench-jupyter-minimal-cpu-py312-rhel9` | `odh-workbench-jupyter-minimal-cpu-py312-ubi9` | `rhel9` → `ubi9` |
 | `rhoai/odh-workbench-codeserver-datascience-cpu-py312-rhel9` | `odh-workbench-codeserver-datascience-cpu-py312-ubi9` | `rhel9` → `ubi9` |
-| *(not in catalog)* | `odh-workbench-rstudio-minimal-cpu-py312-c9s` | quay.io only |
-| *(not in catalog)* | `odh-workbench-rstudio-minimal-cuda-py312-c9s` | quay.io only |
 
 The `params.env` value format is `registry.redhat.io/rhoai/<catalog-repo-name>@sha256:<digest>` -- note the value still uses the `rhel9` catalog name, only the variable name on the left side uses `ubi9`.
 
@@ -375,7 +373,7 @@ Options:
 | `--version-tag` | `-v` | `v3.3` | RHOAI version tag to query (e.g. `v3.2`, `v3.3`) |
 | `--suffix` | `-s` | `2025-2` | Suffix appended to variable names in the output |
 
-The script handles the `rhel9` → `ubi9` variable name mapping automatically and reminds about the RStudio images that must be added manually from quay.io.
+The script handles the `rhel9` → `ubi9` variable name mapping automatically.
 
 ## Gotchas and Pitfalls
 
@@ -399,6 +397,4 @@ The script handles the `rhel9` → `ubi9` variable name mapping automatically an
 
 10. **`manifest_list_digest` vs `manifest_schema2_digest`**: Each image entry has both. `manifest_list_digest` is the multi-arch manifest (same on all arch entries for a tag). `manifest_schema2_digest` is the per-architecture digest. For multi-platform deployments, use `manifest_list_digest`. There is no top-level `docker_image_digest` field in the `include` projection -- it won't be returned even if requested; use the two fields above instead.
 
-11. **RStudio images are not in the Red Hat catalog**: The `odh-workbench-rstudio-*-c9s` images use CentOS Stream 9 and are only published to `quay.io/opendatahub`. They must be handled separately from the catalog-based workflow.
-
-12. **Filtering by tag name is more reliable than sorting by date**: To find images for a specific RHOAI version, filter with `repositories.tags.name==v3.2` rather than sorting by `last_update_date[desc]` and hoping the first result is the right version. This avoids the multi-stream ordering issues described in gotcha #6.
+11. **Filtering by tag name is more reliable than sorting by date**: To find images for a specific RHOAI version, filter with `repositories.tags.name==v3.2` rather than sorting by `last_update_date[desc]` and hoping the first result is the right version. This avoids the multi-stream ordering issues described in gotcha #6.

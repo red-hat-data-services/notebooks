@@ -203,49 +203,6 @@ files = ["/usr/bin/launcher-v2"]
 # Temporary supprsssions for workbenches
 # https://github.com/openshift/check-payload/blob/main/internal/types/errors.go
 
-[[rpm.rstudio-server.ignore]]
-error = "ErrNotDynLinked"
-files = [
-    # executable is not dynamically linked
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/pandoc",
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/typst",
-]
-
-[[rpm.rstudio-server.ignore]]
-error = "ErrNotDynLinked"
-files = [
-    # executable is not dynamically linked
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/esbuild",
-]
-
-[[rpm.rstudio-server.ignore]]
-error = "ErrGoNotCgoEnabled"
-files = [
-    # go binary is not CGO_ENABLED
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/esbuild",
-]
-
-[[rpm.rstudio-server.ignore]]
-error = "ErrGoNoCgoInit"
-files = [
-    # x_cgo_init or _cgo_topofstack not found
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/esbuild",
-]
-
-[[rpm.rstudio-server.ignore]]
-error = "ErrLibcryptoMissing"
-files = [
-    # openssl: did not find libcrypto library within binary
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/esbuild",
-]
-
-[[rpm.rstudio-server.ignore]]
-error = "ErrGoMissingSymbols"
-files = [
-    # go binary does not contain required symbol(s)
-    "/usr/lib/rstudio-server/bin/quarto/bin/tools/x86_64/esbuild",
-]
-
 # valgrind is waived since it doesn't do anything with crypto in a
 # security context
 [[rpm.valgrind.ignore]]

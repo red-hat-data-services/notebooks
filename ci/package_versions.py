@@ -75,7 +75,7 @@ class Tag:
 def _load_imagestreams(pathname: str) -> list[Manifest]:
     imagestreams: list[Manifest] = []
     for fn in glob.glob(pathname, root_dir=ROOT_DIR):
-        # there may be more than one yaml document in a file (e.g. rstudio buildconfigs)
+        # safe_load_all: tolerate multiple YAML documents per file if a manifest ever bundles more than one.
         with open(ROOT_DIR / fn, "rt") as fp:
             for data in yaml.safe_load_all(fp):
                 if "kind" not in data or data["kind"] != "ImageStream":

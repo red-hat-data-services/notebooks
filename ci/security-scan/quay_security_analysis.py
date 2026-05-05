@@ -21,8 +21,6 @@ IMAGES_MAIN = [
     "odh-tensorflow-gpu-notebook-image-main",
     "odh-trustyai-notebook-image-main",
     "odh-codeserver-notebook-image-main",
-    "odh-rstudio-notebook-image-main",
-    "odh-rstudio-gpu-notebook-image-main",
 ]
 
 IMAGES = [
@@ -37,8 +35,6 @@ IMAGES = [
     "odh-runtime-tensorflow-notebook-image-n",
     "odh-workbench-jupyter-trustyai-cpu-py311-ubi9-n",
     "odh-workbench-codeserver-datascience-cpu-py311-ubi9-n",
-    "odh-workbench-rstudio-minimal-cpu-py311-c9s-n",
-    "odh-workbench-rstudio-minimal-cuda-py311-c9s-n",
 ]
 
 IMAGES_N_1 = [
@@ -53,8 +49,6 @@ IMAGES_N_1 = [
     "odh-runtime-tensorflow-notebook-image-n-1",
     "odh-workbench-jupyter-trustyai-cpu-py311-ubi9-n-1",
     "odh-workbench-codeserver-datascience-cpu-py311-ubi9-n-1",
-    "odh-workbench-rstudio-minimal-cpu-py311-c9s-n-1",
-    "odh-workbench-rstudio-minimal-cuda-py311-c9s-n-1",
 ]
 
 

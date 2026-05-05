@@ -131,7 +131,7 @@ Code coverage (pytest-cov, Codecov) measures line coverage of CI tooling scripts
 It does not measure what runs *inside* the built container images — the project's primary output.
 
 The container integration tests (`tests/containers/`) already verify many image capabilities:
-package imports, GPU operations (CUDA/ROCm matrix multiplication), IDE startup (JupyterLab, RStudio, Code-Server),
+package imports, GPU operations (CUDA/ROCm matrix multiplication), IDE startup (JupyterLab, Code-Server),
 CLI tools (`oc`, `skopeo`), file permissions, and network configuration.
 However, there is no consolidated view of which capabilities are tested for each image family.
 
