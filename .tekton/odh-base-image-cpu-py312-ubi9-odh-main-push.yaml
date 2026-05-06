@@ -8,12 +8,11 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: 'false'
     pipelinesascode.tekton.dev/max-keep-runs: '3'
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" && ( "base-images/utils/**".pathChanged() || "base-images/cpu/ubi9-python-3.12/**".pathChanged() || "base-images/build-args/cpu.conf".pathChanged() || ".tekton/odh-base-image-cpu-py312-ubi9-odh-main-push.yaml".pathChanged() )
-  creationTimestamp:
   labels:
     appstudio.openshift.io/application: opendatahub-release
     appstudio.openshift.io/component: odh-base-image-cpu-py312-ubi9
     pipelines.appstudio.openshift.io/type: build
-  name: odh-base-image-cpu-py312-ubi9-odh-main-push
+  name: odh-base-image-cpu-py312-ubi9-on-push
   namespace: open-data-hub-tenant
 spec:
   params:
@@ -74,6 +73,22 @@ spec:
     computeResources:
       limits:
         memory: 8Gi
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      limits:
+        memory: 8Gi
+  - pipelineTaskName: clamav-scan
+    computeResources:
+      limits:
+        memory: 8Gi
+  - pipelineTaskName: sast-shell-check
+    computeResources:
+      limits:
+        memory: 8Gi
+  - pipelineTaskName: rpms-signature-scan
+    computeResources:
+      limits:
+        memory: 8Gi
   pipelineRef:
     name: multiarch-odh-main-combined-pipeline
   taskRunTemplate:
@@ -82,4 +97,3 @@ spec:
   - name: git-auth
     secret:
       secretName: '{{ git_auth_secret }}'
-status: {}
