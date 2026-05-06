@@ -1,3 +1,6 @@
+# pnpm store
+.pnpm-store/
+
 # Konflux caching
 cachi2/
 
