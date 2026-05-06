@@ -1,6 +1,9 @@
 # Konflux caching
 cachi2/
 
+# pnpm store (package cache, never commit)
+.pnpm-store/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
