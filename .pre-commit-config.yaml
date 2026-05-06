@@ -2,10 +2,16 @@
 # https://github.com/pre-commit/pre-commit-hooks?tab=readme-ov-file#hooks-available
 repos:
   # https://docs.astral.sh/uv/guides/integration/pre-commit/
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.18
+  # Using a local hook instead of uv-pre-commit so it uses the system uv
+  # installed by setup-uv, avoiding version mismatch with required-version.
+  - repo: local
     hooks:
       - id: uv-lock
+        name: uv-lock
+        entry: uv lock --locked
+        language: system
+        files: '(^uv\.lock$|^pyproject\.toml$|^uv\.toml$)'
+        pass_filenames: false
   # https://github.com/astral-sh/ruff-pre-commit
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.10
