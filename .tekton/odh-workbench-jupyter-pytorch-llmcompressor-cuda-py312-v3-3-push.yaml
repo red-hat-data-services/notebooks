@@ -53,6 +53,8 @@ spec:
   - name: build-platforms
     value:
     - linux/x86_64
+  - name: fips-check-blocking
+    value: "false"
   timeouts:
     pipeline: 8h
     tasks: 4h
@@ -73,8 +75,6 @@ spec:
         limits:
           cpu: '16'
           memory: 32Gi
-  - name: fips-check-blocking
-    value: "false"
   pipelineRef:
     resolver: git
     params:
