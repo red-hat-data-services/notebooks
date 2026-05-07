@@ -69,7 +69,14 @@ environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
 override-dependencies = [
+    # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
+    "cryptography>=46.0.5",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
     "urllib3>=2.6.0",
+    # RHAIENG-3209: CVE-2026-25990  Pillow: Out-of-bounds Write
+    # Upstream: https://github.com/vllm-project/llm-compressor/releases/tag/0.7.1.1
+    "pillow>=12.1.1",
+    # RHOAIENG-53183: CVE-2026-32274 Black: Arbitrary file writes from unsanitized user input in cache file name
+    "black>=26.3.1",
 ]

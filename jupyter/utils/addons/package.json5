@@ -38,4 +38,10 @@
     '@types/webpack': '^5.28.5'
   },
   // "packageManager": "pnpm@10.8.1" // forces install of a precise version, so annoying
+  pnpm: {
+    overrides: {
+      // RHOAIENG-51140 / RHOAIENG-50431: CVE-2026-27904 & CVE-2026-26996 minimatch DoS
+      "minimatch": ">=10.2.3",
+    },
+  },
 }
