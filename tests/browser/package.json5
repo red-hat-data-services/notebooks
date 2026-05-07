@@ -37,9 +37,8 @@
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "overrides": {
-      // CVE-2026-41242: protobufjs < 7.5.5 allows arbitrary code execution
-      // via injected protobuf definition type fields
-      "protobufjs": "^7.5.5"
+      // CVE-2026-41242: arbitrary code execution via injected protobuf definition type fields
+      "protobufjs": ">=7.5.5 <8"
     }
   }
 }
