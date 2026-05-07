@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# retrigger build 2026-05-07T06:03:45Z
+# konflux build manual retrigger - 2026-05-07 11:26:17
 #
 metadata:
   annotations:
