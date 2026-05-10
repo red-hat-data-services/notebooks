@@ -51,7 +51,7 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 6
-          # Jupyter + papermill share the pod cgroup; RH BE wheels need more headroom on ppc64le CI.
+          # Jupyter + papermill share the pod cgroup; keep headroom for datascience subprocess tests on ppc64le CI.
           resources:
             limits:
               cpu: 500m
