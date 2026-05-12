@@ -7,13 +7,13 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-tensorflow-rocm)"
+    pipelinesascode.tekton.dev/on-comment: "^/build-konflux"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-workbench-jupyter-tensorflow-rocm-py312-on-pull-request
+  name: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-on-pull-request
   namespace: rhoai-tenant
 spec:
   params:
@@ -29,11 +29,11 @@ spec:
   - name: additional-labels
     value:
     - version=on-pr-{{revision}}
-    - io.openshift.tags=odh-workbench-jupyter-tensorflow-rocm-py312
+    - io.openshift.tags=odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312
   - name: dockerfile
-    value: jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
-    value: jupyter/rocm/tensorflow/ubi9-python-3.12/build-args/rocm.conf
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/build-args/cuda.conf
   - name: rhoai-version
     value: "2.25.3"
   - name: path-context
