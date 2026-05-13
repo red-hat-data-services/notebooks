@@ -14,11 +14,9 @@ metadata:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-workbench-jupyter-datascience-cpu-py312-on-pull-request
+  name: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-on-pull-request
   namespace: rhoai-tenant
 spec:
-  timeouts:
-    pipeline: 6h
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -32,11 +30,11 @@ spec:
   - name: additional-labels
     value:
     - version=on-pr-{{revision}}
-    - io.openshift.tags=odh-workbench-jupyter-datascience-cpu-py312
+    - io.openshift.tags=odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312
   - name: dockerfile
-    value: jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
-    value: jupyter/datascience/ubi9-python-3.12/build-args/cpu.conf
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/build-args/cuda.conf
   - name: rhoai-version
     value: "2.25.3"
   - name: path-context
@@ -48,9 +46,6 @@ spec:
   - name: build-platforms
     value:
     - linux/x86_64
-    - linux-m2xlarge/arm64
-    - linux/ppc64le
-    - linux/s390x
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
@@ -66,6 +61,26 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
+  taskRunSpecs:
+    - pipelineTaskName: ecosystem-cert-preflight-checks
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
+    - pipelineTaskName: clair-scan
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
