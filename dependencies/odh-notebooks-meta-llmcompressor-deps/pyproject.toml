@@ -27,7 +27,7 @@ dependencies = [
     # we will ignore their torch preference for now
     #"torch==2.9.1",
 
-    "llmcompressor==0.9.0",
+    "llmcompressor==0.9.0.3",
 ]
 
 [tool.uv]

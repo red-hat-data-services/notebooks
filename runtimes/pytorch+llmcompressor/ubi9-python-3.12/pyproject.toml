@@ -56,3 +56,7 @@ explicit = true
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
+override-dependencies = [
+    # RHAIENG-56484: CVE-2026-27489 onnx path traversal vulnerability
+    "onnx>=1.21.0",
+]
