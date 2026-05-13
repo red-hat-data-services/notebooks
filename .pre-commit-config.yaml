@@ -18,13 +18,13 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.10
     hooks:
-      - id: ruff
-        types_or: [python, pyi]
+      - id: ruff-check
+        types_or: [python, pyi, jupyter]
         args: [--fix]
-        files: 'ci/.*|tests/.*'
+        files: '^((ci|tests|ntb|base-images)/.*\.(py|pyi)|jupyter/.*\.ipynb)$'
       - id: ruff-format
         types_or: [python, pyi]
-        files: 'ci/.*|tests/.*'
+        files: '^(ci|tests|ntb|base-images)/.*\.(py|pyi)$'
   # https://github.com/gitleaks/gitleaks
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.1
