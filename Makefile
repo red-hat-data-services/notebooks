@@ -75,11 +75,22 @@ define build_image
 	$(eval DOCKERFILE_NAME := $(notdir $(2)))
 	$(eval CONF_FILE := $(BUILD_DIR)build-args/$(shell echo $(DOCKERFILE_NAME) | cut -d. -f2).conf)
 
-	# if the conf file exists, transform it into --build-arg KEY=VALUE flags
-	$(eval BUILD_ARGS := $(shell \
-		if [ -f $(CONF_FILE) ]; then \
-			awk -F= '!/^#/ && NF {gsub(/^[ \t]+|[ \t]+$$/, "", $$1); gsub(/^[ \t]+|[ \t]+$$/, "", $$2); printf "--build-arg %s=%s ", $$1, $$2}' $(CONF_FILE); \
+	# if the conf file exists, transform it into quoted --build-arg flags
+	# NOTE: lines must match KEY=VALUE; single quotes in values are escaped
+	$(eval _BUILD_ARGS_OUT := $(shell \
+		if [ -f '$(CONF_FILE)' ]; then \
+			awk '!/^[[:space:]]*#/ && NF { \
+				gsub(/^[[:space:]]+|[[:space:]]+$$/, ""); \
+				if (!/^[A-Za-z_][A-Za-z0-9_]*=/) { \
+					printf "ERROR: malformed conf line (expected KEY=VALUE): %s\n", $$0 > "/dev/stderr"; \
+					err=1; next; \
+				} \
+				gsub(/\047/, "\047\\\047\047"); \
+				out = out sprintf("--build-arg \047%s\047 ", $$0); \
+			} END { if (err) { printf "PARSE_FAILED"; exit 1 } else { printf "%s", out } }' '$(CONF_FILE)'; \
 		fi))
+	$(if $(findstring PARSE_FAILED,$(_BUILD_ARGS_OUT)),$(error Failed to parse $(CONF_FILE) — see stderr for details))
+	$(eval BUILD_ARGS := $(_BUILD_ARGS_OUT))
 
 	$(info # Building $(IMAGE_NAME) using $(DOCKERFILE_NAME) with $(CONF_FILE) and $(BUILD_ARGS)...)
 
