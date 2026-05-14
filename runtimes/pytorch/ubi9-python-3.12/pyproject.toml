@@ -74,4 +74,6 @@ override-dependencies = [
     "pillow>=12.1.1",
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
     "cryptography>=46.0.5",
+    # RHAIENG-3795: CVE-2026-32597 PyJWT crit header RFC 7515 violation
+    "pyjwt>=2.12.0",
 ]

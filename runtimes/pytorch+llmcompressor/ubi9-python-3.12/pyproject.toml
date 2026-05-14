@@ -77,6 +77,8 @@ override-dependencies = [
     # RHAIENG-3209: CVE-2026-25990  Pillow: Out-of-bounds Write
     # Upstream: https://github.com/vllm-project/llm-compressor/releases/tag/0.7.1.1
     "pillow>=12.1.1",
+    # RHAIENG-3795: CVE-2026-32597 PyJWT crit header RFC 7515 violation
+    "pyjwt>=2.12.0",
 ]
 
 # from https://redhat-internal.slack.com/archives/C079FE5H94J/p1756934476976759?thread_ts=1756933154.294109&cid=C079FE5H94J
