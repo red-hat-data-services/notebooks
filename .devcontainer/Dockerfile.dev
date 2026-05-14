@@ -1,4 +1,4 @@
-ARG FEDORA_TAG=43
+ARG FEDORA_TAG=45
 FROM registry.fedoraproject.org/fedora:${FEDORA_TAG}
 
 RUN dnf install -y \
