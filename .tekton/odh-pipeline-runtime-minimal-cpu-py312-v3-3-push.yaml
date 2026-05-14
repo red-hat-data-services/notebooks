@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# retrigger build 2026-05-07T15:52:32Z
+# retrigger build 2026-05-14T02:30:00Z
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
