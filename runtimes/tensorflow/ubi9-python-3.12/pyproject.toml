@@ -43,7 +43,9 @@ dependencies = [
 override-dependencies = [
     # tf2onnx has pinned protobuf version, that causes conflict with other packages
     "protobuf==6.31.1",
-    "keras~=3.12.0"
+    "keras~=3.12.0",
+    # RHAIENG-3755: CVE-2026-32597 PyJWT crit header RFC 7515 violation
+    "pyjwt>=2.12.0",
 ]
 
 environments = [
