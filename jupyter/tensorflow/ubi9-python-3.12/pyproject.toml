@@ -63,6 +63,10 @@ override-dependencies = [
     "urllib3>=2.6.0",
 ]
 
+constraint-dependencies = [
+    "onnx>=1.21.0",
+]
+
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
