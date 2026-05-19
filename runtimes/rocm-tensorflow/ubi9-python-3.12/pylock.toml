@@ -815,10 +815,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/0f/61/22e778f642465a1
 
 [[packages]]
 name = "keras"
-version = "3.12.0"
+version = "3.14.0"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/9b/b8/8df141314a64a31d3a21762658826f716cdf4c261c7fcdb3f729958def55/keras-3.12.0.tar.gz", upload-time = 2025-10-27T20:23:11Z, size = 1129187, hashes = { sha256 = "536e3f8385a05ae04e82e08715a1a59988578087e187b04cb0a6fad11743f07f" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/ba/61/cc8be27bd65082440754be443b17b6f7c185dec5e00dfdaeab4f8662e4a8/keras-3.12.0-py3-none-any.whl", upload-time = 2025-10-27T20:23:09Z, size = 1474424, hashes = { sha256 = "02b69e007d5df8042286c3bcc2a888539e3e487590ffb08f6be1b4354df50aa8" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/88/ce/47874047a49eedc2a5d3b41bc4f1f572bb637f51e4351ef3538e49a63800/keras-3.14.0.tar.gz", upload-time = 2026-04-03T01:42:16Z, size = 1263098, hashes = { sha256 = "86fcf8249a25264a566ac393c287c7ad657000e5e62615dcaad4b3472a17aeda" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/c0/20/78d26f81115d570bdf0e57d19b81de9ad8aa55ddb68eb10c8f0699fccb63/keras-3.14.0-py3-none-any.whl", upload-time = 2026-04-03T01:42:11Z, size = 1627362, hashes = { sha256 = "19ce94b798caaba4d404ab6ef4753b44219170e5c2868156de8bb0494a260114" } }]
 
 [[packages]]
 name = "kiwisolver"
