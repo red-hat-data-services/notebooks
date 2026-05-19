@@ -1461,14 +1461,16 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/be/9c/92789c596b8df83
 
 [[packages]]
 name = "onnx"
-version = "1.20.1"
+version = "1.21.0"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/3b/8a/335c03a8683a88a32f9a6bb98899ea6df241a41df64b37b9696772414794/onnx-1.20.1.tar.gz", upload-time = 2026-01-10T01:40:03Z, size = 12048980, hashes = { sha256 = "ded16de1df563d51fbc1ad885f2a426f814039d8b5f4feb77febe09c0295ad67" } }
+sdist = { url = "https://files.pythonhosted.org/packages/c5/93/942d2a0f6a70538eea042ce0445c8aefd46559ad153469986f29a743c01c/onnx-1.21.0.tar.gz", upload-time = 2026-03-27T21:33:36Z, size = 12074608, hashes = { sha256 = "4d8b67d0aaec5864c87633188b91cc520877477ec0254eda122bef8be43cd764" } }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/64/5e/1bfa100a9cb3f2d3d5f2f05f52f7e60323b0e20bb0abace1ae64dbc88f25/onnx-1.20.1-cp312-abi3-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-01-10T01:39:33Z, size = 17412021, hashes = { sha256 = "ddc0b7d8b5a94627dc86c533d5e415af94cbfd103019a582669dad1f56d30281" } },
-    { url = "https://files.pythonhosted.org/packages/fb/71/d3fec0dcf9a7a99e7368112d9c765154e81da70fcba1e3121131a45c245b/onnx-1.20.1-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", upload-time = 2026-01-10T01:39:36Z, size = 17510450, hashes = { sha256 = "9336b6b8e6efcf5c490a845f6afd7e041c89a56199aeda384ed7d58fb953b080" } },
-    { url = "https://files.pythonhosted.org/packages/2d/c3/541af12c3d45e159a94ee701100ba9e94b7bd8b7a8ac5ca6838569f894f8/onnx-1.20.1-cp313-cp313t-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-01-10T01:39:50Z, size = 17416925, hashes = { sha256 = "1f0371aa67f51917a09cc829ada0f9a79a58f833449e03d748f7f7f53787c43c" } },
-    { url = "https://files.pythonhosted.org/packages/2c/3b/d5660a7d2ddf14f531ca66d409239f543bb290277c3f14f4b4b78e32efa3/onnx-1.20.1-cp313-cp313t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", upload-time = 2026-01-10T01:39:54Z, size = 17515602, hashes = { sha256 = "be1e5522200b203b34327b2cf132ddec20ab063469476e1f5b02bb7bd259a489" } },
+    { url = "https://files.pythonhosted.org/packages/6f/b6/eeb5903586645ef8a49b4b7892580438741acc3df91d7a5bd0f3a59ea9cb/onnx-1.21.0-cp312-abi3-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-03-27T21:32:50Z, size = 17531344, hashes = { sha256 = "9003d5206c01fa2ff4b46311566865d8e493e1a6998d4009ec6de39843f1b59b" } },
+    { url = "https://files.pythonhosted.org/packages/a7/00/4823f06357892d1e60d6f34e7299d2ba4ed2108c487cc394f7ce85a3ff14/onnx-1.21.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", upload-time = 2026-03-27T21:32:54Z, size = 17613697, hashes = { sha256 = "a9261bd580fb8548c9c37b3c6750387eb8f21ea43c63880d37b2c622e1684285" } },
+    { url = "https://files.pythonhosted.org/packages/ec/46/e6dc71a7b3b317265591b20a5f71d0ff5c0d26c24e52283139dc90c66038/onnx-1.21.0-cp313-cp313t-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-03-27T21:33:09Z, size = 17537435, hashes = { sha256 = "7cd7cb8f6459311bdb557cbf6c0ccc6d8ace11c304d1bba0a30b4a4688e245f8" } },
+    { url = "https://files.pythonhosted.org/packages/49/2e/27affcac63eaf2ef183a44fd1a1354b11da64a6c72fe6f3fdcf5571bcee5/onnx-1.21.0-cp313-cp313t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", upload-time = 2026-03-27T21:33:12Z, size = 17617687, hashes = { sha256 = "7b58a4cfec8d9311b73dc083e4c1fa362069267881144c05139b3eba5dc3a840" } },
+    { url = "https://files.pythonhosted.org/packages/61/28/f4e401e5199d1b9c8b76c7e7ae1169e050515258e877b58fa8bb49d3bdcc/onnx-1.21.0-cp314-cp314t-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-03-27T21:33:24Z, size = 17537430, hashes = { sha256 = "5489f25fe461e7f32128218251a466cabbeeaf1eaa791c79daebf1a80d5a2cc9" } },
+    { url = "https://files.pythonhosted.org/packages/cf/cf/5d13320eb3660d5af360ea3b43aa9c63a70c92a9b4d1ea0d34501a32fcb8/onnx-1.21.0-cp314-cp314t-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", upload-time = 2026-03-27T21:33:27Z, size = 17617662, hashes = { sha256 = "db17fc0fec46180b6acbd1d5d8650a04e5527c02b09381da0b5b888d02a204c8" } },
 ]
 
 [[packages]]

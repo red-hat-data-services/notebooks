@@ -46,6 +46,10 @@ override-dependencies = [
     "keras~=3.12.0"
 ]
 
+constraint-dependencies = [
+    "onnx>=1.21.0",
+]
+
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
