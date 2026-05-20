@@ -234,7 +234,7 @@ def main():
             ######################################################
             # mongocli-builder (build stage only, not published) #
             ######################################################
-            FROM registry.access.redhat.com/ubi9/go-toolset:1.25.9-1778504036 AS mongocli-builder
+            FROM registry.access.redhat.com/ubi9/go-toolset:1.26.2-1777889793 AS mongocli-builder
 
             ARG MONGOCLI_VERSION=2.0.4
 
@@ -251,7 +251,7 @@ def main():
             ######################################################
             # mongocli-builder (build stage only, not published) #
             ######################################################
-            FROM registry.access.redhat.com/ubi9/go-toolset:1.25.9-1778504036 AS mongocli-builder
+            FROM registry.access.redhat.com/ubi9/go-toolset:1.26.2-1777889793 AS mongocli-builder
 
             ARG MONGOCLI_VERSION=2.0.4
 
