@@ -127,6 +127,11 @@
 
   "packageRules": [
     {
+      "description": "Prefix PR titles with branch name for non-main branches",
+      "matchBaseBranches": ["!/^main$/"],
+      "commitMessagePrefix": "[{{{baseBranch}}}]",
+    },
+    {
       "description": "Group GitHub Actions digest updates into a single PR",
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions",
