@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Load bash libraries
+# Load bash libraries (only process.sh is needed at runtime; install_with_retry.sh is for build-only)
 SCRIPT_DIR=$(dirname -- "$0")
-source ${SCRIPT_DIR}/utils/*.sh
+source "${SCRIPT_DIR}/utils/process.sh"
 
 # Start nginx and httpd
 run-nginx.sh &
