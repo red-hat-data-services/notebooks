@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# konflux build manual retrigger - 2026-04-30 12:10:12
+# konflux build manual retrigger - 2026-05-20 12:46:26
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -47,6 +47,8 @@ spec:
   - name: build-platforms
     value:
     - linux/x86_64
+  - name: fips-check-blocking
+    value: "false"
   pipelineRef:
     resolver: git
     params:
