@@ -67,10 +67,6 @@ spec:
       description: Path to the Dockerfile inside the context specified by parameter path-context
       name: dockerfile
       type: string
-    - default: "true"
-      description: Force rebuild image
-      name: rebuild
-      type: string
     - default: "false"
       description: Skip checks against built image
       name: skip-checks
@@ -113,14 +109,6 @@ spec:
     - name: enable-cache-proxy
       default: 'false'
       description: Enable cache proxy configuration
-      type: string
-    - name: sast-target-dirs
-      type: string
-      default: .
-      description: Target directories to scan with SAST tools. Multiple values should be separated with commas.
-    - name: enable-package-registry-proxy
-      default: 'true'
-      description: Use the package registry proxy when prefetching dependencies
       type: string
   results:
     - description: ""
@@ -174,12 +162,6 @@ spec:
               echo -en "${slack_message}" > "$(results.slack-message-failure-text.path)"
     - name: init
       params:
-        - name: image-url
-          value: $(params.output-image)
-        - name: rebuild
-          value: $(params.rebuild)
-        - name: skip-checks
-          value: $(params.skip-checks)
         - name: enable-cache-proxy
           value: $(params.enable-cache-proxy)
       taskRef:
@@ -214,11 +196,6 @@ spec:
           - name: kind
             value: task
         resolver: bundles
-      when:
-        - input: $(tasks.init.results.build)
-          operator: in
-          values:
-            - "true"
       workspaces:
         - name: basic-auth
           workspace: git-auth
@@ -232,8 +209,6 @@ spec:
           value: $(params.output-image).prefetch
         - name: ociArtifactExpiresAfter
           value: $(params.image-expires-after)
-        - name: enable-package-registry-proxy
-          value: $(params.enable-package-registry-proxy)
       runAfter:
         - clone-repository
       taskRef:
@@ -290,15 +265,10 @@ spec:
           - name: name
             value: buildah-oci-ta
           - name: bundle
-            value: quay.io/konflux-ci/tekton-catalog/task-buildah-oci-ta:0.9@sha256:681d9f65a7f50cb260ee576ccab551e11d63c549f1e1ef3d201da3c112855bd6
+            value: quay.io/konflux-ci/tekton-catalog/task-buildah-oci-ta:0.8@sha256:8a984185d22d3180ecd575dbf6b6a63edb1b3ec754be0b8e5e4247a9eae9112b
           - name: kind
             value: task
         resolver: bundles
-      when:
-        - input: $(tasks.init.results.build)
-          operator: in
-          values:
-            - "true"
     - name: build-image-index
       params:
         - name: IMAGE
@@ -321,11 +291,6 @@ spec:
           - name: kind
             value: task
         resolver: bundles
-      when:
-        - input: $(tasks.init.results.build)
-          operator: in
-          values:
-            - "true"
     - name: build-source-image
       params:
         - name: BINARY_IMAGE
@@ -347,11 +312,6 @@ spec:
           - name: kind
             value: task
         resolver: bundles
-      when:
-        - input: $(tasks.init.results.build)
-          operator: in
-          values:
-            - "true"
         - input: $(params.build-source-image)
           operator: in
           values:
@@ -430,8 +390,6 @@ spec:
           value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
         - name: CACHI2_ARTIFACT
           value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
-        - name: TARGET_DIRS
-          value: $(params.sast-target-dirs)
       runAfter:
         - build-image-index
       taskRef:
@@ -499,8 +457,6 @@ spec:
           value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
         - name: CACHI2_ARTIFACT
           value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
-        - name: TARGET_DIRS
-          value: $(params.sast-target-dirs)
       runAfter:
         - coverity-availability-check
       taskRef:
@@ -548,8 +504,6 @@ spec:
           value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
         - name: CACHI2_ARTIFACT
           value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
-        - name: TARGET_DIRS
-          value: $(params.sast-target-dirs)
       runAfter:
         - build-image-index
       taskRef:
@@ -576,8 +530,6 @@ spec:
           value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
         - name: CACHI2_ARTIFACT
           value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
-        - name: TARGET_DIRS
-          value: $(params.sast-target-dirs)
       runAfter:
         - build-image-index
       taskRef:
