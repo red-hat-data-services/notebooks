@@ -69,7 +69,7 @@ pythonPlatform = "Linux"
 
 # https://docs.astral.sh/ruff/configuration
 [tool.ruff]
-include = ["pyproject.toml", "ci/**/*.py", "ntb/**/*.py", "tests/**/*.py"]
+include = ["pyproject.toml", "ci/**/*.py", "ntb/**/*.py", "tests/**/*.py", "base-images/**/*.py", "jupyter/**/*.ipynb"]
 exclude = [ ]
 target-version = "py314"
 line-length = 120
@@ -100,7 +100,7 @@ select = [
     "Q", # flake8-quotes
     "RET", # flake8-return
     "RUF", # Ruff-specific
-    "S102", # flake8-bandit: exec-builtin
+    "S102", # flake8-bandit: exec-builtin (full `S` on main; 2.25 CI has pre-existing S113/S506 noise)
     "T10", # flake8-debugger
     "TCH", # type-checking imports
     "TID", # flake8-tidy-imports
@@ -127,6 +127,9 @@ ignore = [
     # "W503", # not yet implemented; line break before binary operator
     # "W504", # not yet implemented; line break after binary operator
     "PLR1702", # Too many nested blocks (7 > 5)
+    # flake8-bandit: noisy, low-value rules
+    "S404", # subprocess-module-import: flagging `import subprocess` is too noisy
+    "S607", # start-process-with-partial-path: flags well-known executables (git, make, kubectl)
     # TODO
     "B006", # Do not use mutable data structures for argument defaults
     "COM812", # Trailing comma missing
@@ -196,6 +199,7 @@ pep8-naming.classmethod-decorators = ["pydantic.validator"]
 "ntb/**/*.py" = ["S101"]
 # Copr client wraps CLI commands via subprocess with controlled arguments
 "base-images/**/*.py" = ["S602", "S603", "S604"]
+"tests/__init__.py" = ["RUF067"]
 
 # https://docs.astral.sh/ruff/formatter
 [tool.ruff.format]
