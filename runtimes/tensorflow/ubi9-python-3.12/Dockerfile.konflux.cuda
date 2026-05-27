@@ -9,6 +9,13 @@ ARG BASE_IMAGE
 # cuda-base        #
 ####################
 FROM ${BASE_IMAGE} AS cuda-base
+### BEGIN RHAIENG-2189: this is AIPCC migration phase 1.5
+ENV PIP_INDEX_URL=https://pypi.org/simple
+# UV_INDEX_URL is deprecated in favor of UV_DEFAULT_INDEX
+ENV UV_INDEX_URL=https://pypi.org/simple
+# https://docs.astral.sh/uv/reference/environment/#uv_default_index
+ENV UV_DEFAULT_INDEX=https://pypi.org/simple
+### END RHAIENG-2189: this is AIPCC migration phase 1.5
 
 ARG TARGETARCH
 
@@ -17,18 +24,21 @@ WORKDIR /opt/app-root/bin
 # OS Packages needs to be installed as root
 USER 0
 
-# Inject the official UBI 9 repository configuration into the AIPCC base image.
-# The Quay-based AIPCC image is "repo-less" by default (https://gitlab.com/redhat/rhel-ai/core/base-images/app#repositories), so dnf cannot upgrade or install packages.
-# By copying ubi.repo from the public UBI 9 image, we enable package management for upgrades and installations.
-COPY --from=registry.access.redhat.com/ubi9/ubi /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo
-
-# upgrade first to avoid fixable vulnerabilities begin
+### BEGIN upgrade first to avoid fixable vulnerabilities
 # Problem: The operation would result in removing the following protected packages: systemd
 #  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
 # Solution: --best --skip-broken does not work either, so use --nobest
-RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0 \
-    && dnf clean all -y
-# upgrade first to avoid fixable vulnerabilities end
+RUN /bin/bash <<'EOF'
+set -Eeuxo pipefail
+# If we have a Red Hat subscription prepared, refresh it
+if command -v subscription-manager &> /dev/null; then
+  subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
+fi
+dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0
+dnf clean all -y
+EOF
+
+### END upgrade first to avoid fixable vulnerabilities
 
 # Install useful OS packages
 RUN dnf install -y perl mesa-libGL skopeo libxcrypt-compat && dnf clean all && rm -rf /var/cache/yum
@@ -55,11 +65,19 @@ FROM cuda-base AS cuda-runtime-tensorflow
 ARG JUPYTER_REUSABLE_UTILS=jupyter/utils
 ARG TENSORFLOW_SOURCE_CODE=runtimes/tensorflow/ubi9-python-3.12
 
-WORKDIR /opt/app-root/bin
-
 # CVE-2026-2492: Disable HDF5 plugin loading to prevent local privilege escalation
 # via unsecured plugin search path in TensorFlow's h5py integration
 ENV HDF5_PLUGIN_PATH=disable
+
+LABEL name="rhoai/odh-pipeline-runtime-tensorflow-cuda-py312-rhel9" \
+      com.redhat.component="odh-pipeline-runtime-tensorflow-cuda-py312-rhel9" \
+      io.k8s.display-name="odh-pipeline-runtime-tensorflow-cuda-py312-rhel9" \
+      summary="Runtime CUDA tensorflow notebook image for ODH notebooks" \
+      description="Runtime CUDA tensorflow notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
+      io.k8s.description="Runtime CUDA tensorflow notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
+      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
+
+WORKDIR /opt/app-root/bin
 
 # Install Python packages from requirements.txt
 COPY ${TENSORFLOW_SOURCE_CODE}/pylock.toml ./
@@ -77,11 +95,3 @@ RUN echo "Installing softwares and packages" && \
 COPY ${JUPYTER_REUSABLE_UTILS}/usercustomize.pth ${JUPYTER_REUSABLE_UTILS}/monkey_patch_protobuf_6x.py /opt/app-root/lib/python3.12/site-packages/
 
 WORKDIR /opt/app-root/src
-
-LABEL name="rhoai/odh-pipeline-runtime-tensorflow-cuda-py312-rhel9" \
-      com.redhat.component="odh-pipeline-runtime-tensorflow-cuda-py312-rhel9" \
-      io.k8s.display-name="odh-pipeline-runtime-tensorflow-cuda-py312-rhel9" \
-      summary="Runtime CUDA tensorflow notebook image for ODH notebooks" \
-      description="Runtime CUDA tensorflow notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
-      io.k8s.description="Runtime CUDA tensorflow notebook image with base Python 3.12 builder image based on UBI9 for ODH notebooks" \
-      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
