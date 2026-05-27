@@ -246,13 +246,14 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           version-file: uv.toml
+          python-version-file: .python-version
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      
+
       - name: Install Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14"
+          python-version-file: ".python-version"
 
       - name: Check uv is installed correctly
         run: uv version

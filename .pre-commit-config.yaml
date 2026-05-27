@@ -31,7 +31,7 @@ repos:
       - id: pyright
         name: Run Pyright on all files
         # entry: /bin/bash -c 'find. -name "*.py" | xargs pyright --pythonversion 3.12'
-        entry: ./uv run pyright --pythonversion 3.14
+        entry: ./uv run pyright --pythonversion 3.12
         pass_filenames: true
         types_or: [python, pyi]
         language: system
