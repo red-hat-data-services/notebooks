@@ -2744,16 +2744,14 @@ wheels = [
 
 [[packages]]
 name = "tornado"
-version = "6.5.4"
+version = "6.5.6"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/37/1d/0a336abf618272d53f62ebe274f712e213f5a03c0b2339575430b8362ef2/tornado-6.5.4.tar.gz", upload-time = 2025-12-15T19:21:03Z, size = 513632, hashes = { sha256 = "a22fa9047405d03260b483980635f0b041989d8bcc9a313f8fe18b411d84b1d7" } }
+sdist = { url = "https://files.pythonhosted.org/packages/50/57/6d7303a77ae439d9189108f76c0c4fd89ee5e2cc8387bffb55232565c4ed/tornado-6.5.6.tar.gz", upload-time = 2026-05-27T15:35:54Z, size = 518139, hashes = { sha256 = "9a365179fe8ff6b8766f602c0f67c185d778193e9bdd828b19f0b6ed7764177d" } }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ba/b5/206f82d51e1bfa940ba366a8d2f83904b15942c45a78dd978b599870ab44/tornado-6.5.4-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", upload-time = 2025-12-15T19:20:51Z, size = 445746, hashes = { sha256 = "d1cf66105dc6acb5af613c054955b8137e34a03698aa53272dbda4afe252be17" } },
-    { url = "https://files.pythonhosted.org/packages/8e/9d/1a3338e0bd30ada6ad4356c13a0a6c35fbc859063fa7eddb309183364ac1/tornado-6.5.4-cp39-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", upload-time = 2025-12-15T19:20:52Z, size = 445083, hashes = { sha256 = "50ff0a58b0dc97939d29da29cd624da010e7f804746621c78d14b80238669335" } },
-    { url = "https://files.pythonhosted.org/packages/50/d4/e51d52047e7eb9a582da59f32125d17c0482d065afd5d3bc435ff2120dc5/tornado-6.5.4-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", upload-time = 2025-12-15T19:20:53Z, size = 445315, hashes = { sha256 = "e5fb5e04efa54cf0baabdd10061eb4148e0be137166146fff835745f59ab9f7f" } },
-    { url = "https://files.pythonhosted.org/packages/27/07/2273972f69ca63dbc139694a3fc4684edec3ea3f9efabf77ed32483b875c/tornado-6.5.4-cp39-abi3-musllinux_1_2_aarch64.whl", upload-time = 2025-12-15T19:20:56Z, size = 446003, hashes = { sha256 = "9c86b1643b33a4cd415f8d0fe53045f913bf07b4a3ef646b735a6a86047dda84" } },
-    { url = "https://files.pythonhosted.org/packages/d1/83/41c52e47502bf7260044413b6770d1a48dda2f0246f95ee1384a3cd9c44a/tornado-6.5.4-cp39-abi3-musllinux_1_2_i686.whl", upload-time = 2025-12-15T19:20:57Z, size = 445412, hashes = { sha256 = "6eb82872335a53dd063a4f10917b3efd28270b56a33db69009606a0312660a6f" } },
-    { url = "https://files.pythonhosted.org/packages/10/c7/bc96917f06cbee182d44735d4ecde9c432e25b84f4c2086143013e7b9e52/tornado-6.5.4-cp39-abi3-musllinux_1_2_x86_64.whl", upload-time = 2025-12-15T19:20:58Z, size = 445392, hashes = { sha256 = "6076d5dda368c9328ff41ab5d9dd3608e695e8225d1cd0fd1e006f05da3635a8" } },
+    { url = "https://files.pythonhosted.org/packages/8b/79/fa7e14a2f939c807a8d30619b4eb604eab219601b78792516ebe22d40cf9/tornado-6.5.6-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", upload-time = 2026-05-27T15:35:42Z, size = 448964, hashes = { sha256 = "b942e6a137fda31ff54bf8e6e2c8d1c37f1f50583f3ed53fb840b53b9601d104" } },
+    { url = "https://files.pythonhosted.org/packages/a7/71/bd67d5f5199f937dafe03a49a37989f60f600ff6fef34c79412a829d97bd/tornado-6.5.6-cp39-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-05-27T15:35:43Z, size = 449935, hashes = { sha256 = "8666946e70171b8c3f1fc9b7876fac492e84822c4c7f3746f4e8f8bc9ac92a79" } },
+    { url = "https://files.pythonhosted.org/packages/cc/a4/c24388c9cf5b3c3a513b56a158af9f23092c9a2810d789e294310797df21/tornado-6.5.6-cp39-abi3-musllinux_1_2_aarch64.whl", upload-time = 2026-05-27T15:35:45Z, size = 449767, hashes = { sha256 = "1c34cfab7ad6d104f052f55de06d39bbafc5885cfeb4da688803308dbcfa90b7" } },
+    { url = "https://files.pythonhosted.org/packages/a5/eb/6a07ad550c3f7b37244bd0becdf293ec3d3e961783d8b720a97df50de1b2/tornado-6.5.6-cp39-abi3-musllinux_1_2_x86_64.whl", upload-time = 2026-05-27T15:35:47Z, size = 449174, hashes = { sha256 = "385f35e4e22fb52551dfcda4cdc8c30c61c2c001aef5ddad99cdfe116952efd3" } },
 ]
 
 [[packages]]
