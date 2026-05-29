@@ -16,7 +16,7 @@ repos:
       - id: uv-lock
   # https://github.com/astral-sh/ruff-pre-commit
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.10
+    rev: v0.15.4
     hooks:
       - id: ruff-check
         types_or: [python, pyi, jupyter]
@@ -38,7 +38,7 @@ repos:
       - id: pyright
         name: Run Pyright on all files
         # entry: /bin/bash -c 'find. -name "*.py" | xargs pyright --pythonversion 3.12'
-        entry: uv run pyright --pythonversion 3.12
+        entry: uv run pyright --pythonversion 3.14
         pass_filenames: true
         types_or: [python, pyi]
         language: system
