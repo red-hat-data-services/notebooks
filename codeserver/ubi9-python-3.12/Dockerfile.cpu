@@ -176,7 +176,7 @@ USER 0
 WORKDIR /opt/app-root/bin
 
 # Install useful OS packages
-RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq git-lfs libsndfile
+RUN --mount=type=cache,target=/var/cache/dnf ./utils/install_with_retry.sh dnf-install jq git-lfs libsndfile gettext
 
 # wait for rpm-base stage (rpm builds for ppc64le and s390x)
 COPY --from=rpm-base /tmp/control /dev/null
