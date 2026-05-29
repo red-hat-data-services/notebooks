@@ -96,4 +96,6 @@ override-dependencies = [
     "urllib3>=2.6.0",
     # RHAIENG-4081: CVE-2026-31958 Tornado: Denial of Service via large multipart bodies
     "tornado>=6.5.5",
+    # RHAIENG-5134: CVE-2026-40192 Pillow vulnerability; llmcompressor caps pillow<=12.0.0
+    "pillow>=12.2.0",
 ]

@@ -93,7 +93,7 @@ def main():
 
         """),
         "Dependencies for PDF export": textwrap.dedent(r"""
-            RUN ./utils/install_pdf_deps.sh
+            RUN ./utils/install_with_retry.sh texlive-install
             ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
         """),
         "Download Elyra Bootstrapper": textwrap.dedent(r"""
