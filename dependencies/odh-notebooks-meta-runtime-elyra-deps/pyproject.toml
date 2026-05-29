@@ -31,7 +31,3 @@ package = false
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
-override-dependencies = [
-    # RHAIENG-4081: CVE-2026-31958 Tornado: Denial of Service via large multipart bodies
-    "tornado>=6.5.5",
-]
