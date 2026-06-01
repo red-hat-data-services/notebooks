@@ -52,7 +52,6 @@ url = "https://download.pytorch.org/whl/cu128"
 explicit = true
 
 [tool.uv]
-
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
