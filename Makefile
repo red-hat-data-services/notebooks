@@ -122,7 +122,8 @@ endif
 
 bin/buildinputs: scripts/buildinputs/buildinputs.go scripts/buildinputs/go.mod scripts/buildinputs/go.sum
 	$(info Building a Go helper for Dockerfile dependency analysis...)
-	go build -C "scripts/buildinputs" -o "$(ROOT_DIR)/$@" ./...
+	GOTOOLCHAIN=auto GONOSUMDB=golang.org/toolchain \
+	  go build -C "scripts/buildinputs" -o "$(ROOT_DIR)/$@" ./...
 
 ####################################### Buildchain for Python using ubi9 #####################################
 
@@ -469,3 +470,8 @@ test:
 	@echo "Running quick static tests"
 	uv run pytest -m 'not buildonlytest'
 	@./scripts/check_dockerfile_alignment.sh
+
+.PHONY: check-actions
+check-actions:
+	@echo "Checking GitHub Actions SHA pinning"
+	@set +x; GITHUB_TOKEN=$$(gh auth token) pinact run --check --verify

@@ -13,6 +13,7 @@ set -euo pipefail
 #   • Validates Python version extracted from directory name (expects format .../ubi9-python-X.Y).
 #   • Generates per-flavor locks in 'uv.lock/' for AIPCC index mode.
 #   • Overwrites existing pylock.toml in-place for public PyPI index mode.
+#   • Applies repo-wide CVE minimum version constraints from dependencies/cve-constraints.txt.
 #
 # Index Modes:
 #   • aipcc-index  -> Uses internal Red Hat AIPCC wheel indexes. Generates uv.lock/pylock.<flavor>.toml for each detected flavor.
@@ -38,6 +39,10 @@ set -euo pipefail
 # ----------------------------
 # CONFIGURATION
 # ----------------------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+CVE_CONSTRAINTS_FILE="$REPO_ROOT/dependencies/cve-constraints.txt"
+
 CPU_INDEX="--index-url=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cpu-ubi9/simple/"
 CUDA_INDEX="--index-url=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cuda-ubi9/simple/"
 ROCM_INDEX="--index-url=https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/rocm-ubi9/simple/"
@@ -78,6 +83,11 @@ if ! version_ge "$UV_VERSION" "$UV_MIN_VERSION"; then
   exit 1
 fi
 
+if [ ! -f "$CVE_CONSTRAINTS_FILE" ]; then
+  error "CVE constraints file not found: $CVE_CONSTRAINTS_FILE"
+  exit 1
+fi
+
 # ----------------------------
 # ARGUMENT PARSING
 # ----------------------------
@@ -91,6 +101,7 @@ if [[ "$INDEX_MODE" != "aipcc-index" && "$INDEX_MODE" != "public-index" ]]; then
   exit 1
 fi
 info "Using index mode: $INDEX_MODE"
+info "Applying CVE constraints from: dependencies/cve-constraints.txt"
 
 # ----------------------------
 # GET TARGET DIRECTORIES
@@ -194,6 +205,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       --universal \
       --no-annotate \
       --quiet \
+      --constraints "$CVE_CONSTRAINTS_FILE" \
       --no-emit-package odh-notebooks-meta-llmcompressor-deps \
       --no-emit-package odh-notebooks-meta-runtime-elyra-deps \
       $index
