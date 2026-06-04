@@ -338,7 +338,12 @@ ENV NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 PACKAGES=(bind-utils nginx nginx-mod-stream nginx-mod-http-perl httpd)
-dnf install -y --setopt=tsflags=nodocs "${PACKAGES[@]}"
+# python-312 base may ship httpd-devel at an older UBI release (el9) that pins
+# httpd-core; remove it before installing the prefetched httpd stack (el9_8.x).
+if rpm -q httpd-devel &>/dev/null; then
+    dnf remove -y httpd-devel
+fi
+dnf install -y --allowerasing --setopt=tsflags=nodocs "${PACKAGES[@]}"
 rpm -V "${PACKAGES[@]}"
 dnf -y clean all --enablerepo='*'
 EOF
