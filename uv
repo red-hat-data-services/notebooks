@@ -1,0 +1,36 @@
+#!/usr/bin/env -S bash --norc --noprofile
+# ./uv — run the uv version pinned for per-image lock generation (pylock / uv.lock.d).
+#
+# Root pyproject.toml [tool.uv] required-version is a wider range for dev tooling and
+# Dependabot; image locks stay on the exact version in dependencies/uv-image-lock-version.
+#
+# Usage (image locks — use this wrapper):
+#   make refresh-lock-files
+#   ./uv run scripts/pylocks_generator.py ...
+#
+# For root dev work (sync, pytest, pre-commit), use bare `uv` on PATH.
+#
+# The pinned version is cached by uv tool run after the first invocation.
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VERSION_FILE="${SCRIPT_DIR}/dependencies/uv-image-lock-version"
+
+if [[ ! -f "${VERSION_FILE}" ]]; then
+    echo "error: missing ${VERSION_FILE}" >&2
+    exit 1
+fi
+
+version="$(tr -d '[:space:]' < "${VERSION_FILE}")"
+if [[ -z "${version}" ]]; then
+    echo "error: empty uv version in ${VERSION_FILE}" >&2
+    exit 1
+fi
+
+# Fast path: use the system uv directly if it already matches the pinned version
+if current=$(uv --version 2>/dev/null) && [[ "$current" == "uv ${version}" || "$current" == "uv ${version} "* ]]; then
+    exec uv "$@"
+fi
+
+# Slow path: run the pinned version via uv tool run (downloaded and cached on first use)
+exec uv tool run "uv@${version}" "$@"
