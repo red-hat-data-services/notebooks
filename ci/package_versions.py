@@ -168,8 +168,8 @@ def _print_section(heading: str, tabular_data: list[tuple[str, str, str]]) -> No
 
 
 MANIFEST_DIRS = {
-    "ODH": "manifests/odh/base/*.yaml",
-    "RHOAI": "manifests/rhoai/base/*.yaml",
+    "Base": "manifests/base/*.yaml",
+    "Additional": "manifests/overlays/additional/*.yaml",
 }
 
 
