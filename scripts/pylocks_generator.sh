@@ -65,13 +65,15 @@ uppercase() {
 # ----------------------------
 # PRE-FLIGHT CHECK
 # ----------------------------
-if ! command -v uv &>/dev/null; then
-  error "uv command not found. Please install uv: https://github.com/astral-sh/uv"
+UV="$REPO_ROOT/uv"
+if [[ ! -x "$UV" ]]; then
+  error "./uv wrapper not found or not executable at $UV"
+  error "The wrapper pins the uv version via dependencies/uv-image-lock-version."
   exit 1
 fi
 
 UV_MIN_VERSION="0.4.0"
-UV_VERSION=$(uv --version 2>/dev/null | awk '{print $2}' || echo "0.0.0")
+UV_VERSION=$("$UV" --version 2>/dev/null | awk '{print $2}' || echo "0.0.0")
 
 version_ge() {
   [ "$(printf '%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]
@@ -82,6 +84,8 @@ if ! version_ge "$UV_VERSION" "$UV_MIN_VERSION"; then
   error "Please upgrade uv: https://github.com/astral-sh/uv"
   exit 1
 fi
+
+info "Using pinned uv version: $UV_VERSION (from dependencies/uv-image-lock-version)"
 
 if [ ! -f "$CVE_CONSTRAINTS_FILE" ]; then
   error "CVE constraints file not found: $CVE_CONSTRAINTS_FILE"
@@ -208,7 +212,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
     fi
 
     set +e
-    uv pip compile pyproject.toml \
+    "$UV" pip compile pyproject.toml \
       --output-file "$output" \
       --format pylock.toml \
       --generate-hashes \
