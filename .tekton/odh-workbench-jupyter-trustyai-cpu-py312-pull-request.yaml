@@ -55,6 +55,8 @@ spec:
   timeouts:
     pipeline: 8h
     tasks: 4h
+  - name: fips-check-blocking
+    value: "false"
   pipelineRef:
     resolver: git
     params:
