@@ -119,6 +119,41 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
         echo "WARNING: agent-browser postinstall not found at ${AGENT_BROWSER_PATCHED}"
     fi
 
+    # [CVE-2025-71330] Patch image-size ICNS parser to prevent infinite loop DoS.
+    #
+    # WHAT IS CVE-2025-71330?
+    #   image-size through 2.0.2 has an infinite loop in the ICNS parser when
+    #   a crafted ICNS buffer contains an entry with a zero-valued length field.
+    #   The offset never advances, causing the while loop to spin forever and
+    #   permanently block the Node.js event loop.
+    #
+    # WHY PATCH THE TARBALL?
+    #   No fixed version exists on npm (the maintainer archived the repo).
+    #   The fix adds a guard: if the entry length is less than 8 (the minimum
+    #   ICNS entry header size), break out of the loop.
+    #
+    # WHERE IS image-size USED?
+    #   lib/vscode/extensions/emmet/package.json depends on image-size for the
+    #   "Update Image Size" Emmet command.
+    IMAGESIZE_PATCHED="${CODESERVER_SOURCE_PREFETCH}/image-size/icns.js"
+    IMAGESIZE_TGZ=$(find /cachi2/output/deps/npm -name "*image-size*.tgz" -type f 2>/dev/null | head -1)
+    if [[ -n "${IMAGESIZE_TGZ}" && -f "${IMAGESIZE_PATCHED}" ]]; then
+        echo "Patching image-size: overwrite ICNS parser for CVE-2025-71330 (${IMAGESIZE_TGZ})"
+        tmpdir=$(mktemp -d)
+        tar xzf "${IMAGESIZE_TGZ}" -C "$tmpdir"
+        cp "${IMAGESIZE_PATCHED}" "$tmpdir/package/dist/types/icns.js"
+        tar czf "${IMAGESIZE_TGZ}" -C "$tmpdir" package
+        rm -rf "$tmpdir"
+        # Strip integrity so npm accepts the modified tarball.
+        jq 'del(.packages["node_modules/image-size"].integrity)' \
+            lib/vscode/extensions/emmet/package-lock.json > /tmp/lock-imagesize.json \
+            && mv /tmp/lock-imagesize.json lib/vscode/extensions/emmet/package-lock.json
+    elif [[ -z "${IMAGESIZE_TGZ}" ]]; then
+        echo "WARNING: image-size tarball not found in /cachi2/output/deps/npm/"
+    elif [[ ! -f "${IMAGESIZE_PATCHED}" ]]; then
+        echo "WARNING: image-size ICNS patch not found at ${IMAGESIZE_PATCHED}"
+    fi
+
     if [[ "$ARCH" == "ppc64le" || "$ARCH" == "s390x" ]]; then
         # Try to patch the cached tarball (remove postinstall from its package.json)
         VSCE_TGZ=$(find /cachi2/output/deps/npm -name "*vsce-sign*.tgz" -type f 2>/dev/null | head -1)
