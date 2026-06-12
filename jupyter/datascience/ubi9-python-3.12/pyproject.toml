@@ -49,6 +49,10 @@ dependencies = [
 ]
 
 [tool.uv]
+constraint-dependencies = [
+    "pyjwt>=2.12.0",
+]
+
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
