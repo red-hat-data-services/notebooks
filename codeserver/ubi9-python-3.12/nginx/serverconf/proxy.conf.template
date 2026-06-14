@@ -16,7 +16,7 @@ location /api/ {
 # api calls from culler get to CGI processing
 ###############
 location = /api/kernels {
-    return 302 $custom_scheme://$http_host/api/kernels/;
+    return 302 /api/kernels/;
     access_log  off;
 }
 
@@ -35,11 +35,11 @@ location /api/kernels/ {
 # root and prefix get to code-server endpoint
 ###############
 location = / {
-    return 302 $custom_scheme://$http_host/codeserver/;
+    return 302 /codeserver/;
 }
 
 location = /codeserver {
-    return 302 $custom_scheme://$http_host/codeserver/;
+    return 302 /codeserver/;
 }
 
 location /codeserver/ {
