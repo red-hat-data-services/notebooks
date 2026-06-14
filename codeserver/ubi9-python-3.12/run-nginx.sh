@@ -18,6 +18,12 @@ fi
 if [ -z "$NB_PREFIX" ]; then
     cp /opt/app-root/etc/nginx.default.d/proxy.conf.template /opt/app-root/etc/nginx.default.d/proxy.conf
 else
+    # Defense-in-depth: validate NB_PREFIX contains only safe URI-path characters
+    # before interpolating it into the nginx configuration via envsubst.
+    if [[ "$NB_PREFIX" =~ [^a-zA-Z0-9/_.\~:-] ]]; then
+        echo "ERROR: NB_PREFIX contains invalid characters: $NB_PREFIX" >&2
+        exit 1
+    fi
     export BASE_URL=$(echo "$NB_PREFIX" | awk -F/ '{ print $4"-"$3 }')$(echo "$NOTEBOOK_ARGS" | grep -Po 'hub_host":"\K.*?(?=")' | awk -F/ '{ print $3 }' | awk -F. '{for (i=2; i<=NF; i++) printf ".%s", $i}')
     # If BASE_URL is empty or invalid (missing hub_host), use wildcard server_name
     if [ -z "$BASE_URL" ] || [ "$BASE_URL" = "$(echo "$NB_PREFIX" | awk -F/ '{ print $4"-"$3 }')" ]; then
