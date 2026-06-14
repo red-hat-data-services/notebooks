@@ -173,12 +173,19 @@ class WorkbenchContainer(testcontainers.core.container.DockerContainer):
 
         # connect
         host = container_host or self.get_container_host_ip()
+        # Podman publishes IPv4 ports; connecting to "localhost" may resolve to ::1 first.
+        if host == "localhost":
+            host = "127.0.0.1"
         port = container_port or self.get_exposed_port(self.port)
         try:
             # host may be an ipv6 address, need to be careful with formatting this
-            if ":" in host:
-                host = f"[{host}]"
-            result = urllib.request.urlopen(urllib.request.Request(f"http://{host}:{port}{base_url}"), timeout=1)
+            host_for_url = f"[{host}]" if ":" in host else host
+            # /api redirects to /codeserver/healthz/ and avoids the / -> /codeserver/ hop
+            # (absolute redirects on / previously broke Podman port-forward readiness checks).
+            probe_path = base_url or "/api"
+            result = urllib.request.urlopen(
+                urllib.request.Request(f"http://{host_for_url}:{port}{probe_path}"), timeout=1
+            )
         except urllib.error.URLError as e:
             raise e
 

@@ -1,4 +1,4 @@
-# Change port
+# Change port; run-nginx.sh removes the IPv6 listen at runtime when IPv6 is disabled via sysctl.
 /listen/s%80%8888 default_server%
 
 # One worker only
