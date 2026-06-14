@@ -64,8 +64,10 @@ universal_json_settings='// vscode settings are written in json-with-comments
   "chat.disableAIFeatures": true,
 
   // RHOAIENG-14518: Disable the "Do you trust the authors [...]" startup prompt
-  "security.workspace.trust.enabled": false,
-  "security.workspace.trust.startupPrompt": "never"
+  // RHAIENG-5653: Re-enable Workspace Trust for defense-in-depth (CWE-829)
+  "security.workspace.trust.enabled": true,
+  "security.workspace.trust.startupPrompt": "never",
+  "security.workspace.trust.emptyWindow": true
 }'
 
 # Define python debugger settings
