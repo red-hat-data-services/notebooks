@@ -4,9 +4,10 @@ import base64
 from datetime import datetime, timedelta, timezone
 from typing import TYPE_CHECKING
 
+import pytest
+
 from scripts.cve.jira_auth import (
     JiraAuthError,
-    _basic_auth_header,
     _not_expired,
     _parse_expires_at,
     _pkce_pair,
@@ -15,23 +16,6 @@ from scripts.cve.jira_auth import (
 
 if TYPE_CHECKING:
     from pytest import MonkeyPatch, Subtests
-
-
-# ── _basic_auth_header ────────────────────────────────────────────────
-
-
-def test_basic_auth_header_encodes_correctly() -> None:
-    headers = _basic_auth_header("user@example.com", "my-token")
-    auth = headers["Authorization"]
-    assert auth.startswith("Basic ")
-    decoded = base64.b64decode(auth.split(" ", 1)[1]).decode("utf-8")
-    assert decoded == "user@example.com:my-token"
-
-
-def test_basic_auth_header_special_chars() -> None:
-    headers = _basic_auth_header("user@example.com", "tok:en+with/specials=")
-    decoded = base64.b64decode(headers["Authorization"].split(" ", 1)[1]).decode("utf-8")
-    assert decoded == "user@example.com:tok:en+with/specials="
 
 
 # ── _pkce_pair ────────────────────────────────────────────────────────
@@ -149,12 +133,8 @@ def test_get_auth_headers_raises_when_only_email(monkeypatch: MonkeyPatch) -> No
     monkeypatch.delenv("JIRA_TOKEN", raising=False)
     monkeypatch.delenv("JIRA_OAUTH_CLIENT_SECRET", raising=False)
 
-    try:
+    with pytest.raises(JiraAuthError, match=r"JIRA_EMAIL.*JIRA_API_TOKEN"):
         get_auth_headers("https://redhat.atlassian.net")
-        assert False, "Expected JiraAuthError"
-    except JiraAuthError as exc:
-        assert "JIRA_EMAIL" in str(exc)
-        assert "JIRA_API_TOKEN" in str(exc)
 
 
 def test_get_auth_headers_raises_when_only_token(monkeypatch: MonkeyPatch) -> None:
@@ -164,11 +144,8 @@ def test_get_auth_headers_raises_when_only_token(monkeypatch: MonkeyPatch) -> No
     monkeypatch.delenv("JIRA_TOKEN", raising=False)
     monkeypatch.delenv("JIRA_OAUTH_CLIENT_SECRET", raising=False)
 
-    try:
+    with pytest.raises(JiraAuthError, match="JIRA_EMAIL"):
         get_auth_headers("https://redhat.atlassian.net")
-        assert False, "Expected JiraAuthError"
-    except JiraAuthError as exc:
-        assert "JIRA_EMAIL" in str(exc)
 
 
 def test_get_auth_headers_raises_when_no_creds(monkeypatch: MonkeyPatch) -> None:
@@ -178,8 +155,5 @@ def test_get_auth_headers_raises_when_no_creds(monkeypatch: MonkeyPatch) -> None
     monkeypatch.delenv("JIRA_TOKEN", raising=False)
     monkeypatch.delenv("JIRA_OAUTH_CLIENT_SECRET", raising=False)
 
-    try:
+    with pytest.raises(JiraAuthError, match="No Jira authentication credentials found"):
         get_auth_headers("https://redhat.atlassian.net")
-        assert False, "Expected JiraAuthError"
-    except JiraAuthError as exc:
-        assert "No Jira authentication credentials found" in str(exc)
