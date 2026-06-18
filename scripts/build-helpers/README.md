@@ -155,7 +155,7 @@ workbench_configure_variant() {
 | Issue | Fix |
 |-------|-----|
 | `This system has no repositories available through subscriptions` | Run `rstudio rhel9 setup` first; re-run `verify` |
-| flexiblas RHEL vs UBI conflict on rhel9 build | With entitlements mounted, both RHEL and UBI repos are visible during `Dockerfile.cpu` build. Add `--disablerepo='ubi-*'` to the flexiblas `dnf install` line locally if needed (upstream Dockerfile change is separate from this helper PR) |
+| flexiblas RHEL vs UBI conflict on rhel9 build | Fixed in `Dockerfile.cpu` via `--disablerepo='ubi-*'` on the flexiblas install line (needed when entitlements expose both RHEL and UBI repos) |
 | `gmake` target not found | Check `VARIANT_PYTHON_VERSION` matches an existing Makefile target (c9s only) |
 | Slow build on Apple Silicon | Expected — images build for `linux/amd64` |
 
