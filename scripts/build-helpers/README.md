@@ -26,7 +26,7 @@ From the repository root:
 ./scripts/build-helpers/build-local.sh rstudio c9s build
 ./scripts/build-helpers/build-local.sh rstudio c9s run
 
-# RStudio on RHEL 9 (subscription required)
+# RStudio on RHEL 9 (subscription required, uses Dockerfile.konflux.cpu)
 export RH_ORG="your-org-id"
 export RH_ACTIVATION_KEY="your-activation-key"
 ./scripts/build-helpers/build-local.sh rstudio rhel9 all
@@ -46,7 +46,7 @@ Open in browser:
 |---------|-------------|
 | `setup` | Prepare environment (pull base image, or register RH subscription) |
 | `verify` | Confirm prerequisites before build |
-| `build` | Run `gmake` for the selected image |
+| `build` | Build the selected image |
 | `run` | Start the built container interactively |
 | `run-nbprefix` | Run with `NB_PREFIX` for ingress routing tests |
 | `all` | `setup` → `verify` → `build` |
@@ -70,7 +70,7 @@ Built image tag pattern:
 ${IMAGE_REGISTRY}:${MAKE_TARGET}-${RELEASE}_YYYYMMDD
 ```
 
-Example: `localhost/rhoai-local:rstudio-c9s-python-3.11-localtest_20260618`
+Example: `localhost/rhoai-local:rstudio-rhel9-python-3.11-localtest_20260618`
 
 ## Layout
 
@@ -89,12 +89,18 @@ scripts/build-helpers/
 
 ### `rstudio`
 
-| Variant | Subscription | Make target | Notes |
-|---------|--------------|-------------|-------|
-| `c9s` | No | `rstudio-c9s-python-3.11` | Public CentOS Stream base |
-| `rhel9` | Yes | `rstudio-rhel9-python-3.11` | Needs activation key + entitlements |
+| Variant | Subscription | Dockerfile | Build path |
+|---------|--------------|------------|------------|
+| `c9s` | No | `Dockerfile.cpu` | `gmake rstudio-c9s-python-3.11` |
+| `rhel9` | Yes | `Dockerfile.konflux.cpu` | Direct `podman build` via `sandbox.py` + `build-args/cpu.conf` |
 
-RHEL9 local builds with subscription entitlements mount both RHEL and UBI repos; `Dockerfile.cpu` uses `--disablerepo='ubi-*'` on the flexiblas install line to avoid package version conflicts.
+RHEL9 builds match the Konflux pipeline layout:
+
+- **Dockerfile:** `rstudio/rhel9-python-3.11/Dockerfile.konflux.cpu`
+- **Build args:** `rstudio/rhel9-python-3.11/build-args/cpu.conf` (`BASE_IMAGE`, `RSTUDIO_SOURCE_CODE`)
+- **Entitlements:** mounted into the build so `subscription-manager` can enable codeready-builder
+
+When both RHEL subscription repos and injected UBI repos are visible, `Dockerfile.konflux.cpu` disables UBI for the flexiblas install step only.
 
 ### `codeserver` (scaffold)
 
@@ -125,6 +131,10 @@ workbench_configure_variant() {
       RUN_PATH="/"
       NB_PREFIX_NOTEBOOK="my-notebook"
       NEEDS_SUBSCRIPTION=0   # or 1
+      # For Konflux-style builds (optional):
+      # USE_DIRECT_BUILD=1
+      # DOCKERFILE="path/to/Dockerfile.konflux.cpu"
+      # BUILD_ARGS_FILE="path/to/build-args/cpu.conf"
       ;;
   esac
 }
@@ -138,8 +148,9 @@ workbench_configure_variant() {
 | `workbench_post_setup` | After setup |
 | `workbench_pre_verify` | Before verify |
 | `workbench_post_verify` | After verify |
-| `workbench_pre_build` | Before gmake (use to gate unfinished workbenches) |
+| `workbench_pre_build` | Before build (use to gate unfinished workbenches) |
 | `workbench_post_build` | After successful build |
+| `workbench_extra_build_args` | Emit extra `--build-arg` lines for direct builds |
 
 3. Verify it appears in `--list` and test:
 
@@ -153,8 +164,8 @@ workbench_configure_variant() {
 | Issue | Fix |
 |-------|-----|
 | `This system has no repositories available through subscriptions` | Run `rstudio rhel9 setup` first; re-run `verify` |
-| flexiblas RHEL vs UBI conflict on rhel9 build | Ensure `Dockerfile.cpu` includes `--disablerepo='ubi-*'` on the flexiblas `dnf install` line (included in this PR) |
-| `gmake` target not found | Check `VARIANT_PYTHON_VERSION` matches an existing Makefile target |
+| flexiblas RHEL vs UBI conflict on rhel9 build | Ensure entitlements are mounted; Konflux Dockerfile disables UBI repos when `subscription-manager identity` succeeds |
+| `gmake` target not found | Check `VARIANT_PYTHON_VERSION` matches an existing Makefile target (c9s only) |
 | Slow build on Apple Silicon | Expected — images build for `linux/amd64` |
 
 ## Cleanup

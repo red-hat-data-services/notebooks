@@ -25,7 +25,11 @@ RUN_PATH=""
 NB_PREFIX_NOTEBOOK=""
 VARIANT_PYTHON_VERSION=""
 NEEDS_SUBSCRIPTION=0
+USE_DIRECT_BUILD=0
+DOCKERFILE=""
+BUILD_ARGS_FILE=""
 IMAGE=""
+BUILD_DATE="${BUILD_DATE:-$(date +%Y%m%d)}"
 
 log() { printf '==> %s\n' "$*"; }
 warn() { printf 'WARNING: %s\n' "$*" >&2; }
@@ -190,6 +194,7 @@ setup_variant() {
     ensure_rh_registry_login
     register_entitlements
     configure_podman_mounts
+    pull_base_image
   else
     pull_base_image
     log "No subscription required for this variant."
@@ -211,9 +216,63 @@ verify_variant() {
   run_workbench_hook post_verify
 }
 
+read_build_args_conf() {
+  local conf="${REPO_ROOT}/${1}"
+  [[ -f "${conf}" ]] || die "Build args file not found: ${conf}"
+  local line key value
+  while IFS= read -r line || [[ -n "${line}" ]]; do
+    [[ "${line}" =~ ^[[:space:]]*# ]] && continue
+    [[ -z "${line//[[:space:]]/}" ]] && continue
+    key="${line%%=*}"
+    value="${line#*=}"
+    key="${key#"${key%%[![:space:]]*}"}"
+    key="${key%"${key##*[![:space:]]}"}"
+    value="${value#"${value%%[![:space:]]*}"}"
+    value="${value%"${value##*[![:space:]]}"}"
+    printf '%s\n' "--build-arg" "${key}=${value}"
+  done < "${conf}"
+}
+
+build_image_from_dockerfile() {
+  [[ -n "${DOCKERFILE:-}" ]] || die "DOCKERFILE is not set for direct build."
+  [[ -n "${BUILD_ARGS_FILE:-}" ]] || die "BUILD_ARGS_FILE is not set for direct build."
+
+  local dockerfile_path="${REPO_ROOT}/${DOCKERFILE}"
+  [[ -f "${dockerfile_path}" ]] || die "Dockerfile not found: ${dockerfile_path}"
+
+  local image_name="${IMAGE_REGISTRY}:${MAKE_TARGET}-${RELEASE}_${BUILD_DATE}"
+  local -a build_args=()
+  local arg
+
+  while IFS= read -r arg; do
+    build_args+=("${arg}")
+  done < <(read_build_args_conf "${BUILD_ARGS_FILE}")
+
+  if declare -F workbench_extra_build_args >/dev/null 2>&1; then
+    while IFS= read -r arg; do
+      build_args+=("${arg}")
+    done < <(workbench_extra_build_args)
+  fi
+
+  local -a cache_args=()
+  if [[ "${NEEDS_SUBSCRIPTION}" == "1" ]]; then
+    # shellcheck disable=SC2206
+    cache_args=($(entitlement_build_args))
+  fi
+
+  log "Building ${image_name} from ${DOCKERFILE} (platform=${PLATFORM}, this may take 30-60+ min on Apple Silicon)..."
+  "${REPO_ROOT}/scripts/sandbox.py" --dockerfile "${DOCKERFILE}" --platform "${PLATFORM}" -- \
+    podman build "${cache_args[@]}" --platform="${PLATFORM}" \
+    --label "release=${RELEASE}" \
+    --tag "${image_name}" \
+    --file "${DOCKERFILE}" \
+    "${build_args[@]}" {}
+
+  IMAGE="${image_name}"
+}
+
 build_image() {
   ensure_repo
-  ensure_gmake
   ensure_podman
   run_workbench_hook pre_build
 
@@ -221,22 +280,27 @@ build_image() {
     verify_entitlements
   fi
 
-  local -a gmake_extra=()
-  if [[ "${NEEDS_SUBSCRIPTION}" == "1" ]]; then
-    gmake_extra=(-e CONTAINER_BUILD_CACHE_ARGS="$(entitlement_build_args)")
+  if [[ "${USE_DIRECT_BUILD}" == "1" ]]; then
+    build_image_from_dockerfile
   else
-    gmake_extra=(-e CONTAINER_BUILD_CACHE_ARGS="")
+    ensure_gmake
+    local -a gmake_extra=()
+    if [[ "${NEEDS_SUBSCRIPTION}" == "1" ]]; then
+      gmake_extra=(-e CONTAINER_BUILD_CACHE_ARGS="$(entitlement_build_args)")
+    else
+      gmake_extra=(-e CONTAINER_BUILD_CACHE_ARGS="")
+    fi
+
+    log "Building ${MAKE_TARGET} (platform=${PLATFORM}, this may take 30-60+ min on Apple Silicon)..."
+    "${GMAKE}" "${MAKE_TARGET}" \
+      -e RELEASE_PYTHON_VERSION="${VARIANT_PYTHON_VERSION}" \
+      -e IMAGE_REGISTRY="${IMAGE_REGISTRY}" \
+      -e RELEASE="${RELEASE}" \
+      -e PUSH_IMAGES=no \
+      "${gmake_extra[@]}"
+    resolve_image
   fi
 
-  log "Building ${MAKE_TARGET} (platform=${PLATFORM}, this may take 30-60+ min on Apple Silicon)..."
-  "${GMAKE}" "${MAKE_TARGET}" \
-    -e RELEASE_PYTHON_VERSION="${VARIANT_PYTHON_VERSION}" \
-    -e IMAGE_REGISTRY="${IMAGE_REGISTRY}" \
-    -e RELEASE="${RELEASE}" \
-    -e PUSH_IMAGES=no \
-    "${gmake_extra[@]}"
-
-  resolve_image
   log "Build complete: ${IMAGE}"
   run_workbench_hook post_build
 }
