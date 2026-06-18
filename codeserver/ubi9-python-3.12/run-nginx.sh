@@ -45,4 +45,13 @@ if [ "$(cat /proc/sys/net/ipv6/conf/all/disable_ipv6 2>/dev/null)" = "1" ]; then
     rm -f "$tmp"
 fi
 
+# Relative return 302 paths must emit relative Location headers; otherwise nginx
+# expands them with the container listen port (8888) and breaks port-mapped clients.
+if ! grep -q 'absolute_redirect off' /etc/nginx/nginx.conf; then
+    tmp=$(mktemp)
+    sed '/server {/a\        absolute_redirect off;' /etc/nginx/nginx.conf > "$tmp"
+    cat "$tmp" > /etc/nginx/nginx.conf
+    rm -f "$tmp"
+fi
+
 nginx
