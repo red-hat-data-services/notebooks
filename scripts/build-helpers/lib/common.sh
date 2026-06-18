@@ -267,7 +267,7 @@ build_image_from_dockerfile() {
     --label "release=${RELEASE}" \
     --tag "${image_name}" \
     --file "${DOCKERFILE}" \
-    "${build_args[@]}" {}
+    "${build_args[@]}" '{};'
 
   IMAGE="${image_name}"
 }
