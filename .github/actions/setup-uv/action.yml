@@ -27,5 +27,9 @@ runs:
         version-file: pyproject.toml
         enable-cache: true
         cache-dependency-glob: "uv.lock"
-      env:
-        UV_PYTHON_PREFERENCE: only-system
+
+    - name: Configure uv to use installed Python
+      shell: bash
+      run: |
+        echo "UV_PYTHON=$(python -c 'import sys; print(sys.executable)')" >> "$GITHUB_ENV"
+        echo "UV_PYTHON_PREFERENCE=only-system" >> "$GITHUB_ENV"

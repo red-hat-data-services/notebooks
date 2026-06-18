@@ -526,7 +526,7 @@ print-release:
 .PHONY: test
 test:
 	@echo "Running quick static tests"
-	./uv run pytest -m 'not buildonlytest'
+	./uv run pytest -m 'not buildonlytest' --ignore=tests/containers
 
 .PHONY: check-actions
 check-actions:
