@@ -46,7 +46,7 @@ require_subscription_env() {
 
 ensure_repo() {
   [[ -f "${REPO_ROOT}/Makefile" ]] || die "REPO_ROOT does not look like the notebooks repo: ${REPO_ROOT}"
-  cd "${REPO_ROOT}"
+  cd "${REPO_ROOT}" || die "Failed to cd to REPO_ROOT: ${REPO_ROOT}"
 }
 
 ensure_gmake() {
@@ -138,9 +138,8 @@ pull_base_image() {
 register_entitlements() {
   require_subscription_env
   mkdir -p "${ENTITLEMENT_DIR}" "${CONSUMER_DIR}"
-  chmod 755 "${ENTITLEMENT_DIR}" "${CONSUMER_DIR}"
 
-  log "Registering subscription (org=${RH_ORG}, activation key=${RH_ACTIVATION_KEY})..."
+  log "Registering Red Hat subscription for org ${RH_ORG}..."
   podman run --platform "${PLATFORM}" \
     -v "${ENTITLEMENT_DIR}:/etc/pki/entitlement:Z" \
     -v "${CONSUMER_DIR}:/etc/pki/consumer:Z" \
@@ -256,8 +255,10 @@ build_image_from_dockerfile() {
 
   local -a cache_args=()
   if [[ "${NEEDS_SUBSCRIPTION}" == "1" ]]; then
-    # shellcheck disable=SC2206
-    cache_args=($(entitlement_build_args))
+    cache_args=(
+      -v "${ENTITLEMENT_DIR}:/etc/pki/entitlement:ro"
+      -v "${CONSUMER_DIR}:/etc/pki/consumer:ro"
+    )
   fi
 
   log "Building ${image_name} from ${DOCKERFILE} (platform=${PLATFORM}, this may take 30-60+ min on Apple Silicon)..."
