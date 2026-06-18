@@ -94,7 +94,7 @@ scripts/build-helpers/
 | `c9s` | No | `rstudio-c9s-python-3.11` | Public CentOS Stream base |
 | `rhel9` | Yes | `rstudio-rhel9-python-3.11` | Needs activation key + entitlements |
 
-RHEL9 local builds may require `--disablerepo='ubi-*'` on the flexiblas install line in `Dockerfile.cpu` when both RHEL and UBI repos are enabled via entitlements.
+RHEL9 local builds with subscription entitlements mount both RHEL and UBI repos; `Dockerfile.cpu` uses `--disablerepo='ubi-*'` on the flexiblas install line to avoid package version conflicts.
 
 ### `codeserver` (scaffold)
 
@@ -153,7 +153,7 @@ workbench_configure_variant() {
 | Issue | Fix |
 |-------|-----|
 | `This system has no repositories available through subscriptions` | Run `rstudio rhel9 setup` first; re-run `verify` |
-| flexiblas RHEL vs UBI conflict on rhel9 build | Add `--disablerepo='ubi-*'` to flexiblas `dnf install` in `Dockerfile.cpu` |
+| flexiblas RHEL vs UBI conflict on rhel9 build | Ensure `Dockerfile.cpu` includes `--disablerepo='ubi-*'` on the flexiblas `dnf install` line (included in this PR) |
 | `gmake` target not found | Check `VARIANT_PYTHON_VERSION` matches an existing Makefile target |
 | Slow build on Apple Silicon | Expected — images build for `linux/amd64` |
 
