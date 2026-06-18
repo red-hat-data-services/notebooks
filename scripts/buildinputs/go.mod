@@ -1,6 +1,6 @@
 module dockerfile
 
-go 1.25.5
+go 1.25.1
 
 require (
 	github.com/containerd/platforms v1.0.0-rc.2
