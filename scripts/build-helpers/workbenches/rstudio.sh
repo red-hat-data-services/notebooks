@@ -24,15 +24,12 @@ workbench_configure_variant() {
     rhel9)
       VARIANT_PYTHON_VERSION=3.11
       MAKE_TARGET="rstudio-rhel9-python-${VARIANT_PYTHON_VERSION}"
-      DOCKERFILE="rstudio/rhel9-python-${VARIANT_PYTHON_VERSION}/Dockerfile.konflux.cpu"
-      BUILD_ARGS_FILE="rstudio/rhel9-python-${VARIANT_PYTHON_VERSION}/build-args/cpu.conf"
       BASE_IMAGE="${RHEL9_BASE_IMAGE}"
       VOLUME_NAME="rstudio-rhel9-home"
       CONTAINER_PORT=8888
       RUN_PATH="/rstudio/"
       NB_PREFIX_NOTEBOOK="my-rstudio"
       NEEDS_SUBSCRIPTION=1
-      USE_DIRECT_BUILD=1
       ;;
   esac
 }

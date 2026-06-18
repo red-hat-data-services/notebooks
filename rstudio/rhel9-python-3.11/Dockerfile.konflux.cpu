@@ -62,7 +62,7 @@ WORKDIR /opt/app-root/src
 #####################
 FROM cpu-base AS cpu-rstudio
 
-ARG RSTUDIO_SOURCE_CODE=rstudio/rhel9-python-3.11
+ARG RSTUDIO_SOURCE_CODE=rstudio/rhel9-python-3.12
 ARG TARGETARCH
 
 WORKDIR /opt/app-root/bin
@@ -136,11 +136,7 @@ chmod 1777 /var/run/rstudio-server
 mkdir -p /usr/share/doc/R
 # package installation
 # install necessary texlive-framed package to make Knit R markup to PDF rendering possible
-if subscription-manager identity &>/dev/null; then
-  dnf install -y --disablerepo='ubi-*' libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed
-else
-  dnf install -y libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed
-fi
+dnf install -y libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed
 # install npm to run cve_remediation script
 dnf install -y npm
 dnf clean all
@@ -251,7 +247,7 @@ echo "Installing softwares and packages"
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
 # Fix permissions to support pip in Openshift environments
-chmod -R g+w /opt/app-root/lib/python3.11/site-packages
+chmod -R g+w /opt/app-root/lib/python3.12/site-packages
 fix-permissions /opt/app-root -P
 EOF
 
