@@ -112,7 +112,7 @@ def main():
         "Install the oc client": textwrap.dedent(r"""
             RUN /bin/bash <<'EOF'
             set -Eeuxo pipefail
-            curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
+            curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable-4.21/openshift-client-linux.tar.gz \
                 -o /tmp/openshift-client-linux.tar.gz
             tar -xzvf /tmp/openshift-client-linux.tar.gz oc
             rm -f /tmp/openshift-client-linux.tar.gz
