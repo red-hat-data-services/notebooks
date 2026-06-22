@@ -65,6 +65,29 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" ||"$ARCH" == "ppc64le" ]]; then
 	source ${NVM_DIR}/nvm.sh
 	while IFS= read -r src_patch; do echo "patches/$src_patch"; patch -p1 < "patches/$src_patch"; done < patches/series
 	nvm use ${NODE_VERSION}
+
+	# Fix ppc64le builds after Code Server v4.105.0+: @vscode/vsce-sign has no binary for this arch.
+	if [[ "$ARCH" == "ppc64le" ]]; then
+		vsceSignVersion=$(jq -r '.packages["node_modules/@vscode/vsce-sign"].version' lib/vscode/build/package-lock.json)
+		patchdir=$(mktemp -d)
+		extracted="$patchdir/extracted"
+		mkdir -p "$extracted"
+		npm pack "@vscode/vsce-sign@${vsceSignVersion}" --pack-destination="$patchdir"
+		tar -xzf "$patchdir/vscode-vsce-sign-${vsceSignVersion}.tgz" -C "$extracted" --strip-components=1
+		mv "$extracted/src/postinstall.js" "$extracted/src/postinstall.orig.js"
+		cat > "$extracted/src/postinstall.js" <<-'EOL'
+const platform = process.platform;
+const arch = process.arch;
+if (platform === 'linux' && /ppc64|s390x/.test(arch)) process.exit(0);
+require('./postinstall.orig.js');
+EOL
+		patchedTarball=$(npm pack "$extracted" --pack-destination="$patchdir")
+		jq --arg pkg "file:${patchdir}/${patchedTarball}" \
+			'.overrides = ((.overrides // {}) + {"@vscode/vsce-sign": $pkg})' \
+			lib/vscode/build/package.json > lib/vscode/build/package.json.tmp
+		mv lib/vscode/build/package.json.tmp lib/vscode/build/package.json
+	fi
+
 	npm install
 	npm run build
 	VERSION=${CODESERVER_VERSION/v/} npm run build:vscode
