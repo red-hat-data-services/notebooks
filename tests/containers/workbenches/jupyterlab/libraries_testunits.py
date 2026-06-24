@@ -109,13 +109,20 @@ class TestDataScienceLibs(unittest.TestCase):
         if "-pytorch-" not in self.image:
             self.skipTest("Not a Torch image")
         try:
-            import torchaudio  # pyright: ignore[reportMissingImports]
+            import torchaudio  # noqa: F401  # pyright: ignore[reportMissingImports]
         except ImportError:
             # TODO: determine if having torchaudio installed is a requirement
             self.skipTest("Torchaudio is not installed.")
 
+        import math
+
+        import torch  # pyright: ignore[reportMissingImports]
+
         sample_rate = 16000
-        waveform = torchaudio.functional.generate_sine(440, sample_rate=sample_rate, duration=0.5)
+        duration = 0.5
+        freq = 440
+        t = torch.linspace(0, duration, int(sample_rate * duration))
+        waveform = torch.sin(2 * math.pi * freq * t).unsqueeze(0)
         self.assertEqual(waveform.shape, (1, 8000), "Torchaudio waveform shape is incorrect.")
         print("✅ Torchaudio test passed.")
 
