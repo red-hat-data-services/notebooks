@@ -26,7 +26,8 @@ dependencies = [
 
     # Base packages
     "wheel",
-    "setuptools",
+    # RHAIENG-5847: setuptools>=81 emits pkg_resources deprecation UserWarning via google namespace packages
+    "setuptools<81",
 ]
 
 [[tool.uv.index]]
