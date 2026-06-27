@@ -23,7 +23,7 @@ dependencies = [
     "scikit-learn~=1.7.2",
     "scipy~=1.16.2",
     "skl2onnx~=1.19.1",
-    "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
+    "onnxconverter-common>=1.16.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
     "feast~=0.59.0",
 
     # DB connectors
