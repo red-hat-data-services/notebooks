@@ -74,8 +74,8 @@ ARG SERVERURL_DEFAULT=""
 ARG BASEURL_DEFAULT=""
 # TILL HERE
 
-LABEL name="rhoai/odh-workbench-rstudio-minimal-cuda-py312-rhel9" \
-      com.redhat.component="odh-workbench-rstudio-minimal-cuda-py312-rhel9" \
+LABEL name="rhoai/odh-workbench-rstudio-minimal-cuda-py311-rhel9" \
+      com.redhat.component="odh-workbench-rstudio-minimal-cuda-py311-rhel9" \
       summary="RStudio Server CUDA image with python 3.11 based on Red Hat Enterprise Linux 9" \
       description="RStudio Server CUDA image with python 3.11 based on Red Hat Enterprise Linux 9" \
       maintainer="Red Hat AI Notebooks Team" \
