@@ -9,6 +9,9 @@ runs:
       run: |
         set -x
         df -h
+        sudo docker system prune -af  || true
+        sudo apt-get clean
+        sudo rm -rf /tmp/*
         sudo apt-get update
         sudo apt-get purge -y '^dotnet-.*' '^llvm-.*' 'php.*' '^mongodb-.*'
         sudo apt-get autoremove -y --purge
