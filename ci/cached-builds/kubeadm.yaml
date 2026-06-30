@@ -23,7 +23,7 @@ nodeRegistration:
   imagePullSerial: true
   taints: []
   kubeletExtraArgs:
-    # Need to have enough disk space for Kubelet, so move root-dir on the LVM volume
+    # Need to have enough disk space for Kubelet on the scratch volume when available
     # Note: the internets discourage from changing the default because storage plugins may then struggle
     #  https://cep.dev/posts/adventure-trying-change-kubelet-rootdir/
     - name: root-dir

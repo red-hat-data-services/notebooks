@@ -21,23 +21,18 @@ permissions:
 jobs:
   validation-of-sw-versions-in-imagestreams:
     runs-on: ubuntu-latest
-    env:
-      # Some pieces of code (image pulls for example) in podman consult TMPDIR or default to /var/tmp
-      TMPDIR: /home/runner/.local/share/containers/tmpdir
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
         with:
           persist-credentials: false
 
-      - name: Mount lvm overlay for podman operations
+      - name: Prepare build environment
         run: |
+          set -Eeuxo pipefail
           df -h
           free -h
-
-          bash ./ci/cached-builds/gha_lvm_overlay.sh
-
-          df -h
-          free -h
+          sudo mkdir -p /mnt/containers/storage
+          sudo chown -R "${USER}:${USER}" /mnt/containers/storage
 
       - name: Configure Podman
         run: |
@@ -46,12 +41,9 @@ jobs:
           sudo cp ci/cached-builds/storage.conf /etc/containers/storage.conf
 
           # should reset storage when changing storage.conf
-          sudo mkdir -p $HOME/.local/share/containers/storage/tmp
+          sudo mkdir -p /mnt/containers/storage/tmp
           # remote (CONTAINER_HOST) podman does not do reset (and refuses --force option)
           sudo podman system reset --force
-          # podman running as service ignores the TMPDIR env var here, let's give it a bind-mount to /var/tmp
-          sudo mkdir -p $TMPDIR
-          sudo mount --bind -o rw,noexec,nosuid,nodev,bind $TMPDIR /var/tmp
 
           # quick check that podman works
           sudo podman info
