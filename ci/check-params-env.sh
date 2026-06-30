@@ -832,12 +832,6 @@ process_file() {
             continue
         }
 
-        if [[ "${IMAGE_URL}" == registry.redhat.io/* ]]; then
-            echo "Skipping image validation for '${IMAGE_VARIABLE}' (registry.redhat.io image; no CI credentials)"
-            echo "------------------------"
-            continue
-        fi
-
         if [[ "${IMAGE_URL}" == "dummy" ]]; then
             if [[ "${1}" == "${PARAMS_LATEST_ENV_PATH}" ]]; then
                 echo "Skipping image validation for '${IMAGE_VARIABLE}' (dummy placeholder)"
