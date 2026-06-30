@@ -69,7 +69,7 @@ function check_variables_uniq() {
     if test "${allow_value_duplicity}" = "false"; then
         echo "Checking that all values assigned to variables in the file '${env_file_path_1}' & '${env_file_path_2}' are unique and expected"
 
-        content=$(sed '/^$/d' "${env_file_path_1}" "${env_file_path_2}" | sed 's#\(.*\)=.*#\1#' | sort)
+        content=$(sed '/^$/d;/^[[:space:]]*#/d' "${env_file_path_1}" "${env_file_path_2}" | sed 's#.*=##' | grep -v '^dummy$' | sort)
 
         local num_values
         num_values=$(echo "${content}" | wc -l)
@@ -738,6 +738,8 @@ process_file() {
     while IFS= read -r LINE; do
         # If the line is empty, skip to the next one
         [[ -z "$LINE" ]] && continue
+        # Skip shell-style comments (common in params.env headers)
+        [[ "${LINE}" =~ ^[[:space:]]*# ]] && continue
 
         echo "Checking format of: '${LINE}'"
         [[ "${LINE}" = *[[:space:]]* ]] && {
@@ -769,6 +771,18 @@ process_file() {
             local_ret_code=1
             continue
         }
+
+        if [[ "${IMAGE_URL}" == "dummy" ]]; then
+            if [[ "${1}" == "${PARAMS_LATEST_ENV_PATH}" ]]; then
+                echo "Skipping image validation for '${IMAGE_VARIABLE}' (dummy placeholder)"
+                echo "------------------------"
+                continue
+            fi
+            echo "ERROR: dummy placeholder is only allowed in '${PARAMS_LATEST_ENV_PATH}'"
+            echo "------------------------"
+            local_ret_code=1
+            continue
+        fi
 
         check_image "${IMAGE_VARIABLE}" "${IMAGE_URL}" || {
             echo "ERROR: Image definition for '${IMAGE_VARIABLE}' isn't okay!"
