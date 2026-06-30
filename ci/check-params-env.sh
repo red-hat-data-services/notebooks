@@ -121,9 +121,9 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             ;;
         odh-workbench-jupyter-minimal-cpu-py311-ubi9-n-1)
             expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="jupyter-minimal-ubi9-python-3.11-amd64"
-            expected_img_size=528
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=1258
             ;;
         odh-workbench-jupyter-minimal-cpu-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.11"
@@ -174,10 +174,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=5614
             ;;
         odh-workbench-jupyter-minimal-cuda-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="cuda-jupyter-minimal-ubi9-python-3.11-amd64"
-            expected_img_size=5157
+            expected_name="rhoai/odh-workbench-jupyter-minimal-cuda-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=3399
             ;;
         odh-workbench-jupyter-minimal-cuda-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.11"
@@ -222,10 +222,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=9224
             ;;
         odh-workbench-jupyter-pytorch-cuda-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-pytorch-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="jupyter-pytorch-ubi9-python-3.11-amd64"
-            expected_img_size=8571
+            expected_name="rhoai/odh-workbench-jupyter-pytorch-cuda-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=7015
             ;;
         odh-workbench-jupyter-pytorch-cuda-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-pytorch-ubi9-python-3.11"
@@ -270,10 +270,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=1665
             ;;
         odh-workbench-jupyter-datascience-cpu-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-datascience-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="jupyter-datascience-ubi9-python-3.11-amd64"
-            expected_img_size=961
+            expected_name="rhoai/odh-workbench-jupyter-datascience-cpu-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=1708
             ;;
         odh-workbench-jupyter-datascience-cpu-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-datascience-ubi9-python-3.11"
@@ -324,10 +324,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=8638
             ;;
         odh-workbench-jupyter-tensorflow-cuda-py311-ubi9-n-1)
-            expected_name="odh-notebook-cuda-jupyter-tensorflow-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="cuda-jupyter-tensorflow-ubi9-python-3.11-amd64"
-            expected_img_size=8211
+            expected_name="rhoai/odh-workbench-jupyter-tensorflow-cuda-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=6429
             ;;
         odh-workbench-jupyter-tensorflow-cuda-py311-ubi9-n-2)
             expected_name="odh-notebook-cuda-jupyter-tensorflow-ubi9-python-3.11"
@@ -372,10 +372,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=5010
             ;;
         odh-workbench-jupyter-trustyai-cpu-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-trustyai-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="jupyter-trustyai-ubi9-python-3.11-amd64"
-            expected_img_size=4197
+            expected_name="rhoai/odh-workbench-jupyter-trustyai-cpu-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=5058
             ;;
         odh-workbench-jupyter-trustyai-cpu-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-trustyai-ubi9-python-3.11"
@@ -414,10 +414,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=893
             ;;
         odh-workbench-codeserver-datascience-cpu-py311-ubi9-n-1)
-            expected_name="odh-notebook-code-server-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="codeserver-ubi9-python-3.11-amd64"
-            expected_img_size=893
+            expected_name="rhoai/odh-workbench-codeserver-datascience-cpu-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=1017
             ;;
         odh-workbench-codeserver-datascience-cpu-py311-ubi9-n-2)
             expected_name="odh-notebook-code-server-ubi9-python-3.11"
@@ -456,10 +456,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=6480
             ;;
         odh-workbench-jupyter-minimal-rocm-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="rocm-jupyter-minimal-ubi9-python-3.11-amd64"
-            expected_img_size=4830
+            expected_name="rhoai/odh-workbench-jupyter-minimal-rocm-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=6519
             ;;
         odh-workbench-jupyter-minimal-rocm-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-minimal-ubi9-python-3.11"
@@ -480,10 +480,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=8133
             ;;
         odh-workbench-jupyter-pytorch-rocm-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-rocm-pytorch-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="rocm-jupyter-pytorch-ubi9-python-3.11-amd64"
-            expected_img_size=6571
+            expected_name="rhoai/odh-workbench-jupyter-pytorch-rocm-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=8177
             ;;
         odh-workbench-jupyter-pytorch-rocm-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-rocm-pytorch-ubi9-python-3.11"
@@ -504,10 +504,10 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             expected_img_size=7430
             ;;
         odh-workbench-jupyter-tensorflow-rocm-py311-ubi9-n-1)
-            expected_name="odh-notebook-jupyter-rocm-tensorflow-ubi9-python-3.11"
-            expected_commitref="release-2024b"
-            expected_build_name="rocm-jupyter-tensorflow-ubi9-python-3.11-amd64"
-            expected_img_size=5782
+            expected_name="rhoai/odh-workbench-jupyter-tensorflow-rocm-py311-rhel9"
+            expected_commitref="main"
+            expected_build_name="konflux"
+            expected_img_size=7473
             ;;
         odh-workbench-jupyter-tensorflow-rocm-py311-ubi9-n-2)
             expected_name="odh-notebook-jupyter-rocm-tensorflow-ubi9-python-3.11"
@@ -598,10 +598,14 @@ function check_image_variable_matches_name_and_commitref_and_size() {
         return 1
     }
 
-    test "${image_commitref}" = "${expected_commitref}" || {
-        echo "Image URL points to an incorrect image: expected commitref '${expected_commitref}'; actual '${image_commitref}'"
-        return 1
-    }
+    # For Konflux images, commitref is empty (label doesn't exist) — skip the check.
+    # For OpenShift-CI images, commitref must match exactly.
+    if test -n "${image_commitref}"; then
+        test "${image_commitref}" = "${expected_commitref}" || {
+            echo "Image URL points to an incorrect image: expected commitref '${expected_commitref}'; actual '${image_commitref}'"
+            return 1
+        }
+    fi
 
     test "${openshift_build_name}" = "${expected_build_name}" || {
         echo "Image URL points to an incorrect image: expected OPENSHIFT_BUILD_NAME '${expected_build_name}'; actual '${openshift_build_name}'"
@@ -664,11 +668,14 @@ function check_image_repo_name() {
     local image_url="${2}"
     local image_variable_filtered=""
     local repository_name=""
+    local image_repo=""
 
     # Line record example:
     # odh-pipeline-runtime-tensorflow-rocm-py311-ubi9-n=quay.io/modh/odh-pipeline-runtime-tensorflow-rocm-py311-ubi9@sha256:ae1ebd1f0b3dd444b5271101a191eb16ec4cc9735c8cab7f836aae5dfe31ae89
-    image_variable_filtered=$(echo "${image_variable}" | sed 's/\(.*\)-n.*/\1/')
-    repository_name=$(echo "${image_url}" | sed 's#.*/\(.*\)@.*#\1#')
+    image_variable_filtered=$(echo "${image_variable}" | sed -E 's/(.*)-([0-9]{4}-[0-9]+|[0-9]+-[0-9]+|n.*)$/\1/' | sed -E 's/-(ubi9|rhel9|c9s)$//')
+    image_repo="${image_url%@*}"
+    image_repo="${image_repo%:*}"
+    repository_name=$(echo "${image_repo##*/}" | sed -E 's/-(ubi9|rhel9|c9s)$//')
 
     test "${image_variable_filtered}" == "${repository_name}" || {
         echo "The image repository name '${repository_name}' doesn't match the filtered image variable value '${image_variable_filtered}'!"
@@ -688,7 +695,7 @@ function check_image() {
     local image_commitref
     local image_created
 
-    image_metadata_config="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --config "docker://${image_url}")" || {
+    image_metadata_config="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --override-arch amd64 --override-os linux --config "docker://${image_url}")" || {
         echo "Couldn't download image config metadata with skopeo tool!"
         return 1
     }
@@ -696,17 +703,28 @@ function check_image() {
         echo "Couldn't parse '.config.Labels.name' from image metadata!"
         return 1
     }
-    image_commit_id=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.config.Labels."io.openshift.build.commit.id"') || {
-        echo "Couldn't parse '.config.Labels."io.openshift.build.commit.id"' from image metadata, maybe this is a Konflux build?"
-        image_commit_id=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.config.Labels."vcs-ref"') || {
-            echo "Couldn't parse '.config.Labels."vcs-ref"' from image metadata!"
+    # Detect build system: Konflux images use vcs-ref, OpenShift-CI uses io.openshift.build.commit.id
+    local build_system
+    if echo "${image_metadata_config}" | jq -e '.config.Labels."io.openshift.build.commit.id"' >/dev/null 2>&1; then
+        build_system="openshift-ci"
+        image_commit_id=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.config.Labels."io.openshift.build.commit.id"') || {
+            echo "OpenShift-CI image: couldn't parse '.config.Labels.\"io.openshift.build.commit.id\"'!"
             return 1
         }
-    }
-    image_commitref=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.config.Labels."io.openshift.build.commit.ref"') || {
-        echo "Couldn't parse '.config.Labels."io.openshift.build.commit.ref"' from image metadata!"
-        return 1
-    }
+        image_commitref=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.config.Labels."io.openshift.build.commit.ref"') || {
+            echo "OpenShift-CI image: couldn't parse '.config.Labels.\"io.openshift.build.commit.ref\"'!"
+            return 1
+        }
+    else
+        build_system="konflux"
+        image_commit_id=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.config.Labels."vcs-ref"') || {
+            echo "Konflux image: couldn't parse '.config.Labels.\"vcs-ref\"'!"
+            return 1
+        }
+        # Konflux images don't have the commitref label
+        image_commitref=""
+    fi
+    echo "Detected build system: ${build_system}"
     image_created=$(echo "${image_metadata_config}" | jq --exit-status --raw-output '.created') || {
         echo "Couldn't parse '.created' from image metadata!"
         return 1
@@ -734,8 +752,11 @@ function check_image() {
     local image_metadata
     local image_size
     local image_size_mb
+    local manifest_digest
+    local image_repo
+    local platform_image_metadata
 
-    image_metadata="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --raw "docker://${image_url}")" || {
+    image_metadata="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --override-arch amd64 --override-os linux --raw "docker://${image_url}")" || {
         echo "Couldn't download image metadata with skopeo tool!"
         return 1
     }
@@ -743,9 +764,23 @@ function check_image() {
     # 'tests/containers/base_image_test.py#test_image_size_change' where we check against the extracted image size.
     # There is no actual reason to compare these different sizes except that in this case we want to do check the
     # image remotely, whereas in the othe test, we have the image present locally on the machine.
-    image_size=$(echo "${image_metadata}" | jq --exit-status '[ .layers[].size ] | add') ||  {
-        echo "Couldn't count image size from image metadata!"
-        return 1
+    image_size=$(echo "${image_metadata}" | jq --exit-status '[ .layers[]?.size ] | add') || {
+        manifest_digest=$(echo "${image_metadata}" | jq --exit-status --raw-output '[.manifests[]? | select(.platform.os=="linux" and .platform.architecture=="amd64") | .digest] | first // empty') || manifest_digest=""
+        if test -n "${manifest_digest}"; then
+            image_repo="${image_url%@*}"
+            image_repo="${image_repo%:*}"
+            platform_image_metadata="$(skopeo inspect --retry-times "${SKOPEO_RETRY}" --override-arch amd64 --override-os linux --raw "docker://${image_repo}@${manifest_digest}")" || {
+                echo "Couldn't download image metadata for manifest digest '${manifest_digest}'!"
+                return 1
+            }
+            image_size=$(echo "${platform_image_metadata}" | jq --exit-status '[ .layers[]?.size ] | add') || {
+                echo "Couldn't count image size from image metadata!"
+                return 1
+            }
+        else
+            echo "Couldn't count image size from image metadata!"
+            return 1
+        fi
     }
     image_size_mb=$((image_size / 1024 / 1024)) ||  {
         echo "Couldn't count image size from image metadata!"
