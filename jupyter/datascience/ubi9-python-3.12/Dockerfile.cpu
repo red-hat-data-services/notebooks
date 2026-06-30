@@ -207,7 +207,7 @@ FROM common-builder AS openblas-builder
 ARG TARGETARCH
 ARG OPENBLAS_VERSION=0.3.30
 WORKDIR /root
-RUN <<'EOF'
+RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
     wget https://github.com/OpenMathLib/OpenBLAS/releases/download/v${OPENBLAS_VERSION}/OpenBLAS-${OPENBLAS_VERSION}.zip
@@ -219,6 +219,7 @@ else
     echo "Skipping OpenBLAS build on non-Power"
 fi
 EOF
+
 ####################
 # jupyter-minimal #
 ####################

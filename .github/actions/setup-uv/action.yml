@@ -1,0 +1,35 @@
+---
+name: 'Setup uv and Python'
+description: 'Install uv (version from pyproject.toml) and Python (version from .python-version) with caching'
+runs:
+  using: composite
+  steps:
+    - name: Read Python version from .python-version
+      id: python-version
+      shell: python3 {0}
+      run: |
+        import os, pathlib
+        version = pathlib.Path(".python-version").read_text().strip().split("\n")[0]
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            print(f"version={version}", file=f)
+
+    # Use the GitHub-hosted Python interpreter so pydantic works with typing._eval_type
+    # (uv-managed CPython 3.14.0rc2 lacks prefer_fwd_module and breaks test collection).
+    - name: Install Python
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+      with:
+        python-version: ${{ steps.python-version.outputs.version }}
+
+    # https://github.com/astral-sh/setup-uv
+    - name: Install uv
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
+      with:
+        version-file: pyproject.toml
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+
+    - name: Configure uv to use installed Python
+      shell: bash
+      run: |
+        echo "UV_PYTHON=$(python -c 'import sys; print(sys.executable)')" >> "$GITHUB_ENV"
+        echo "UV_PYTHON_PREFERENCE=only-system" >> "$GITHUB_ENV"

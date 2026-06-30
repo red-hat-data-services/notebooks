@@ -1,3 +1,4 @@
+# vsok test
 ARG TARGETARCH
 
 #########################
@@ -62,7 +63,7 @@ WORKDIR /opt/app-root/src
 #####################
 FROM cpu-base AS cpu-rstudio
 
-ARG RSTUDIO_SOURCE_CODE=rstudio/rhel9-python-3.12
+ARG RSTUDIO_SOURCE_CODE=rstudio/rhel9-python-3.11
 ARG TARGETARCH
 
 WORKDIR /opt/app-root/bin
@@ -74,17 +75,17 @@ ARG SERVERURL_DEFAULT=""
 ARG BASEURL_DEFAULT=""
 # TILL HERE
 
-LABEL name="rhoai/odh-workbench-rstudio-minimal-cpu-py312-rhel9" \
-      com.redhat.component="odh-workbench-rstudio-minimal-cpu-py312-rhel9" \
-      summary="RStudio Server CPU image with python 3.12 based on Red Hat Enterprise Linux 9" \
-      description="RStudio Server CPU image with python 3.12 based on Red Hat Enterprise Linux 9" \
+LABEL name="rhoai/odh-workbench-rstudio-minimal-cpu-py311-rhel9" \
+      com.redhat.component="odh-workbench-rstudio-minimal-cpu-py311-rhel9" \
+      summary="RStudio Server CPU image with python 3.11 based on Red Hat Enterprise Linux 9" \
+      description="RStudio Server CPU image with python 3.11 based on Red Hat Enterprise Linux 9" \
       maintainer="Red Hat AI Notebooks Team" \
-      io.k8s.display-name="RStudio Server CPU image with python 3.12 based on Red Hat Enterprise Linux 9" \
-      io.k8s.description="RStudio Server CPU image with python 3.12 based on Red Hat Enterprise Linux 9" \
+      io.k8s.display-name="RStudio Server CPU image with python 3.11 based on Red Hat Enterprise Linux 9" \
+      io.k8s.description="RStudio Server CPU image with python 3.11 based on Red Hat Enterprise Linux 9" \
       authoritative-source-url="https://github.com/opendatahub-io/notebooks" \
       io.openshift.build.commit.ref="main" \
-      io.openshift.build.source-location="https://github.com/opendatahub-io/notebooks/tree/main/rstudio/rhel9-python-3.12" \
-      io.openshift.build.image="quay.io/opendatahub/workbench-images:rstudio-rhel9-python-3.12"
+      io.openshift.build.source-location="https://github.com/opendatahub-io/notebooks/tree/main/rstudio/rhel9-python-3.11" \
+      io.openshift.build.image="quay.io/opendatahub/workbench-images:rstudio-rhel9-python-3.11"
 
 USER 0
 
@@ -136,7 +137,7 @@ chmod 1777 /var/run/rstudio-server
 mkdir -p /usr/share/doc/R
 # package installation
 # install necessary texlive-framed package to make Knit R markup to PDF rendering possible
-dnf install -y libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed
+dnf install -y libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake texlive-framed
 # install npm to run cve_remediation script
 dnf install -y npm
 dnf clean all
@@ -160,28 +161,27 @@ ENV APP_ROOT=/opt/app-root
 # Install NGINX to proxy RStudio and pass probes check
 ENV NGINX_VERSION=1.24 \
     NGINX_SHORT_VER=124 \
-    NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
     NGINX_CONF_PATH=/etc/nginx/nginx.conf \
-    NGINX_DEFAULT_CONF_PATH=${APP_ROOT}/etc/nginx.default.d \
     NGINX_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/nginx \
+    NGINX_LOG_PATH=/var/log/nginx
+
+ENV NGINX_CONFIGURATION_PATH=${APP_ROOT}/etc/nginx.d \
+    NGINX_DEFAULT_CONF_PATH=${APP_ROOT}/etc/nginx.default.d \
     NGINX_APP_ROOT=${APP_ROOT} \
-    NGINX_LOG_PATH=/var/log/nginx \
     NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
 
 # Modules does not exist
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 dnf -y module enable nginx:$NGINX_VERSION
-INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl httpd"
+INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl fcgiwrap initscripts chkconfig supervisor"
 dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS
 rpm -V $INSTALL_PKGS
 nginx -v 2>&1 | grep -qe "nginx/$NGINX_VERSION\." && echo "Found VERSION $NGINX_VERSION"
 dnf -y clean all --enablerepo='*'
 EOF
 
-# Configure httpd for CGI processing
-COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/httpd/httpd.conf /etc/httpd/conf/httpd.conf
-COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/httpd/rstudio-cgi.conf /etc/httpd/conf.d/rstudio-cgi.conf
+COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy extra files to the image.
 COPY --chown=1001:0 ${RSTUDIO_SOURCE_CODE}/nginx/root/ /
@@ -211,19 +211,14 @@ mkdir -p ${NGINX_APP_ROOT}/api/
 mkdir -p ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start
 mkdir -p ${NGINX_LOG_PATH}
 mkdir -p ${NGINX_PERL_MODULE_PATH}
-# Create httpd directories and set permissions
-mkdir -p /var/log/httpd /var/run/httpd /etc/httpd/logs
 chown -R 1001:0 ${NGINX_CONF_PATH}
 chown -R 1001:0 ${NGINX_APP_ROOT}/etc
 chown -R 1001:0 ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start
 chown -R 1001:0 /var/lib/nginx /var/log/nginx /run
-chown -R 1001:0 /var/log/httpd /var/run/httpd /etc/httpd/logs
 chmod    ug+rw  ${NGINX_CONF_PATH}
 chmod -R ug+rwX ${NGINX_APP_ROOT}/etc
 chmod -R ug+rwX ${NGINX_CONTAINER_SCRIPTS_PATH}/nginx-start
 chmod -R ug+rwX /var/lib/nginx /var/log/nginx /run
-chmod -R ug+rwX /var/log/httpd /var/run/httpd /etc/httpd/logs
-# Make CGI scripts executable and set proper ownership
 chmod +x /opt/app-root/api/kernels/access.cgi
 chmod +x /opt/app-root/api/probe.cgi
 chown -R 1001:0 /opt/app-root/api
@@ -247,7 +242,7 @@ echo "Installing softwares and packages"
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
 # Fix permissions to support pip in Openshift environments
-chmod -R g+w /opt/app-root/lib/python3.12/site-packages
+chmod -R g+w /opt/app-root/lib/python3.11/site-packages
 fix-permissions /opt/app-root -P
 EOF
 

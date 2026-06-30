@@ -8,4 +8,5 @@ uv --version || pip install "uv==0.8.12"
 
 "${REPO_ROOT}/uv" run scripts/dockerfile_fragments.py
 "${REPO_ROOT}/uv" run manifests/tools/generate_kustomization.py
-bash scripts/pylocks_generator.sh
+# pylocks_generator fails for trustyai/rocm-tensorflow on rhoai-2.25 (dependency
+# resolution vs onnx CVE constraints) and would rewrite unrelated pylock.toml files.
