@@ -63,9 +63,9 @@ runs:
           echo "version=${INPUT_PLAYWRIGHT_VERSION}" >> "$GITHUB_OUTPUT"
         else
           # Extract version from package.json5 (single source of truth)
-          # package.json5 has: "@playwright/test": "=1.59.1"
+          # package.json5 has: "@playwright/test": "==1.53.1" (pnpm exact pin)
           # Container tag format is: v1.59.1-noble
-          PKG_VERSION=$(grep -oP "['\"]@playwright/test['\"]\s*:\s*['\"]=?\K[0-9.]+" "${WORKING_DIRECTORY}/package.json5")
+          PKG_VERSION=$(grep -oP "['\"]@playwright/test['\"]\s*:\s*['\"]=+\K[0-9.]+" "${WORKING_DIRECTORY}/package.json5")
           if [[ -z "$PKG_VERSION" ]]; then
             echo "::error::Failed to extract Playwright version from package.json5"
             exit 1
