@@ -143,6 +143,10 @@ function _get_notebook_name()
         $rocm_target_prefix*)
             notebook_name=jupyter-rocm${raw_notebook_name#"$rocm_target_prefix"}
             ;;
+        jupyter-pytorch-llmcompressor-ubi9-python-3-12)
+            # Kustomize uses shortened namePrefix/label (llmc) for this notebook
+            notebook_name="jupyter-pytorch-llmc-ubi9-python-3-12"
+            ;;
         *)
             notebook_name="${raw_notebook_name}"
             ;;
@@ -199,6 +203,9 @@ function _get_source_of_truth_filepath()
         *$jupyter_datascience_notebook_id* | *$jupyter_trustyai_notebook_id*)
             filename="jupyter-${notebook_id}-${file_suffix}"
             ;;
+        *llmcompressor*)
+            filename="jupyter-pytorch-llmcompressor-imagestream.yaml"
+            ;;
         *$jupyter_pytorch_notebook_id* | *$jupyter_tensorflow_notebook_id*)
             filename="jupyter-${accelerator_flavor:+"$accelerator_flavor"-}${notebook_id}-${file_suffix}"
             if [ "${accelerator_flavor}" = 'cuda' ]; then
@@ -249,15 +256,12 @@ function _create_test_versions_source_of_truth()
 }
 
 # Description:
-#   Main "test runner" function that copies the relevant test_notebook.ipynb file for the notebook under test into
-#	the running pod and then invokes papermill within the pod to actually execute test suite.
-#
-#	Script will return non-zero exit code in the event all unit tests were not successfully executed.  Diagnostic messages
-#	are printed in the event of a failure.
+#   Internal function that runs test notebooks WITHOUT creating expected_versions.json.
+#   Used by _test_datascience_notebook to run parent tests using the derived image's manifest.
 #
 # Arguments:
-#   $1 : Name of the notebook identifier
-function _run_test()
+#   $1 : Name of the notebook identifier (for locating test files)
+function _run_test_notebooks_only()
 {
     local notebook_id="${1:-}"
 
@@ -267,12 +271,15 @@ function _run_test()
     local output_file_prefix=
     output_file_prefix=$(tr '/' '-' <<< "${notebook_id}_${os_flavor}")
 
-    "${kbin}" cp "${repo_test_directory}/${test_notebook_file}" "${notebook_workload_name}:./${test_notebook_file}"
+    "${kbin}" cp "${repo_test_directory}/." "${notebook_workload_name}:./"
 
 	if ! "${kbin}" exec "${notebook_workload_name}" -- /bin/sh -c "export IPY_KERNEL_LOG_LEVEL=DEBUG; python3 -m papermill ${test_notebook_file} ${output_file_prefix}_output.ipynb --kernel python3 --log-level DEBUG --stderr-file ${output_file_prefix}_error.txt" ; then
 		echo "ERROR: The ${notebook_id} ${os_flavor} notebook encountered a failure. To investigate the issue, you can review the logs located in the ocp-ci cluster on 'artifacts/notebooks-e2e-tests/jupyter-${notebook_id}-${os_flavor}-${python_flavor}-test-e2e' directory or run 'cat ${output_file_prefix}_error.txt' within your container. The make process has been aborted."
 		exit 1
 	fi
+
+	# Papermill may not create --stderr-file when the notebook writes nothing to stderr; grep exits 2 if the file is missing.
+	"${kbin}" exec "${notebook_workload_name}" -- /bin/sh -c 'f="'"${output_file_prefix}"'_error.txt"; [ -f "$f" ] || : >"$f"'
 
     local test_result=
     test_result=$("${kbin}" exec "${notebook_workload_name}" -- /bin/sh -c "grep FAILED ${output_file_prefix}_error.txt" 2>&1)
@@ -295,6 +302,23 @@ function _run_test()
 }
 
 # Description:
+#   Main "test runner" function that copies the relevant test_notebook.ipynb file for the notebook under test into
+#	the running pod and then invokes papermill within the pod to actually execute test suite.
+#
+#	Script will return non-zero exit code in the event all unit tests were not successfully executed.  Diagnostic messages
+#	are printed in the event of a failure.
+#
+# Arguments:
+#   $1 : Name of the notebook identifier
+function _run_test()
+{
+    local notebook_id="${1:-}"
+
+    _create_test_versions_source_of_truth "${notebook_id}"
+    _run_test_notebooks_only "${notebook_id}"
+}
+
+# Description:
 #	Checks if the notebook under test is derived from the datasciences notebook.  This determination is subsequently used to know whether or not
 #	additional papermill tests should be invoked against the running notebook resource.
 #
@@ -309,17 +333,24 @@ function _image_derived_from_datascience()
 {
     local notebook_id="${1:-}"
 
-    local datascience_derived_images=("${jupyter_datascience_notebook_id}" "${jupyter_trustyai_notebook_id}" "${jupyter_tensorflow_notebook_id}" "${jupyter_pytorch_notebook_id}")
+    local datascience_derived_images=("${jupyter_datascience_notebook_id}" "${jupyter_trustyai_notebook_id}" "${jupyter_tensorflow_notebook_id}" "${jupyter_pytorch_notebook_id}" "pytorch+llmcompressor")
 
     printf '%s\0' "${datascience_derived_images[@]}" | grep -Fz -- "${notebook_id}"
 }
 
 # Description:
 #	Convenience function that will invoke the minimal and datascience papermill tests against the running notebook workload
+#
+# Arguments:
+#   $1 : [optional] The actual image's notebook_id to use for expected_versions.json
+#        If not provided, uses datascience manifest (original behavior)
 function _test_datascience_notebook()
 {
-    _run_test "${jupyter_minimal_notebook_id}"
-    _run_test "${jupyter_datascience_notebook_id}"
+    local actual_image_id="${1:-${jupyter_datascience_notebook_id}}"
+
+    _create_test_versions_source_of_truth "${actual_image_id}"
+    _run_test_notebooks_only "${jupyter_minimal_notebook_id}"
+    _run_test_notebooks_only "${jupyter_datascience_notebook_id}"
 }
 
 function _get_notebook_id() {
@@ -339,6 +370,9 @@ function _get_notebook_id() {
             ;;
         *-${jupyter_trustyai_notebook_id}-*)
             notebook_id="${jupyter_trustyai_notebook_id}"
+            ;;
+        *-llmc-*)
+            notebook_id="pytorch+llmcompressor"
             ;;
         *${jupyter_tensorflow_notebook_id}-*)
             notebook_id="${accelerator:+$accelerator/}${jupyter_tensorflow_notebook_id}"
@@ -366,12 +400,10 @@ function _handle_test()
     local notebook_id=
     notebook_id=$(_get_notebook_id)
 
-    _create_test_versions_source_of_truth "${notebook_id}"
-
     "${kbin}" exec "${notebook_workload_name}" -- /bin/sh -c "python3 -m pip install papermill"
 
     if _image_derived_from_datascience "${notebook_id}" ; then
-        _test_datascience_notebook
+        _test_datascience_notebook "${notebook_id}"
     fi
 
     if [ -n "${notebook_id}" ] && ! [ "${notebook_id}" = "${jupyter_datascience_notebook_id}" ]; then

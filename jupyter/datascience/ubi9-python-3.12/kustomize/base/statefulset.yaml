@@ -35,7 +35,7 @@ spec:
           livenessProbe:
             tcpSocket:
               port: notebook-port
-            initialDelaySeconds: 5
+            initialDelaySeconds: 120
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 3
@@ -44,14 +44,14 @@ spec:
               path: /notebook/opendatahub/jovyan/api
               port: notebook-port
               scheme: HTTP
-            initialDelaySeconds: 10
+            initialDelaySeconds: 90
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 3
           resources:
             limits:
               cpu: 500m
-              memory: 2Gi
+              memory: 4Gi
             requests:
               cpu: 500m
-              memory: 2Gi
+              memory: 4Gi
