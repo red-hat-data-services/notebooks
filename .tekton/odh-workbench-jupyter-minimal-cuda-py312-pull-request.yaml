@@ -43,12 +43,12 @@ spec:
     value: true
   # Hermetic: RPMs from prefetch-input/rhds; pip from requirements.cuda.txt (see opendatahub-io/notebooks/.tekton minimal CUDA PR pipeline)
   - name: hermetic
-    value: false
+    value: 'true'
   - name: build-image-index
     value: true
   - name: build-platforms
     value:
-    - linux-d160-m8xlarge/amd64
+    - linux/x86_64
     - linux-d160-m8xlarge/arm64
   - name: image-expires-after
     value: 5d
