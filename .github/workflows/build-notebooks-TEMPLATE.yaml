@@ -28,6 +28,11 @@ name: Build & Publish Notebook Servers (TEMPLATE)
         default: false
         description: "add RHEL subscription from github secret"
         type: boolean
+      product:
+        required: false
+        default: odh
+        description: "product variant: odh (midstream) or rhoai (downstream)"
+        type: string
 
 jobs:
   build:
@@ -82,6 +87,27 @@ jobs:
           platform: ${{ inputs.platform }}
 
       - run: mkdir -p $TMPDIR
+
+      - name: Verify subscription secrets are available
+        if: ${{ inputs.subscription }}
+        env:
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+          AIPCC_QUAY_BOT_USERNAME: ${{ secrets.AIPCC_QUAY_BOT_USERNAME }}
+          AIPCC_QUAY_BOT_PASSWORD: ${{ secrets.AIPCC_QUAY_BOT_PASSWORD }}
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        run: |
+          set -euo pipefail
+          missing=0
+          for var in SUBSCRIPTION_ORG SUBSCRIPTION_ACTIVATION_KEY AIPCC_QUAY_BOT_USERNAME AIPCC_QUAY_BOT_PASSWORD GIT_CRYPT_KEY; do
+            if [[ -z "${!var:-}" ]]; then
+              echo "::error::${var} secret is not available in this context (likely a fork PR). Push to a same-repo branch for full CI validation."
+              missing=1
+            fi
+          done
+          if [[ $missing -ne 0 ]]; then
+            exit 1
+          fi
 
       # do this early because it's fast and why not
       - name: Unlock encrypted secrets with git-crypt
@@ -222,6 +248,7 @@ jobs:
         env:
           IMAGE_TAG: "${{ steps.calculated_vars.outputs.IMAGE_TAG }}"
           CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-podman-build-args.outputs.EXTRA_PODMAN_BUILD_ARGS }} --cache-from ${{ env.CACHE }} --cache-to ${{ env.CACHE }}"
+          PRODUCT: ${{ inputs.product }}
       - name: "pull_request: make ${{ inputs.target }}"
         id: pr-make-target
         run: |
@@ -236,6 +263,7 @@ jobs:
           CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-podman-build-args.outputs.EXTRA_PODMAN_BUILD_ARGS }} --cache-from ${{ env.CACHE }}"
           # We don't have access to image registry, so disable pushing
           PUSH_IMAGES: "no"
+          PRODUCT: ${{ inputs.product }}
 
       - name: "Show podman images information"
         run: podman images --digests
