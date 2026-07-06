@@ -23,8 +23,6 @@ WORKDIR /opt/app-root/bin
 # OS Packages needs to be installed as root
 USER 0
 
-ARG TARGETARCH
-
 ### BEGIN upgrade first to avoid fixable vulnerabilities
 RUN /bin/bash <<'EOF'
 # If we have a Red Hat subscription prepared, refresh it
@@ -68,13 +66,13 @@ if [ "$TARGETARCH" = "s390x" ] || [ "$TARGETARCH" = "ppc64le" ]; then
 fi
 # Additional dev tools only for s390x
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES+=("gcc" "gcc-c++" "make" "openssl-devel" "autoconf" "automake" "libtool" "cmake" "python3-devel" "pybind11-devel" "openblas-devel" "unixODBC-devel" "openssl" "zlib-devel")
+    PACKAGES+=(gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel)
 fi
 if [ "$TARGETARCH" = "ppc64le" ]; then
     PACKAGES+=(git gcc-toolset-13 make wget unzip rust cargo unixODBC-devel cmake ninja-build)
 fi
 if [ -n "$PACKAGES" ]; then
-    echo "Installing: $PACKAGES"
+    echo "Installing: ${PACKAGES[*]}"
     dnf install -y "${PACKAGES[@]}"
     dnf clean all
     rm -rf /var/cache/yum
@@ -169,7 +167,7 @@ EOF
 
 # Build pyarrow optimized for s390x
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=cache,target=/root/.cache/dnf /bin/bash <<'EOF'
+    --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "$TARGETARCH" = "s390x" ]; then
     # Install build dependencies
@@ -399,7 +397,6 @@ else
 fi
 EOF
 
-USER 0
 # Copy wheels from build stage (s390x only)
 COPY --from=s390x-builder /tmp/wheels /tmp/wheels
 RUN /bin/bash <<'EOF'
@@ -411,7 +408,6 @@ else
     echo "Skipping wheel install for $TARGETARCH"
 fi
 EOF
-
 
 # Install Python packages from pylock.toml
 COPY ${DATASCIENCE_SOURCE_CODE}/pylock.toml ./

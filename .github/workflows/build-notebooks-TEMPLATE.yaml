@@ -75,14 +75,14 @@ jobs:
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >>${GITHUB_ENV}
           echo "CACHE=${CACHE,,}" >>${GITHUB_ENV}
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         if: ${{ fromJson(inputs.github).event_name != 'pull_request_target' }}
         with:
           lfs: ${{ contains(inputs.target, 'codeserver') }}
           persist-credentials: false  # https://github.com/actions/checkout/issues/2312
       # we need to checkout the pr branch, not pr target (the default for pull_request_target)
       # user access check is done in calling workflow
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         if: ${{ fromJson(inputs.github).event_name == 'pull_request_target' }}
         with:
           ref: "refs/pull/${{ fromJson(inputs.github).event.number }}/merge"
@@ -138,7 +138,7 @@ jobs:
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
       # for bin/buildinputs in scripts/sandbox.py
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16  # v6.5.0
         with:
           go-version: "stable"
           cache-dependency-path: "scripts/buildinputs/go.sum"
@@ -146,7 +146,7 @@ jobs:
       - run: sudo apt-get update
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9  # v3.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -264,7 +264,7 @@ jobs:
         id: prefetch
         run: |
           set -Eeuxo pipefail
-          COMPONENT_DIR=$(echo "${{ inputs.target }}" | sed 's|-|/|')
+          COMPONENT_DIR=$(PYTHONPATH=ci/cached-builds python3 -c "import gha_pr_changed_files; print(gha_pr_changed_files.get_build_directory('${TARGET}'))")
           if [ -d "$COMPONENT_DIR/prefetch-input" ]; then
             echo "Hermetic build detected — prefetching dependencies for $COMPONENT_DIR"
             pip3 install --quiet --break-system-packages pyyaml
@@ -292,12 +292,20 @@ jobs:
             echo "No prefetch-input/ found for $COMPONENT_DIR — skipping"
           fi
         env:
+          TARGET: ${{ inputs.target }}
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
       - name: "Build: make ${{ inputs.target }}"
         id: make-target
         run: |
+          cleanup() {
+            if [ -n "${STATS_PID:-}" ]; then
+              kill "${STATS_PID}" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+
           # Print disk and memory stats every 30s so OOM/disk-full failures
           # leave a breadcrumb trail in the logs.
           (while true; do
@@ -306,9 +314,11 @@ jobs:
             free -h
             sleep 30
           done) &
+          STATS_PID=$!
 
-          make ${{ inputs.target }}
+          make "${TARGET}"
         env:
+          TARGET: ${{ inputs.target }}
           IMAGE_TAG: "${{ steps.calculated_vars.outputs.IMAGE_TAG }}"
           CONTAINER_BUILD_CACHE_ARGS: "${{ steps.extra-container-build-args.outputs.CONTAINER_BUILD_CACHE_ARGS }} ${{ steps.prefetch.outputs.EXTRA_BUILD_ARGS }}"
           # We don't have access to image registry for PRs, so disable pushing
@@ -324,7 +334,7 @@ jobs:
 
       # https://github.com/astral-sh/setup-uv
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78  # v7.6.0
         with:
           version-file: pyproject.toml
           python-version: "3.14"
@@ -478,7 +488,7 @@ jobs:
         working-directory: scripts/check-payload
 
       # for https://github.com/openshift/check-payload to cache the built binary
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16  # v6.5.0
         if: ${{ !cancelled() && steps.make-target.outcome == 'success' }}
         with:
           go-version-file: "scripts/check-payload/go.mod"

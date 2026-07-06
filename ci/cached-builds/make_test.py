@@ -77,7 +77,7 @@ def run_tests(target: str) -> None:
     check_call("timeout 10s bash -c 'until kubectl get serviceaccount/default; do sleep 1; done'", shell=True)
 
     check_call(f"make {deploy}-{deploy_target}", shell=True)
-    wait_for_stability(pod)
+    wait_for_stability(pod, target)
 
     try:
         if target.startswith("runtime-"):
@@ -138,6 +138,7 @@ def execute(executor: typing.Callable, args: tuple, kwargs: dict) -> int:
     print(f"\tDONE running command {args, kwargs}")
     sys.stdout.flush()
     return result
+
 
 # Heavy images (e.g. datascience, trustyai) need more time to become Ready on constrained nodes.
 _HEAVY_TARGETS = ("jupyter-datascience", "jupyter-trustyai")
