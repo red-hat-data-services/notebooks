@@ -192,16 +192,6 @@ rstudio-c9s-python-$(RELEASE_PYTHON_VERSION):
 cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION):
 	$(call image,$@,rstudio/c9s-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cuda)
 
-####################################### Buildchain for Python using rhel9 #######################################
-
-.PHONY: rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/rhel9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
-
-.PHONY: cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/rhel9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cuda)
-
 ####################################### Buildchain for AMD Python using UBI9 #######################################
 .PHONY: rocm-jupyter-minimal-ubi9-python-$(RELEASE_PYTHON_VERSION)
 rocm-jupyter-minimal-ubi9-python-$(RELEASE_PYTHON_VERSION):
@@ -289,27 +279,6 @@ undeploy-c9s-%: bin/kubectl
 	$(eval TARGET := $(shell echo $* | sed 's/-c9s-python.*//'))
 	$(eval PYTHON_VERSION := $(shell echo $* | sed 's/.*-python-//'))
 	$(eval NOTEBOOK_DIR := $(subst -,/,$(subst cuda-,,$(TARGET)))/c9s-python-$(PYTHON_VERSION)/kustomize/base)
-	$(info # Undeploying notebook from $(NOTEBOOK_DIR) directory...)
-	$(KUBECTL_BIN) delete -k $(NOTEBOOK_DIR)
-
-.PHONY: deploy-rhel9
-deploy-rhel9-%: bin/kubectl bin/yq
-	$(eval TARGET := $(shell echo $* | sed 's/-rhel9-python.*//'))
-	$(eval PYTHON_VERSION := $(shell echo $* | sed 's/.*-python-//'))
-	$(eval NOTEBOOK_DIR := $(subst -,/,$(subst cuda-,,$(TARGET)))/rhel9-python-$(PYTHON_VERSION)/kustomize/base)
-ifndef NOTEBOOK_TAG
-	$(eval NOTEBOOK_TAG := $*-$(IMAGE_TAG))
-endif
-	$(info # Deploying notebook from $(NOTEBOOK_DIR) directory...)
-	@arg=$(IMAGE_REGISTRY) $(YQ_BIN) e -i '.images[].newName = strenv(arg)' $(NOTEBOOK_DIR)/kustomization.yaml
-	@arg=$(NOTEBOOK_TAG) $(YQ_BIN) e -i '.images[].newTag = strenv(arg)' $(NOTEBOOK_DIR)/kustomization.yaml
-	$(KUBECTL_BIN) apply -k $(NOTEBOOK_DIR)
-
-.PHONY: undeploy-rhel9
-undeploy-rhel9-%: bin/kubectl
-	$(eval TARGET := $(shell echo $* | sed 's/-rhel9-python.*//'))
-	$(eval PYTHON_VERSION := $(shell echo $* | sed 's/.*-python-//'))
-	$(eval NOTEBOOK_DIR := $(subst -,/,$(subst cuda-,,$(TARGET)))/rhel9-python-$(PYTHON_VERSION)/kustomize/base)
 	$(info # Undeploying notebook from $(NOTEBOOK_DIR) directory...)
 	$(KUBECTL_BIN) delete -k $(NOTEBOOK_DIR)
 
@@ -422,7 +391,6 @@ PYTHON_VERSION ?= 3.12
 ROOT_DIR := $(shell pwd)
 ifeq ($(PYTHON_VERSION), 3.11)
 	BASE_DIRS := \
-		rstudio/rhel9-python-$(PYTHON_VERSION) \
 		rstudio/c9s-python-$(PYTHON_VERSION)
 else ifeq ($(PYTHON_VERSION), 3.12)
 	BASE_DIRS := \
@@ -496,9 +464,7 @@ scan-image-vulnerabilities:
 ifeq ($(RELEASE_PYTHON_VERSION), 3.11)
 all-images: \
 	rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
+	cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
 else ifeq ($(RELEASE_PYTHON_VERSION), 3.12)
 all-images: \
 	jupyter-minimal-ubi9-python-$(RELEASE_PYTHON_VERSION) \
@@ -521,8 +487,6 @@ all-images: \
 	rocm-jupyter-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION)
 # rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
 # cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-# rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
-# cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
 
 else
 	$(error Invalid Python version $(RELEASE_PYTHON_VERSION))

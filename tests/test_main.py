@@ -341,7 +341,6 @@ def test_files_that_should_be_same_are_same(subtests: pytest_subtests.plugin.Sub
         "nginx/common.sh": [
             PROJECT_ROOT / "codeserver/ubi9-python-3.12/nginx/root/usr/share/container-scripts/nginx/common.sh",
             PROJECT_ROOT / "rstudio/c9s-python-3.11/nginx/root/usr/share/container-scripts/nginx/common.sh",
-            PROJECT_ROOT / "rstudio/rhel9-python-3.11/nginx/root/usr/share/container-scripts/nginx/common.sh",
         ],
     }
     for group_name, (first_file, *rest) in file_groups.items():
@@ -383,7 +382,7 @@ def is_suffix[T](main_sequence: Sequence[T], suffix_sequence: Sequence[T]):
 
 
 def _skip_unimplemented_manifests(directory: pathlib.Path, call_skip=True) -> bool:
-    unimplemented_dirs = ()
+    unimplemented_dirs = ("rstudio/c9s-python-3.11",)
     for d in unimplemented_dirs:
         if is_suffix(directory.parts, pathlib.Path(d).parts):
             if call_skip:

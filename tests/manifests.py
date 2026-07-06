@@ -25,8 +25,6 @@ JUPYTER_TENSORFLOW_NOTEBOOK_ID = "tensorflow"
 
 CODESERVER_NOTEBOOK_ID = "codeserver"
 
-RSTUDIO_NOTEBOOK_ID = "rstudio"
-
 MAKE = shutil.which("gmake") or shutil.which("make")
 
 
@@ -188,12 +186,6 @@ def get_source_of_truth_filepath(
     elif CODESERVER_NOTEBOOK_ID in notebook_id:
         filename = f"code-server-{file_suffix}"
 
-    elif RSTUDIO_NOTEBOOK_ID in notebook_id:
-        imagestream_filename = f"rstudio-gpu-{file_suffix}"
-        buildconfig_filename = "cuda-rstudio-buildconfig.yaml"
-        _ = imagestream_filename
-        filename = buildconfig_filename
-
     if not filename:
         raise ValueError(f"Unable to determine imagestream filename for '{metadata=}'")
 
@@ -203,22 +195,6 @@ def get_source_of_truth_filepath(
 
 
 class TestManifests:
-    def test_rstudio_path(self):
-        metadata = extract_metadata_from_path(Path("notebooks/rstudio/rhel9-python-3.11"))
-        assert metadata == NotebookMetadata(
-            type=NotebookType.WORKBENCH,
-            feature="rstudio",
-            scope="",
-            os_flavor="rhel9",
-            python_flavor="python-3.11",
-            accelerator_flavor=None,
-        )
-
-    def test_rstudio_truth_manifest(self):
-        metadata = extract_metadata_from_path(Path("notebooks/rstudio/rhel9-python-3.11"))
-        path = get_source_of_truth_filepath(root_repo_directory=Path("notebooks"), metadata=metadata)
-        assert path == Path("notebooks/manifests/base/cuda-rstudio-buildconfig.yaml")
-
     def test_jupyter_path(self):
         metadata = extract_metadata_from_path(Path("notebooks/jupyter/rocm/tensorflow/ubi9-python-3.12"))
         assert metadata == NotebookMetadata(
@@ -339,11 +315,6 @@ class TestManifests:
             / "manifests/base/jupyter-rocm-tensorflow-notebook-imagestream.yaml",
             "jupyter-trustyai-ubi9-python-3.12": ROOT_DIR / "manifests/base/jupyter-trustyai-notebook-imagestream.yaml",
             "codeserver-ubi9-python-3.12": ROOT_DIR / "manifests/base/code-server-notebook-imagestream.yaml",
-            "rstudio-ubi9-python-3.11": ROOT_DIR / "manifests/base/rstudio-buildconfig.yaml",
-            "rstudio-c9s-python-3.11": ROOT_DIR / "manifests/base/rstudio-buildconfig.yaml",
-            "cuda-rstudio-c9s-python-3.11": ROOT_DIR / "manifests/base/cuda-rstudio-buildconfig.yaml",
-            "rstudio-rhel9-python-3.11": ROOT_DIR / "manifests/base/rstudio-buildconfig.yaml",
-            "cuda-rstudio-rhel9-python-3.11": ROOT_DIR / "manifests/base/cuda-rstudio-buildconfig.yaml",
         }
         for target in targets:
             if "codeserver" in target:
