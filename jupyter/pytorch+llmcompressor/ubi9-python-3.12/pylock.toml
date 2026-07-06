@@ -670,10 +670,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/60/97/891a0971e1e4a8c
 
 [[packages]]
 name = "compressed-tensors"
-version = "0.15.0.1"
+version = "0.11.0"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/41/1b/c3c4a98ec5f2727656336f07a0c35862195c310d8eb0b2fa5b4be6848680/compressed_tensors-0.15.0.1.tar.gz", upload-time = 2026-04-10T14:23:54Z, size = 229412, hashes = { sha256 = "a8e93054e8a5ec49c980b09ed36c4c1249b4a8ee167920a8e461c4da26e78d99" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/a8/52/93833dc1610e017ac5b7dcd59b8304d8ef67d1114c2d124e728a2cbbea12/compressed_tensors-0.15.0.1-py3-none-any.whl", upload-time = 2026-04-10T14:23:53Z, size = 194260, hashes = { sha256 = "e1b1f322e82e475715e242bad46925a304ea8e5c98b5055a15b8eb22fb6bfea9" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/b8/99/3fdabfc95609d6efdf02fa7f1ed0245524cb1209d3d4a17109d3205d2eed/compressed_tensors-0.11.0.tar.gz", upload-time = 2025-08-19T18:59:31Z, size = 187566, hashes = { sha256 = "95ddf19699f775df6494dd864e5f52e8a24f8015496520190c1a22c6cfc44b1f" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/d2/81/e3073017a8f5c75169e79108eda209e6089e3f96c9f197d307cbda7df71c/compressed_tensors-0.11.0-py3-none-any.whl", upload-time = 2025-08-19T18:59:29Z, size = 179951, hashes = { sha256 = "e1cbc46e1ae032b7ceea915fe18c8d2de5a54d3a50a607969b6bdfe703b6cb83" } }]
 
 [[packages]]
 name = "contourpy"
