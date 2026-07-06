@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 #
 # This script serves to check and validate the `params.env` file that contains
 # definitions of the notebook images that are supposed to be used in the resulting
@@ -27,8 +28,8 @@ PARAMS_ENV_PATH="manifests/rhoai/base/params.env"
 
 # This value needs to be updated everytime we deliberately change number of the
 # images we want to have in the `params.env` or `params-latest.env` file.
-EXPECTED_NUM_RECORDS=74
-EXPECTED_ADDI_RUNTIME_RECORDS=0
+EXPECTED_COMMIT_NUM_RECORDS=74
+EXPECTED_PARAMS_NUM_RECORDS=74
 
 # Number of attempts for the skopeo tool to gather data from the repository.
 SKOPEO_RETRY=3
@@ -44,15 +45,14 @@ SIZE_ABSOLUTE_TRESHOLD=100
 function check_variables_uniq() {
     local env_file_path_1="${1}"
     local env_file_path_2="${2}"
-    local allow_value_duplicity="${3:=false}"
-    local is_params_env="${4:=false}"
+    local allow_value_duplicity="${3:-false}"
     local ret_code=0
 
 
     echo "Checking that all variables in the file '${env_file_path_1}' & '${env_file_path_2}' are unique and expected"
 
     local content
-    content=$(sed '/^$/d' "${env_file_path_1}" "${env_file_path_2}" | sed 's#\(.*\)=.*#\1#' | sort)
+    content=$(sed '/^$/d;/^[[:space:]]*#/d' "${env_file_path_1}" "${env_file_path_2}" | sed 's#\(.*\)=.*#\1#' | sort)
 
     local num_records
     num_records=$(echo "${content}" | wc -l)
@@ -69,7 +69,8 @@ function check_variables_uniq() {
     if test "${allow_value_duplicity}" = "false"; then
         echo "Checking that all values assigned to variables in the file '${env_file_path_1}' & '${env_file_path_2}' are unique and expected"
 
-        content=$(sed '/^$/d' "${env_file_path_1}" "${env_file_path_2}" | sed 's#\(.*\)=.*#\1#' | sort)
+        # Exclude "dummy" placeholder values (params-latest.env uses these)
+        content=$(sed '/^$/d;/^[[:space:]]*#/d' "${env_file_path_1}" "${env_file_path_2}" | sed 's#.*=##' | grep -v '^dummy$' | sort)
 
         local num_values
         num_values=$(echo "${content}" | wc -l)
@@ -86,11 +87,6 @@ function check_variables_uniq() {
     # ----
     echo "Checking that there are expected number of records in the file '${env_file_path_1}' + '${env_file_path_2}'"
 
-    if test "${is_params_env}" = "true"; then
-        # In case of params.env file, we need to additionally the number of
-        # runtime images that are defined in the file
-        EXPECTED_NUM_RECORDS=$((EXPECTED_NUM_RECORDS + EXPECTED_ADDI_RUNTIME_RECORDS))
-    fi
     test "${num_records}" -eq "${EXPECTED_NUM_RECORDS}" || {
         echo "Number of records in the file is incorrect - expected '${EXPECTED_NUM_RECORDS}' but got '${num_records}'!"
         ret_code=1
@@ -692,7 +688,10 @@ function check_image_commit_id_matches_metadata() {
     if [[ "${image_variable}" == *"odh-pipeline-runtime-"* ]]; then
         is_pipeline_runtime="true"
     fi
-    file_image_commit_id=$(cat "${COMMIT_ENV_PATH}"  "${COMMIT_LATEST_ENV_PATH}" | sed 's#-commit##' | grep "${image_variable}=" | cut -d '=' -f 2)
+    file_image_commit_id=$(
+        sed 's#-commit##' "${COMMIT_ENV_PATH}" "${COMMIT_LATEST_ENV_PATH}" |
+            awk -F= -v image_variable="${image_variable}" '$1 == image_variable { print $2; exit }'
+    )
 
     test -n "${file_image_commit_id}" || test "${is_pipeline_runtime}" = "true" || {
         echo "Couldn't retrieve commit id for image variable '${image_variable}' in '${COMMIT_ENV_PATH}' or '${COMMIT_LATEST_ENV_PATH}'!"
@@ -849,13 +848,15 @@ ret_code=0
 echo "Starting check of image references in files: '${COMMIT_LATEST_ENV_PATH}', '${COMMIT_ENV_PATH}' , '${PARAMS_LATEST_ENV_PATH}' and '${PARAMS_ENV_PATH}'"
 echo "---------------------------------------------"
 
-check_variables_uniq "${COMMIT_ENV_PATH}" "${COMMIT_LATEST_ENV_PATH}" "true" "false" || {
+EXPECTED_NUM_RECORDS="${EXPECTED_COMMIT_NUM_RECORDS}"
+check_variables_uniq "${COMMIT_ENV_PATH}" "${COMMIT_LATEST_ENV_PATH}" "true" || {
     echo "ERROR: Variable names in the '${COMMIT_ENV_PATH}' & '${COMMIT_LATEST_ENV_PATH}' file failed validation!"
     echo "----------------------------------------------------"
     ret_code=1
 }
 
-check_variables_uniq "${PARAMS_ENV_PATH}" "${PARAMS_LATEST_ENV_PATH}" "false" "true" || {
+EXPECTED_NUM_RECORDS="${EXPECTED_PARAMS_NUM_RECORDS}"
+check_variables_uniq "${PARAMS_ENV_PATH}" "${PARAMS_LATEST_ENV_PATH}" "false" || {
     echo "ERROR: Variable names in the '${PARAMS_ENV_PATH}' & '${PARAMS_LATEST_ENV_PATH}' file failed validation!"
     echo "----------------------------------------------------"
     ret_code=1
@@ -866,6 +867,8 @@ process_file() {
     while IFS= read -r LINE; do
         # If the line is empty, skip to the next one
         [[ -z "$LINE" ]] && continue
+        # Skip shell-style comments (common in params.env headers)
+        [[ "${LINE}" =~ ^[[:space:]]*# ]] && continue
 
         echo "Checking format of: '${LINE}'"
         [[ "${LINE}" = *[[:space:]]* ]] && {
@@ -898,6 +901,18 @@ process_file() {
             continue
         }
 
+        if [[ "${IMAGE_URL}" == "dummy" ]]; then
+            if [[ "${1}" == "${PARAMS_LATEST_ENV_PATH}" ]]; then
+                echo "Skipping image validation for '${IMAGE_VARIABLE}' (dummy placeholder)"
+                echo "------------------------"
+                continue
+            fi
+            echo "ERROR: dummy placeholder is only allowed in '${PARAMS_LATEST_ENV_PATH}'"
+            echo "------------------------"
+            local_ret_code=1
+            continue
+        fi
+
         check_image "${IMAGE_VARIABLE}" "${IMAGE_URL}" || {
             echo "ERROR: Image definition for '${IMAGE_VARIABLE}' isn't okay!"
             echo "------------------------"
@@ -910,7 +925,7 @@ process_file() {
 
 for file_ in  "${PARAMS_ENV_PATH}" "${PARAMS_LATEST_ENV_PATH}"; do
     echo "Checking file: '${file_}'"
-    if process_file "${file_}" -eq 0; then
+    if process_file "${file_}"; then
         echo "Validation of '${file_}' was successful! Congrats :)"
         echo "------------------------"
     else
