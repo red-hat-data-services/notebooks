@@ -80,18 +80,20 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" ||"$ARCH" == "ppc64le" ]]; then
 		echo "Patching vsce-sign: removing postinstall for ${ARCH} (${VSCE_TGZ})"
 		tmpdir=$(mktemp -d)
 		tar xzf "${VSCE_TGZ}" -C "$tmpdir"
+		pkg_tmp=$(mktemp)
 		jq 'del(.scripts.postinstall)' "$tmpdir/package/package.json" \
-			> /tmp/pkg-tmp.json && mv /tmp/pkg-tmp.json "$tmpdir/package/package.json"
+			> "$pkg_tmp" && mv "$pkg_tmp" "$tmpdir/package/package.json"
 		tar czf "${VSCE_TGZ}" -C "$tmpdir" package
 		rm -rf "$tmpdir"
 		# Tell npm not to run vsce-sign's postinstall (hasInstallScript=false) and
 		# strip integrity so npm accepts the modified tarball.
+		lock_tmp=$(mktemp)
 		jq --arg resolved "file:${VSCE_TGZ}" '
 			(.packages["node_modules/@vscode/vsce-sign"].hasInstallScript = false) |
 			(.packages["node_modules/@vscode/vsce-sign"].resolved = $resolved) |
 			del(.packages["node_modules/@vscode/vsce-sign"].integrity)
-		' lib/vscode/build/package-lock.json > /tmp/lock-tmp.json \
-			&& mv /tmp/lock-tmp.json lib/vscode/build/package-lock.json
+		' lib/vscode/build/package-lock.json > "$lock_tmp" \
+			&& mv "$lock_tmp" lib/vscode/build/package-lock.json
 	fi
 
 	npm install
