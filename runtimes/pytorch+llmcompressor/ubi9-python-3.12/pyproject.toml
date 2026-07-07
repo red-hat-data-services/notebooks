@@ -75,19 +75,12 @@ explicit = true
 
 [tool.uv]
 
+# RHAIIS uses constraints.txt only (no uv-style overrides). RHAIIS pins live in
+# constraint-dependencies below; direct deps cover requests/urllib3 where needed.
 override-dependencies = [
-    # RHAIENG-3209 / RHAIIS 3.2.2: pillow CVE floors
-    "pillow>=12.2.0",
-    # RHAIENG-5948 / RHAIIS 3.2.2: requests/chardet alignment
-    "requests>=2.34.2",
-    # RHAIIS 3.2.2 model-opt/cuda-ubi9/constraints.txt CVE floors
-    "urllib3>=2.7.0",
-    "aiohttp>=3.14.0",
-    "filelock>=3.20.3",
-    "python-dotenv>=1.2.2",
+    # feast~=0.54.1 caps pyarrow<=17; RHAIIS constraints.txt requires pyarrow>=23 (CVE floor)
     "pyarrow>=23.0.1,<24.0.0",
 ]
-
 # RHAIIS 3.2.2 collections/model-opt/cuda-ubi9/constraints.txt (+ llmcompressor in requirements.txt)
 # https://gitlab.com/redhat/rhel-ai/rhaiis/pipeline/-/tree/3.2.2/collections/model-opt/cuda-ubi9
 constraint-dependencies = [
