@@ -29,19 +29,11 @@ class TestBaseImage:
     """Tests that are applicable for all images we have in this repository."""
 
     def _run_test(self, image: str, test_fn: Callable[[testcontainers.core.container.DockerContainer], None]):
-        container = testcontainers.core.container.DockerContainer(image=image, user=23456, group_add=[0])
-        container.with_command(["/bin/sh", "-c", "sleep infinity"])
         try:
-            container.start()
-            test_fn(container)
-            return
+            with docker_utils.running_container(image) as container:
+                test_fn(container)
         except Exception as e:
             pytest.fail(f"Unexpected exception in test: {e}")
-        finally:
-            docker_utils.NotebookContainer(container).stop(timeout=0)
-
-        # If the return doesn't happen in the try block, fail the test
-        pytest.fail("The test did not pass as expected.")
 
     def test_elf_files_can_link_runtime_libs(self, subtests: pytest_subtests.SubTests, image):
         def test_fn(container: testcontainers.core.container.DockerContainer):
@@ -197,10 +189,12 @@ class TestBaseImage:
             else:
                 container.with_volume_mapping(str(tmp_crypto), "/proc/sys", mode="ro,z")
 
-            container.with_command(["/bin/sh", "-c", "sleep infinity"])
+            container.with_command("/bin/sh -c 'sleep infinity'")
 
             try:
                 container.start()
+                docker_utils.require_running(container, context="after start")
+                docker_utils.guard_container_exec(container)
 
                 with subtests.test("/proc/sys/crypto/fips_enabled is 1"):
                     # sysctl here works too, but it may not be present in image

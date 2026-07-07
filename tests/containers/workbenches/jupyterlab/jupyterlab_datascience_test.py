@@ -153,9 +153,11 @@ except Exception as e:
 """
 
         container = WorkbenchContainer(image=datascience_image.name, user=4321, group_add=[0])
-        (container.with_network(network).with_command(["/bin/sh", "-c", "sleep infinity"]))
+        (container.with_network(network).with_command("/bin/sh -c 'sleep infinity'"))
         try:
             container.start(wait_for_readiness=False)
+            docker_utils.require_running(container, context="after start")
+            docker_utils.guard_container_exec(container)
 
             # RHOAIENG-140: code-server image users are expected to install their own db clients
             if "-code-server-" in datascience_image.labels["name"]:

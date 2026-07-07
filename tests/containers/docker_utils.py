@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import io
 import logging
 import os.path
@@ -10,7 +11,10 @@ import time
 from os import PathLike
 from typing import TYPE_CHECKING
 
+import docker.errors
 import podman
+import pytest
+import testcontainers.core.container
 
 import tests.containers.pydantic_schemas
 
@@ -34,7 +38,9 @@ class NotebookContainer:
         """Stop container with customizable timeout.
 
         DockerContainer.stop() has unchangeable 10s timeout between SIGSTOP and SIGKILL."""
-        self.testcontainer.get_wrapped_container().stop(timeout=timeout)
+        wrapped = self.testcontainer.get_wrapped_container()
+        if wrapped is not None:
+            wrapped.stop(timeout=timeout)
         self.testcontainer.stop()
 
     def wait_for_exit(self) -> int:
@@ -44,6 +50,110 @@ class NotebookContainer:
             time.sleep(0.2)
             container.reload()
         return container.attrs["State"]["ExitCode"]
+
+
+_DEAD_CONTAINER_EXEC_PHRASES = (
+    "container state improper",
+    "is not running",
+    "container must be running",
+)
+
+
+def _container_logs_tail(container: Container, *, limit: int = 8000) -> str:
+    try:
+        logs = container.logs(stdout=True, stderr=True, tail=100)
+        if isinstance(logs, bytes):
+            text = logs.decode(errors="replace")
+        else:
+            text = b"".join(logs).decode(errors="replace")
+    except Exception as exc:
+        return f"<failed to read logs: {exc}>"
+    if len(text) > limit:
+        return f"...(truncated)...\n{text[-limit:]}"
+    return text
+
+
+def format_container_diagnostics(
+    container: testcontainers.core.container.DockerContainer,
+    *,
+    context: str,
+) -> str:
+    wrapped = container.get_wrapped_container()
+    if wrapped is None:
+        return f"Container not started ({context})"
+    wrapped.reload()
+    state = wrapped.attrs.get("State", {})
+    return "\n".join(
+        [
+            f"Container not running ({context})",
+            f"  status: {wrapped.status!r}",
+            f"  exit_code: {state.get('ExitCode')!r}",
+            f"  error: {state.get('Error')!r}",
+            f"  oom_killed: {state.get('OOMKilled')!r}",
+            "--- container logs (tail) ---",
+            _container_logs_tail(wrapped),
+        ]
+    )
+
+
+def require_running(
+    container: testcontainers.core.container.DockerContainer,
+    *,
+    context: str = "after start",
+) -> None:
+    wrapped = container.get_wrapped_container()
+    if wrapped is None:
+        pytest.fail(f"Container not started ({context})")
+    wrapped.reload()
+    if wrapped.status == "running":
+        return
+    pytest.fail(format_container_diagnostics(container, context=context))
+
+
+def _is_dead_container_exec_error(exc: BaseException) -> bool:
+    message = str(exc).lower()
+    if isinstance(exc, docker.errors.APIError):
+        explanation = getattr(exc, "explanation", "") or ""
+        message = f"{message} {explanation}".lower()
+    return any(phrase in message for phrase in _DEAD_CONTAINER_EXEC_PHRASES)
+
+
+def guard_container_exec(container: testcontainers.core.container.DockerContainer) -> None:
+    if getattr(container, "_docker_utils_exec_guarded", False):
+        return
+    original_exec = container.exec
+
+    def exec_guarded(command: str | list[str]):
+        try:
+            return original_exec(command)
+        except docker.errors.APIError as exc:
+            if _is_dead_container_exec_error(exc):
+                context = f"exec({command!r})"
+                pytest.fail(format_container_diagnostics(container, context=context)) from exc
+            raise
+
+    container.exec = exec_guarded  # type: ignore[method-assign]
+    container._docker_utils_exec_guarded = True
+
+
+@contextlib.contextmanager
+def running_container(
+    image: str,
+    *,
+    user: int = 23456,
+    group_add: list[int] | None = None,
+    **kwargs,
+):
+    groups = sorted({0, *(group_add or [])})
+    container = testcontainers.core.container.DockerContainer(image=image, user=user, group_add=groups, **kwargs)
+    container.with_command("/bin/sh -c 'sleep infinity'")
+    try:
+        container.start()
+        require_running(container, context="after start")
+        guard_container_exec(container)
+        yield container
+    finally:
+        NotebookContainer(container).stop(timeout=0)
 
 
 def container_cp(
