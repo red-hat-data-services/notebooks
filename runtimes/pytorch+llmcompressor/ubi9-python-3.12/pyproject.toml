@@ -12,7 +12,10 @@ dependencies = [
     "torch==2.7.1",
     "torchvision==0.22.1",
 
-    # llmcompressor packages (RHAIIS 3.2.2 model-opt/cuda-ubi9/requirements.txt)
+    # llmcompressor stack (RHAIIS 3.2.2 model-opt/cuda-ubi9 — source of truth for RHOAI 2.25):
+    # https://gitlab.com/redhat/rhel-ai/rhaiis/pipeline/-/blob/3.2.2/collections/model-opt/cuda-ubi9/requirements.txt
+    # https://gitlab.com/redhat/rhel-ai/rhaiis/pipeline/-/blob/3.2.2/collections/model-opt/cuda-ubi9/constraints.txt
+    # See jupyter/pytorch+llmcompressor/README.md for alignment notes and RHAIENG-6035.
     "llmcompressor==0.7.1.3",
     "lm-eval~=0.4.9",
 
@@ -85,7 +88,8 @@ override-dependencies = [
     "pyarrow>=23.0.1,<24.0.0",
 ]
 
-# RHAIIS 3.2.2 model-opt/cuda-ubi9/constraints.txt (+ llmcompressor in requirements.txt)
+# RHAIIS 3.2.2 collections/model-opt/cuda-ubi9/constraints.txt (+ llmcompressor in requirements.txt)
+# https://gitlab.com/redhat/rhel-ai/rhaiis/pipeline/-/tree/3.2.2/collections/model-opt/cuda-ubi9
 constraint-dependencies = [
     "loguru==0.7.3",
     "pyyaml==6.0.2",
