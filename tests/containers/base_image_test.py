@@ -30,7 +30,7 @@ class TestBaseImage:
 
     def _run_test(self, image: str, test_fn: Callable[[testcontainers.core.container.DockerContainer], None]):
         container = testcontainers.core.container.DockerContainer(image=image, user=23456, group_add=[0])
-        container.with_command("/bin/sh -c 'sleep infinity'")
+        container.with_command(["/bin/sh", "-c", "sleep infinity"])
         try:
             container.start()
             test_fn(container)
@@ -197,7 +197,7 @@ class TestBaseImage:
             else:
                 container.with_volume_mapping(str(tmp_crypto), "/proc/sys", mode="ro,z")
 
-            container.with_command("/bin/sh -c 'sleep infinity'")
+            container.with_command(["/bin/sh", "-c", "sleep infinity"])
 
             try:
                 container.start()

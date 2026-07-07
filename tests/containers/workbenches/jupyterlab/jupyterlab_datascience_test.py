@@ -153,7 +153,7 @@ except Exception as e:
 """
 
         container = WorkbenchContainer(image=datascience_image.name, user=4321, group_add=[0])
-        (container.with_network(network).with_command("/bin/sh -c 'sleep infinity'"))
+        (container.with_network(network).with_command(["/bin/sh", "-c", "sleep infinity"]))
         try:
             container.start(wait_for_readiness=False)
 

@@ -44,7 +44,7 @@ class TestRuntimeImage:
 def running_image(image: str):
     """Usage: with running_image("quay.io/...") as container:"""
     container = testcontainers.core.container.DockerContainer(image=image, user=23456, group_add=[0])
-    container.with_command("/bin/sh -c 'sleep infinity'")
+    container.with_command(["/bin/sh", "-c", "sleep infinity"])
     try:
         container.start()
         yield container
