@@ -4,7 +4,6 @@ version = "0.1.0"
 requires-python = "==3.12.*"
 
 dependencies = [
-    "tf2onnx~=1.16.1",
 
     # ROCm TensorFlow packages
     # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-wheels-package
@@ -60,7 +59,8 @@ dependencies = [
 override-dependencies = [
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
     "cryptography>=46.0.5",
-    # tf2onnx has pinned protobuf version, that causes conflict with other packages
+    # tensorflow-rocm depends on protobuf>=3.20.3, <6.0.0 and kfp depends on protobuf>=6.31.1
+    # RHAIENG-4324: protobuf 6.33.x UPB C extension segfaults on s390x; pin 6.31.1 (ROCm is amd64-only but matches fleet pin)
     "protobuf==6.31.1",
     "keras~=3.13.2",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
