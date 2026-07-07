@@ -34,6 +34,24 @@ class NotebookContainer:
     def __init__(self, container: testcontainers.core.container.DockerContainer) -> None:
         self.testcontainer = container
 
+    def require_running(self, *, context: str = "after start") -> None:
+        wrapped = self.testcontainer.get_wrapped_container()
+        if wrapped is None:
+            pytest.fail(f"Container not started ({context})")
+        wrapped.reload()
+        if wrapped.status == "running":
+            return
+        pytest.fail(format_container_diagnostics(self.testcontainer, context=context))
+
+    def exec(self, command: str | list[str]):
+        try:
+            return self.testcontainer.exec(command)
+        except docker.errors.APIError as exc:
+            if _is_dead_container_exec_error(exc):
+                context = f"exec({command!r})"
+                pytest.fail(format_container_diagnostics(self.testcontainer, context=context))
+            raise
+
     def stop(self, timeout: int = 10):
         """Stop container with customizable timeout.
 
@@ -96,44 +114,12 @@ def format_container_diagnostics(
     )
 
 
-def require_running(
-    container: testcontainers.core.container.DockerContainer,
-    *,
-    context: str = "after start",
-) -> None:
-    wrapped = container.get_wrapped_container()
-    if wrapped is None:
-        pytest.fail(f"Container not started ({context})")
-    wrapped.reload()
-    if wrapped.status == "running":
-        return
-    pytest.fail(format_container_diagnostics(container, context=context))
-
-
 def _is_dead_container_exec_error(exc: BaseException) -> bool:
     message = str(exc).lower()
     if isinstance(exc, docker.errors.APIError):
         explanation = getattr(exc, "explanation", "") or ""
         message = f"{message} {explanation}".lower()
     return any(phrase in message for phrase in _DEAD_CONTAINER_EXEC_PHRASES)
-
-
-def guard_container_exec(container: testcontainers.core.container.DockerContainer) -> None:
-    if getattr(container, "_docker_utils_exec_guarded", False):
-        return
-    original_exec = container.exec
-
-    def exec_guarded(command: str | list[str]):
-        try:
-            return original_exec(command)
-        except docker.errors.APIError as exc:
-            if _is_dead_container_exec_error(exc):
-                context = f"exec({command!r})"
-                pytest.fail(format_container_diagnostics(container, context=context)) from exc
-            raise
-
-    container.exec = exec_guarded  # type: ignore[method-assign]
-    container._docker_utils_exec_guarded = True
 
 
 @contextlib.contextmanager
@@ -147,13 +133,13 @@ def running_container(
     groups = sorted({0, *(group_add or [])})
     container = testcontainers.core.container.DockerContainer(image=image, user=user, group_add=groups, **kwargs)
     container.with_command("/bin/sh -c 'sleep infinity'")
+    notebook = NotebookContainer(container)
     try:
         container.start()
-        require_running(container, context="after start")
-        guard_container_exec(container)
-        yield container
+        notebook.require_running(context="after start")
+        yield notebook
     finally:
-        NotebookContainer(container).stop(timeout=0)
+        notebook.stop(timeout=0)
 
 
 def container_cp(
@@ -342,7 +328,7 @@ def container_exec_with_stdin(
                 raw_io._sock.shutdown(pysocket.SHUT_WR)
             else:
                 stream.shutdown(pysocket.SHUT_WR)
-    except OSError, AttributeError:
+    except (OSError, AttributeError):
         # This is expected if the remote process closes the connection first.
         pass
 
