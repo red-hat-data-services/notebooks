@@ -326,9 +326,9 @@ class TestManifests:
             "rocm-runtime-pytorch-ubi9-python-3.12": ROOT_DIR
             / "manifests/base/jupyter-rocm-pytorch-notebook-imagestream.yaml",
             "cuda-jupyter-pytorch-llmcompressor-ubi9-python-3.12": ROOT_DIR
-            / "manifests/base/jupyter-pytorch-notebook-imagestream.yaml",
+            / "manifests/base/jupyter-pytorch-llmcompressor-imagestream.yaml",
             "runtime-cuda-pytorch-llmcompressor-ubi9-python-3.12": ROOT_DIR
-            / "manifests/base/jupyter-pytorch-notebook-imagestream.yaml",
+            / "manifests/base/jupyter-pytorch-llmcompressor-imagestream.yaml",
             "cuda-jupyter-tensorflow-ubi9-python-3.12": ROOT_DIR
             / "manifests/base/jupyter-tensorflow-notebook-imagestream.yaml",
             "runtime-cuda-tensorflow-ubi9-python-3.12": ROOT_DIR

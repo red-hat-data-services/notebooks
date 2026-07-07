@@ -23,8 +23,6 @@ WORKDIR /opt/app-root/bin
 # OS Packages needs to be installed as root
 USER 0
 
-ARG TARGETARCH
-
 ### BEGIN upgrade first to avoid fixable vulnerabilities
 RUN /bin/bash <<'EOF'
 # If we have a Red Hat subscription prepared, refresh it
@@ -68,13 +66,13 @@ if [ "$TARGETARCH" = "s390x" ] || [ "$TARGETARCH" = "ppc64le" ]; then
 fi
 # Additional dev tools only for s390x
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES+=("gcc" "gcc-c++" "make" "openssl-devel" "autoconf" "automake" "libtool" "cmake" "python3-devel" "pybind11-devel" "openblas-devel" "unixODBC-devel" "openssl" "zlib-devel")
+    PACKAGES+=(gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel)
 fi
 if [ "$TARGETARCH" = "ppc64le" ]; then
     PACKAGES+=(git gcc-toolset-13 make wget unzip rust cargo unixODBC-devel cmake ninja-build)
 fi
 if [ -n "$PACKAGES" ]; then
-    echo "Installing: $PACKAGES"
+    echo "Installing: ${PACKAGES[*]}"
     dnf install -y "${PACKAGES[@]}"
     dnf clean all
     rm -rf /var/cache/yum
@@ -169,7 +167,7 @@ EOF
 
 # Build pyarrow optimized for s390x
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=cache,target=/root/.cache/dnf /bin/bash <<'EOF'
+    --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "$TARGETARCH" = "s390x" ]; then
     # Install build dependencies
@@ -399,7 +397,6 @@ else
 fi
 EOF
 
-USER 0
 # Copy wheels from build stage (s390x only)
 COPY --from=s390x-builder /tmp/wheels /tmp/wheels
 RUN /bin/bash <<'EOF'
@@ -411,7 +408,6 @@ else
     echo "Skipping wheel install for $TARGETARCH"
 fi
 EOF
-
 
 # Install Python packages from pylock.toml
 COPY ${DATASCIENCE_SOURCE_CODE}/pylock.toml ./
@@ -435,9 +431,12 @@ if [ "$TARGETARCH" = "ppc64le" ]; then
     export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
 elif [ "$TARGETARCH" = "s390x" ]; then
-    # For s390x, we need special flags and environment variables for building packages
-    GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
-    CFLAGS="-O3" CXXFLAGS="-O3" \
+    PYZMQ_VERSION=$(grep -A1 '^name = "pyzmq"$' pylock.toml | awk -F'"' '/version/{print $2; exit}')
+    # QEMU user-mode breaks libzmq cache-line detection (libzmq#4486); apply only for pyzmq
+    CFLAGS="-Dundefined=64" CXXFLAGS="-Dundefined=64" \
+    uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt "pyzmq==${PYZMQ_VERSION}"
+    # -Dundefined=64 breaks pybind11 (matplotlib) if left in CFLAGS for the full install
+    CFLAGS= CXXFLAGS= GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
 else
     # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,

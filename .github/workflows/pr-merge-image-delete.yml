@@ -19,10 +19,9 @@ jobs:
           fetch-depth: '0'
           persist-credentials: false
       - name: Install skopeo
-        shell: bash
-        run: |
-          sudo apt-get -y update
-          sudo apt-get -y install skopeo
+        uses: ./.github/actions/apt-install
+        with:
+          packages: skopeo
       - name: Get Pull Request Number
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd  # v8.0.0
         id: get_pr_number

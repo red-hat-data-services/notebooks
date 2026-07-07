@@ -94,4 +94,5 @@ override-dependencies = [
     # odh-elyra -> appengine-python-standard caps urllib3<2; override required (constraints unsatisfiable)
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
     "urllib3>=2.6.0",
+    "chardet>=5,<6",
 ]

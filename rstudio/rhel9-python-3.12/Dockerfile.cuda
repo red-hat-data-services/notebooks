@@ -245,7 +245,7 @@ RUN wget --progress=dot:giga https://download2.rstudio.org/server/rhel9/x86_64/$
     mkdir -p /usr/share/doc/R && \
     # package installation \
     # install necessary texlive-framed package to make Knit R markup to PDF rendering possible \
-    dnf install -y libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed && \
+    dnf install -y --disablerepo='ubi-*' libgit2-devel.x86_64 libcurl-devel harfbuzz-devel.x86_64 fribidi-devel.x86_64 cmake "flexiblas-*" texlive-framed && \
     dnf install -y npm && \
     dnf clean all && \
     rm -rf /var/cache/yum && \
@@ -276,9 +276,10 @@ ENV NGINX_VERSION=1.24 \
     NGINX_PERL_MODULE_PATH=${APP_ROOT}/etc/perl
 
 # Modules does not exist
-RUN dnf -y module enable nginx:$NGINX_VERSION && \
+# CUDA packages are already installed; skip cuda repo metadata refresh (NVIDIA CDN flakes break unrelated dnf steps)
+RUN dnf -y module enable nginx:$NGINX_VERSION --disablerepo=cuda && \
     INSTALL_PKGS="nss_wrapper bind-utils gettext hostname nginx nginx-mod-stream nginx-mod-http-perl httpd" && \
-    dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    dnf install -y --disablerepo=cuda --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     nginx -v 2>&1 | grep -qe "nginx/$NGINX_VERSION\." && echo "Found VERSION $NGINX_VERSION" && \
     dnf -y clean all --enablerepo='*'
