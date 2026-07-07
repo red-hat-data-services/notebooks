@@ -11,6 +11,7 @@ import time
 from os import PathLike
 from typing import TYPE_CHECKING
 
+import docker.client
 import docker.errors
 import podman
 import pytest
@@ -21,8 +22,6 @@ import tests.containers.pydantic_schemas
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    import docker.client
-    import testcontainers.core.container
     from docker.models.containers import Container
 
 
