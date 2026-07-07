@@ -244,7 +244,7 @@ jobs:
           max_ref_len = 128 - len(env.TARGET) - len(short_sha) - len(suffix) - 3
 
           if max_ref_len < 1:
-              print(f"::error::Target name '{env.TARGET}' ({len(env.TARGET)} chars) is too long to accommodate a branch name and commit SHA within the 128-character Docker tag limit.", file=sys.stderr)
+              print(f"::error::Target name '{env.TARGET}' ({len(env.TARGET)} chars) plus suffix '{suffix}' ({len(suffix)} chars) is too long to accommodate a branch name and commit SHA within the 128-character Docker tag limit.", file=sys.stderr)
               sys.exit(1)
 
           image_tag = f"{sanitized_ref[:max_ref_len]}_{short_sha}_{suffix}"
