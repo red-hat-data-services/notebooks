@@ -279,16 +279,11 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       echo "➡️ Generating $(uppercase "$flavor") lock file..."
     fi
 
-    # Tag filtering was added in uv 0.9.16 (https://github.com/astral-sh/uv/pull/16956)
-    # but bypassed in --universal mode. uv 0.10.5 (https://github.com/astral-sh/uv/pull/18081)
-    # now filters wheels by requires-python and marker disjointness even in --universal mode.
-    # Documentation at https://docs.astral.sh/uv/reference/cli/#uv-pip-compile--python-platform says that
-    #  `--python-platform linux` is alias for `x86_64-unknown-linux-gnu`; we cannot use this to get a multiarch pylock
-    # Let's use --universal temporarily, and in the future we can switch to using uv.lock
-    #  when https://github.com/astral-sh/uv/issues/6830 is resolved, or symlink `ln -s uv.lock/lock.${flavor}.toml uv.lock`
-    # Note: currently generating uv.lock.d/pylock.${flavor}.toml; future rename to uv.${flavor}.lock is planned
-    # See also --universal discussion with Gerard
-    #  https://redhat-internal.slack.com/archives/C0961HQ858Q/p1757935641975969?thread_ts=1757542802.032519&cid=C0961HQ858Q
+    # Resolve for linux/x86_64 (same as sync-python-lockfiles.sh). --universal fails for images
+    # whose numpy pins conflict with onnx>=1.21.0 (CVE-2026-28500) when uv evaluates markers
+    # across all platforms (e.g. rocm-tensorflow, trustyai). See RHAIENG-5133.
+    # `--python-platform linux` is an alias for x86_64-unknown-linux-gnu; not multiarch.
+    # Future: uv.lock per flavor when https://github.com/astral-sh/uv/issues/6830 is resolved.
 
     # Build constraints flag if CVE constraints file exists
     # Use relative path to avoid absolute paths in pylock.toml headers
@@ -309,7 +304,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       --generate-hashes \
       --emit-index-url \
       --python-version="$PYTHON_VERSION" \
-      --universal \
+      --python-platform linux \
       --no-annotate \
       --quiet \
       $UPGRADE_FLAG \
@@ -320,7 +315,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 
     if [ $status -ne 0 ]; then
       warn "Failed to generate $desc in $TARGET_DIR"
-      rm -f "$output"
+      warn "Leaving existing $output in place (regeneration differs from scratch)"
       DIR_SUCCESS=false
     else
       ok "$desc generated successfully."
