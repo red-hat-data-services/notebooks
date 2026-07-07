@@ -37,9 +37,7 @@ def test_find_suitable_sha__single():
 
 
 def test_find_suitable_sha__rhoai_branch_with_platform_suffix():
-    skopeo_output = json.dumps(
-        {"Tags": ["jupyter-minimal-ubi9-python-3.12-rhoai-2.25_abc1234_rhoai_linux_amd64"]}
-    )
+    skopeo_output = json.dumps({"Tags": ["jupyter-minimal-ubi9-python-3.12-rhoai-2.25_abc1234_rhoai_linux_amd64"]})
     assert (
         find_suitable_sha("rhoai-2.25", "_rhoai_linux_amd64", ["jupyter-minimal-ubi9-python-3.12"], skopeo_output)
         == "abc1234"
