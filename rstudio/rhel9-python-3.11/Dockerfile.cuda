@@ -56,6 +56,7 @@ USER 0
 WORKDIR /opt/app-root/bin
 
 # If necessary, run the subscription manager command using the provided credentials. Only include --serverurl and --baseurl if they are provided
+# --release=9: base is UBI (latest RHEL 9); override EUS default on the activation key (RHAIENG-6037).
 RUN if [ -d "${SECRET_DIR}" ]; then \
     SERVERURL=$(cat ${SECRET_DIR}/SERVERURL 2>/dev/null || echo ${SERVERURL_DEFAULT}) && \
     BASEURL=$(cat ${SECRET_DIR}/BASEURL 2>/dev/null || echo ${BASEURL_DEFAULT}) && \
@@ -66,6 +67,7 @@ RUN if [ -d "${SECRET_DIR}" ]; then \
     ${BASEURL:+--baseurl=$BASEURL} \
     --username=$USERNAME \
     --password=$PASSWORD \
+    --release=9 \
     --force \
     --auto-attach; \
   fi
@@ -186,6 +188,7 @@ USER 0
 #RUN sed -i 's/\(def in_container():\)/\1\n    return False/g' /usr/lib64/python*/*-packages/rhsm/config.py
 
 # If necessary, run the subscription manager command using the provided credentials. Only include --serverurl and --baseurl if they are provided
+# --release=9: base is UBI (latest RHEL 9); override EUS default on the activation key (RHAIENG-6037).
 RUN if [ -d "${SECRET_DIR}" ]; then \
     SERVERURL=$(cat ${SECRET_DIR}/SERVERURL 2>/dev/null || echo ${SERVERURL_DEFAULT}) && \
     BASEURL=$(cat ${SECRET_DIR}/BASEURL 2>/dev/null || echo ${BASEURL_DEFAULT}) && \
@@ -196,6 +199,7 @@ RUN if [ -d "${SECRET_DIR}" ]; then \
     ${BASEURL:+--baseurl=$BASEURL} \
     --username=$USERNAME \
     --password=$PASSWORD \
+    --release=9 \
     --force \
     --auto-attach; \
   fi
