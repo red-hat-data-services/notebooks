@@ -1,5 +1,4 @@
 import fnmatch
-import json
 import logging
 import os
 import pathlib
@@ -7,11 +6,16 @@ import platform
 import re
 import shutil
 import subprocess
+import sys
 import unittest
-from typing import Literal
+from typing import Literal, cast
 
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent.parent.resolve()
-MAKE = shutil.which("gmake") or shutil.which("make")
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from scripts.buildinputs_runner import Platform, buildinputs  # noqa: E402
+
+MAKE = shutil.which("gmake") or shutil.which("make") or "make"
 
 
 def get_github_token() -> str:
@@ -88,20 +92,17 @@ def should_build_target(changed_files: list[str], target_directory: str) -> str:
     # detect change in any of the files outside
     dockerfiles = find_dockerfiles(target_directory)
     for dockerfile in dockerfiles:
-        stdout = subprocess.check_output(
-            [PROJECT_ROOT / "bin/buildinputs", target_directory + "/" + dockerfile],
-            env={
-                "TARGETPLATFORM": f"linux/{get_go_arch()}",
-                **os.environ,
-            },  # TODO(jdanek): still not ideal for qemu-user
-            text=True,
-            cwd=PROJECT_ROOT,
-        )
-        logging.debug(f"{target_directory=} {dockerfile=} {stdout=}")
-        if stdout == "\n":
-            # no dependencies
+        dependencies = [
+            str(path)
+            for path in buildinputs(
+                target_directory + "/" + dockerfile,
+                platform=cast("Platform", f"linux/{get_go_arch()}"),
+                build_args={"BASE_IMAGE": "fake-image"},
+            )
+        ]
+        logging.debug(f"{target_directory=} {dockerfile=} {dependencies=}")
+        if not dependencies:
             continue
-        dependencies: list[str] = json.loads(stdout)
         for dependency in dependencies:
             for changed_file in changed_files:
                 if changed_file.startswith(dependency):
