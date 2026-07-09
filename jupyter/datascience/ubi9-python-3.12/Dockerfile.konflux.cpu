@@ -69,7 +69,8 @@ RUN --mount=type=cache,target=/var/cache/dnf \
     dnf install -y $PACKAGES && \
     dnf clean all && rm -rf /var/cache/yum
 
-RUN <<EOF
+RUN /bin/bash <<'EOF'
+set -Eeuxo pipefail
 if [ "$TARGETARCH" = "s390x" ]; then
     # Install Rust and set up environment
     mkdir -p /opt/.cargo
@@ -89,7 +90,8 @@ fi
 EOF
 
 # Set python alternatives only for s390x (not needed for other arches)
-RUN <<EOF
+RUN /bin/bash <<'EOF'
+set -Eeuxo pipefail
 if [ "$TARGETARCH" = "s390x" ]; then
     alternatives --install /usr/bin/python python /usr/bin/python3.12 1
     alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
@@ -197,7 +199,7 @@ FROM common-builder AS onnx-builder
 ARG TARGETARCH
 ARG ONNX_VERSION=v1.20.1
 WORKDIR /root
-RUN <<'EOF'
+RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
     . /opt/rh/gcc-toolset-13/enable
@@ -222,7 +224,7 @@ FROM common-builder AS openblas-builder
 ARG TARGETARCH
 ARG OPENBLAS_VERSION=0.3.30
 WORKDIR /root
-RUN <<'EOF'
+RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
     wget --progress=dot:giga https://github.com/OpenMathLib/OpenBLAS/releases/download/v${OPENBLAS_VERSION}/OpenBLAS-${OPENBLAS_VERSION}.zip
