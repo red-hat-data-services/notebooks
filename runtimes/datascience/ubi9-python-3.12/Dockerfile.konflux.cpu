@@ -60,7 +60,7 @@ RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "$TARGETARCH" = "ppc64le" ]; then cat > /etc/profile.d/ppc64le.sh <<'PROFILE_EOF'
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
-export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export OPENBLAS_VERSION=0.3.30
 export ONNX_VERSION=1.20.1
 export PYARROW_VERSION=17.0.0
@@ -155,8 +155,8 @@ if [ "$TARGETARCH" = "s390x" ]; then
     cd arrow
     # Set environment variables for build
     export ARROW_HOME=/usr/local
-    export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
-    export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+    export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+    export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
     # Build C++ library first
     cd cpp
     mkdir build && cd build
@@ -290,9 +290,9 @@ if [ "$TARGETARCH" = "ppc64le" ]; then
     pip3 install --no-cache-dir -r python/requirements-build.txt
     ARROW_HOME=$(pwd)/dist
     export ARROW_HOME
-    LD_LIBRARY_PATH=$(pwd)/dist/lib:$LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=$(pwd)/dist/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
     export LD_LIBRARY_PATH
-    export CMAKE_PREFIX_PATH=$ARROW_HOME:$CMAKE_PREFIX_PATH
+    export CMAKE_PREFIX_PATH=${ARROW_HOME}${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
     export PARQUET_TEST_DATA="${PWD}/cpp/submodules/parquet-testing/data"
     export ARROW_TEST_DATA="${PWD}/testing/data"
     cmake -S cpp -B cpp/build \
@@ -400,7 +400,7 @@ echo "Installing softwares and packages"
 echo "meson<1.11" > build_constraints.txt
 if [ "$TARGETARCH" = "ppc64le" ]; then
     export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-    export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
 elif [ "$TARGETARCH" = "s390x" ]; then
     # For s390x, we need special flags and environment variables for building packages
