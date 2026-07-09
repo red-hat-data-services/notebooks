@@ -123,7 +123,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
             ninja-build && \
         dnf clean all && \
         # Source the environment variables
-        source /etc/profile.d/s390x.sh && \
+        . /etc/profile.d/s390x.sh && \
         # Clone specific version of arrow
         git clone -b apache-arrow-${PYARROW_VERSION} https://github.com/apache/arrow.git && \
         cd arrow && \
@@ -198,7 +198,7 @@ RUN echo "openblas-builder stage TARGETARCH: ${TARGETARCH}"
 
 # Download and build OpenBLAS
 RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
-        source /opt/rh/gcc-toolset-13/enable && \
+        . /opt/rh/gcc-toolset-13/enable && \
         wget --progress=dot:giga https://github.com/OpenMathLib/OpenBLAS/releases/download/v${OPENBLAS_VERSION}/OpenBLAS-${OPENBLAS_VERSION}.zip && \
         unzip OpenBLAS-${OPENBLAS_VERSION}.zip && cd OpenBLAS-${OPENBLAS_VERSION}                                            && \
         make -j$(nproc) TARGET=POWER9 BINARY=64 USE_OPENMP=1 USE_THREAD=1 NUM_THREADS=120 DYNAMIC_ARCH=1 INTERFACE64=0; \
@@ -221,7 +221,7 @@ ENV ONNX_VERSION=1.20.1
 RUN echo "onnx-builder stage TARGETARCH: ${TARGETARCH}"
 
 RUN if [ "$TARGETARCH" = "ppc64le" ]; then \
-    	source /opt/rh/gcc-toolset-13/enable && \
+    	. /opt/rh/gcc-toolset-13/enable && \
     	git clone --recursive https://github.com/onnx/onnx.git && \
     	cd onnx && git checkout v${ONNX_VERSION} && \
     	git submodule update --init --recursive && \

@@ -194,7 +194,7 @@ WORKDIR /root
 RUN <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
-    source /opt/rh/gcc-toolset-13/enable
+    . /opt/rh/gcc-toolset-13/enable
     git clone --recursive https://github.com/onnx/onnx.git
     cd onnx
     git checkout ${ONNX_VERSION}
