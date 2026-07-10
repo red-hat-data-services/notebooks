@@ -292,7 +292,15 @@ jobs:
           # print running stats on disk occupancy
           (while true; do df -h | grep "${HOME}/.local/share/containers"; sleep 30; done) &
 
+          if [[ "${{ inputs.target }}" == rocm-* ]]; then
+            podman system prune -af || true
+            df -h
+          fi
+
           make ${{ inputs.target }}
+
+          podman system prune -af || true
+          df -h
         if: ${{ fromJson(inputs.github).event_name == 'push' ||
           fromJson(inputs.github).event_name == 'schedule' ||
           fromJson(inputs.github).event_name == 'workflow_dispatch' }}
@@ -305,7 +313,15 @@ jobs:
           # print running stats on disk occupancy
           (while true; do df -h | grep "${HOME}/.local/share/containers"; sleep 30; done) &
 
+          if [[ "${{ inputs.target }}" == rocm-* ]]; then
+            podman system prune -af || true
+            df -h
+          fi
+
           make ${{ inputs.target }}
+
+          podman system prune -af || true
+          df -h
         if: "${{ fromJson(inputs.github).event_name == 'pull_request' ||
           fromJson(inputs.github).event_name == 'pull_request_target' }}"
         env:
