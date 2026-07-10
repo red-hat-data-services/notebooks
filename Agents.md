@@ -222,8 +222,9 @@ When contributing to this project:
 4. **Update documentation**
 
 **RHDS (`red-hat-data-services/notebooks`):** Open PRs from branches pushed to
-`red-hat-data-services/notebooks`, not from forks. Fork PRs skip subscription and
-AIPCC registry builds. See [CONTRIBUTING.md](CONTRIBUTING.md#contributing-from-branches-vs-forks).
+`red-hat-data-services/notebooks`, not from forks. Fork PRs still schedule
+subscription and AIPCC registry builds, but those jobs fail without repo secrets.
+See [CONTRIBUTING.md](CONTRIBUTING.md#contributing-from-branches-vs-forks).
 
 For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
