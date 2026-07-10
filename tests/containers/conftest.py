@@ -59,7 +59,13 @@ def pytest_addoption(parser: Parser) -> None:
 # https://docs.pytest.org/en/latest/reference/reference.html#pytest.hookspec.pytest_generate_tests
 def pytest_generate_tests(metafunc: Metafunc) -> None:
     if image.__name__ in metafunc.fixturenames:
-        metafunc.parametrize(image.__name__, metafunc.config.getoption("--image"))
+        # scope="session" is required here to match the fixture's declared scope.
+        # Without it, metafunc.parametrize defaults to function scope and silently
+        # overrides the fixture scope (https://github.com/pytest-dev/pytest/issues/634),
+        # causing ScopeMismatch for any session-scoped fixture that depends on `image`.
+        image_option = metafunc.config.getoption("--image")
+        assert image_option is not None
+        metafunc.parametrize(image.__name__, image_option, scope="session")
 
 
 def get_image_metadata(image: str) -> Image:
