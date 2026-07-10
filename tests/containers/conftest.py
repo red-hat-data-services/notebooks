@@ -64,7 +64,7 @@ def pytest_generate_tests(metafunc: Metafunc) -> None:
         # overrides the fixture scope (https://github.com/pytest-dev/pytest/issues/634),
         # causing ScopeMismatch for any session-scoped fixture that depends on `image`.
         image_option = metafunc.config.getoption("--image")
-        assert image_option is not None
+        assert image_option is not None, "--image option must be provided"
         metafunc.parametrize(image.__name__, image_option, scope="session")
 
 
