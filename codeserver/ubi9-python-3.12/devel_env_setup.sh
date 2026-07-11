@@ -51,6 +51,8 @@ build_pyarrow() {
         -DARROW_JEMALLOC=ON \
         -DARROW_BUILD_STATIC="OFF" \
         -DARROW_PARQUET=ON \
+        -DARROW_S3=ON \
+        -DARROW_SUBSTRAIT=ON \
         ..
     make install -j ${MAX_JOBS:-$(nproc)}
     cd ../../python/

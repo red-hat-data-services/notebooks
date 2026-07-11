@@ -174,6 +174,8 @@ if [ "$TARGETARCH" = "s390x" ]; then
           -DARROW_WITH_SNAPPY=OFF \
           -DARROW_WITH_BZ2=ON \
           -DARROW_WITH_ZLIB=ON \
+          -DARROW_S3=ON \
+          -DARROW_SUBSTRAIT=ON \
           -DARROW_BUILD_TESTS=OFF \
           -DARROW_BUILD_BENCHMARKS=OFF \
           -DARROW_USE_CCACHE=OFF \
@@ -311,6 +313,8 @@ if [ "$TARGETARCH" = "ppc64le" ]; then
         -DARROW_CSV=ON \
         -DARROW_PYTHON=ON \
         -DARROW_PARQUET=ON \
+        -DARROW_S3=ON \
+        -DARROW_SUBSTRAIT=ON \
         -DARROW_BUILD_SHARED=ON \
         -DARROW_BUILD_TESTS=OFF
     cd cpp/build
