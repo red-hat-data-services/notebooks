@@ -50,7 +50,7 @@ def port_forward_http_ready(image: str, port: int) -> bool:
     """Return True when the workbench HTTP endpoint behind port-forward responds."""
     base = f"http://127.0.0.1:{port}"
     with requests.Session() as session:
-        response = requests.get(f"{base}/", timeout=5, allow_redirects=True)
+        response = session.get(f"{base}/", timeout=5, allow_redirects=True)
     return response.status_code == 200
 
 
