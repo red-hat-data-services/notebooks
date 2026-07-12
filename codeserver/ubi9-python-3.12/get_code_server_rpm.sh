@@ -64,6 +64,14 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" ||"$ARCH" == "ppc64le" ]]; then
 	cd code-server
 	source ${NVM_DIR}/nvm.sh
 	while IFS= read -r src_patch; do echo "patches/$src_patch"; patch -p1 < "patches/$src_patch"; done < patches/series
+
+	# Apply ODH overlay patches (flat filenames; avoid patches/lib/ — matched by .gitignore).
+	ODH_PATCHES_DIR="${ODH_PATCHES_DIR:-/root/patches}"
+	if [[ -f "${ODH_PATCHES_DIR}/vscode-tsgo.ts" ]]; then
+		echo "Applying ODH overlay: lib/vscode/build/lib/tsgo.ts"
+		install -D "${ODH_PATCHES_DIR}/vscode-tsgo.ts" lib/vscode/build/lib/tsgo.ts
+	fi
+
 	nvm use ${NODE_VERSION}
 
 	# ppc64le/s390x: disable @vscode/vsce-sign's postinstall (same fix as prefetch-input/patches/apply-patch.sh on main).
