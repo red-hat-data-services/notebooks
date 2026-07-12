@@ -64,7 +64,46 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" ||"$ARCH" == "ppc64le" ]]; then
 	cd code-server
 	source ${NVM_DIR}/nvm.sh
 	while IFS= read -r src_patch; do echo "patches/$src_patch"; patch -p1 < "patches/$src_patch"; done < patches/series
+
+	# Apply ODH overlay patches (flat filenames; avoid patches/lib/ — matched by .gitignore).
+	ODH_PATCHES_DIR="${ODH_PATCHES_DIR:-/root/patches}"
+	if [[ -f "${ODH_PATCHES_DIR}/vscode-tsgo.ts" ]]; then
+		echo "Applying ODH overlay: lib/vscode/build/lib/tsgo.ts"
+		install -D "${ODH_PATCHES_DIR}/vscode-tsgo.ts" lib/vscode/build/lib/tsgo.ts
+	fi
+
 	nvm use ${NODE_VERSION}
+
+	# ppc64le/s390x: disable @vscode/vsce-sign's postinstall (same fix as prefetch-input/patches/apply-patch.sh on main).
+	# Online build: fetch tarball via npm pack and point the lockfile at the patched file (no cachi2 cache).
+	if [[ "$ARCH" == "ppc64le" || "$ARCH" == "s390x" ]]; then
+		vsceSignVersion=$(jq -r '.packages["node_modules/@vscode/vsce-sign"].version' lib/vscode/build/package-lock.json)
+		if [[ -z "${vsceSignVersion}" || "${vsceSignVersion}" == "null" ]]; then
+			echo "ERROR: failed to read @vscode/vsce-sign version from lib/vscode/build/package-lock.json" >&2
+			exit 1
+		fi
+		patchdir=$(mktemp -d)
+		npm pack "@vscode/vsce-sign@${vsceSignVersion}" --pack-destination="$patchdir"
+		VSCE_TGZ="$patchdir/vscode-vsce-sign-${vsceSignVersion}.tgz"
+		echo "Patching vsce-sign: removing postinstall for ${ARCH} (${VSCE_TGZ})"
+		tmpdir=$(mktemp -d)
+		tar xzf "${VSCE_TGZ}" -C "$tmpdir"
+		pkg_tmp=$(mktemp)
+		jq 'del(.scripts.postinstall)' "$tmpdir/package/package.json" \
+			> "$pkg_tmp" && mv "$pkg_tmp" "$tmpdir/package/package.json"
+		tar czf "${VSCE_TGZ}" -C "$tmpdir" package
+		rm -rf "$tmpdir"
+		# Tell npm not to run vsce-sign's postinstall (hasInstallScript=false) and
+		# strip integrity so npm accepts the modified tarball.
+		lock_tmp=$(mktemp)
+		jq --arg resolved "file:${VSCE_TGZ}" '
+			(.packages["node_modules/@vscode/vsce-sign"].hasInstallScript = false) |
+			(.packages["node_modules/@vscode/vsce-sign"].resolved = $resolved) |
+			del(.packages["node_modules/@vscode/vsce-sign"].integrity)
+		' lib/vscode/build/package-lock.json > "$lock_tmp" \
+			&& mv "$lock_tmp" lib/vscode/build/package-lock.json
+	fi
+
 	npm install
 	npm run build
 	VERSION=${CODESERVER_VERSION/v/} npm run build:vscode
