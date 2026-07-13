@@ -8,7 +8,9 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: ^/kfbuild\s+(all|odh\-workbench\-codeserver\-datascience\-cpu\-py312\-ubi9|codeserver/ubi9\-python\-3\.12)
+    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-codeserver)"
+    pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-workbench, kfbuild-cpu, kfbuild-datascience, kfbuild-codeserver, kfbuild-workbench-codeserver-datascience-cpu]"
+    pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:
     appstudio.openshift.io/application: automation
