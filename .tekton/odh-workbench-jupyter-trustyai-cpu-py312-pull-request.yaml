@@ -57,6 +57,8 @@ spec:
   timeouts:
     pipeline: 8h
     tasks: 4h
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
   pipelineRef:
     resolver: git
     params:
