@@ -56,6 +56,8 @@ spec:
     - linux-d160-m4xlarge/arm64
   - name: fips-check-blocking
     value: "false"
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
   pipelineRef:
     resolver: git
     params:
