@@ -69,10 +69,13 @@ jobs:
         run: |
           uv run pre-commit run --all-files
 
-      - name: Fetch downgrade check base SHA locally
+      - name: Fetch downgrade check base ref
+        if: ${{ steps.install-deps.conclusion == 'success' && !cancelled() }}
         run: |
+          NULL_SHA="0000000000000000000000000000000000000000"
           BASE_SHA="${PULL_REQUEST_BASE_SHA:-$PUSH_BEFORE_SHA}"
-          if [ -n "$BASE_SHA" ] && ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "$NULL_SHA" ] \
+             && ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
             git fetch --depth=1 origin "$BASE_SHA"
           fi
         env:
