@@ -1,0 +1,12 @@
+---
+# artifacts.in.yaml - Generic (non-RPM, non-pip) artifacts to prefetch
+#
+# rhoai-3.3 codeserver builds with hermetic=false (hybrid, same as rhoai-2.25)
+# and does not prefetch generics (X.org / CentOS GPG). Those are fetched at
+# build time when needed so they do not appear in the Hermeto SBOM (Conforma
+# allowed_package_sources).
+#
+# Kept as an empty manifest so local/Konflux tooling that expects this file still
+# resolves. Re-add URLs here only if hermetic generic prefetch is restored.
+
+input: []

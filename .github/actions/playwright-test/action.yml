@@ -31,26 +31,38 @@ inputs:
     required: false
     default: 'tests/browser'
   upload-report:
-    description: 'Whether to upload the Playwright report as an artifact'
+    description: 'Whether to upload the Playwright HTML report as an artifact'
     required: false
     default: 'false'
+  upload-junit:
+    description: 'Whether to upload the Playwright JUnit XML report as an uncompressed artifact'
+    required: false
+    default: 'true'
   artifact-name:
-    description: 'Name for the uploaded artifact (required if upload-report is true)'
+    description: 'Name for the uploaded HTML report artifact (required if upload-report is true)'
     required: false
     default: 'playwright-report'
+  junit-artifact-file:
+    description: 'Filename for the uploaded JUnit XML (upload-artifact v7 archive:false uses the filename as the artifact name)'
+    required: false
+    default: ''
   artifact-retention-days:
-    description: 'Number of days to retain the artifact'
+    description: 'Number of days to retain the HTML report artifact'
     required: false
     default: '30'
+  junit-retention-days:
+    description: 'Number of days to retain the JUnit XML artifact'
+    required: false
+    default: '14'
   grep-pattern:
     description: 'Grep pattern passed to --grep to filter tests (e.g. "@codeserver", "@smoke"). Empty string runs all tests.'
     required: false
     default: ''
 
 outputs:
-  exit-code:
-    description: 'The exit code of the Playwright tests (0 = success, non-zero = failure). The step itself always succeeds to allow artifact upload.'
-    value: ${{ steps.playwright.outputs.exit-code }}
+  outcome:
+    description: 'The outcome of the Playwright tests (success or failure)'
+    value: ${{ steps.playwright.outcome }}
 
 runs:
   using: 'composite'
@@ -59,19 +71,20 @@ runs:
       id: playwright-version
       shell: bash
       run: |
+        set -Eeuxo pipefail
         if [[ -n "${INPUT_PLAYWRIGHT_VERSION}" ]]; then
           echo "version=${INPUT_PLAYWRIGHT_VERSION}" >> "$GITHUB_OUTPUT"
         else
-          # Extract version from package.json5 (single source of truth)
-          # package.json5 has: "@playwright/test": "==1.53.1" (pnpm exact pin)
-          # Container tag format is: v1.59.1-noble
-          PKG_VERSION=$(grep -oP "['\"]@playwright/test['\"]\s*:\s*['\"]=+\K[0-9.]+" "${WORKING_DIRECTORY}/package.json5")
-          if [[ -z "$PKG_VERSION" ]]; then
-            echo "::error::Failed to extract Playwright version from package.json5"
-            exit 1
+          # Extract version from package.json5 or package.json (single source of truth)
+          pkg_file="${WORKING_DIRECTORY}/package.json5"
+          if [[ ! -f "${pkg_file}" ]]; then
+            pkg_file="${WORKING_DIRECTORY}/package.json"
           fi
-          if [[ ! "$PKG_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::error::Invalid semver format in package.json5: $PKG_VERSION"
+          # package.json5 has: "@playwright/test": "=1.59.1"
+          # Container tag format is: v1.59.1-noble
+          PKG_VERSION=$(grep -oP "['\"]@playwright/test['\"]\s*:\s*['\"]=*\K[0-9.]+" "${pkg_file}")
+          if [[ -z "$PKG_VERSION" ]]; then
+            echo "::error::Failed to extract Playwright version from ${pkg_file}"
             exit 1
           fi
           echo "version=v${PKG_VERSION}-noble" >> "$GITHUB_OUTPUT"
@@ -79,6 +92,33 @@ runs:
         fi
       env:
         INPUT_PLAYWRIGHT_VERSION: ${{ inputs.playwright-version }}
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
+
+    - name: Determine pnpm version
+      id: pnpm-version
+      shell: bash
+      run: |
+        set -Eeuxo pipefail
+        ver=""
+        lockfile="${WORKING_DIRECTORY}/pnpm-lock.yaml"
+        pkg_file="${WORKING_DIRECTORY}/package.json5"
+        if [[ ! -f "${pkg_file}" ]]; then
+          pkg_file="${WORKING_DIRECTORY}/package.json"
+        fi
+        if [[ -f scripts/get-pnpm-version.sh ]] && command -v yq >/dev/null 2>&1; then
+          ver=$(scripts/get-pnpm-version.sh "${lockfile}" 2>/dev/null || true)
+        fi
+        if [[ -z "${ver}" ]]; then
+          # package.json5 uses single quotes: packageManager: 'pnpm@10.8.0'
+          ver=$(grep -oP "packageManager['\"]?\s*:\s*['\"]pnpm@\K[0-9.]+" "${pkg_file}")
+        fi
+        if [[ -z "${ver}" ]]; then
+          echo "::error::Failed to resolve pnpm version from ${pkg_file} or ${lockfile}"
+          exit 1
+        fi
+        echo "version=${ver}" >> "$GITHUB_OUTPUT"
+        echo "Resolved pnpm version: ${ver}"
+      env:
         WORKING_DIRECTORY: ${{ inputs.working-directory }}
 
     - name: Run Playwright tests
@@ -93,37 +133,74 @@ runs:
       #  TEST_TARGET is the workbench image the test will run
       # --volume(s) let us access docker socket and not clobber host's node_modules
       run: |
-        set +e
         podman run \
           --interactive --rm \
           --ipc=host \
           --net=host \
           --env "CI=true" \
-          --env "NPM_CONFIG_fund=false" \
+          --env "PNPM_CONFIG_fund=false" \
           --env "DEBUG=testcontainers:*" \
           --env "PODMAN_SOCK=/var/run/docker.sock" \
           --env "TEST_TARGET" \
+          --env "GREP_PATTERN" \
+          --env "PNPM_VERSION" \
           --volume "${PODMAN_SOCKET}":/var/run/docker.sock \
           --volume "${PWD}":/mnt \
           --volume /mnt/node_modules \
           "mcr.microsoft.com/playwright:${PLAYWRIGHT_VERSION}" \
-          /bin/bash <<EOF
+          /bin/bash <<'EOF'
             set -Eeuxo pipefail
             cd /mnt
-            npm install -g pnpm@10.33.0 && pnpm install --frozen-lockfile
+            npm install -g "pnpm@${PNPM_VERSION}" && (pnpm ci || pnpm install --frozen-lockfile)
             pnpm exec playwright test ${GREP_PATTERN:+--grep "$GREP_PATTERN"}
+            exit 0
         EOF
-        exit_code=$?
-        set -e
-        echo "exit-code=${exit_code}" >> "$GITHUB_OUTPUT"
-        exit 0
       working-directory: ${{ inputs.working-directory }}
       env:
         # Only set TEST_TARGET if provided, otherwise playwright.config.ts uses its default
         TEST_TARGET: ${{ inputs.test-target || '' }}
         PODMAN_SOCKET: ${{ inputs.podman-socket }}
         PLAYWRIGHT_VERSION: ${{ steps.playwright-version.outputs.version }}
+        PNPM_VERSION: ${{ steps.pnpm-version.outputs.version }}
         GREP_PATTERN: ${{ inputs.grep-pattern }}
+
+    - name: Stage Playwright JUnit XML
+      id: stage-junit
+      if: ${{ !cancelled() && inputs.upload-junit == 'true' }}
+      shell: bash
+      run: |
+        set -Eeuxo pipefail
+        src="${WORKING_DIRECTORY}/results/junit.xml"
+        if [[ -n "${JUNIT_ARTIFACT_FILE}" ]]; then
+          artifact_file="${JUNIT_ARTIFACT_FILE}"
+        else
+          artifact_file="${ARTIFACT_NAME/_playwright-report/_playwright-junit.xml}"
+          if [[ "${artifact_file}" == "${ARTIFACT_NAME}" ]]; then
+            artifact_file="${ARTIFACT_NAME}-junit.xml"
+          fi
+        fi
+        dest="${RUNNER_TEMP}/playwright-reports/${artifact_file}"
+        mkdir -p "$(dirname "${dest}")"
+        if [[ -f "${src}" ]]; then
+          cp "${src}" "${dest}"
+          echo "path=${dest}" >> "${GITHUB_OUTPUT}"
+          echo "Staged Playwright JUnit XML at ${dest}"
+        else
+          echo "::warning::Playwright JUnit XML not found at ${src}"
+        fi
+      env:
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        ARTIFACT_NAME: ${{ inputs.artifact-name }}
+        JUNIT_ARTIFACT_FILE: ${{ inputs.junit-artifact-file }}
+
+    - name: Upload Playwright JUnit XML
+      if: ${{ always() && !cancelled() && inputs.upload-junit == 'true' && steps.stage-junit.outputs.path != '' }}
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+      with:
+        path: ${{ steps.stage-junit.outputs.path }}
+        archive: false
+        retention-days: ${{ inputs.junit-retention-days }}
+        if-no-files-found: warn
 
     - name: Upload Playwright report
       if: ${{ !cancelled() && inputs.upload-report == 'true' }}

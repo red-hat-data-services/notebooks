@@ -4,6 +4,10 @@ version = "0.1.0"
 requires-python = "==3.12.*"
 
 dependencies = [
+    # Hermetic code-server build (prefetched for setup-offline-binaries.sh / npm ci)
+    "uv==0.11.26",
+    "ripgrep==15.1.0",
+
     # Base packages
     "wheel~=0.46.2",
     "setuptools~=80.9.0",
@@ -26,11 +30,12 @@ dependencies = [
     "opencensus~=0.11.4",
     "smart-open~=7.3.1",
     "virtualenv~=20.35.3",
-    "py-spy~=0.4.1; platform_machine != 's390x'",
     "prometheus-client~=0.23.1",
 ]
 
 [tool.uv]
+exclude-dependencies = ["py-spy"]
+
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
