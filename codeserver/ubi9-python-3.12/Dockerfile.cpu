@@ -59,7 +59,13 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 RUN dnf module enable nodejs:22 -y
 
 # libxkbfile-devel = util-macros + libxkbfile (Previously built from source)
+# Install the glibc stack + redhat-rpm-config in the same transaction as
+# nodejs-devel: nodejs-packaging requires redhat-rpm-config, which triggers a
+# rich dep on glibc-gconv-extra matching installed glibc. AIPCC bases ship
+# glibc-langpack-en and glibc-minimal-langpack; upgrading gconv-extra without
+# them fails hermetic dnf.
 RUN dnf install -y \
+        glibc glibc-common glibc-gconv-extra glibc-langpack-en glibc-minimal-langpack redhat-rpm-config \
         nodejs nodejs-devel npm \
         jq patch libtool rsync gettext git-lfs gcc-toolset-14 gcc-toolset-14-libatomic-devel \
         krb5-devel libX11-devel libxkbfile-devel && \

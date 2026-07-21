@@ -4680,6 +4680,13 @@ arches:
     name: glibc-gconv-extra
     evr: 2.34-168.el9_6.25
     sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/g/glibc-langpack-en-2.34-168.el9_6.25.aarch64.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 668154
+    checksum: sha256:e3f524ef363b6f11cefa2ba0019773baa340d37e68b9af8b158ff1d5dffd49bc
+    name: glibc-langpack-en
+    evr: 2.34-168.el9_6.25
+    sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/g/glibc-minimal-langpack-2.34-168.el9_6.25.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 14453
@@ -11924,6 +11931,13 @@ arches:
     name: glibc-gconv-extra
     evr: 2.34-168.el9_6.25
     sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/g/glibc-langpack-en-2.34-168.el9_6.25.ppc64le.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 668246
+    checksum: sha256:f981f43ac40143012a44a3c35ea651e3e38c894112b9e421f3423caefd84320d
+    name: glibc-langpack-en
+    evr: 2.34-168.el9_6.25
+    sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/g/glibc-minimal-langpack-2.34-168.el9_6.25.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 14469
@@ -19147,6 +19161,13 @@ arches:
     name: glibc-gconv-extra
     evr: 2.34-168.el9_6.25
     sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/g/glibc-langpack-en-2.34-168.el9_6.25.s390x.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 618739
+    checksum: sha256:311df7260702a6f7603e7b338b376631ab4c60935e1d3cf9db83b9003dde4329
+    name: glibc-langpack-en
+    evr: 2.34-168.el9_6.25
+    sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/g/glibc-minimal-langpack-2.34-168.el9_6.25.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 14457
@@ -26353,6 +26374,13 @@ arches:
     size: 1751236
     checksum: sha256:5f123e41f3ea83c34e6a276d91da4bdd34bbb94a35d86bb855033f28262c3128
     name: glibc-gconv-extra
+    evr: 2.34-168.el9_6.25
+    sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/g/glibc-langpack-en-2.34-168.el9_6.25.x86_64.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 668151
+    checksum: sha256:805fc5297494c54e0dfbe8a161144a2d7fb11cffe432feb207bc77d8611e170f
+    name: glibc-langpack-en
     evr: 2.34-168.el9_6.25
     sourcerpm: glibc-2.34-168.el9_6.25.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/g/glibc-minimal-langpack-2.34-168.el9_6.25.x86_64.rpm
