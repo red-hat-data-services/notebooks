@@ -71,11 +71,26 @@ done
 [[ -z "$PREFETCH_DIR" ]] && error_exit "--prefetch-dir is required."
 [[ -f "$PREFETCH_DIR/rpms.lock.yaml" ]] || error_exit "rpms.lock.yaml not found in $PREFETCH_DIR"
 
+# GHA ubuntu runners often mount /tmp as a small tmpfs (~8GiB). Hermeto stages
+# the full multi-arch RPM tree there via mktemp; codeserver RHDS locks overflow
+# it (ENOSPC) while / still has tens of GiB free. Prefer a disk-backed TMPDIR.
+if [[ -d /mnt ]]; then
+  if [[ ! -d /mnt/tmp ]]; then
+    sudo mkdir -p /mnt/tmp 2>/dev/null || mkdir -p /mnt/tmp
+  fi
+  sudo chmod 1777 /mnt/tmp 2>/dev/null || chmod 1777 /mnt/tmp 2>/dev/null || true
+  if [[ -w /mnt/tmp ]]; then
+    export TMPDIR=/mnt/tmp
+    echo "Using disk-backed TMPDIR=$TMPDIR (avoid small /tmp tmpfs)"
+  fi
+fi
+
 # CLI args take priority; fall back to env vars so GHA can pass secrets
 # without exposing them on the command line (GitHub Actions masks env vars
 # in logs but command-line args are visible in process listings).
 ACTIVATION_KEY="${ACTIVATION_KEY:-${SUBSCRIPTION_ACTIVATION_KEY:-}}"
 ORG="${ORG:-${SUBSCRIPTION_ORG:-}}"
+
 
 # The GHA "Add subscriptions" step (in build-notebooks-TEMPLATE.yaml) runs
 # subscription-manager in a UBI9 container and writes the resulting PEM
@@ -206,8 +221,17 @@ fi
 # a staging dir to avoid destroying pip/npm/generic artifacts that other
 # prefetch steps already placed in cachi2/output/deps/.
 # =========================================================================
-HERMETO_STAGING=$(mktemp -d)
-trap 'rm -rf "$HERMETO_STAGING" ${CDN_CERT_DIR:+"$CDN_CERT_DIR"}' EXIT
+HERMETO_STAGING=$(mktemp -d "${TMPDIR:-/tmp}/hermeto-rpm.XXXXXX")
+cleanup_hermeto() {
+  # Hermeto runs as root; staging may be root-owned if fetch fails mid-way.
+  if [[ -n "${HERMETO_STAGING:-}" && -d "${HERMETO_STAGING}" ]]; then
+    sudo rm -rf "$HERMETO_STAGING" 2>/dev/null || rm -rf "$HERMETO_STAGING" 2>/dev/null || true
+  fi
+  if [[ -n "${CDN_CERT_DIR:-}" && -d "${CDN_CERT_DIR}" ]]; then
+    sudo rm -rf "$CDN_CERT_DIR" 2>/dev/null || rm -rf "$CDN_CERT_DIR" 2>/dev/null || true
+  fi
+}
+trap cleanup_hermeto EXIT
 
 echo "--- Downloading RPMs via hermeto ---"
 podman run --rm \

@@ -180,8 +180,11 @@ jobs:
           #  is >=15GiB disk space on /. In practice, we can either get a single
           #  volume machine or a two volume machine (with extra volume mounted
           #  under /mnt. Either case, /mnt should be large enough to fit our images.
-          sudo mkdir -p /mnt/containers/storage
+          sudo mkdir -p /mnt/containers/storage /mnt/tmp
           sudo chown -R "${USER}:${USER}" /mnt/containers/storage
+          # /tmp is often a small tmpfs on GHA; hermeto RPM staging needs disk.
+          sudo chmod 1777 /mnt/tmp
+          echo "TMPDIR=/mnt/tmp" >> "$GITHUB_ENV"
 
       # endregion
 
@@ -411,6 +414,7 @@ jobs:
           fi
         env:
           MAKE_TARGET: ${{ inputs.target }}
+          BUILD_ARCH: ${{ inputs.platform }}
           SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
 
