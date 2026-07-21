@@ -3,16 +3,14 @@ name: Test Playwright Action
 "on":
   workflow_dispatch:
   pull_request:
-    paths:
+    paths: &playwright-action-paths
       - '.github/actions/playwright-test/**'
       - '.github/workflows/test-playwright-action.yaml'
       - 'tests/browser/**'
+      - '.github/workflows/build-browser-tests.yaml'
   push:
     branches: [main, stable, 'rhoai-*']
-    paths:
-      - '.github/actions/playwright-test/**'
-      - '.github/workflows/test-playwright-action.yaml'
-      - 'tests/browser/**'
+    paths: *playwright-action-paths
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -21,21 +19,17 @@ concurrency:
 jobs:
   lint:
     name: Lint & Typecheck
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
 
-      - name: Read pnpm version
+      - name: Read pnpm version from lockfile
         id: pnpm-ver
         run: |
-          ver=$(grep -oP '"packageManager":\s*"pnpm@\K[0-9.]+' tests/browser/package.json5)
-          if [[ -z "${ver}" ]]; then
-            echo "::error::Failed to extract pnpm version from package.json5"
-            exit 1
-          fi
-          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          ver=$(scripts/get-pnpm-version.sh tests/browser/pnpm-lock.yaml)
+          echo "version=${ver}" >> "$GITHUB_OUTPUT"
 
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271  # v6.0.9
         with:
@@ -52,7 +46,7 @@ jobs:
 
   test-playwright:
     name: Test Playwright Browser Tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       actions: read
@@ -124,11 +118,26 @@ jobs:
         env:
           TEST_IMAGE: ${{ steps.get-image.outputs.image }}
 
+      - name: Build browser tests image
+        id: browser-tests-image
+        run: |
+          set -Eeuxo pipefail
+          IMAGE="localhost/workbench-images-tests:ci"
+          PLAYWRIGHT_VERSION=$(python3 scripts/get_playwright_version.py tests/browser/package.json5)
+          podman build \
+            --build-arg "PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}" \
+            -t "${IMAGE}" \
+            -f tests/browser/Dockerfile \
+            tests/browser
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+
       - name: Run Playwright tests
         uses: ./.github/actions/playwright-test
         with:
           test-target: ${{ steps.get-image.outputs.image }}
+          playwright-image: ${{ steps.browser-tests-image.outputs.image }}
           podman-socket: /var/run/podman/podman.sock
           upload-report: 'true'
           artifact-name: playwright-action-test-report
+          junit-artifact-file: playwright-action-test-junit.xml
           grep-pattern: '@codeserver'
