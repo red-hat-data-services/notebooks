@@ -25,7 +25,9 @@ runs:
         set -Eeuxo pipefail
         if [[ -f /etc/apparmor.d/abstractions/pasta ]] && ! grep -q 'peer=podman' /etc/apparmor.d/abstractions/pasta; then
           echo '  signal (receive) peer=podman,' | sudo tee -a /etc/apparmor.d/abstractions/pasta
-          sudo apparmor_parser -r /etc/apparmor.d/usr.bin.pasta
+          if [[ -f /etc/apparmor.d/usr.bin.pasta ]]; then
+            sudo apparmor_parser -r /etc/apparmor.d/usr.bin.pasta
+          fi
         fi
 
     - name: Configure Podman
