@@ -4442,6 +4442,13 @@ arches:
     name: glibc-gconv-extra
     evr: 2.34-274.el9
     sourcerpm: glibc-2.34-274.el9.src.rpm
+  - url: https://mirror.stream.centos.org/9-stream/BaseOS/aarch64/os/Packages/glibc-langpack-en-2.34-274.el9.aarch64.rpm
+    repoid: baseos
+    size: 676871
+    checksum: sha256:2aaa39703baeb7739ffb71163aab5496fd55781cab6b4ee47a91ad0e45bdd43b
+    name: glibc-langpack-en
+    evr: 2.34-274.el9
+    sourcerpm: glibc-2.34-274.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/aarch64/os/Packages/glibc-minimal-langpack-2.34-274.el9.aarch64.rpm
     repoid: baseos
     size: 23677
@@ -9294,6 +9301,13 @@ arches:
     name: glibc-gconv-extra
     evr: 2.34-274.el9
     sourcerpm: glibc-2.34-274.el9.src.rpm
+  - url: https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os/Packages/glibc-langpack-en-2.34-274.el9.ppc64le.rpm
+    repoid: baseos
+    size: 676997
+    checksum: sha256:59f6a9d4a748c3f20d6fcb11103441297a63706329b8070116c5a157390b4f70
+    name: glibc-langpack-en
+    evr: 2.34-274.el9
+    sourcerpm: glibc-2.34-274.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os/Packages/glibc-minimal-langpack-2.34-274.el9.ppc64le.rpm
     repoid: baseos
     size: 23709
@@ -14137,6 +14151,13 @@ arches:
     size: 1746343
     checksum: sha256:4cb3f369d22ef972e27e64f450041ae5dbd34d7a350a1f6b5a4336b7deb8bc2a
     name: glibc-gconv-extra
+    evr: 2.34-274.el9
+    sourcerpm: glibc-2.34-274.el9.src.rpm
+  - url: https://mirror.stream.centos.org/9-stream/BaseOS/s390x/os/Packages/glibc-langpack-en-2.34-274.el9.s390x.rpm
+    repoid: baseos
+    size: 627761
+    checksum: sha256:19d643c647ac296abdb4452805bdecf70912259e9681e771edb4848c0a6fa63a
+    name: glibc-langpack-en
     evr: 2.34-274.el9
     sourcerpm: glibc-2.34-274.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/s390x/os/Packages/glibc-minimal-langpack-2.34-274.el9.s390x.rpm
@@ -18996,6 +19017,13 @@ arches:
     size: 1756898
     checksum: sha256:e6a31f8f0c222e4a536852f626fef67195a5c3306a284b7916bc60b41e86c26c
     name: glibc-gconv-extra
+    evr: 2.34-274.el9
+    sourcerpm: glibc-2.34-274.el9.src.rpm
+  - url: https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/glibc-langpack-en-2.34-274.el9.x86_64.rpm
+    repoid: baseos
+    size: 676992
+    checksum: sha256:5f87be01ed0e0ed3af1e76c3db2b930e19b1da0e8c166bff7da40fe4c8a518e0
+    name: glibc-langpack-en
     evr: 2.34-274.el9
     sourcerpm: glibc-2.34-274.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/glibc-minimal-langpack-2.34-274.el9.x86_64.rpm

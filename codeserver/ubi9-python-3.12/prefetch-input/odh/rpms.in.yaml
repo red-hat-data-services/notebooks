@@ -71,6 +71,14 @@ packages:
   - nodejs-devel
   - nodejs-packaging
   - npm
+  # Keep glibc stack in sync with Dockerfile install (and RHDS lock) so hermetic
+  # dnf can upgrade gconv-extra / langpacks with redhat-rpm-config.
+  - redhat-rpm-config
+  - glibc
+  - glibc-common
+  - glibc-gconv-extra
+  - glibc-langpack-en
+  - glibc-minimal-langpack
 
   # Web servers (httpd is already on odh-base-image-cpu-py312-c9s — do not list here)
   - nginx
