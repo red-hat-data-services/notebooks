@@ -38,10 +38,10 @@ name: Build & Publish Notebook Servers (TEMPLATE)
         # language=json
         default: >-
           {
-            "linux/amd64": "ubuntu-24.04",
-            "linux/arm64": "ubuntu-24.04-arm",
-            "linux/ppc64le": "ubuntu-24.04",
-            "linux/s390x": "ubuntu-24.04"
+            "linux/amd64": "ubuntu-26.04",
+            "linux/arm64": "ubuntu-26.04-arm",
+            "linux/ppc64le": "ubuntu-26.04",
+            "linux/s390x": "ubuntu-26.04"
           }
         description: "Available contexts for runs-on are: github, inputs, matrix, needs, strategy, vars. Let's use inputs"
         type: string
@@ -52,12 +52,9 @@ jobs:
     # https://docs.github.com/en/actions/how-tos/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
     runs-on: ${{ fromJSON(inputs.PLATFORM_RUNNERS)[inputs.platform] || 'no-such-runner' }}
     env:
-      # Some pieces of code (image pulls, for example) in podman consult TMPDIR or default to /var/tmp
-      TMPDIR: /home/runner/.local/share/containers/tmpdir
-      # Use the rootful instance of podman for sharing images with cri-o
+      # Rootful podman for sharing images with cri-o (CONTAINER_HOST from install-podman-action).
       # https://podman-desktop.io/blog/sharing-podman-images-with-kubernetes-cluster#introduction
       # https://access.redhat.com/solutions/6986565
-      CONTAINER_HOST: unix:///var/run/podman/podman.sock
       # We don't push here when building PRs, so we can use the same IMAGE_REGISTRY in all branches of the workflow
       IMAGE_REGISTRY: "ghcr.io/${{ github.repository }}/workbench-images"
       # GitHub image registry used for storing $(CONTAINER_ENGINE)'s cache
@@ -107,8 +104,6 @@ jobs:
         run: docker run --rm --privileged tonistiigi/binfmt --install ${platform#*/}
         env:
           platform: ${{ inputs.platform }}
-
-      - run: mkdir -p $TMPDIR
 
       # do this early because it's fast and why not
       - name: Install git-crypt
@@ -169,31 +164,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # region Free up disk space
+      # region Prepare disk
 
-      - name: Free up disk space
-        uses: ./.github/actions/free-up-disk-space
-        # https://docs.github.com/en/actions/learn-github-actions/expressions
-        # NOTE: the arm64 GitHub hosted runner does not have the /mnt-mounted scratch disk
-        if: "${{ contains(inputs.target, 'rocm') || contains(inputs.target, 'cuda') ||
-         contains(inputs.target, 'pytorch') || contains(inputs.target, 'tensorflow') ||
-         contains(inputs.target, 'codeserver') || inputs.platform == 'linux/arm64' }}"
-
-      - name: Install btrfs-compsize
-        id: install-compsize
-        uses: ./.github/actions/apt-install
-        with:
-          packages: btrfs-compsize
-
-      - name: Mount lvm overlay for podman builds
+      - name: Print disk stats
         run: |
+          set -Eeuxo pipefail
           df -h
           free -h
 
-          bash ./ci/cached-builds/gha_lvm_overlay.sh
+      - name: Prepare build environment
+        run: |
+          set -Eeuxo pipefail
 
-          df -h
-          free -h
+          # opendatahub-io/notebooks#3965; the only promise GitHub gives us
+          #  is >=15GiB disk space on /. In practice, we can either get a single
+          #  volume machine or a two volume machine (with extra volume mounted
+          #  under /mnt. Either case, /mnt should be large enough to fit our images.
+          sudo mkdir -p /mnt/containers/storage
+          sudo chown -R "${USER}:${USER}" /mnt/containers/storage
 
       # endregion
 
@@ -640,8 +628,7 @@ jobs:
 
       # https://playwright.dev/docs/ci
       # https://playwright.dev/docs/docker
-      # we leave little free disk space after we mount LVM for podman storage
-      # not enough to install playwright; running playwright in podman uses the space we have
+      # opendatahub-io/notebooks#3965: podman storage is configured to have sufficient disk space
       - name: Run Playwright tests
         if: ${{ !cancelled() && contains(inputs.target, 'codeserver') && steps.make-target.outcome == 'success' }}
         uses: ./.github/actions/playwright-test
@@ -656,14 +643,6 @@ jobs:
 
       - run: df -h
         if: "${{ !cancelled() }}"
-
-      - run: |
-          if mountpoint -q "${HOME}/.local/share/containers"; then
-            sudo compsize -x "${HOME}/.local/share/containers"
-          else
-            echo "Skipping compsize: ${HOME}/.local/share/containers is not a btrfs mountpoint."
-          fi
-        if: "${{ !cancelled() && steps.install-compsize.outcome == 'success' }}"
 
       # print system logs, useful when hunting for OOM kills
 
