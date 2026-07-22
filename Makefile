@@ -141,11 +141,16 @@ define image
 	$(eval BUILD_DIRECTORY := $(shell echo $(2) | sed 's/\/Dockerfile.*//'))
 	$(eval VARIANT := $(shell echo $(notdir $(2)) | cut -d. -f2))
 	$(eval DOCKERFILE := $(BUILD_DIRECTORY)/Dockerfile$(if $(KONFLUX:no=),.konflux,$(empty)).$(VARIANT))
+	$(if $(strip $(DOCKERFILE)),,$(error Dockerfile not found for variant '$(VARIANT)' in '$(BUILD_DIRECTORY)'))
+
 	$(eval CONF_FILE := $(BUILD_DIRECTORY)/build-args/$(if $(KONFLUX:no=),konflux.,$(empty))$(shell echo $(VARIANT)).conf)
 	$(info #*# Image build Dockerfile: <$(DOCKERFILE)> #(MACHINE-PARSED LINE)#*#...)
 	$(info #*# Image build directory: <$(BUILD_DIRECTORY)> #(MACHINE-PARSED LINE)#*#...)
 
-	$(call build_image,$(1),$(DOCKERFILE),$(CONF_FILE))
+	# realpath dereferences symlinks — podman API rejects symlinks with "must be a regular file"
+	$(eval DOCKERFILE_BUILD := $(realpath $(DOCKERFILE)))
+	$(if $(strip $(DOCKERFILE_BUILD)),,$(error Resolved Dockerfile path is empty for '$(DOCKERFILE)' — file missing or broken symlink))
+	$(call build_image,$(1),$(DOCKERFILE_BUILD),$(CONF_FILE))
 
 	$(if $(PUSH_IMAGES:no=),
 		$(call push_image,$(1))
@@ -218,16 +223,6 @@ runtime-cuda-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION):
 .PHONY: codeserver-ubi9-python-$(RELEASE_PYTHON_VERSION)
 codeserver-ubi9-python-$(RELEASE_PYTHON_VERSION):
 	$(call image,$@,codeserver/ubi9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
-
-####################################### Buildchain for Python using C9S #######################################
-
-.PHONY: rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/c9s-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
-
-.PHONY: cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION)
-cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,rstudio/c9s-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cuda)
 
 ####################################### Buildchain for Python using rhel9 #######################################
 
@@ -439,7 +434,7 @@ validate-rstudio-image: bin/kubectl
 		fi
 	done
 	echo "=> Fetching R script from URL and executing on the container..."
-	curl -sSL -o test_script.R "${NOTEBOOK_REPO_BRANCH_BASE}/rstudio/c9s-python-$(PYTHON_VERSION)/test/test_script.R" > /dev/null 2>&1
+	curl -sSL -o test_script.R "${NOTEBOOK_REPO_BRANCH_BASE}/rstudio/rhel9-python-$(PYTHON_VERSION)/test/test_script.R" > /dev/null 2>&1
 	$(KUBECTL_BIN) cp test_script.R rstudio-pod:/opt/app-root/src/test_script.R > /dev/null 2>&1
 	if $(KUBECTL_BIN) exec rstudio-pod -- Rscript /opt/app-root/src/test_script.R > /dev/null 2>&1 ; then
 		echo "R script executed successfully!"
@@ -529,8 +524,6 @@ all-images: \
 	rocm-runtime-pytorch-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	rocm-runtime-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION) \
 	rocm-jupyter-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION) \
-	rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
-	cuda-rstudio-c9s-python-$(RELEASE_PYTHON_VERSION) \
 	rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION) \
 	cuda-rstudio-rhel9-python-$(RELEASE_PYTHON_VERSION)
 else
