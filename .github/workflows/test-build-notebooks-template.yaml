@@ -38,5 +38,9 @@ jobs:
       python: "3.12"
       github: ${{ toJson(github) }}
       platform: linux/amd64
-      subscription: false
+      # ODH midstream vs RHDS downstream: avoid exercising stale odh lockfiles on RHDS.
+      # On this branch, konflux=true selects the rhoai (Dockerfile.konflux.*) path.
+      konflux: ${{ github.repository == 'red-hat-data-services/notebooks' }}
+      # jupyter-minimal PDF deps need RHEL AppStream on RHDS (RHAIENG-2345 / #2310).
+      subscription: ${{ github.repository == 'red-hat-data-services/notebooks' }}
     secrets: inherit
