@@ -290,6 +290,11 @@ files = [
     "/usr/local/pandoc/bin/pandoc",
     # when code-server is not installed from rpm, the exclusion below won't apply
     "/usr/lib/code-server/lib/vscode/node_modules/@vscode/ripgrep/bin/rg",
+    # @anthropic-ai/sandbox-runtime ships static seccomp helper binaries (not crypto-related)
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/dist/vendor/seccomp/arm64/apply-seccomp",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/dist/vendor/seccomp/x64/apply-seccomp",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/arm64/apply-seccomp",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/x64/apply-seccomp",
 ]
 dirs = [
     # VS Code 1.112+ @anthropic-ai/sandbox-runtime seccomp BPF loaders (no crypto)
@@ -302,6 +307,10 @@ error = "ErrNotDynLinked"
 files = [
     # executable is not dynamically linked
     "/usr/lib/code-server/lib/vscode/node_modules/@vscode/ripgrep/bin/rg",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/dist/vendor/seccomp/arm64/apply-seccomp",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/dist/vendor/seccomp/x64/apply-seccomp",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/arm64/apply-seccomp",
+    "/usr/lib/code-server/lib/vscode/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/x64/apply-seccomp",
 ]
 dirs = [
     # VS Code 1.112+ @anthropic-ai/sandbox-runtime seccomp BPF loaders (no crypto)
