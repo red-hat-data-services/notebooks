@@ -22,8 +22,8 @@ metadata:
   namespace: rhoai-tenant
 spec:
   timeouts:
-    pipeline: "12h0m0s"
-    tasks: "8h0m0s"
+    pipeline: "3h0m0s"
+    tasks: "2h0m0s"
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -83,9 +83,9 @@ spec:
     - name: prepare-sboms
       computeResources:
         requests:
-          memory: 8Gi
+          memory: 12Gi
         limits:
-          memory: 8Gi
+          memory: 12Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-wb-jupyter-pytorch-llmcompressor-cuda-py312-v3-5
   workspaces:
