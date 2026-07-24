@@ -18,6 +18,9 @@ $(error This Make does not support .RECIPEPREFIX. Please use GNU Make 4.0 or lat
 endif
 .RECIPEPREFIX =
 
+# PRODUCT: default rhoai for RHDS downstream builds (GHA may override)
+PRODUCT ?= rhoai
+
 IMAGE_REGISTRY   ?= quay.io/opendatahub/workbench-images
 RELEASE	 		 ?= 2025b
 RELEASE_PYTHON_VERSION	 ?= 3.12
@@ -42,6 +45,8 @@ WHERE_WHICH ?= which
 # linux/amd64 or darwin/arm64
 OS_ARCH=$(shell go env GOOS)/$(shell go env GOARCH)
 BUILD_ARCH ?= linux/amd64
+RPM_ARCH := $(subst amd64,x86_64,$(subst arm64,aarch64,$(lastword $(subst /, ,$(BUILD_ARCH)))))
+CONTAINER_BUILD_SECURITY_ARGS ?=
 
 IMAGE_TAG		 ?= $(RELEASE)_$(DATE)
 KUBECTL_BIN      ?= bin/kubectl
@@ -96,6 +101,64 @@ define build_image
 
 	$(ROOT_DIR)/scripts/sandbox.py --dockerfile '$(2)' --platform '$(BUILD_ARCH)' -- \
 		$(CONTAINER_ENGINE) build $(CONTAINER_BUILD_CACHE_ARGS) --platform=$(BUILD_ARCH) --label release=$(RELEASE) --tag $(IMAGE_NAME) --file '$(2)' $(BUILD_ARGS) {}\;
+endef
+
+# Hermetic build (codeserver only): requires prefetch-input/ and cachi2/output from prefetch-all.sh
+#   ARG 1: Image tag name
+#   ARG 2: Dockerfile path (Dockerfile.konflux.cpu)
+#   ARG 3: build-args conf file path
+define build_hermetic_image
+	$(eval IMAGE_NAME := $(IMAGE_REGISTRY):$(1)-$(IMAGE_TAG))
+	$(eval BUILD_DIR := $(dir $(2)))
+	$(eval DOCKERFILE_NAME := $(notdir $(2)))
+	$(eval CONF_FILE := $(3))
+
+	$(eval _BUILD_ARGS_OUT := $(shell \
+		if [ -f '$(CONF_FILE)' ]; then \
+			awk '!/^[[:space:]]*#/ && NF { \
+				gsub(/^[[:space:]]+|[[:space:]]+$$/, ""); \
+				if (!/^[A-Za-z_][A-Za-z0-9_]*=/) { \
+					printf "ERROR: malformed conf line (expected KEY=VALUE): %s\n", $$0 > "/dev/stderr"; \
+					err=1; next; \
+				} \
+				gsub(/\047/, "\047\\\047\047"); \
+				out = out sprintf("--build-arg \047%s\047 ", $$0); \
+			} END { if (err) { printf "PARSE_FAILED"; exit 1 } else { printf "%s", out } }' '$(CONF_FILE)'; \
+		fi))
+	$(if $(findstring PARSE_FAILED,$(_BUILD_ARGS_OUT)),$(error Failed to parse $(CONF_FILE) — see stderr for details))
+	$(eval BUILD_ARGS := $(_BUILD_ARGS_OUT))
+
+	$(eval PREFETCH_INPUT_DIR := $(wildcard $(BUILD_DIR)prefetch-input))
+	$(eval CACHI2_VOLUME := $(if $(and $(wildcard cachi2/output),$(PREFETCH_INPUT_DIR)),\
+		--volume $(ROOT_DIR)/cachi2/output:/cachi2/output:Z \
+		--volume $(ROOT_DIR)/cachi2/output/deps/rpm/$(RPM_ARCH)/repos.d/:/etc/yum.repos.d/:Z,))
+
+	$(info # Building $(IMAGE_NAME) hermetically using $(DOCKERFILE_NAME) with $(CONF_FILE) and $(BUILD_ARGS)...)
+
+	@if [ -n '$(PREFETCH_INPUT_DIR)' ] && [ ! -d cachi2/output ]; then \
+	  echo "Prefetch required for hermetic build. Run: scripts/lockfile-generators/prefetch-all.sh --component-dir $(patsubst %/,%,$(BUILD_DIR))"; \
+	  exit 1; \
+	fi
+	@if [ -d cachi2/output ] && [ -n '$(PREFETCH_INPUT_DIR)' ] && [ ! -d 'cachi2/output/deps/rpm/$(RPM_ARCH)/repos.d' ]; then \
+	  echo "Missing RPM repos for $(RPM_ARCH). Re-run prefetch-all.sh for $(patsubst %/,%,$(BUILD_DIR))"; \
+	  exit 1; \
+	fi
+	$(ROOT_DIR)/scripts/sandbox.py --dockerfile '$(2)' --platform '$(BUILD_ARCH)' -- \
+		$(CONTAINER_ENGINE) build $(CONTAINER_BUILD_SECURITY_ARGS) $(CONTAINER_BUILD_CACHE_ARGS) $(CACHI2_VOLUME) --platform=$(BUILD_ARCH) --label release=$(RELEASE) --tag $(IMAGE_NAME) --file '$(2)' $(BUILD_ARGS) {}\;
+endef
+
+# Build and push a hermetic codeserver image (see build_hermetic_image).
+define hermetic_image
+	$(eval BUILD_DIRECTORY := $(shell echo $(2) | sed 's/\/Dockerfile.*//'))
+	$(eval CONF_FILE := $(3))
+	$(info #*# Image build Dockerfile: <$(2)> #(MACHINE-PARSED LINE)#*#...)
+	$(info #*# Image build directory: <$(BUILD_DIRECTORY)> #(MACHINE-PARSED LINE)#*#...)
+
+	$(call build_hermetic_image,$(1),$(2),$(CONF_FILE))
+
+	$(if $(PUSH_IMAGES:no=),
+		$(call push_image,$(1))
+	)
 endef
 
 # Push function for the notebook image:
@@ -188,7 +251,10 @@ runtime-cuda-tensorflow-ubi9-python-$(RELEASE_PYTHON_VERSION):
 
 .PHONY: codeserver-ubi9-python-$(RELEASE_PYTHON_VERSION)
 codeserver-ubi9-python-$(RELEASE_PYTHON_VERSION):
-	$(call image,$@,codeserver/ubi9-python-$(RELEASE_PYTHON_VERSION)/Dockerfile.cpu)
+	$(eval _CS_DIR := codeserver/ubi9-python-$(RELEASE_PYTHON_VERSION)/)
+	$(eval _CS_DOCKERFILE := $(_CS_DIR)Dockerfile.konflux.cpu)
+	$(eval _CS_CONF := $(if $(HERMETIC_LOCAL),$(_CS_DIR)build-args/cpu.conf,$(if $(filter rhoai,$(PRODUCT)),$(_CS_DIR)build-args/konflux.cpu.conf,$(_CS_DIR)build-args/cpu.conf)))
+	$(call hermetic_image,$@,$(_CS_DOCKERFILE),$(_CS_CONF))
 
 ####################################### Buildchain for Python using C9S #######################################
 

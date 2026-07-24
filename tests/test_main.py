@@ -44,6 +44,8 @@ def test_dockerfiles_unintended_subscription_manager_pattern():
             continue
         if file.is_relative_to(PROJECT_ROOT / "rstudio/rhel9-python-3.12"):
             continue  # Skip RStudio Dockerfiles
+        if file.is_relative_to(PROJECT_ROOT / "scripts/lockfile-generators"):
+            continue  # RPM lockfile image optionally uses subscription-manager
         with open(file, "r") as f:
             for line_no, line in enumerate(f, start=1):
                 assert not pattern.match(line), (
@@ -76,7 +78,11 @@ def test_image_pyprojects(subtests: pytest_subtests.plugin.SubTests):
                     "pyproject.toml is missing a [project.dependencies] section"
                 )
 
-            pylock = tomllib.loads(file.with_name("pylock.toml").read_text())
+            lock_path = file.parent / "uv.lock.d" / "pylock.cpu.toml"
+            if lock_path.is_file():
+                pylock = tomllib.loads(lock_path.read_text())
+            else:
+                pylock = tomllib.loads(file.with_name("pylock.toml").read_text())
             pylock_packages: dict[str, dict[str, Any]] = {p["name"]: p for p in pylock["packages"]}
             with subtests.test(msg="checking pylock.toml consistency with pyproject.toml", pyproject=file):
                 for d in pyproject["project"]["dependencies"]:
@@ -307,7 +313,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
     #  do not add/maintain entries with a single version here, delete such items directly
     ignored_exceptions: tuple[tuple[str, tuple[str, ...]], ...] = (
         # ("package name", ("allowed specifier 1", "allowed specifier 2", ...))
-        ("setuptools", ("~=80.9.0", "==80.9.0")),
+        # codeserver RHAIENG-6201: CVE-2026-59890 requires setuptools>=83.0.0
+        ("setuptools", ("~=80.9.0", "==80.9.0", "~=83.0.0")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
         ("torch", ("==2.7.1", "==2.7.1+cu128", "==2.7.1+rocm6.3")),
         ("torchvision", ("==0.22.1", "~=0.22.1", "==0.22.1+cu128", "==0.22.1+rocm6.3")),
