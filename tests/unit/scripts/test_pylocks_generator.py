@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from unittest.mock import Mock
 
@@ -395,21 +396,32 @@ def test_run_lock_always_passes_constraints_and_overrides(
     )
 
     assert success is True
+    expected_constraints = os.path.relpath(pg.CONSTRAINTS_FILE, project_dir)
+    expected_overrides = os.path.relpath(pg.OVERRIDES_FILE, project_dir)
     constraints_idx = captured_cmd.index("--constraints")
     overrides_idx = captured_cmd.index("--override")
-    assert captured_cmd[constraints_idx + 1].endswith("dependencies/constraints.txt")
-    assert captured_cmd[overrides_idx + 1].endswith("dependencies/overrides.txt")
+    assert captured_cmd[constraints_idx + 1] == expected_constraints, (
+        f"expected constraints path {expected_constraints!r}, got {captured_cmd[constraints_idx + 1]!r}"
+    )
+    assert captured_cmd[overrides_idx + 1] == expected_overrides, (
+        f"expected overrides path {expected_overrides!r}, got {captured_cmd[overrides_idx + 1]!r}"
+    )
 
 
+@pytest.mark.parametrize(
+    "global_input",
+    ["dependencies/constraints.txt", "dependencies/overrides.txt"],
+)
 def test_resolve_pr_scoped_global_input_expands_to_all(
+    global_input: str,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setattr(
         pg,
         "_list_changed_files",
-        lambda _base, _to="HEAD": ["dependencies/constraints.txt"],
+        lambda _base, _to="HEAD": [global_input],
     )
     scoped = pg.resolve_pr_scoped_target_dirs("base", pg.LogBuffer())
     all_dirs = pg.discover_all_image_project_dirs()
-    assert scoped == all_dirs, "global input change should expand to all image dirs"
+    assert scoped == all_dirs, f"{global_input} change should expand to all image dirs"
     assert len(scoped) > 1, "expected multiple image project dirs for global-input fallback"
