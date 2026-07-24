@@ -7,5 +7,10 @@
     "@emmetio/css-parser": "0.4.1",
     "@parcel/watcher": "2.5.6",
     "@playwright/browser-chromium": "1.47.2"
+  },
+  "overrides": {
+    "picomatch": "4.0.4",
+    "ws@8": "8.21.0",
+    "ws@7": "7.5.11"
   }
 }

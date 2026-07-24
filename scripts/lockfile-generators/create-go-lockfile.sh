@@ -43,7 +43,7 @@ error_exit() {
 # Print gomod prefetch-input paths from a Tekton file (one per line).
 extract_gomod_paths_from_tekton() {
   local tekton_file="$1"
-  yq eval '
+  yq e '
     .spec.params[]
     | select(.name == "prefetch-input")
     | .value[]

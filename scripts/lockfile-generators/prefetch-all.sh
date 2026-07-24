@@ -345,7 +345,7 @@ fi
 # =========================================================================
 echo "=== [5/5] Go modules ==="
 if [[ -n "$tekton_file" ]] && command -v yq &>/dev/null; then
-  gomod_paths=$(yq eval '
+  gomod_paths=$(yq e '
     .spec.params[]
     | select(.name == "prefetch-input")
     | .value[]

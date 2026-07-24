@@ -173,8 +173,9 @@ fi
 # ci/generate_code.sh) and patch a copy under uv.lock.d for hermetic builds.
 if [[ "$PYLOCKS_MODE" == "public-index" ]]; then
   mkdir -p "${PROJECT_DIR}/uv.lock.d"
-  cp "$PYLOCK_FILE" "${PROJECT_DIR}/uv.lock.d/pylock.${FLAVOR}.toml"
-  PYLOCK_FILE="${PROJECT_DIR}/uv.lock.d/pylock.${FLAVOR}.toml"
+  _pylock_flavor_dest="${PROJECT_DIR}/uv.lock.d/pylock.${FLAVOR}.toml"
+  cp "$PYLOCK_FILE" "$_pylock_flavor_dest"
+  PYLOCK_FILE="$_pylock_flavor_dest"
 fi
 
 RH_WHEEL_REF="${PROJECT_DIR}/uv.lock.d/rh-wheel-only.ref.toml"

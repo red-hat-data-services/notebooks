@@ -207,7 +207,13 @@ fi
 # prefetch steps already placed in cachi2/output/deps/.
 # =========================================================================
 HERMETO_STAGING=$(mktemp -d)
-trap 'rm -rf "$HERMETO_STAGING" ${CDN_CERT_DIR:+"$CDN_CERT_DIR"}' EXIT
+_cleanup_hermeto_rpm() {
+  rm -rf "$HERMETO_STAGING"
+  if [[ -n "${CDN_CERT_DIR:-}" ]]; then
+    rm -rf "$CDN_CERT_DIR"
+  fi
+}
+trap _cleanup_hermeto_rpm EXIT
 
 echo "--- Downloading RPMs via hermeto ---"
 podman run --rm \

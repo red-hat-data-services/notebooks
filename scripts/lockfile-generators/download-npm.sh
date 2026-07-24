@@ -138,7 +138,7 @@ extract_refs_from_file() {
 # Parse a Tekton PipelineRun YAML and print all paths where type == "npm".
 extract_npm_paths_from_tekton() {
     local tekton_file="$1"
-    yq eval '
+    yq e '
         .spec.params[]
         | select(.name == "prefetch-input")
         | .value[]
@@ -263,7 +263,8 @@ download_file() {
             echo "OK    Downloaded: $filename"
         else
             echo "FAIL  Failed: $download_url" >&2
-            rm -f "$DEST_DIR/$filename"
+            _wget_dest="${DEST_DIR}/${filename}"
+            rm -f "$_wget_dest"
             return 1
         fi
     fi

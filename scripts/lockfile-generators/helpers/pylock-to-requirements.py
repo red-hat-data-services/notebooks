@@ -82,6 +82,13 @@ def extract_default_index_from_pylock(pylock_path: Path) -> str:
     return strip_format_json_param(m.group(1).rstrip("'\"")) if m else ""
 
 
+def _host_is_or_subdomain(host: str, domain: str) -> bool:
+    """True if host is exactly domain or a subdomain of domain."""
+    host = host.lower()
+    domain = domain.lower()
+    return host == domain or host.endswith("." + domain)
+
+
 def index_url_serves_wheel(index_url: str, wheel_url: str) -> bool:
     if not index_url:
         return True
@@ -90,10 +97,12 @@ def index_url_serves_wheel(index_url: str, wheel_url: str) -> bool:
     if index_host == wheel_host:
         return True
     # PyPI simple index; wheels are served from files.pythonhosted.org.
-    if "pypi.org" in index_host and wheel_host == "files.pythonhosted.org":
+    if _host_is_or_subdomain(index_host, "pypi.org") and wheel_host == "files.pythonhosted.org":
         return True
     # RH simple index; wheels are served from pulp-content host.
-    if "packages.redhat.com" in index_host and "packages.redhat.com" in wheel_host:
+    if _host_is_or_subdomain(index_host, "packages.redhat.com") and _host_is_or_subdomain(
+        wheel_host, "packages.redhat.com"
+    ):
         return True
     return False
 
