@@ -45,8 +45,6 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
           persist-credentials: false
-          # Full history so tests/test_pylock_downgrade.py can `git show origin/main:…/pylock.toml`.
-          fetch-depth: 0
 
       - name: Setup uv and Python
         uses: ./.github/actions/setup-uv
@@ -57,6 +55,19 @@ jobs:
       - name: Install deps
         id: install-deps
         run: uv sync --locked
+
+      - name: Fetch downgrade check base ref
+        if: ${{ steps.install-deps.conclusion == 'success' && !cancelled() }}
+        run: |
+          NULL_SHA="0000000000000000000000000000000000000000"
+          BASE_SHA="${PULL_REQUEST_BASE_SHA:-$PUSH_BEFORE_SHA}"
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "$NULL_SHA" ] \
+             && ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            git fetch --depth=1 origin "$BASE_SHA"
+          fi
+        env:
+          PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
 
       - name: Static tests (pytest + Dockerfile alignment)
         run: make test
