@@ -313,7 +313,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
     #  do not add/maintain entries with a single version here, delete such items directly
     ignored_exceptions: tuple[tuple[str, tuple[str, ...]], ...] = (
         # ("package name", ("allowed specifier 1", "allowed specifier 2", ...))
-        ("setuptools", ("~=80.9.0", "==80.9.0")),
+        # codeserver RHAIENG-6201: CVE-2026-59890 requires setuptools>=83.0.0
+        ("setuptools", ("~=80.9.0", "==80.9.0", "~=83.0.0")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
         ("torch", ("==2.7.1", "==2.7.1+cu128", "==2.7.1+rocm6.3")),
         ("torchvision", ("==0.22.1", "~=0.22.1", "==0.22.1+cu128", "==0.22.1+rocm6.3")),
