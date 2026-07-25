@@ -1849,7 +1849,8 @@ rules:
       Remediation: Avoid eval. Use arrays for dynamic commands:
         # Instead of: eval "$cmd"
         # Use: "${cmd_array[@]}"
-    pattern-regex: 'eval\s+'
+    # Require a real `eval` builtin, not `yq eval` / `rpm --eval`.
+    pattern-regex: '(?<![\w-])eval\s+'
     metadata:
       cwe: "CWE-94"
       category: "security"
@@ -1867,7 +1868,8 @@ rules:
       Remediation: Always quote variables in file operations:
         rm "$FILE"         # correct
         rm $FILE           # dangerous
-    pattern-regex: '(rm|cp|mv|eval|chmod|chown|kill|pkill)\s+[^|;]*(?<!["''\\])\$(?:\{[A-Za-z_][A-Za-z0-9_]*(?:[:\-\+\?=][^}]*)?\}|[A-Za-z_][A-Za-z0-9_]*)'
+    # Single-line only; require a real command word (not flags like --rm).
+    pattern-regex: '(?<![\w-])(rm|cp|mv|chmod|chown|kill|pkill)\s+[^\n|;]*(?<!["''\\])\$(?:\{[A-Za-z_][A-Za-z0-9_]*(?:[:\-\+\?=][^}]*)?\}|[A-Za-z_][A-Za-z0-9_]*)'
     metadata:
       cwe: "CWE-78"
       category: "security"

@@ -163,6 +163,8 @@ class TestBaseImage:
 
     def test_pip_install_cowsay_runs(self, image: str):
         """Checks that the Python virtualenv in the image is writable."""
+        if utils.is_codeserver_image(image):
+            pytest.skip("Hermetic codeserver images install Python deps offline and cannot pip install at runtime.")
 
         def test_fn(container: testcontainers.core.container.DockerContainer):
             ecode, output = container.exec(["python3", "-m", "pip", "install", "cowsay"])
@@ -265,6 +267,8 @@ class TestBaseImage:
         """Checks that we use the Python Package Index we mean to use.
         https://redhat-internal.slack.com/archives/C05TTTYG599/p1764240587118899?thread_ts=1764234802.564119&cid=C05TTTYG599
         """
+        if utils.is_codeserver_image(image):
+            pytest.skip("Hermetic codeserver images do not expose public PyPI index environment variables.")
 
         expected_env = {
             "PIP_INDEX_URL": "https://pypi.org/simple",

@@ -17,13 +17,17 @@ jobs:
           persist-credentials: false
 
       # https://github.com/astral-sh/setup-uv
-      - name: Install the latest version of uv
+      - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990  # v8.3.2
         with:
-          version: "latest"
-          python-version: "3.14"
+          version-file: pyproject.toml
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+
+      - name: Install Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
+        with:
+          python-version: "3.14"
 
       - name: Rerun all code generators we have
         run: bash ci/generate_code.sh
@@ -48,13 +52,17 @@ jobs:
           persist-credentials: false
 
       # https://github.com/astral-sh/setup-uv
-      - name: Install the latest version of uv
+      - name: Install uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990  # v8.3.2
         with:
-          version: "latest"
-          python-version: "3.14"
+          version-file: pyproject.toml
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+
+      - name: Install Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
+        with:
+          python-version: "3.14"
 
       - name: Check uv is installed correctly
         run: uv version
@@ -69,23 +77,9 @@ jobs:
         run: |
           uv run pre-commit run --all-files
 
-      - name: Fetch downgrade check base SHA locally
-        run: |
-          BASE_SHA="${PULL_REQUEST_BASE_SHA:-$PUSH_BEFORE_SHA}"
-          if [ -n "$BASE_SHA" ] && ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
-            git fetch --depth=1 origin "$BASE_SHA"
-          fi
-        env:
-          PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          PUSH_BEFORE_SHA: ${{ github.event.before }}
-
       - name: Static tests (pytest + Dockerfile alignment)
         run: make test
         if: ${{ steps.install-deps.conclusion == 'success' && !cancelled() }}
-        env:
-          # PR: compare to the PR base (fork PRs vs upstream main, not the fork default branch).
-          # Push: compare to the previous tip of this branch (not origin/main on stable/rhoai-*).
-          NOTEBOOKS_DOWNGRADE_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
 
       - name: Upload Python coverage to Codecov
         if: ${{ !cancelled() && steps.install-deps.conclusion == 'success' }}
@@ -158,17 +152,14 @@ jobs:
       - name: Do not check secrets, they are encrypted
         run: rm -rf ./ci/secrets
 
-      - name: Install linting tools
-        uses: ./.github/actions/apt-install
-        with:
-          packages: yamllint yajl-tools
-
       - name: Validate YAML files (best code practices check included)
         if: ${{ !cancelled() }}
         id: validate-yaml-files
         run: |
-          # We ignore .tekton (managed by devops), insta-merge.yaml, and machine-generated .lock.yaml lockfiles
-          # (e.g. rpms.lock.yaml, artifacts.lock.yaml — produced by rpm-lockfile-prototype with non-configurable indentation).
+          type yamllint || sudo apt-get -y install yamllint
+          # We ignore .tekton (managed by devops), insta-merge.yaml, and machine-generated .lock.yaml
+          # lockfiles (e.g. rpms.lock.yaml, artifacts.lock.yaml — produced by rpm-lockfile-prototype
+          # with non-configurable indentation).
           find . -name "*.yaml" | grep -v "./.tekton/" | grep -v "./.github/workflows/insta-merge.yaml" | grep -v "\.lock\.yaml$" | xargs yamllint --strict --config-file ./ci/yamllint-config.yaml
           find . -name "*.yml" | grep -v "./.tekton/" | xargs yamllint --strict --config-file ./ci/yamllint-config.yaml
 
@@ -177,6 +168,7 @@ jobs:
         if: ${{ !cancelled() }}
         id: validate-json-strings-in-yaml-files
         run: |
+          type json_verify || sudo apt-get -y install yajl-tools
           bash ./ci/check-json.sh
 
       - name: Validate JSON files (just syntax)

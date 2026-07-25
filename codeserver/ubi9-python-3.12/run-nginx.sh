@@ -23,13 +23,33 @@ else
     if [ -z "$BASE_URL" ] || [ "$BASE_URL" = "$(echo "$NB_PREFIX" | awk -F/ '{ print $4"-"$3 }')" ]; then
         export BASE_URL="_"
     fi
+    # Substitute ${NB_PREFIX} and ${BASE_URL} placeholders in the proxy config template.
     envsubst '${NB_PREFIX},${BASE_URL}' < /opt/app-root/etc/nginx.default.d/proxy.conf.template_nbprefix > /opt/app-root/etc/nginx.default.d/proxy.conf
 
+    # Substitute ${BASE_URL} in the main nginx.conf (placed there at build time by nginxconf.sed).
     # A temp file is used because piping envsubst directly into the same file via `tee`
     # is a race condition: `tee` can truncate the file before `envsubst` finishes reading it,
     # resulting in an empty/corrupt config and "no events section" errors from nginx.
     tmp=$(mktemp)
     envsubst '${BASE_URL}' < /etc/nginx/nginx.conf > "$tmp"
+    cat "$tmp" > /etc/nginx/nginx.conf
+    rm -f "$tmp"
+fi
+
+# When IPv6 is disabled (e.g. container sysctls in CI), nginx cannot bind [::]:8888.
+# Use a temp file: sed -i writes into /etc/nginx/ which is not writable by UID 1001.
+if [ "$(cat /proc/sys/net/ipv6/conf/all/disable_ipv6 2>/dev/null)" = "1" ]; then
+    tmp=$(mktemp)
+    sed '/listen[[:space:]]\+\[::\]:8888/d' /etc/nginx/nginx.conf > "$tmp"
+    cat "$tmp" > /etc/nginx/nginx.conf
+    rm -f "$tmp"
+fi
+
+# Relative return 302 paths must emit relative Location headers; otherwise nginx
+# expands them with the container listen port (8888) and breaks port-mapped clients.
+if ! grep -q 'absolute_redirect off' /etc/nginx/nginx.conf; then
+    tmp=$(mktemp)
+    sed '/server {/a\        absolute_redirect off;' /etc/nginx/nginx.conf > "$tmp"
     cat "$tmp" > /etc/nginx/nginx.conf
     rm -f "$tmp"
 fi
