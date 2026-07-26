@@ -54,9 +54,6 @@ spec:
     value: "false"
   - name: fips-check-blocking
     value: "false"
-  timeouts:
-    pipeline: 8h
-    tasks: 4h
   pipelineRef:
     resolver: git
     params:
@@ -66,6 +63,9 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:

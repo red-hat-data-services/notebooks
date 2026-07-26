@@ -424,6 +424,31 @@ def test_rhds_pipelines_use_rhds_args(subtests: pytest_subtests.plugin.SubTests)
             )
 
 
+def test_tekton_pipelinerun_params_immediately_precede_pipeline_ref(
+    subtests: pytest_subtests.plugin.SubTests,
+):
+    """Keep PipelineRun `params` contiguous and closed before `pipelineRef`.
+
+    Inserting a new param list item after other `spec` keys (e.g. after
+    `timeouts` / `taskRunSpecs`) produces invalid YAML. Require
+    `pipelineRef` to be the next `spec` key after `params` so param
+    additions always land inside the params array.
+    """
+    for file in PROJECT_ROOT.glob(".tekton/*.yaml"):
+        with subtests.test(msg="checking tekton PipelineRun key order", pipeline=file):
+            pipeline = yaml.safe_load(file.read_text())
+            if pipeline["kind"] == "Pipeline":
+                continue
+            assert pipeline["kind"] == "PipelineRun", f"Expected PipelineRun, got {pipeline['kind']}"
+            keys = list(pipeline["spec"].keys())
+            assert "params" in keys, f"{file.relative_to(PROJECT_ROOT)} missing spec.params"
+            assert "pipelineRef" in keys, f"{file.relative_to(PROJECT_ROOT)} missing spec.pipelineRef"
+            assert keys.index("pipelineRef") == keys.index("params") + 1, (
+                f"{file.relative_to(PROJECT_ROOT)} must place pipelineRef immediately after params "
+                f"(got {[k for k in keys if k in {'params', 'pipelineRef', 'timeouts', 'taskRunSpecs', 'taskRunTemplate', 'workspaces'}]})"
+            )
+
+
 def test_make_disable_pushing():
     # NOTE: the image below needs to exist in the Makefile
     lines = dryrun_make(["rocm-jupyter-tensorflow-ubi9-python-3.12"], env={"PUSH_IMAGES": ""})
