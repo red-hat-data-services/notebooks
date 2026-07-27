@@ -68,6 +68,16 @@ packages:
   - nodejs-devel
   - nodejs-packaging
   - npm
+  # nodejs-packaging → redhat-rpm-config → rich dep on glibc-gconv-extra matching
+  # installed glibc. AIPCC bases ship both glibc-langpack-en and glibc-minimal-langpack;
+  # without locking them, hermetic dnf cannot upgrade the glibc stack when gconv-extra
+  # is newer than @System.
+  - redhat-rpm-config
+  - glibc
+  - glibc-common
+  - glibc-gconv-extra
+  - glibc-langpack-en
+  - glibc-minimal-langpack
 
   # Web servers
   - nginx
