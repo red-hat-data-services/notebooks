@@ -46,9 +46,13 @@ class TestBaseImage:
             if not env:
                 # No env from skopeo or local inspect; assume non-AIPCC so PyPI checks run.
                 return False
+            # If PIP_INDEX_URL points to PyPI, the image is still in AIPCC migration
+            # phase 1.5 — packages are from PyPI and runtime installs must match.
+            pip_index = env.get("PIP_INDEX_URL")
+            if pip_index is not None and index_config_utils.is_pypi_index_url(pip_index):
+                return False
             if "PIP_CONFIG_FILE" in env or "UV_CONFIG_FILE" in env:
                 return True
-            pip_index = env.get("PIP_INDEX_URL")
             if pip_index is not None:
                 return not index_config_utils.is_pypi_index_url(pip_index)
             return False
