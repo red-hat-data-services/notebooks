@@ -24,7 +24,7 @@ dependencies = [
     "scipy~=1.16.2",
     "skl2onnx~=1.19.1",
     # Required for skl2onnx, as upgraded version is not compatible with protobuf
-    "onnxconverter-common~=1.13.0",
+    "onnxconverter-common>=1.16.0",
     "codeflare-sdk~=0.34.0",
 
     # DB connectors
@@ -52,7 +52,6 @@ override-dependencies = [
 
 constraint-dependencies = [
     # AttributeError: module 'ml_dtypes' has no attribute 'float4_e2m1fn'
-    "onnx<1.19.0",
 ]
 
 environments = [
