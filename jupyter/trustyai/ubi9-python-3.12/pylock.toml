@@ -1565,14 +1565,8 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/5e/c2/37eaa2c4efd7c1a
 
 [[packages]]
 name = "onnx"
-version = "1.21.0"
-marker = "python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/c5/93/942d2a0f6a70538eea042ce0445c8aefd46559ad153469986f29a743c01c/onnx-1.21.0.tar.gz", upload-time = 2026-03-27T21:33:36Z, size = 12074608, hashes = { sha256 = "4d8b67d0aaec5864c87633188b91cc520877477ec0254eda122bef8be43cd764" } }
-
-[[packages]]
-name = "onnx"
 version = "1.22.0"
-marker = "(python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux')"
+marker = "(python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux')"
 sdist = { url = "https://files.pythonhosted.org/packages/04/19/8ea73a64b368b75fe339771a20a02bc61ea1f551484c9e3d9d0bfbd0450f/onnx-1.22.0.tar.gz", upload-time = 2026-06-15T12:50:05Z, size = 12024721, hashes = { sha256 = "ef40c0aaf0b643857ea9306fc7eddce17eaf9fb0407e4801f1fc5758443a38e0" } }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/84/55/b34fc2aa30aa54b4a775402d24c4082242c720283a274fe976ac8eb94480/onnx-1.22.0-cp312-abi3-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2026-06-15T12:49:34Z, size = 18889249, hashes = { sha256 = "ae5a563f281cd9d2845622cecf6c092a57e4ee1b138f66fdbbdd4200567a5e16" } },
