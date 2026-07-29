@@ -47,6 +47,10 @@ override-dependencies = [
     "protobuf==6.31.1",
     "keras~=3.14.0",
 ]
+constraint-dependencies = [
+    # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability
+    "onnx>=1.21.0",
+]
 
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",

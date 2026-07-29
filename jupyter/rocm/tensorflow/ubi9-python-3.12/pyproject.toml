@@ -70,8 +70,9 @@ override-dependencies = [
 ]
 
 constraint-dependencies = [
-    # AttributeError: module 'ml_dtypes' has no attribute 'float4_e2m1fn'
-    "onnx<1.19.0",
+    # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability
+    # Replaces stale onnx<1.19.0 (ml_dtypes float4_e2m1fn issue resolved by ml_dtypes>=0.5.0)
+    "onnx>=1.21.0",
 ]
 
 environments = [
