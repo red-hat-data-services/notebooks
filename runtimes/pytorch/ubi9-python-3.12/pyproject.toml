@@ -52,6 +52,10 @@ override-dependencies = [
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
 ]
+constraint-dependencies = [
+    # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability
+    "onnx>=1.21.0",
+]
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]

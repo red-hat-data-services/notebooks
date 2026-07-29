@@ -82,6 +82,10 @@ override-dependencies = [
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
     "urllib3>=2.6.0",
 ]
+constraint-dependencies = [
+    # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability
+    "onnx>=1.21.0",
+]
 
 [tool.uv.sources]
 torch = { index = "pytorch-cuda" }
