@@ -1,7 +1,12 @@
 ---
 # Regenerate rpms.lock.yaml from rpms.in.yaml for ODH (upstream) or RHDS (downstream).
 # Manual-only on rhoai-2.25 — keep RPM lock renewals separate from pylock/piplock updates.
-# On this branch, RHDS codeserver locks use public UBI repos (subscription optional).
+#
+# Important difference from main:
+#   On rhoai-2.25 the only RPM-prefetch / Hermeto rpms.lock.yaml consumer is codeserver,
+#   and codeserver is on UBI (ubi9/python-312) with public UBI repos. No RHEL subscription
+#   is required for RHDS lock regen here. On main, RHDS lock renewal can still need
+#   subscription secrets for entitled content.
 name: RPM Lock Files Renewal Action
 
 permissions: {}  # least-privilege: grant per-job below

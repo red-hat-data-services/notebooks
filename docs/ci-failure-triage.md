@@ -45,11 +45,17 @@ line and not a one-off “add `--allowerasing`” product fix.
 Relock RPMs so `rpms.lock.yaml` matches current UBI content, then merge that PR
 before retrying the image build.
 
+**Difference from `main`:** on `rhoai-2.25`, codeserver is the only
+RPM-prefetch / Hermeto consumer and it uses public UBI — no RHEL subscription
+is required for RHDS lock regen. On `main`, RHDS renewal can still need
+subscription secrets.
+
 1. Run the **RPM Lock Files Renewal Action** workflow
    (`.github/workflows/rpms-lock-renewal.yaml`) via **Actions → workflow_dispatch**.
 2. Inputs for this branch:
    - `variant`: `rhds` (downstream / RHOAI)
    - `branch`: `rhoai-2.25`
+   - Leave subscription / git-crypt secrets unset (public UBI path).
 3. Review and merge the automated PR (label `automated-rpms-lockfile-update`).
    On `rhoai-2.25` today that typically updates
    `codeserver/ubi9-python-3.12/prefetch-input/rhds/rpms.lock.yaml`.
