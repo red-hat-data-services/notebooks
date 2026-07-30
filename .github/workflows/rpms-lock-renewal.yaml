@@ -90,11 +90,14 @@ jobs:
       - name: Configure registry auth from pull-secret
         if: env.VARIANT == 'rhds'
         run: |
-          if [[ -f ci/secrets/pull-secret.json ]]; then
+          # git-crypt leaves a tracked encrypted blob when GIT_CRYPT_KEY is unset;
+          # only install auth when the file is real JSON (unlocked / plaintext).
+          if [[ -f ci/secrets/pull-secret.json ]] &&
+             jq -e 'type == "object"' ci/secrets/pull-secret.json >/dev/null 2>&1; then
             mkdir -p "$HOME/.config/containers"
             cp ci/secrets/pull-secret.json "$HOME/.config/containers/auth.json"
           else
-            echo "No ci/secrets/pull-secret.json — continuing with public UBI repos only."
+            echo "No usable ci/secrets/pull-secret.json — continuing with public UBI repos only."
           fi
 
       - name: Mask subscription credentials (optional)
