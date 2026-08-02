@@ -518,7 +518,7 @@ def _portforward_with_timeout(
     and bound it with join(timeout) instead.
 
     If the call doesn't return in time, it is abandoned rather than joined: the daemon thread and any
-    partially-established connection are leaked for the remainder of the test process. That's an
+    partially established connection are leaked for the remainder of the test process. That's an
     accepted tradeoff for test infrastructure that's about to raise TimeoutError and fail the test
     (and the process will exit soon after) rather than hang forever with no recovery.
     """
