@@ -507,21 +507,42 @@ class Utils:
 
 @contextlib.contextmanager
 def exposing_contextmanager(
-    core_v1_api: kubernetes.client.CoreV1Api, pod: kubernetes.client.models.V1Pod
+    core_v1_api: kubernetes.client.CoreV1Api,
+    pod: kubernetes.client.models.V1Pod,
+    timeout: float = 30,
 ) -> Generator[socket]:
     # If we e.g., specify the wrong port, the pf = portforward() call succeeds,
     # but pf.connected will later flip to False
     # we need to check that _everything_ works before moving on
-    pf = None
-    s = None
+    #
+    # https://github.com/red-hat-data-services/notebooks/issues/2684: bound this retry loop so a
+    # pod that never becomes reachable (or a single kubernetes.stream.portforward() call that
+    # itself hangs, e.g. on a wedged connection to the API server) can't block the single-threaded
+    # SocketProxy forever and starve every later Wait.until retry. This bounds the *loop*, not an
+    # individual hung portforward() call -- the kubernetes client doesn't expose a per-call
+    # connect timeout for portforward(), only a process-wide `websocket.setdefaulttimeout()`.
+    deadline = time.monotonic() + timeout
+    pf: kubernetes.stream.ws_client.PortForward | None = None
+    s: kubernetes.stream.ws_client.PortForward._Port._Socket | socket.socket | None = None
     while not pf or not pf.connected or not s:
-        pf: kubernetes.stream.ws_client.PortForward = kubernetes.stream.portforward(
+        if time.monotonic() > deadline:
+            if s is not None:
+                s.close()
+            if pf is not None:
+                pf.close()
+            raise TimeoutError(f"Failed to establish a working portforward to {pod.metadata.name} within {timeout}s")
+        if s is not None:
+            s.close()
+            s = None
+        if pf is not None:
+            pf.close()
+        pf = kubernetes.stream.portforward(
             api_method=core_v1_api.connect_get_namespaced_pod_portforward,
             name=pod.metadata.name,
             namespace=pod.metadata.namespace,
             ports=",".join(str(p) for p in [8888]),
         )
-        s: kubernetes.stream.ws_client.PortForward._Port._Socket | socket.socket | None = pf.socket(8888)
+        s = pf.socket(8888)
     assert s, "Failed to establish connection"
 
     try:
