@@ -189,8 +189,8 @@ six==1.17.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:667482b476c8abf4dfe998869c7b8df34174bed8c6c9c9344722747cf00ce65f
 smmap==5.0.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9feab244b7ccc2d9e0feb0551e7f1da0233de532a7e4fedda2d12b48c36eeab4
-soupsieve==2.8.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:dc2435409aa2ff1dcccba8035d20f53bbfe0d377ef8694df124e6049c7295ed1
+soupsieve==2.8.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a83fba9480effe7fa448daf06d9ca67e7b098f10ae36ab6f97ae6830e04d6ccb
 stack-data==0.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:53378e98a986421dc8a5e5874da302f64b26ca6cd60f7b185067d7c878296015
 terminado==0.18.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
