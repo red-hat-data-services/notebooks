@@ -387,8 +387,8 @@ pathspec==1.0.4 ; python_full_version >= '3.12' and implementation_name == 'cpyt
     --hash=sha256:214dcd022fdc22b0cfa2119ddbe15dbcf8b7d9232476695c42007bc3d6b02933
 pexpect==4.9.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2d18e628366829bbb08c6d1ccf5982cd79b1e579cd4ba12fa49f40f5f48b45fb
-pillow==12.2.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:14d0ab2b5a699900263047ae6a6bd11a7af6851bc236f449815d52bb5991f90e
+pillow==12.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:45bdc2d8bb911093d8d50b004a5f8aa9792c8b3627408ec136f81b29b9503671
 platformdirs==4.9.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9a85adaa956767af38a2aaa0c12a5de81c88505d8578ab5d408bb66868593b1e
 plotly==6.6.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

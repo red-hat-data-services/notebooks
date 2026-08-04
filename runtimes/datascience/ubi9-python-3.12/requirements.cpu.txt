@@ -338,11 +338,11 @@ pathspec==1.0.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:01f65a227426547091048a89cbe280a92c26536850bd26c70b94e715ac28dc8f
 pexpect==4.9.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:de875f7edd25fce79d755f04ed8ddd29e97ebeda66cc05c516ba760748e0090f
-pillow==12.2.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:394981fc7445b3721bc5dd88b5859050eedfa51e307a986fdf832d2145555f59 \
-    --hash=sha256:7c86fb5c7df6c07cafe6f55dadfeb8e8cefb04e32a402b9d7ff05d1cb9823f97 \
-    --hash=sha256:321c3191fb27a8002ce6937076a2b9f9dba568a8f0d9b8febe843753b3166692 \
-    --hash=sha256:1d14bc0f26c4f17eae2bddfe2700bcc922c5e19bebad32145a52445ad0b2909d
+pillow==12.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a0ae23976c3a950d107fe1412f595be73c5d2de8071d26298a1f623bae5a58a1 \
+    --hash=sha256:02487f9b1900a101a6c2d743172bb916baa4c2b574a676f09751423d55d47496 \
+    --hash=sha256:c59cfb8d5dfeb4409f42c9a90b25c8f4b213434756c4f64c377fe51a34e53245 \
+    --hash=sha256:8dc435092a6842d8483be410e080e5c1eccd7aa991f30787cd9601eedcccf260
 platformdirs==4.9.6 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:52fd82200d1f288d04873722b914d30221ae588fcdfd96e563b931f828b9bcde
 plotly==6.7.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
