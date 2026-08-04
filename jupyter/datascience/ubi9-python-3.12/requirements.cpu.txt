@@ -658,8 +658,8 @@ sqlparse==0.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e14e47d6edcac7eaf3e6a1cf85c236e9c71f06e269b16928da76ad47683d4a8f
 stack-data==0.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:074f4a60339970ce76773f3eb9eb2c88591f83d335f5764551610cb07597a3c9
-starlette==1.2.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f883e3b1dad66859b3cd5cc398fd234ff14286a0bd98ac6fdaf696f4fe449b7b
+starlette==1.3.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1076ce1d57b000b509f126da9bb439b4af3ebd798fe4fa998a02640d4d3fe92f
 tabulate==0.10.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:fc9b49298a10c6cca931828963e093e59a17b96e53099ac930a2bcc5aa832273
 tenacity==8.5.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
