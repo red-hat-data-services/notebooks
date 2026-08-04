@@ -473,8 +473,8 @@ pyarrow==23.0.1 ; python_full_version >= '3.12' and implementation_name == 'cpyt
     --hash=sha256:8c9d009aa86f24541e2e481edbaf99cdf31550938f88b05fee0fecb208e25043 \
     --hash=sha256:de982b9bd68e72a4bf805056649932432a60ed172bd27ff9c3808c4913c4d9e0 \
     --hash=sha256:04777aa8608dc41e05f0589c2f39c770db9c9db5084793f48fba765d2ed6e794
-pyasn1==0.6.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:be09fdfc1b97682bb30f55ea7643d3b504a738149b1ef3674d3a13e51dba0c54
+pyasn1==0.6.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:6e528d5da51314beb2c731f09111061959edbee97f74be5601779500f788c00b
 pyasn1-modules==0.4.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2c39bb70a7441a41ab6918cfa59784f0478b2fd13169a550b376189fea8aab18
 pycodestyle==2.12.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

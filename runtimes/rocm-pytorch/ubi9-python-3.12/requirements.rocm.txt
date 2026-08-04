@@ -314,8 +314,8 @@ pyarrow==23.0.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ed608bad6ebd64361ac979923756ba815d0cdf7c9fda3009987b20062c59613a \
     --hash=sha256:b5710628b7634125e2566207af9fdfaf04f18f611a9099cbe5c76206f6a422a4 \
     --hash=sha256:48c22bf5b429aab1bed5b91f171ae905db3c46192e5bffba41824e051e9d1c51
-pyasn1==0.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:35b6badb52c1304caf0968b44b3790f3e74374682d3b6acaecddd2a604ddb00d
+pyasn1==0.6.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1712293015b2e600bf63861730bc6d40b553add222fbd82a939891f74bbc0d2a
 pyasn1-modules==0.4.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d89b312df38bd1fda2ff1237052902b4e22044cd0279d4f5b528e4e9592dd716
 pycparser==3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
