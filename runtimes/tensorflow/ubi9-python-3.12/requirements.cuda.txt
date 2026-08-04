@@ -443,8 +443,8 @@ smart-open==7.5.1 ; python_full_version >= '3.12' and implementation_name == 'cp
     --hash=sha256:72124c8ba1b3e8c217985cfeedaad4a704eead53cc6fb9633b8a684d8fca39f9
 smmap==5.0.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b9410bdd30b18270be2b71f7a954a6b1f451d8eb3ee3cffe4d529582eb6c41e6
-soupsieve==2.8.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:9e031b992f1e8df8dc18ff754ad4632cc28d89fe38d7415063d101dcf65e9897
+soupsieve==2.8.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:df120c8fa4e4fa1445520834a336243079b9935bf0144e518b0c8400ee26e2e3
 sqlalchemy==2.0.49 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:87c7ba6240e2a891c527941f7daf6dc58715bb7310ea7ea0056344d3bf57ed1d \
     --hash=sha256:7fa6175a9bd48d9ab048746497474f2a28bd3df522ee55fddd828cbf47b33398

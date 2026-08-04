@@ -380,8 +380,8 @@ smart-open==7.5.1 ; implementation_name == 'cpython' and sys_platform == 'linux'
     --hash=sha256:321afaa259c31bc2c78b26dc775b1bd20a043f2734ced6925d626c98d35a5611
 smmap==5.0.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9feab244b7ccc2d9e0feb0551e7f1da0233de532a7e4fedda2d12b48c36eeab4
-soupsieve==2.8.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:dc2435409aa2ff1dcccba8035d20f53bbfe0d377ef8694df124e6049c7295ed1
+soupsieve==2.8.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a83fba9480effe7fa448daf06d9ca67e7b098f10ae36ab6f97ae6830e04d6ccb
 sqlalchemy==2.0.49 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:44b3d2a6d7cb9a1f3322b3d016616b6b7aacb12334de7dad521a4429088ccb8f
 sqlparse==0.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \

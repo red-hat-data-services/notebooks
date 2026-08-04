@@ -622,8 +622,8 @@ smart-open==7.5.1 ; implementation_name == 'cpython' and platform_machine != 'pp
     --hash=sha256:6b40fe965e8326e31e93ecf737dad66eecb1ea7b5ae22a77172dcb9453144268
 smmap==5.0.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b34cb4ffaeaa5939f652d99477f5c176ddba01e7a4e5cb3af4fb4ebe1ac11133
-soupsieve==2.8.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:9d937b85f199c4b43f0f0b4d95902250c3de206beb4a901ab8f5526f639dd0ff
+soupsieve==2.8.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:4c655f9bbf5458241214f452d859d739684a92176e1b505ad843cbfae9810036
 sqlalchemy==2.0.49 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:77bbdc3a1021c44465c1f67326c66af6a07c1ed791b29aa42a1fd23e775e6ec2 \
     --hash=sha256:1fd85f768d9c11bf3bf45ef5384d82c555cd132ce103498a53c70c99eedc5cdb \
