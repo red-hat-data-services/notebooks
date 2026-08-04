@@ -48,11 +48,10 @@ PACKAGES="perl mesa-libGL skopeo libxcrypt-compat"
 # Additional dev tools only for s390x
 if [ "$TARGETARCH" = "s390x" ]; then
     PACKAGES="$PACKAGES gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel"
-    # RH-signed zeromq-devel is in rhelai-3.0 (AIPCC base redhat.repo), not UBI AppStream/EPEL.
-    if [ -f /etc/yum.repos.d/redhat.repo ] && grep -q '^\[rhelai-3.0-for-rhel-9-s390x-rpms\]' /etc/yum.repos.d/redhat.repo; then
-        subscription-manager repos --enable=rhelai-3.0-for-rhel-9-s390x-rpms
-        PACKAGES="$PACKAGES zeromq-devel"
-    fi
+    # RH-signed zeromq-devel is in rhelai-3.0 (not UBI AppStream/EPEL). Export repos before dnf.
+    subscription-manager refresh
+    subscription-manager repos --enable=rhelai-3.0-for-rhel-9-s390x-rpms
+    PACKAGES="$PACKAGES zeromq-devel"
 fi
 if [ "$TARGETARCH" = "ppc64le" ]; then
     PACKAGES="$PACKAGES git gcc-toolset-13 make wget unzip rust cargo unixODBC-devel cmake ninja-build"
@@ -428,15 +427,9 @@ if [ "$TARGETARCH" = "ppc64le" ]; then
     export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
 elif [ "$TARGETARCH" = "s390x" ]; then
-    # For s390x, we need special flags and environment variables for building packages.
-    # When zeromq-devel is unavailable (UBI-only GHA builds), pyzmq bundles libzmq and needs
-    # -Dundefined=64 under qemu-user; do not wipe that via a bare CFLAGS=-O3 override.
-    S390X_BUILD_CFLAGS="-O3"
-    if ! pkg-config --exists libzmq 2>/dev/null; then
-        S390X_BUILD_CFLAGS="-O3 -Dundefined=64"
-    fi
+    # For s390x, we need special flags and environment variables for building packages
     GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
-    CFLAGS="$S390X_BUILD_CFLAGS" CXXFLAGS="$S390X_BUILD_CFLAGS" \
+    CFLAGS="-O3" CXXFLAGS="-O3" \
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
 else
     # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
