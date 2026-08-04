@@ -180,7 +180,7 @@ and a full walkthrough (including jupyter datascience).
 | ---------------------- | ---------------------------------------------------------------------- |
 | `--component-dir DIR`  | Component directory (required), e.g. `codeserver/ubi9-python-3.12`     |
 | `--rhds`               | Use downstream (RHDS) lockfiles instead of upstream (ODH, the default) |
-| `--flavor NAME`        | Lock file flavor (default: `cpu`)                                      |
+| `--flavor NAME`        | Lock file flavor (default: `cpu`, or first available `Dockerfile.konflux.{cpu,cuda,rocm}` when `cpu` is absent) |
 | `--activation-key KEY` | Red Hat activation key for RHEL RPMs (optional)                        |
 | `--org ORG`            | Red Hat organization ID for RHEL RPMs (optional)                       |
 
@@ -850,7 +850,7 @@ The script performs these steps:
 | Option                  | Description                                                                                                                                                                                                          |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--pyproject-toml FILE` | Path to `pyproject.toml` (required). Output files are written to the same directory.                                                                                                                                 |
-| `--flavor NAME`         | Lock file flavor (default: `cpu`). Must match `Dockerfile.konflux.<flavor>` and `build-args/konflux.<flavor>.conf` in the project directory. Determines output filenames (`pylock.<flavor>.toml` and `requirements.<flavor>.txt`). |
+| `--flavor NAME`         | Lock file flavor (default: `cpu`, or the first available `Dockerfile.konflux.{cpu,cuda,rocm}` when `cpu` is absent). Must match `Dockerfile.konflux.<flavor>` in the project directory. The `rh-index` flow also requires `build-args/konflux.<flavor>.conf`. Determines output filenames (`pylock.<flavor>.toml` and `requirements.<flavor>.txt`). |
 | `--download`            | After generating the lock, download all wheels into `cachi2/output/deps/pip/` (for local testing with podman; not needed in Konflux CI).                                                                             |
 
 
@@ -878,7 +878,8 @@ This command:
 ./scripts/lockfile-generators/create-requirements-lockfile.sh \
     --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml
 
-# Custom flavor (e.g. cuda — requires Dockerfile.konflux.cuda and build-args/konflux.cuda.conf)
+# Custom flavor — rh-index flow (downstream 3.5+): requires
+# Dockerfile.konflux.<flavor> and build-args/konflux.<flavor>.conf
 ./scripts/lockfile-generators/create-requirements-lockfile.sh \
     --pyproject-toml jupyter/minimal/ubi9-python-3.12/pyproject.toml \
     --flavor cuda

@@ -47,6 +47,7 @@ SCRIPTS_PATH="scripts/lockfile-generators"
 COMPONENT_DIR=""
 VARIANT="odh"       # "odh" = upstream (CentOS Stream), "rhds" = downstream (RHEL)
 FLAVOR="cpu"        # selects which pylock/requirements files to use (cpu, cuda, rocm)
+FLAVOR_EXPLICIT=false
 ACTIVATION_KEY=""
 ORG=""
 
@@ -60,7 +61,8 @@ Options:
   --component-dir DIR     Component directory (required)
                           e.g. codeserver/ubi9-python-3.12
   --rhds                  Use downstream (RHDS) lockfiles instead of upstream (ODH)
-  --flavor NAME           Lock file flavor (default: cpu)
+  --flavor NAME           Lock file flavor (default: cpu, or first available
+                          Dockerfile.konflux.{cpu,cuda,rocm} when cpu is absent)
   --activation-key KEY    Red Hat activation key for RHEL RPMs (optional)
   --org ORG               Red Hat organization ID for RHEL RPMs (optional)
   -h, --help              Show this help
@@ -74,6 +76,33 @@ HELPEOF
 error_exit() {
   echo "Error: $1" >&2
   exit 1
+}
+
+# resolve_konflux_flavor PROJECT_DIR FLAVOR FLAVOR_EXPLICIT
+resolve_konflux_flavor() {
+  local project_dir="$1"
+  local flavor="$2"
+  local explicit="$3"
+  local candidate
+
+  if [[ -f "${project_dir}/Dockerfile.konflux.${flavor}" ]]; then
+    echo "$flavor"
+    return 0
+  fi
+
+  if [[ "$explicit" == true ]]; then
+    error_exit "Konflux Dockerfile not found: ${project_dir}/Dockerfile.konflux.${flavor}"
+  fi
+
+  for candidate in cpu cuda rocm; do
+    if [[ -f "${project_dir}/Dockerfile.konflux.${candidate}" ]]; then
+      echo "Note: auto-selected flavor '${candidate}' (no Dockerfile.konflux.${flavor})" >&2
+      echo "$candidate"
+      return 0
+    fi
+  done
+
+  error_exit "No Dockerfile.konflux.{cpu,cuda,rocm} found in ${project_dir}; use --flavor"
 }
 
 # find_tekton_yaml COMPONENT_DIR VARIANT
@@ -119,7 +148,7 @@ while [[ $# -gt 0 ]]; do
                          COMPONENT_DIR="$2"; shift 2 ;;
     --rhds)              VARIANT="rhds"; shift ;;
     --flavor)            [[ $# -ge 2 ]] || error_exit "--flavor requires a value"
-                         FLAVOR="$2"; shift 2 ;;
+                         FLAVOR="$2"; FLAVOR_EXPLICIT=true; shift 2 ;;
     --activation-key)    [[ $# -ge 2 ]] || error_exit "--activation-key requires a value"
                          ACTIVATION_KEY="$2"; shift 2 ;;
     --org)               [[ $# -ge 2 ]] || error_exit "--org requires a value"
@@ -131,6 +160,7 @@ done
 
 [[ -z "$COMPONENT_DIR" ]] && error_exit "--component-dir is required."
 [[ -d "$COMPONENT_DIR" ]] || error_exit "Component directory not found: $COMPONENT_DIR"
+FLAVOR="$(resolve_konflux_flavor "$COMPONENT_DIR" "$FLAVOR" "$FLAVOR_EXPLICIT")"
 
 # CLI args take priority; fall back to env vars so GHA can pass secrets
 # without exposing them on the command line.  GitHub Actions masks env var
