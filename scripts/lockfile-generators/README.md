@@ -850,7 +850,7 @@ The script performs these steps:
 | Option                  | Description                                                                                                                                                                                                          |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--pyproject-toml FILE` | Path to `pyproject.toml` (required). Output files are written to the same directory.                                                                                                                                 |
-| `--flavor NAME`         | Lock file flavor (default: `cpu`). Must match a `Dockerfile.<flavor>` and `build-args/<flavor>.conf` in the project directory. Determines output filenames (`pylock.<flavor>.toml` and `requirements.<flavor>.txt`). |
+| `--flavor NAME`         | Lock file flavor (default: `cpu`). Must match `Dockerfile.konflux.<flavor>` and `build-args/konflux.<flavor>.conf` in the project directory. Determines output filenames (`pylock.<flavor>.toml` and `requirements.<flavor>.txt`). |
 | `--download`            | After generating the lock, download all wheels into `cachi2/output/deps/pip/` (for local testing with podman; not needed in Konflux CI).                                                                             |
 
 
@@ -878,9 +878,9 @@ This command:
 ./scripts/lockfile-generators/create-requirements-lockfile.sh \
     --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml
 
-# Custom flavor (e.g. cuda — requires Dockerfile.konflux.cuda and build-args/cuda.conf)
+# Custom flavor (e.g. cuda — requires Dockerfile.konflux.cuda and build-args/konflux.cuda.conf)
 ./scripts/lockfile-generators/create-requirements-lockfile.sh \
-    --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml \
+    --pyproject-toml jupyter/minimal/ubi9-python-3.12/pyproject.toml \
     --flavor cuda
 ```
 

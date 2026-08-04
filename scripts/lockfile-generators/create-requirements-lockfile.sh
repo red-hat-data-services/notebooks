@@ -24,9 +24,9 @@ set -euo pipefail
 #   ./scripts/lockfile-generators/create-requirements-lockfile.sh \
 #       --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml --download
 #
-#   # Custom flavor
+#   # Custom flavor (requires Dockerfile.konflux.<flavor> and build-args/konflux.<flavor>.conf)
 #   ./scripts/lockfile-generators/create-requirements-lockfile.sh \
-#       --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml --flavor cuda
+#       --pyproject-toml jupyter/minimal/ubi9-python-3.12/pyproject.toml --flavor cuda
 
 SCRIPTS_PATH="scripts/lockfile-generators"
 PYLOCKS_GENERATOR="scripts/pylocks_generator.py"
@@ -48,8 +48,8 @@ Options:
   --pyproject-toml FILE  Path to pyproject.toml (required)
                          (e.g. codeserver/ubi9-python-3.12/pyproject.toml)
   --flavor NAME          Lock file flavor (default: cpu).
-                         Must match a Dockerfile.<flavor> and
-                         build-args/konflux.<flavor>.conf for the RH-index flow.
+                         Must match Dockerfile.konflux.<flavor> and
+                         build-args/konflux.<flavor>.conf (rh-index flow).
   --download             After generating, download all wheels into
                          cachi2/output/deps/pip/ for offline builds.
   -h, --help             Show this help message and exit
@@ -111,6 +111,8 @@ fi
 
 PYLOCK_FILE="${PROJECT_DIR}/uv.lock.d/pylock.${FLAVOR}.toml"
 REQUIREMENTS_INDEX_URL=""
+KONFLUX_DOCKERFILE="${PROJECT_DIR}/Dockerfile.konflux.${FLAVOR}"
+[[ -f "$KONFLUX_DOCKERFILE" ]] || error_exit "Konflux Dockerfile not found: $KONFLUX_DOCKERFILE"
 if [[ "$PYLOCKS_MODE" == "public-index" ]]; then
   PYLOCK_FILE="${PROJECT_DIR}/pylock.toml"
   HERMETO_INDEX_URL="https://pypi.org/simple"
