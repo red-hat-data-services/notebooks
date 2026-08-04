@@ -72,15 +72,15 @@ RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES="perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel"
+    PACKAGES=(perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel)
     subscription-manager refresh
     subscription-manager repos --enable=rhelai-3.0-for-rhel-9-s390x-rpms
-    PACKAGES="$PACKAGES zeromq-devel"
+    PACKAGES+=(zeromq-devel)
 else
-    PACKAGES="perl mesa-libGL skopeo"
+    PACKAGES=(perl mesa-libGL skopeo)
 fi
-echo "Installing: $PACKAGES"
-dnf install -y $PACKAGES
+echo "Installing: ${PACKAGES[*]}"
+dnf install -y "${PACKAGES[@]}"
 dnf clean all && rm -rf /var/cache/yum
 EOF
 

@@ -44,21 +44,21 @@ EOF
 RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
-PACKAGES="perl mesa-libGL skopeo libxcrypt-compat"
+PACKAGES=(perl mesa-libGL skopeo libxcrypt-compat)
 # Additional dev tools only for s390x
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES="$PACKAGES gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel"
+    PACKAGES+=(gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel)
     # RH-signed zeromq-devel is in rhelai-3.0 (not UBI AppStream/EPEL). Export repos before dnf.
     subscription-manager refresh
     subscription-manager repos --enable=rhelai-3.0-for-rhel-9-s390x-rpms
-    PACKAGES="$PACKAGES zeromq-devel"
+    PACKAGES+=(zeromq-devel)
 fi
 if [ "$TARGETARCH" = "ppc64le" ]; then
-    PACKAGES="$PACKAGES git gcc-toolset-13 make wget unzip rust cargo unixODBC-devel cmake ninja-build"
+    PACKAGES+=(git gcc-toolset-13 make wget unzip rust cargo unixODBC-devel cmake ninja-build)
 fi
-if [ -n "$PACKAGES" ]; then
-    echo "Installing: $PACKAGES"
-    dnf install -y $PACKAGES
+if [ ${#PACKAGES[@]} -gt 0 ]; then
+    echo "Installing: ${PACKAGES[*]}"
+    dnf install -y "${PACKAGES[@]}"
     dnf clean all && rm -rf /var/cache/yum
 fi
 EOF
