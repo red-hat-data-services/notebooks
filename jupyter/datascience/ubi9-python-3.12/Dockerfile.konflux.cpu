@@ -73,6 +73,10 @@ set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
     PACKAGES="perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel"
+    if [ -f /etc/yum.repos.d/redhat.repo ] && grep -q '^\[rhelai-3.0-for-rhel-9-s390x-rpms\]' /etc/yum.repos.d/redhat.repo; then
+        subscription-manager repos --enable=rhelai-3.0-for-rhel-9-s390x-rpms
+        PACKAGES="$PACKAGES zeromq-devel"
+    fi
 else
     PACKAGES="perl mesa-libGL skopeo"
 fi
@@ -406,9 +410,12 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
     echo "meson<1.11" > build_constraints.txt && \
     if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then \
-        # We need special flags and environment variables when building packages
+        BUILD_CFLAGS="-O3" && \
+        if [ "$TARGETARCH" = "s390x" ] && ! pkg-config --exists libzmq 2>/dev/null; then \
+            BUILD_CFLAGS="-O3 -Dundefined=64"; \
+        fi && \
         GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
-        CFLAGS="-O3" CXXFLAGS="-O3" \
+        CFLAGS="$BUILD_CFLAGS" CXXFLAGS="$BUILD_CFLAGS" \
         uv pip install --strict --no-deps --no-cache --no-config --no-progress \
             --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match \
             --build-constraint build_constraints.txt \
