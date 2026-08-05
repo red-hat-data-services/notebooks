@@ -18,5 +18,10 @@
     "typescript": "^5.8.3",
     "@types/node": "^24.0.4"
   },
-  "packageManager": "pnpm@10.8.0"
+  "packageManager": "pnpm@10.8.0",
+  "pnpm": {
+    "overrides": {
+      "protobufjs": ">=7.5.5"
+    }
+  }
 }
