@@ -262,7 +262,15 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
         (
             "Numpy",
             (
+                "1.26",  # trustyai
                 "2.1",  # tensorflow cuda / rocm
+                "2.3",  # latest where possible
+            ),
+        ),
+        (
+            "Pandas",
+            (
+                "1.5",  # trustyai
                 "2.3",  # latest where possible
             ),
         ),
@@ -319,8 +327,23 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         (
             "numpy",
             (
+                "~=1.26.4",  # trustyai
                 "~=2.1.3",  # tensorflow cuda / rocm
                 "~=2.3.5",  # latest where possible
+            ),
+        ),
+        (
+            "pandas",
+            (
+                "~=1.5.3",  # trustyai
+                "~=2.3.3",  # latest where possible
+            ),
+        ),
+        (
+            "jupyter-bokeh",
+            (
+                "~=3.0.5",  # trustyai 0.6.x
+                "~=4.0.5",  # latest where possible
             ),
         ),
         ("jupyterlab-lsp", ("~=5.1.0", "~=5.1.1")),

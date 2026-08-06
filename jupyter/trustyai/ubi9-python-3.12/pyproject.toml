@@ -32,13 +32,11 @@ dependencies = [
     "boto3~=1.40.52",
     "kafka-python-ng~=2.2.3",
     "kfp~=2.14.6",
-    "matplotlib~=3.10.7",
-    # Align with datascience / current trustyai (numpy>=1.26.4, pandas>=2.1.0); numpy 1.26
-    # conflicts with onnx>=1.21.0 via ml-dtypes on Python >=3.13 during --universal lock
-    "numpy~=2.3.5",
-    "pandas~=2.3.3",
+    "matplotlib~=3.10.7", # Should be pinned down to this version in order to be compatible with trustyai
+    "numpy~=1.26.4", # Should be pinned down to this version in order to be compatible with trustyai
+    "pandas~=1.5.3", # Should be pinned down to this version in order to be compatible with trustyai
     "plotly~=6.3.1",
-    "scikit-learn~=1.7.2",
+    "scikit-learn~=1.7.2", # Should be pinned down to this version in order to be compatible with trustyai
     "scipy~=1.16.2",
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
@@ -56,8 +54,8 @@ dependencies = [
     "odh-jupyter-trash-cleanup==0.1.1",
 
     "jupyterlab==4.5.7",
-    "jupyter-bokeh~=4.0.5",
-    "jupyter-server~=2.17.0",
+    "jupyter-bokeh~=3.0.5", # trustyai 0.6.1 depends on jupyter-bokeh~=3.0.5
+    "jupyter-server~=2.20.0",
     "jupyter-server-proxy~=4.4.0",
     "jupyter-server-terminals~=0.5.3",
     "jupyterlab-git~=0.51.2",
@@ -74,10 +72,10 @@ dependencies = [
 
 [tool.uv]
 environments = [
-    "sys_platform == 'linux' and implementation_name == 'cpython'",
+    "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
 ]
 override-dependencies = [
-    # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk==0.34.0 pin cryptography==46.0.3
+    # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk pin cryptography==46.0.3
     "cryptography>=46.0.7",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
