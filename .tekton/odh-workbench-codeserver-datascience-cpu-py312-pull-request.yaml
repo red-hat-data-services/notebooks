@@ -206,6 +206,23 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  # Bump prepare-sboms memory to avoid Syft OOM (default ~256Mi) which hangs upload-sbom
+  # See https://redhat-internal.slack.com/archives/C04PZ7H0VA8/p1785966291582479 / KFLUXSPRT-8652
+  taskRunSpecs:
+  - pipelineTaskName: build-images
+    stepSpecs:
+    - name: prepare-sboms
+      computeResources:
+        requests:
+          memory: 8Gi
+        limits:
+          memory: 8Gi
+    - name: sbom-syft-generate
+      computeResources:
+        requests:
+          memory: 8Gi
+        limits:
+          memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
