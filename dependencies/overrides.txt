@@ -3,3 +3,6 @@
 # Review obligation: every time you touch this file, carefully review all entries
 # for obsolete, broken, or dangerous pins. Do not hesitate to fix or remove
 # anything that is no longer justified — do the right thing immediately.
+
+# RHAIENG-6815: AIPCC codeflare-sdk pins ray==2.55.1; force CVE floor (runtime risk)
+ray>=2.56.0
