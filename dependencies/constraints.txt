@@ -24,4 +24,16 @@ setuptools>=83.0.0
 # RHAIENG-6704: CVE-2026-40682: Apache OpenNLP DictionaryEntryPersistor Vulnerable to XML External Entity (XXE) via Unsanitized Dictionary Parsing
 trustyai>=0.6.4
 
+
+# RHAIENG-6791: PYSEC-2026-2095+ aiohttp HTTP request smuggling / related vulns (3.5.1 prerelease)
+aiohttp>=3.14.1
+# RHAIENG-6793: GHSA-537c-gmf6-5ccf cryptography
+cryptography>=48.0.1
+# RHAIENG-6814: GHSA-7gcm-g887-7qv7 / PYSEC-2026-1805 protobuf (images pin ==6.33.5 for AIPCC-13675 s390x)
+protobuf>=6.33.5
+# RHAIENG-6815: GHSA-mw35-8rx3-xf9r / PYSEC-2026-2273 ray
+ray>=2.56.0
+# RHAIENG-6820: GHSA-8rrh-rw8j-w5fx / PYSEC-2026-2047 wheel
+wheel>=0.46.2
+
 # --- General floors ---

@@ -28,8 +28,8 @@ dependencies = [
 exclude-dependencies = ["py-spy"]
 
 override-dependencies = [
-    # tensorflow-rocm depends on protobuf>=3.20.3, <6.0.0 and kfp depends on protobuf>=6.31.1
-    "protobuf==6.31.1",
+    # AIPCC-13675 + RHAIENG-6814: pin 6.33.5 (CVE floor; avoid 6.33.6+ s390x segfault)
+    "protobuf==6.33.5",
 ]
 
 constraint-dependencies = [

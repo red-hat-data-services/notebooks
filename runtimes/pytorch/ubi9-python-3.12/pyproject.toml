@@ -33,8 +33,8 @@ environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
 ]
 override-dependencies = [
-    # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
-    "protobuf==6.31.1",
+    # AIPCC-13675: avoid protobuf 6.33.6+ UPB segfault on s390x; RHAIENG-6814 needs >=6.33.5
+    "protobuf==6.33.5",
     # RHAIENG-6408: CVE-2026-59890 — torch 2.11.0 wheel metadata caps setuptools<82;
     # override until torch 2.13+ on AIPCC (pytorch#187262). Runtime qualification: test_image_entrypoint_starts.
     "setuptools>=83.0.0",
