@@ -372,7 +372,8 @@ onnx==1.20.0 ; python_full_version >= '3.12' and implementation_name == 'cpython
 onnx-ir==0.2.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:86d7743e30624eecfaa2401165d4f209fd7a3cad96ef17b33baaf0acabc7c636
 onnxconverter-common==1.16.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:a2b32e06cb3e4ab0141ffcfd439f71676232e7344125b41a07098cf85cb2f15d
+    --hash=sha256:a2b32e06cb3e4ab0141ffcfd439f71676232e7344125b41a07098cf85cb2f15d \
+    --hash=sha256:06911a20d3953335c24298db69722d361701c3ef5486db9734021a03e89d38fe
 onnxscript==0.6.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:504d1bffd7fb59789fca9ccfc4b395fbbe1cccc824c7d56dbb0e5b7fdae938b8
 opencensus==0.11.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -394,6 +395,8 @@ opentelemetry-semantic-conventions==0.61b0 ; python_full_version >= '3.12' and i
 packaging==26.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:063afd476d2e966b74f3748927e0ecd6b6522a8577bcb5d3781bb1512f573957
 pandas==2.3.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:89df1d09527fafd8ffcf1039f0b0261c01d0fba946cf4835f0990d97216bacc7 \
+    --hash=sha256:214c0a8df3ab3b9c6809f59de1b36b5c10baf56ad5c38518d300da42ab7f85d9 \
     --hash=sha256:254d6e0c13525cd76b71751f16afa3a10e1b3c4fb50639b2a387fd631abdd59c \
     --hash=sha256:51fc052564f56b7547d28f3fbaaf07b617465c3a647e9f52fb98520c091f5747 \
     --hash=sha256:4facc7edf92ffb17afcb157cced782accc061c8cc094d82825e621ba6959217f \
@@ -618,7 +621,9 @@ torch==2.10.0 ; python_full_version >= '3.12' and implementation_name == 'cpytho
     --hash=sha256:0a7718f10ff8612a340db531101c4f4a33e122c5192eb7d4e68d976c7cdad150
 torchvision==0.25.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:8cd0b417d21800182d8cc61b8b9b3096d2d18af9f9311431dd40efeab47c0569 \
-    --hash=sha256:f09023ce28c9f3fc55f914029a735703342bd1eac9204a8964629b6351b00ebf
+    --hash=sha256:f09023ce28c9f3fc55f914029a735703342bd1eac9204a8964629b6351b00ebf \
+    --hash=sha256:ce74fff124d6954348eb9df3f3430b74d3d68d127f747a94adb22e2a05964469 \
+    --hash=sha256:d3dd0e8af9e48ade98a6b7453fca3d6da9744e5e355111370c3078290e8ef96d
 tornado==6.5.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c0775112cc2ab1a7e944a6a661c06458a4679bcaebfb0a1bd84e2c1dd869a165 \
     --hash=sha256:5342d0f38ea598a577533975f33267f962485bcea67828b7e277c22853005e13
@@ -629,6 +634,8 @@ traitlets==5.14.3 ; python_full_version >= '3.12' and implementation_name == 'cp
 triton==3.6.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:91342fcc5f275a96d734b30aab26bc1976e0786df73129df84e3e524ebf6cb18 \
     --hash=sha256:f56809ec1736330c6c59ba7d127bb4450290cd83231c8bcaabfb7a6e3cfd68e8 \
+    --hash=sha256:f61b76ec5852e22428599d825e2d9dea7f37e303a6061255c625b9f2d0e3f43b \
+    --hash=sha256:8a6926a1c816e3d114f3cea5908d427773fd11c342d14110cb7be54a06f5df2a \
     --hash=sha256:2f975c500b97d5464c335a7f014891bcf36e39267ba1a92c4f9974d5fec14d9b \
     --hash=sha256:136ed6298b1734717d0c398c0a04dc97f99e4ef2afb4285559106a949c40ea1f
 typeguard==4.5.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

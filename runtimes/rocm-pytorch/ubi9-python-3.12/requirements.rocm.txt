@@ -266,7 +266,8 @@ packaging==26.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c318ca8898b1b505d6bac8efd15d23a41337bab06227c36f811e11d4820f4ead
 pandas==2.3.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b0779fe71592ad921760a26f9a14b049cac5f373df6c585b95eccda5089b62cd \
-    --hash=sha256:1f3105caa4b4bb6a5f7b8091045df612938120c98723d411d892c7026f78c81f
+    --hash=sha256:1f3105caa4b4bb6a5f7b8091045df612938120c98723d411d892c7026f78c81f \
+    --hash=sha256:5ab13920927240dfc0edfaf82d142b85ac59d9285a8931c679f6de72360b3c62
 pandocfilters==1.5.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2caa88873ad41b81e5deb7ffc305a6624918a9f67020277157fd6e1692ad6c1b
 papermill==2.7.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
