@@ -213,7 +213,7 @@ def main():
         "Subscribe with subscription manager": textwrap.dedent(subscription_manager_register_refresh),
         "upgrade first to avoid fixable vulnerabilities": textwrap.dedent(ntb.process_template_with_indents(rt"""
             {subscription_manager_register_refresh}
-            RUN --mount=type=bind,source=base-images/utils/dnf-helper.sh,target=/utils/dnf-helper.sh,ro \
+            RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
                 /utils/dnf-helper.sh upgrade
 
         """)),
