@@ -72,12 +72,15 @@ RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES="perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel"
+    PACKAGES=(perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel)
+    subscription-manager refresh
+    subscription-manager repos --enable=rhelai-3.0-for-rhel-9-s390x-rpms
+    PACKAGES+=(zeromq-devel)
 else
-    PACKAGES="perl mesa-libGL skopeo"
+    PACKAGES=(perl mesa-libGL skopeo)
 fi
-echo "Installing: $PACKAGES"
-dnf install -y $PACKAGES
+echo "Installing: ${PACKAGES[*]}"
+dnf install -y "${PACKAGES[@]}"
 dnf clean all && rm -rf /var/cache/yum
 EOF
 
@@ -411,7 +414,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
     echo "meson<1.11" > build_constraints.txt && \
     if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then \
-        # We need special flags and environment variables when building packages
         GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
         CFLAGS="-O3" CXXFLAGS="-O3" \
         uv pip install --strict --no-deps --no-cache --no-config --no-progress \
