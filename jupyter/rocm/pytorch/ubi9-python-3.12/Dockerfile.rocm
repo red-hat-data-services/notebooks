@@ -41,13 +41,13 @@ if command -v subscription-manager &> /dev/null; then
 fi
 EOF
 
-RUN --mount=type=bind,source=base-images/utils/dnf-helper.sh,target=/utils/dnf-helper.sh,ro \
+RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
     /utils/dnf-helper.sh upgrade
 
 ### END upgrade first to avoid fixable vulnerabilities
 
 # Install useful OS packages
-RUN --mount=type=bind,source=base-images/utils/dnf-helper.sh,target=/utils/dnf-helper.sh,ro \
+RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
     /utils/dnf-helper.sh install perl mesa-libGL skopeo
 
 # Other apps and tools installed as default user
@@ -109,7 +109,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN --mount=type=bind,source=base-images/utils/dnf-helper.sh,target=/utils/dnf-helper.sh,ro \
+RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
     /utils/dnf-helper.sh install jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat
 
 ### BEGIN Copy mongocli from builder
