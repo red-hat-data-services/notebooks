@@ -37,7 +37,16 @@ ARG RHEL_VERSION=9.6
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
-RUN subscription-manager release --set="${RHEL_VERSION}"
+# Phase-1 non-hermetic: refresh + pin RHSM release when entitlement identity is
+# present (Konflux/local subscribed builds). Skip when unregistered so hermetic
+# or unentitled builds do not die on release --set.
+RUN set -Eeuxo pipefail && \
+    if subscription-manager identity &>/dev/null; then \
+        subscription-manager refresh && \
+        subscription-manager release --set="${RHEL_VERSION}"; \
+    else \
+        echo "No RHSM identity; skipping refresh/release pin"; \
+    fi
 
 # Runtime installs need the OpenShift layered-product repo for openshift-clients.
 RUN basearch="$(rpm --eval '%{_arch}')" && \
