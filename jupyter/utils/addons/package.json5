@@ -36,4 +36,10 @@
     'webpack-dev-server': '^5.2.3',
   },
   // "packageManager": "pnpm@10.8.1" // forces install of a precise version, so annoying
+  pnpm: {
+    overrides: {
+      // RHAIENG-4760: CVE-2026-40895 Information disclosure via cross-domain redirects
+      'follow-redirects': '>=1.16.0',
+    },
+  },
 }
