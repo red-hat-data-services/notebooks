@@ -68,6 +68,7 @@ EOF
 # upgrade first to avoid fixable vulnerabilities end
 
 # Install useful OS packages
+COPY jupyter/utils utils/
 RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
@@ -80,7 +81,7 @@ else
     PACKAGES=(perl mesa-libGL skopeo)
 fi
 echo "Installing: ${PACKAGES[*]}"
-dnf install -y "${PACKAGES[@]}"
+./utils/install_with_retry.sh dnf-install "${PACKAGES[@]}"
 dnf clean all && rm -rf /var/cache/yum
 EOF
 
@@ -163,8 +164,7 @@ if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then
     # Install build dependencies (shared for pyarrow and onnx)
     # ninja-build is required by scikit-build-core (pyarrow's PEP 517 build backend) to drive
     # the CMake build; `python -m build` fails with "Missing dependencies: ninja>=1.5" without it.
-    dnf install -y cmake make gcc-c++ pybind11-devel wget ninja-build
-    dnf clean all
+    /opt/app-root/bin/utils/install_with_retry.sh dnf-install cmake make gcc-c++ pybind11-devel wget ninja-build
     # Build and collect pyarrow wheel
     git clone --depth 1 --branch "${ARROW_BRANCH}" https://github.com/apache/arrow.git
     cd arrow/cpp
@@ -235,8 +235,7 @@ USER root
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [ "${TARGETARCH}" = "ppc64le" ]; then
-    dnf install -y gcc-toolset-13 cmake ninja-build git wget unzip
-    dnf clean all
+    /opt/app-root/bin/utils/install_with_retry.sh dnf-install gcc-toolset-13 cmake ninja-build git wget unzip
 else
     echo "Skipping common-builder package install on non-Power"
 fi
@@ -307,7 +306,8 @@ COPY ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
 USER 0
 
 # Dependencies for PDF export begin
-RUN ./utils/install_pdf_deps.sh
+RUN ./utils/install_with_retry.sh texlive-install
+ENV PATH="/usr/local/texlive/bin/linux:/usr/local/pandoc/bin:$PATH"
 # Dependencies for PDF export end
 
 USER 1001
@@ -341,11 +341,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-dnf install -y jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat
-dnf clean all && rm -rf /var/cache/yum
-EOF
+RUN ./utils/install_with_retry.sh dnf-install jq unixODBC unixODBC-devel postgresql git-lfs libsndfile libxcrypt-compat
 
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
