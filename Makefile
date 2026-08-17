@@ -28,7 +28,8 @@ RELEASE_PYTHON_VERSION	 ?= 3.12
 CONTAINER_BUILD_CACHE_ARGS ?= --no-cache
 # whether to push the images to a registry as they are built
 PUSH_IMAGES ?= yes
-# INDEX_MODES=public-index(default) or aipcc-index this used for the lock
+# INDEX_MODE: public-index (default), auto, rh-index → pylocks_generator.py
+#             aipcc-index → legacy pylocks_generator.sh (hardcoded AIPCC 3.0 URLs)
 INDEX_MODE ?= public-index
 
 # OS dependant: Generate date, select appropriate cmd to locate container engine
@@ -490,8 +491,8 @@ validate-rstudio-image: bin/kubectl
 # Refresh lock files
 # Usage examples:
 #   gmake refresh-lock-files
-#   gmake refresh-lock-files INDEX_MODE=aipcc-index
-#	gmake refresh-lock-files INDEX_MODE=aipcc-index DIR=jupyter/minimal/ubi9-python-3.12
+#   gmake refresh-lock-files INDEX_MODE=public-index DIR=jupyter/minimal/ubi9-python-3.12
+#   gmake refresh-lock-files INDEX_MODE=aipcc-index   # legacy shell generator
 # ======================================================================================
 DIR ?=
 .PHONY: refresh-lock-files
@@ -499,7 +500,11 @@ refresh-lock-files:
 	@echo "==================================================================="
 	@echo "🔁 Refreshing pylock.toml files using $(INDEX_MODE)"
 	@echo "==================================================================="
-	@cd $(ROOT_DIR) && bash scripts/pylocks_generator.sh $(INDEX_MODE) $(DIR)
+ifeq ($(INDEX_MODE),aipcc-index)
+	@cd $(ROOT_DIR) && bash scripts/pylocks_generator.sh aipcc-index $(DIR)
+else
+	@cd $(ROOT_DIR) && uv run scripts/pylocks_generator.py $(INDEX_MODE) $(DIR)
+endif
 
 # This is only for the workflow action
 # For running manually, set the required environment variables
