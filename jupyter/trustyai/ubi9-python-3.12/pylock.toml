@@ -2738,10 +2738,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/be/9c/92789c596b8df83
 
 [[packages]]
 name = "odh-elyra"
-version = "4.3.2"
+version = "4.3.3"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/93/c7/0dc3a7827b166b052f66dc6619b81122979669970507493f0b53bb3c9469/odh_elyra-4.3.2.tar.gz", upload-time = 2025-12-17T19:54:01Z, size = 2196786, hashes = { sha256 = "be25cf3199f7d4de0489bc085dc16eb5c746e5f3fb9a2a17a6dd71dfffaefde5" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/d5/a1/d312dfa66495995682c0a95b172f3796270a18bdff85cb03306645a9f291/odh_elyra-4.3.2-py3-none-any.whl", upload-time = 2025-12-17T19:53:59Z, size = 4352744, hashes = { sha256 = "854ae74994a0e4bbcc86ead10b7218c3b10348c4f3537d776801f3650ab02afa" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/14/d9/8524e3712de0f09cdc85fd4e09731fccdbc49234568310f27e89e699c365/odh_elyra-4.3.3.tar.gz", upload-time = 2026-08-14T21:40:31Z, size = 2196445, hashes = { sha256 = "709121c2e3c3c771160f7e7e98d37f6a56eb4a02aef04d563ddc7181cec362c9" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/9d/b3/7d18d9fb2aff12292ba00bd10af0f657fa2eaa726915af8be8fa1826e5c3/odh_elyra-4.3.3-py3-none-any.whl", upload-time = 2026-08-14T21:40:29Z, size = 4351061, hashes = { sha256 = "8c5ff616ccaaa5cc652e5bc7baae699cfd134c544d0fffaf058f33a6906b4631" } }]
 
 [[packages]]
 name = "odh-jupyter-trash-cleanup"
