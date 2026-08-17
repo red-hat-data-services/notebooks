@@ -23,7 +23,7 @@ dependencies = [
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
     "codeflare-sdk~=0.34.0",
-    "feast~=0.59.0",
+    "feast~=0.63.0",
 
     # DB connectors
     "pymongo~=4.15.3",
@@ -35,7 +35,7 @@ dependencies = [
     "odh-elyra==4.3.2",
     "odh-jupyter-trash-cleanup==0.1.1",
 
-    "jupyterlab==4.4.9",
+    "jupyterlab==4.5.7",
     "jupyter-bokeh~=4.0.5",
     "jupyter-server~=2.17.0",
     "jupyter-server-proxy~=4.4.0",
@@ -55,11 +55,13 @@ dependencies = [
 [tool.uv]
 
 override-dependencies = [
+    # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk==0.34.0 pin cryptography==46.0.3
+    "cryptography>=46.0.7",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
     # tf2onnx has pinned protobuf version, that causes conflict with other packages
     "protobuf==6.31.1",
-    "keras~=3.14.0",
+    "keras~=3.15.0",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # odh-elyra -> appengine-python-standard caps urllib3<2; override required (constraints unsatisfiable)
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
@@ -67,5 +69,5 @@ override-dependencies = [
 ]
 
 environments = [
-    "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
+    "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]

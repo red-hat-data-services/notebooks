@@ -31,7 +31,7 @@ dependencies = [
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
     "kubeflow-training==1.9.3",
-    "feast~=0.59.0",
+    "feast~=0.63.0",
 
     # DB connectors
     "pymongo~=4.15.3",
@@ -43,7 +43,7 @@ dependencies = [
     "odh-elyra==4.3.2",
     "odh-jupyter-trash-cleanup==0.1.1",
 
-    "jupyterlab==4.4.9",
+    "jupyterlab==4.5.7",
     "jupyter-bokeh~=4.0.5",
     "jupyter-server~=2.17.0",
     "jupyter-server-proxy~=4.4.0",
@@ -85,9 +85,11 @@ explicit = true
 
 [tool.uv]
 environments = [
-    "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
+    "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
 override-dependencies = [
+    # Force Pillow past llmcompressor 0.9.0.3 upper bound (<=12.2.0) for CVE-2026-59205 et al.
+    "pillow>=12.3.0",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability

@@ -24,7 +24,7 @@ dependencies = [
     "scipy~=1.16.2",
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
-    "feast~=0.59.0",
+    "feast~=0.63.0",
 
     # DB connectors
     "pymongo~=4.15.3",
@@ -53,9 +53,11 @@ explicit = true
 
 [tool.uv]
 override-dependencies = [
+    # Force Pillow past llmcompressor 0.9.0.3 upper bound (<=12.2.0) for CVE-2026-59205 et al.
+    "pillow>=12.3.0",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
 ]
 environments = [
-    "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
+    "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
