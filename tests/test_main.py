@@ -259,13 +259,11 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
         # ("package name", ("allowed version 1", "allowed version 2", ...))
         ("Codeflare-SDK", ("0.30", "0.29")),
         ("Scikit-learn", ("1.7", "1.6")),
-        ("Pandas", ("2.3", "1.5")),
         (
             "Numpy",
             (
-                "1.26",  # trustyai 0.6.2 depends on numpy~=1.26.4
-                "2.1",  # for tensorflow cuda
-                "2.3",  # this is our latest where possible
+                "2.1",  # tensorflow cuda / rocm
+                "2.3",  # latest where possible
             ),
         ),
         ("Tensorboard", ("2.18", "2.20")),
@@ -321,17 +319,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         (
             "numpy",
             (
-                "~=1.26.4",  # trustyai 0.6.2 depends on numpy~=1.26.4
-                "~=2.1.3",
-                "~=2.3.5",  # for llmcompressor, tensorflow cuda, latest possible at the time of writing
-            ),
-        ),
-        ("pandas", ("~=2.3.3", "~=1.5.3")),
-        (
-            "jupyter-bokeh",
-            (
-                "~=3.0.5",  # trustyai 0.6.2 depends on jupyter-bokeh~=3.0.7
-                "~=4.0.5",
+                "~=2.1.3",  # tensorflow cuda / rocm
+                "~=2.3.5",  # latest where possible
             ),
         ),
         ("jupyterlab-lsp", ("~=5.1.0", "~=5.1.1")),
