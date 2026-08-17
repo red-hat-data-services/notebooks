@@ -6,3 +6,8 @@ version: 3
 # Two spaces before # to satisfy yamllint's "comments" rule
 # (too few spaces before comment: expected 2)
 separator: "  # "
+
+# Devops-managed reusable workflow has no semver tags; pin by commit SHA instead.
+ignore_actions:
+  - name: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml
+    ref: ".*"

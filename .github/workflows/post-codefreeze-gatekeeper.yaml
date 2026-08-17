@@ -1,6 +1,6 @@
+---
 name: Post-Codefreeze Gatekeeper
-
-on:
+"on":
   pull_request_target:
     types: [opened, synchronize, reopened, edited, labeled]
     branches:
@@ -8,5 +8,5 @@ on:
 jobs:
   post-codefreeze-gate:
     if: github.event.action != 'labeled' || github.event.label.name == 'run-gatekeeper'
-    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@main
+    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@3a2cae1f65fcb1b35600d4083a87241f3660417b  # main
     secrets: inherit
