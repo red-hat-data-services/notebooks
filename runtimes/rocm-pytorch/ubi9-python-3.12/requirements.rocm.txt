@@ -3,8 +3,8 @@ absl-py==2.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:27392fbda337bd3e9f7a1a0405c9b22d314238bbbbb6e910f4208dcd4750740e
 aiohappyeyeballs==2.6.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a80202be86e008deac1f890d385d721617c4e26feeb21c4469a37596e123ff2f
-aiohttp==3.14.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6ae27ca015b47dfb963bb874582a99e665d5065cf7481c1ff24ebec35b8a5132
+aiohttp==3.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a8f6121fb9b92cdb08a0ab5d0d6302c1801318178f6b9d09d9599d9b6362065f
 aiohttp-cors==0.8.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f5ecebcaa53dac556c98b24fe9ca8d6ad466c6db3ba699683bf233543ee13b20
 aiosignal==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -245,7 +245,8 @@ oauthlib==3.3.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
 onnx==1.20.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:bcbaf21a1b2cc7a90a156f8ce69688e3efe3b486889bdfab1a37f663660c862d
 onnxconverter-common==1.16.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:99c809969a20cfcda541a9861f72ec2083b7cec786a46a2505c817c6c6dde940
+    --hash=sha256:99c809969a20cfcda541a9861f72ec2083b7cec786a46a2505c817c6c6dde940 \
+    --hash=sha256:85a83eac3b33afc0f383cb495f9eeb3166c168d72305888331d4e1068c75f873
 opencensus==0.11.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:68a674b35ea8adc9ba47a6c6f605a4baa1e6db60af1df1afbccbcbc2ba9e1a08
 opencensus-context==0.1.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \

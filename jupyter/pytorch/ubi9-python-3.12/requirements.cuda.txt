@@ -3,9 +3,9 @@ absl-py==2.4.0 ; python_full_version >= '3.12' and implementation_name == 'cpyth
     --hash=sha256:541b7c5ba88ed58a008365e719dcb4de1eda50328a4e79dd6203b0670404521b
 aiohappyeyeballs==2.6.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a4f4595538dfdf0e3c8017a599bd5b8f12319bf38918ce5d92e0fc66edb09de0
-aiohttp==3.14.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:b10115a64ed24195cdea88b7a9386ae5c07d2f423bcf9f52828e3c3fc7b6a0c2 \
-    --hash=sha256:b4b2e022aeeed293ed3299372cf7075da920f466ad533a7f8342de2ded947e66
+aiohttp==3.14.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0e7052723c0df85e014ec38c2a1de453babb6837d59953be8d342f75a7cf2317 \
+    --hash=sha256:580849b9b360c91aa2006d18fe728a3e24f8fc04429c8c62e7a3e92f971ed585
 aiohttp-cors==0.8.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:aa22cfb1127240cd13e73ca255b4737637e41bd145e21d2a7e4089550c70c6b3
 aiosignal==1.4.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
