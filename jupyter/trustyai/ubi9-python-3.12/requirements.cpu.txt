@@ -3,11 +3,11 @@ accelerate==1.13.0 ; implementation_name == 'cpython' and platform_machine != 'p
     --hash=sha256:db7665457b37506a19255dabcb5a52bc73fc754450540fdc91c941535463fb5b
 aiohappyeyeballs==2.6.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c6a86408878a5b6b76ae6cd305f79ac9f690a38b21af183e00c150ef3f569d29
-aiohttp==3.14.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6b2069a24c6b9a627aac56d73f18727846757cb0b51968285c421dc4a9ddc24b \
-    --hash=sha256:0dbcd52eb4ab49f91ecd797eff67aaaa9b4a2203712788030ed59dc1c45443b1 \
-    --hash=sha256:d886c555f617d8f1af3ffda98e858d33d23ecf131de0ff6f64e2482226bfeb70 \
-    --hash=sha256:3acb802c339ae082aca8c0f08ba8901087dfdd1bf415ac2ba233072aa6ef5e61
+aiohttp==3.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:8e35a7ea31e4d119f1c7a3dc83ce156df17fae12dd65c13ff96511661c40e852 \
+    --hash=sha256:97d89e3256393ec90af582abd48b66aa689740df12fe9f7d5f3b8ff214ec5100 \
+    --hash=sha256:ed2fc6b837601b5ce1d07d004da6186421666f61292c8ae413111a27d4f1bc1f \
+    --hash=sha256:ebc9e85da50e98cc571b339a5e3ccfc19d928729a5ac05bafbce880609a54585
 aiohttp-cors==0.8.1 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
     --hash=sha256:cd63728972d688f6547a9bf9e15ad01b037e1f99a3ff79beadfcbfc3702ca02d
 aiosignal==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \

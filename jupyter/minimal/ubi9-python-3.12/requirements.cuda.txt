@@ -1,9 +1,9 @@
 --index-url https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cuda13.0-ubi9/simple/
 aiohappyeyeballs==2.6.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5d9de996cc5c9d09eadc8ab3a527b1032536ecd43f5c7e676bb677f6f62e8829
-aiohttp==3.14.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:2ce333124f363b94dca3cb9781ae71c0f7d59f824a3707b3401e513ab14fa470 \
-    --hash=sha256:d3581f820ce7f24addc50c8625c56bb5554d27b63e04b55c2958afb25bbb6251
+aiohttp==3.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:632308f3ed34bf7453dd4396f3e70fc268acf709a57e687f90c7ba2fd5d54c13 \
+    --hash=sha256:59ae6c1fd3895b6d608e1ba89c2df44f4263a51061152c993fed5635bd8cd047
 aiosignal==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:dc9ead1e00399132d9cea85a522aa270f31278e36bf3a46f9a9f0c27d22cb416
 anyio==4.13.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \

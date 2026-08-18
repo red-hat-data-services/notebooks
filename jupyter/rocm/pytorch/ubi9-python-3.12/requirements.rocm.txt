@@ -3,8 +3,8 @@ absl-py==2.4.0 ; python_full_version >= '3.12' and implementation_name == 'cpyth
     --hash=sha256:27392fbda337bd3e9f7a1a0405c9b22d314238bbbbb6e910f4208dcd4750740e
 aiohappyeyeballs==2.6.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a80202be86e008deac1f890d385d721617c4e26feeb21c4469a37596e123ff2f
-aiohttp==3.14.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6ae27ca015b47dfb963bb874582a99e665d5065cf7481c1ff24ebec35b8a5132
+aiohttp==3.14.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a8f6121fb9b92cdb08a0ab5d0d6302c1801318178f6b9d09d9599d9b6362065f
 aiohttp-cors==0.8.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f5ecebcaa53dac556c98b24fe9ca8d6ad466c6db3ba699683bf233543ee13b20
 aiosignal==1.4.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -349,7 +349,8 @@ onnx==1.20.0 ; python_full_version >= '3.12' and implementation_name == 'cpython
 onnx-ir==0.2.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6e3ccd5280f5cc962e66207fea848c0c21a1ede3cae1f965f8b76ffc0bd59f85
 onnxconverter-common==1.16.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:99c809969a20cfcda541a9861f72ec2083b7cec786a46a2505c817c6c6dde940
+    --hash=sha256:99c809969a20cfcda541a9861f72ec2083b7cec786a46a2505c817c6c6dde940 \
+    --hash=sha256:85a83eac3b33afc0f383cb495f9eeb3166c168d72305888331d4e1068c75f873
 onnxscript==0.6.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:12a46ed97a29659405c671f284ef26f414d80e1eae55d45ccfb2c39e293df976
 opencensus==0.11.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
