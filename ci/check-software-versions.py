@@ -76,11 +76,11 @@ def get_variable_value(variable_name, params_file_path=[PARAMS_LATEST_ENV_PATH, 
     try:
         with open(params_file_path[0], "r") as params_file:
             for line in params_file:
-                if variable_name in line:
+                if line.startswith(f"{variable_name}="):
                     return line.split("=")[1].strip()
         with open(params_file_path[1], "r") as params_file:
             for line in params_file:
-                if variable_name in line:
+                if line.startswith(f"{variable_name}="):
                     return line.split("=")[1].strip()
         log.error(f"Variable '{variable_name}' not found in '{params_file_path}'!")
         return None
@@ -223,6 +223,15 @@ def process_tag(tag):
     if not image_val:
         log.error(f"Failed to parse image value reference pointing by '{image_ref}'!")
         return 1
+    if image_val == "dummy" or "PLACEHOLDER" in image_ref or "PLACEHOLDER" in image_val:
+        log.info(
+            "Skipping processing of tag '%s' due to unresolved image reference: '%s' -> '%s'.",
+            tag["name"],
+            image_ref,
+            image_val,
+        )
+        print_delimiter()
+        return 0
 
     container_id = run_podman_container(image_var, image_val)
     if not container_id:
