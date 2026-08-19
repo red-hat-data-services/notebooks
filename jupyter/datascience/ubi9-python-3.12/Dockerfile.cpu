@@ -419,17 +419,13 @@ echo "Installing software and packages"
 if [ "$TARGETARCH" = "ppc64le" ]; then
     # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
     echo "meson<1.11" > build_constraints.txt
-    # pyarrow is preinstalled from the pyarrow-builder wheel for ppc64le.
-    # Remove it from the lock install list to avoid rebuilding from sdist.
-    awk 'BEGIN{RS=""; ORS="\n\n"} $0 !~ /\nname = "pyarrow"\n/ {print}' pylock.toml > pylock.no-pyarrow.toml
     # aipcc does not have some dependencies to build cryptography==43.0.3 on ppc64le, so we need to use pypi.org/simple
     GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
     uv pip install --strict --no-deps --no-cache --no-config --no-progress \
         --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match \
         --extra-index-url https://pypi.org/simple \
         --build-constraint build_constraints.txt \
-        --requirements=./pylock.no-pyarrow.toml
-    python -c "import pyarrow; print(pyarrow.__version__)"
+        --requirements=./pylock.toml
 elif [ "$TARGETARCH" = "s390x" ]; then
     # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
     echo "meson<1.11" > build_constraints.txt
