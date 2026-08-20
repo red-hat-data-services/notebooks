@@ -335,14 +335,12 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         (
             "pandas",
             (
-                "~=1.5.3",  # trustyai
                 "~=2.3.3",  # latest where possible
             ),
         ),
         (
             "jupyter-bokeh",
             (
-                "~=3.0.5",  # trustyai 0.6.x
                 "~=4.0.5",  # latest where possible
             ),
         ),
