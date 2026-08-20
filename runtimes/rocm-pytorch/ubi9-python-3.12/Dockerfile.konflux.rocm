@@ -34,14 +34,22 @@ COPY --from=ubi-repos /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo
 # Solution: --best --skip-broken does not work either, so use --nobest
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-# If we have a Red Hat subscription prepared, refresh it
+# GHA mounts entitlement/consumer via mounts.conf; Konflux registers from
+# rhel-subscription-activation-key. Refresh rewrites redhat.repo cert paths.
+# RHAIENG-6037: the activation key is EUS 9.6 — pin to RHEL 9 GA repos.
 if command -v subscription-manager &> /dev/null; then
-  subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
+  if subscription-manager identity &>/dev/null; then
+    subscription-manager refresh
+    subscription-manager release --set=9
+    basearch="$(rpm --eval '%{_arch}')"
+    subscription-manager repos --disable='*' \
+      --enable="rhel-9-for-${basearch}-baseos-rpms" \
+      --enable="rhel-9-for-${basearch}-appstream-rpms" \
+      --enable="codeready-builder-for-rhel-9-${basearch}-rpms"
+  else
+    echo "No identity, skipping refresh."
+  fi
 fi
-# AIPCC 3.0.3 still ships entitled EUS/RHAI repo files. Their sslclientcert
-# paths do not match GHA-mounted PEMs (curl 58 / missing key). These
-# Dockerfiles copy ubi.repo for upgrades — drop leftover redhat.repo.
-rm -f /etc/yum.repos.d/redhat.repo
 dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0
 dnf clean all -y
 EOF
