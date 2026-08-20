@@ -2,12 +2,19 @@
 # base              #
 #####################
 FROM registry.redhat.io/rhel9/python-311:latest AS base
+### BEGIN RHAIENG-2189: this is AIPCC migration phase 1.5
+ENV PIP_INDEX_URL=https://pypi.org/simple
+# UV_INDEX_URL is deprecated in favor of UV_DEFAULT_INDEX
+ENV UV_INDEX_URL=https://pypi.org/simple
+# https://docs.astral.sh/uv/reference/environment/#uv_default_index
+ENV UV_DEFAULT_INDEX=https://pypi.org/simple
+### END RHAIENG-2189: this is AIPCC migration phase 1.5
 
 WORKDIR /opt/app-root/bin
 
-# Install micropipenv and uv to deploy packages from requirements.txt begin
-RUN pip install --no-cache-dir -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
-# Install micropipenv and uv to deploy packages from requirements.txt end
+### BEGIN Install micropipenv and uv to deploy packages from requirements.txt
+RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
+### END Install micropipenv and uv to deploy packages from requirements.txt
 
 # OS Packages needs to be installed as root
 USER root

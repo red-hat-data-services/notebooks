@@ -96,19 +96,26 @@ def main():
             ENV UV_DEFAULT_INDEX=https://pypi.org/simple"""),
 
         "Subscribe with subscription manager": textwrap.dedent(subscription_manager_register_refresh),
-        "upgrade first to avoid fixable vulnerabilities": textwrap.dedent(ntb.process_template_with_indents(rt"""
-            {subscription_manager_register_refresh}
+        "upgrade first to avoid fixable vulnerabilities": textwrap.dedent(r"""
             # Problem: The operation would result in removing the following protected packages: systemd
             #  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
             # Solution: --best --skip-broken does not work either, so use --nobest
             RUN /bin/bash <<'EOF'
             set -Eeuxo pipefail
+            # If we have a Red Hat subscription prepared, refresh it
+            if command -v subscription-manager &> /dev/null; then
+              subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
+            fi
+            # AIPCC 3.0.3 still ships entitled EUS/RHAI repo files. Their sslclientcert
+            # paths do not match GHA-mounted PEMs (curl 58 / missing key). These
+            # Dockerfiles copy ubi.repo for upgrades — drop leftover redhat.repo.
+            rm -f /etc/yum.repos.d/redhat.repo
             dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0
             dnf clean all -y
             EOF
 
-        """)),
-        "Install micropipenv and uv to deploy packages from requirements.txt": '''RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.10.0" "uv==0.9.28"''',
+        """),
+        "Install micropipenv and uv to deploy packages from requirements.txt": '''RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.9.0" "uv==0.8.12"''',
         "Install the oc client": textwrap.dedent(r"""
             RUN /bin/bash <<'EOF'
             set -Eeuxo pipefail
