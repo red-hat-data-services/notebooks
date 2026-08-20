@@ -3,6 +3,9 @@
 #########################
 ARG BASE_IMAGE
 
+# External image alias for UBI repository configuration
+FROM registry.access.redhat.com/ubi9/ubi AS ubi-repos
+
 ######################################################
 # mongocli-builder (build stage only, not published) #
 ######################################################
@@ -11,58 +14,36 @@ FROM registry.access.redhat.com/ubi9/go-toolset:latest AS mongocli-builder
 ARG MONGOCLI_VERSION=2.0.4
 
 WORKDIR /tmp/
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-curl --fail --location --show-error -o mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
-unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
-cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/
-CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
-EOF
+RUN curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
+RUN unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
+RUN cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/ && \
+    CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
 
 ####################
 # rocm-base        #
 ####################
 FROM ${BASE_IMAGE} AS rocm-base
-### BEGIN RHAIENG-2189: this is AIPCC migration phase 1.5
-ENV PIP_INDEX_URL=https://pypi.org/simple
-# UV_INDEX_URL is deprecated in favor of UV_DEFAULT_INDEX
-ENV UV_INDEX_URL=https://pypi.org/simple
-# https://docs.astral.sh/uv/reference/environment/#uv_default_index
-ENV UV_DEFAULT_INDEX=https://pypi.org/simple
-### END RHAIENG-2189: this is AIPCC migration phase 1.5
 
 WORKDIR /opt/app-root/bin
 
 # OS Packages needs to be installed as root
 USER 0
 
-### BEGIN upgrade first to avoid fixable vulnerabilities
-RUN /bin/bash <<'EOF'
-# If we have a Red Hat subscription prepared, refresh it
-set -Eeuxo pipefail
-if command -v subscription-manager &> /dev/null; then
-  subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
-fi
-EOF
+# Inject the official UBI 9 repository configuration into the AIPCC base image.
+# The Quay-based AIPCC image is "repo-less" by default (https://gitlab.com/redhat/rhel-ai/core/base-images/app#repositories), so dnf cannot upgrade or install packages.
+# By copying ubi.repo from the public UBI 9 image, we enable package management for upgrades and installations.
+COPY --from=ubi-repos /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo
 
+# upgrade first to avoid fixable vulnerabilities begin
 # Problem: The operation would result in removing the following protected packages: systemd
 #  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
 # Solution: --best --skip-broken does not work either, so use --nobest
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0
-dnf clean all -y
-EOF
-
-### END upgrade first to avoid fixable vulnerabilities
+RUN dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0 \
+    && dnf clean all -y
+# upgrade first to avoid fixable vulnerabilities end
 
 # Install useful OS packages
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-dnf install -y perl mesa-libGL skopeo
-dnf clean all
-rm -rf /var/cache/yum
-EOF
+RUN dnf install -y perl mesa-libGL skopeo && dnf clean all && rm -rf /var/cache/yum
 
 # Other apps and tools installed as default user
 USER 1001
@@ -72,14 +53,10 @@ RUN pip install --no-cache-dir -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
 # Install micropipenv and uv to deploy packages from requirements.txt end
 
 # Install the oc client begin
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-curl --fail --location --show-error https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
-    -o /tmp/openshift-client-linux.tar.gz
-tar -xzvf /tmp/openshift-client-linux.tar.gz oc
-rm -f /tmp/openshift-client-linux.tar.gz
-EOF
-
+RUN curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
+        -o /tmp/openshift-client-linux.tar.gz && \
+    tar -xzvf /tmp/openshift-client-linux.tar.gz oc && \
+    rm -f /tmp/openshift-client-linux.tar.gz
 # Install the oc client end
 
 ########################
@@ -121,12 +98,7 @@ WORKDIR /opt/app-root/bin
 USER root
 
 # Install useful OS packages
-RUN /bin/bash <<'EOF'
-set -Eeuxo pipefail
-dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat
-dnf clean all
-rm -rf /var/cache/yum
-EOF
+RUN dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat && dnf clean all && rm -rf /var/cache/yum
 
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
@@ -186,7 +158,6 @@ USER 1001
 
 # Workaround for https://issues.redhat.com/browse/AIPCC-8152
 ENV ROCM_PATH=/opt/rocm
-
 WORKDIR /opt/app-root/src
 
 LABEL name="rhoai/odh-workbench-jupyter-pytorch-rocm-py312-rhel9" \
