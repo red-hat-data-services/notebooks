@@ -3487,7 +3487,7 @@ wheels = [
 [[packages]]
 name = "pyarrow"
 version = "21.0.0"
-marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
+marker = "implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
 sdist = { url = "https://files.pythonhosted.org/packages/ef/c2/ea068b8f00905c06329a3dfcd40d0fcc2b7d0f2e355bdb25b65e0a0e4cd4/pyarrow-21.0.0.tar.gz", upload-time = 2025-07-18T00:57:31Z, size = 1133487, hashes = { sha256 = "5051f2dccf0e283ff56335760cbc8622cf52264d67e359d5569541ac11b6d5bc" } }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/17/d9/110de31880016e2afc52d8580b397dbe47615defbf09ca8cf55f56c62165/pyarrow-21.0.0-cp310-cp310-macosx_12_0_arm64.whl", upload-time = 2025-07-18T00:54:34Z, size = 31196837, hashes = { sha256 = "e563271e2c5ff4d4a4cbeb2c83d5cf0d4938b891518e676025f7268c6fe5fe26" } },
