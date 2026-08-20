@@ -38,16 +38,16 @@ RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 # GHA mounts entitlement/consumer via mounts.conf; Konflux registers from
 # rhel-subscription-activation-key. Refresh rewrites redhat.repo cert paths.
-# AIPCC 3.0.3 / activation key are RHEL 9.6 EUS — pin the same minor.
+# AIPCC 3.0.3 / activation key are RHEL 9.6 EUS — pin that minor and EUS repos.
 if command -v subscription-manager &> /dev/null; then
   if subscription-manager identity &>/dev/null; then
     subscription-manager refresh
     subscription-manager release --set=9.6
     basearch="$(rpm --eval '%{_arch}')"
     subscription-manager repos --disable='*' \
-      --enable="rhel-9-for-${basearch}-baseos-rpms" \
-      --enable="rhel-9-for-${basearch}-appstream-rpms" \
-      --enable="codeready-builder-for-rhel-9-${basearch}-rpms"
+      --enable="rhel-9-for-${basearch}-baseos-eus-rpms" \
+      --enable="rhel-9-for-${basearch}-appstream-eus-rpms" \
+      --enable="codeready-builder-for-rhel-9-${basearch}-eus-rpms"
   else
     echo "No identity, skipping refresh."
   fi
