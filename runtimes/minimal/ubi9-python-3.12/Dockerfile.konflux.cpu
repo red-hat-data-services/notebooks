@@ -40,10 +40,11 @@ ARCH=$(uname -m)
 echo "Detected architecture: $ARCH"
 PACKAGES="perl mesa-libGL skopeo"
 if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then
-PACKAGES="$PACKAGES gcc g++ make openssl-devel autoconf automake libtool cmake";
+    PACKAGES="$PACKAGES gcc g++ make openssl-devel autoconf automake libtool cmake";
 fi
 dnf install -y $PACKAGES
-dnf clean all && rm -rf /var/cache/yum
+dnf clean all
+rm -rf /var/cache/yum
 EOF
 
 # Other apps and tools installed as default user

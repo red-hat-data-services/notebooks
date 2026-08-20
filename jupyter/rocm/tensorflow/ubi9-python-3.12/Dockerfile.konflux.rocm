@@ -16,12 +16,11 @@ ARG MONGOCLI_VERSION=2.0.4
 WORKDIR /tmp/
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
+curl --fail --location --show-error -o mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
 unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
 cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/
 CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
 EOF
-
 
 ####################
 # rocm-base        #

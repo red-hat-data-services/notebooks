@@ -16,7 +16,7 @@ ARG MONGOCLI_VERSION=2.0.4
 WORKDIR /tmp/
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-curl -Lo mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
+curl --fail --location --show-error -o mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip https://github.com/mongodb/mongodb-cli/archive/refs/tags/mongocli/v${MONGOCLI_VERSION}.zip
 unzip ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}.zip
 cd ./mongodb-cli-mongocli-v${MONGOCLI_VERSION}/
 CGO_ENABLED=1 GOOS=linux go build -a -tags strictfipsruntime -o /tmp/mongocli ./cmd/mongocli/
@@ -206,7 +206,8 @@ EOF
 
 # Install packages and cleanup
 # install packages as USER 0 (this will allow us to consume uv cache)
-RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
+RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
+    --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [[ $(uname -m) == "ppc64le" ]]; then
     UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --cache-dir /root/.cache/uv
