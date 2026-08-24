@@ -293,8 +293,8 @@ prompt-toolkit==3.0.52 ; python_full_version == '3.12.*' and implementation_name
     --hash=sha256:71a550fb6fc0d4ac471c81786eaf41f2a59dad6163564c3a3b1f9956c976a9dc
 propcache==0.5.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b97401b21c2afb6ed2f933b2ad4f75d3a7a86bcfd4d69d4f283cacf21d72d926
-protobuf==6.33.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:0bf13df2315121a10c4a3195311fa26b1dda5d6936396c90011b19cdd52f5a48
+protobuf==7.35.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1537f720c7d6fbd9dc0d888932bbf525bb391d2a68429ca334f3a6a4eaf59761
 psutil==7.2.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1395bd173f24fdf16ce271d9477139098641bdc60697ed62e704a39cb5d6b285
 psycopg==3.3.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

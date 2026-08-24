@@ -65,7 +65,7 @@ override-dependencies = [
     # Override needed because odh-elyra pulls in appengine-python-standard with urllib3<2
     "urllib3>=2.7.0",
     # AIPCC-13675: avoid protobuf 6.33.6+ UPB segfault on s390x; RHAIENG-6814 needs >=6.33.5
-    "protobuf==6.33.5",
+    "protobuf>=6.33.5",
     "pandas>=3.0.1",
     # RHOAIENG-75322: kubeflow-training 1.9.3 crashes with kubernetes 36.x
     # due to openapi_types dict syntax change (dict(str,str) -> dict[str,str]).

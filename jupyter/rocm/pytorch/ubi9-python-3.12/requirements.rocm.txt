@@ -403,8 +403,8 @@ propcache==0.5.2 ; python_full_version == '3.12.*' and implementation_name == 'c
     --hash=sha256:b97401b21c2afb6ed2f933b2ad4f75d3a7a86bcfd4d69d4f283cacf21d72d926
 proto-plus==1.28.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f47bf9d960a34a1b8de83145fb4e28597e6c3d87ec33c04b9bfe0f4dd4316584
-protobuf==6.33.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:0bf13df2315121a10c4a3195311fa26b1dda5d6936396c90011b19cdd52f5a48
+protobuf==7.35.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1537f720c7d6fbd9dc0d888932bbf525bb391d2a68429ca334f3a6a4eaf59761
 psutil==7.2.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1395bd173f24fdf16ce271d9477139098641bdc60697ed62e704a39cb5d6b285
 psycopg==3.3.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

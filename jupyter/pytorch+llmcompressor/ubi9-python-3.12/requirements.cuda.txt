@@ -484,9 +484,9 @@ propcache==0.5.2 ; python_full_version == '3.12.*' and implementation_name == 'c
     --hash=sha256:706d6db1bc5c0da08c74ecad4559ded5f35051bc46eb3901e435a5ec07a201c2
 proto-plus==1.28.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a918336e9bb54d1ff155765e33fa5839bc442d48038c8de84c74f60154c458a3
-protobuf==6.33.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:8bb312281b71fee30fb81bde629af26c8f62d55fbdcb4f12bdd3575e421f2eef \
-    --hash=sha256:f4df0e814a7819b1ac90f41eba2aaa347e65c5b93f91d43aebf0735d6c2d284b
+protobuf==7.35.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:15587e4f680c62586a7d00f9e824f816f371bea43c7e8053a21a4549e45354aa \
+    --hash=sha256:451dac5f9eb169e5483f5e8bfec6c9f21f7616f26490f424e633266f45be07cb
 psutil==7.2.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:80160ba9c1e5a48535258153f04799509891f4330a2eb34bd1d23ca630ad02e7 \
     --hash=sha256:6a4d6d00edc19131cc61d4e3b551dc0efc90eb824568f42c6b6e8363f617ccb9
