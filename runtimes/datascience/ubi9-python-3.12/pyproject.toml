@@ -29,7 +29,7 @@ environments = [
 ]
 override-dependencies = [
     # AIPCC-13675: avoid protobuf 6.33.6+ UPB segfault on s390x; RHAIENG-6814 needs >=6.33.5
-    "protobuf==6.33.5",
+    "protobuf>=6.33.5",
 ]
 
 [tool.uv.sources]
