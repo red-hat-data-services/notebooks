@@ -111,14 +111,19 @@ def main():
             continue
 
         # Collect hashes from wheels and sdist (index-served packages).
+        # Skip sdist hashes when wheels exist: Hermeto downloads every
+        # hash-matched artifact and runs `cargo vendor --locked` on sdists
+        # containing Rust code, which fails when the upstream sdist ships a
+        # Cargo.lock that doesn't match Cargo.toml (e.g. uv, rpds-py).
         hashes = []
         for whl in pkg.get("wheels", []):
             for algo, digest in whl.get("hashes", {}).items():
                 hashes.append(f"--hash={algo}:{digest}")
-        sdist = pkg.get("sdist")
-        if isinstance(sdist, dict):
-            for algo, digest in sdist.get("hashes", {}).items():
-                hashes.append(f"--hash={algo}:{digest}")
+        if not hashes:
+            sdist = pkg.get("sdist")
+            if isinstance(sdist, dict):
+                for algo, digest in sdist.get("hashes", {}).items():
+                    hashes.append(f"--hash={algo}:{digest}")
 
         entry = f"{name}=={version}"
         if marker:
