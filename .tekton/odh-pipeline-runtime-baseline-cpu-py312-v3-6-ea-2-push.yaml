@@ -37,7 +37,7 @@ spec:
   - name: path-context
     value: runtimes/
   - name: hermetic
-    value: true
+    value: false
   - name: build-args-file
     value: runtimes/baseline/ubi9-python-3.12/build-args/konflux.cpu.conf
   - name: rhel-subscription-activation-key
