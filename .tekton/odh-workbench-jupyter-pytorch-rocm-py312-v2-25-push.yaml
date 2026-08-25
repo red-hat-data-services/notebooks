@@ -84,7 +84,7 @@ spec:
           memory: 32Gi
     - pipelineTaskName: build-images
       stepSpecs:
-        - name: sbom-syft-generate
+        - name: build
           computeResources:
             requests:
               cpu: '8'
