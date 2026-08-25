@@ -27,7 +27,7 @@ spec:
   - name: dockerfile
     value: runtimes/baseline/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: path-context
-    value: runtimes/
+    value: .
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
