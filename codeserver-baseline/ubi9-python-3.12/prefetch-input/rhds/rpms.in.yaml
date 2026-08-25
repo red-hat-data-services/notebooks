@@ -19,6 +19,10 @@ contentOrigin:
     # Option 2: Internal Red Hat repos (Pulp mirror)
     # - ../repos/rhsm-pulp.repo
 
+    # EPEL: zeromq (+ openpgm, libsodium) for pyzmq — same source AIPCC uses on UBI
+    # when COPR zeromq>=4.3.5 is unavailable (see base-images/utils/aipcc.sh).
+    - ../repos/epel.repo
+
 context:
   bare: true
 
@@ -134,6 +138,13 @@ packages:
   - skopeo
   - tar
   - wget
+
+  # ── EPEL (pyzmq native dependency) ──────────────────
+  # Provides libzmq.so.5; AIPCC bases install this via aipcc.sh. Raw RHEL python
+  # base does not. openpgm + libsodium are runtime Requires of zeromq.
+  - zeromq
+  - openpgm
+  - libsodium
 
   # libxkbfile-devel: provides xkbfile.h needed by native-keymap
   # (node-gyp native addon in lib/vscode)

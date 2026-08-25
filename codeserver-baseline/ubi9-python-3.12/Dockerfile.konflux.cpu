@@ -217,6 +217,9 @@ PACKAGES=(
     gettext
     # nss_wrapper: required by generate_container_user (LD_PRELOAD=libnss_wrapper.so)
     nss_wrapper
+    # libzmq.so.5 required by AIPCC/pyzmq wheels (raw RHEL base does not ship zeromq;
+    # AIPCC bases install it via aipcc.sh). Pulls openpgm + libsodium as deps.
+    zeromq
 )
 dnf install -y "${PACKAGES[@]}"
 dnf clean all

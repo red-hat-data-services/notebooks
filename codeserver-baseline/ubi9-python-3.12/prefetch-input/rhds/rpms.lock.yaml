@@ -4,6 +4,27 @@ lockfileVendor: redhat
 arches:
 - arch: aarch64
   packages:
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/aarch64/Packages/l/libsodium-1.0.18-9.el9.aarch64.rpm
+    repoid: epel
+    size: 121734
+    checksum: sha256:737d0a7d1667aab7a703344d550994b94c154c4b69c4affbbd624d5fc9c57075
+    name: libsodium
+    evr: 1.0.18-9.el9
+    sourcerpm: libsodium-1.0.18-9.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/aarch64/Packages/o/openpgm-5.2.122-28.el9.aarch64.rpm
+    repoid: epel
+    size: 175952
+    checksum: sha256:45f9b0ce151dc4cdf01004d0555f5c61bbf20183269156aee80701bee04efe96
+    name: openpgm
+    evr: 5.2.122-28.el9
+    sourcerpm: openpgm-5.2.122-28.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/aarch64/Packages/z/zeromq-4.3.4-2.el9.aarch64.rpm
+    repoid: epel
+    size: 429770
+    checksum: sha256:7e47b7d486f8f0ac10a2b9c71b3afcd97485aa6e51b49dd0b83de7c4c52a89d1
+    name: zeromq
+    evr: 4.3.4-2.el9
+    sourcerpm: zeromq-4.3.4-2.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.aarch64.rpm
     repoid: rhelai-3.5-for-rhel-9-x86_64-rpms
     size: 216967
@@ -4905,6 +4926,27 @@ arches:
     checksum: sha256:8437cbdf89dc0e6a8f6d77806dd5958f9be729e420a08090cbe110125645ecdf
 - arch: ppc64le
   packages:
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/ppc64le/Packages/l/libsodium-1.0.18-9.el9.ppc64le.rpm
+    repoid: epel
+    size: 134642
+    checksum: sha256:642428ec7e494615bc83f50cffac090d4898fd0b7804e31667bfca0297669a79
+    name: libsodium
+    evr: 1.0.18-9.el9
+    sourcerpm: libsodium-1.0.18-9.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/ppc64le/Packages/o/openpgm-5.2.122-28.el9.ppc64le.rpm
+    repoid: epel
+    size: 187974
+    checksum: sha256:1b60000002889a2dcff8e9c7f85fcf44490b784e9e340c4fde042a85eae1a159
+    name: openpgm
+    evr: 5.2.122-28.el9
+    sourcerpm: openpgm-5.2.122-28.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/ppc64le/Packages/z/zeromq-4.3.4-2.el9.ppc64le.rpm
+    repoid: epel
+    size: 457392
+    checksum: sha256:0f8e33cc8296ccd9526bb1e05b544312dc297d66d4363ca90c47e443fece2b97
+    name: zeromq
+    evr: 4.3.4-2.el9
+    sourcerpm: zeromq-4.3.4-2.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.ppc64le.rpm
     repoid: rhelai-3.5-for-rhel-9-x86_64-rpms
     size: 246716
@@ -9841,6 +9883,27 @@ arches:
     checksum: sha256:e6f3935129b33909605eeb5c10bc08962001b42071fec05e12414c8b1cd6431d
 - arch: s390x
   packages:
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/s390x/Packages/l/libsodium-1.0.18-9.el9.s390x.rpm
+    repoid: epel
+    size: 135099
+    checksum: sha256:505c3c0e2d6395bf71ac2279cfb0b37dd334bc3fb0672c330e4e9c0ce20fecf8
+    name: libsodium
+    evr: 1.0.18-9.el9
+    sourcerpm: libsodium-1.0.18-9.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/s390x/Packages/o/openpgm-5.2.122-28.el9.s390x.rpm
+    repoid: epel
+    size: 176189
+    checksum: sha256:a06762672933fa5f5d7f115abe54fd5d01cc1c4fd05a49451b7ec55b31323d52
+    name: openpgm
+    evr: 5.2.122-28.el9
+    sourcerpm: openpgm-5.2.122-28.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/s390x/Packages/z/zeromq-4.3.4-2.el9.s390x.rpm
+    repoid: epel
+    size: 423531
+    checksum: sha256:f3ec5e3aba43e5be4e6227c14250a66fc1e20717f38363b60c22568474dcf068
+    name: zeromq
+    evr: 4.3.4-2.el9
+    sourcerpm: zeromq-4.3.4-2.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.s390x.rpm
     repoid: rhelai-3.5-for-rhel-9-x86_64-rpms
     size: 215170
@@ -14749,6 +14812,27 @@ arches:
     checksum: sha256:ab9c7d0d37a64206c44da239065d175c87c798e86003f960ebff2c27f2c4ce22
 - arch: x86_64
   packages:
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/l/libsodium-1.0.18-9.el9.x86_64.rpm
+    repoid: epel
+    size: 164164
+    checksum: sha256:ac05c09fc1cc82e22dd972836ec6a9dfff549148db931ec0b94ac341f7be50be
+    name: libsodium
+    evr: 1.0.18-9.el9
+    sourcerpm: libsodium-1.0.18-9.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/o/openpgm-5.2.122-28.el9.x86_64.rpm
+    repoid: epel
+    size: 180686
+    checksum: sha256:9869d4df645c20a8321f4a933c44257f371175b499199504f405ff5a9772e347
+    name: openpgm
+    evr: 5.2.122-28.el9
+    sourcerpm: openpgm-5.2.122-28.el9.src.rpm
+  - url: https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/z/zeromq-4.3.4-2.el9.x86_64.rpm
+    repoid: epel
+    size: 441643
+    checksum: sha256:dfc89284eac5a3a58d9b9f633189e2903376ebb2c3c61e43d82f72743d47e6df
+    name: zeromq
+    evr: 4.3.4-2.el9
+    sourcerpm: zeromq-4.3.4-2.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.x86_64.rpm
     repoid: rhelai-3.5-for-rhel-9-x86_64-rpms
     size: 215457
