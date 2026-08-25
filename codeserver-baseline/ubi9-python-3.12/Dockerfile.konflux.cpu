@@ -338,8 +338,17 @@ ENV PYTHONPATH=/opt/app-root/lib/python3.12/site-packages
 COPY ${CODESERVER_SOURCE_CODE}/uv.lock.d/pylock.${PYLOCK_FLAVOR}.toml ./pylock.toml
 COPY ${CODESERVER_SOURCE_CODE}/requirements.${PYLOCK_FLAVOR}.txt ./requirements.txt
 
+# The raw RHEL Python base does not bootstrap uv the way AIPCC notebook bases
+# do. Install uv from the hermeto/cachi2 pip cache (offline) before the main
+# package install. Online `pip install uv` would break hermetic Konflux builds.
+# UV_VERSION is derived from this image's pylock by scripts/dockerfile_fragments.py.
+ARG UV_VERSION=0.12.5
+RUN python3 -m pip install --no-cache-dir --no-index \
+    --find-links /cachi2/output/deps/pip \
+    "uv==${UV_VERSION}"
+
 # [HERMETIC] Install all Python packages from cachi2 pip cache (--no-index).
-# /cachi2/output/deps/pip/ contains PyPI wheels and RHOAI ppc64le/s390x wheels.
+# /cachi2/output/deps/pip/ contains AIPCC wheels (and uv itself).
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Installing software and packages"
