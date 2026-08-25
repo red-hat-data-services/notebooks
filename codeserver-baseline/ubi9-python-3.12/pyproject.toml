@@ -1,5 +1,5 @@
-# Phase 1: baseline build installs Python packages from PyPI using `requirements.${PYLOCK_FLAVOR}.txt`.
-# Hermetic Python input generation stays deferred to phase 2.
+# Hermetic baseline: lean code-server workbench deps locked against AIPCC CPU index.
+# BASE_IMAGE stays raw RHEL9 (build-args); INDEX_URL in konflux.cpu.conf selects AIPCC.
 
 [project]
 name = "notebooks"
@@ -27,6 +27,14 @@ dependencies = [
 ]
 
 [tool.uv]
+# RHAIENG-5451 / RHAIENG-7088: fail at lock-generation time if a package version
+# lacks wheels for any architecture this image ships.
+required-environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'linux' and platform_machine == 'aarch64'",
+    "sys_platform == 'linux' and platform_machine == 'ppc64le'",
+    "sys_platform == 'linux' and platform_machine == 's390x'",
+]
 
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
