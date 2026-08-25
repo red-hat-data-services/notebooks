@@ -204,6 +204,53 @@ lock_path.write_text(updated, encoding="utf-8")
 PY
   }
 
+  apply_rh_wheel_only_overlays() {
+    local lock_file="$1"
+    local ref="${PWD}/uv.lock.d/rh-wheel-only.ref.toml"
+    [[ -f "$ref" ]] || return 0
+
+    local patch_script="$REPO_ROOT/scripts/lockfile-generators/helpers/patch-rh-wheel-only-packages.py"
+    RH_WHEEL_REPLACE_ALL=(uv ripgrep tornado fonttools httptools librt)
+    RH_WHEEL_MERGE_BE=(
+      argon2-cffi-bindings cryptography debugpy markupsafe
+      ml-dtypes numpy onnx pandas pillow psutil pyarrow pyyaml pyzmq
+      scikit-learn scipy uvloop
+    )
+
+    rh_wheel_packages_in_ref() {
+      python3 - "$@" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+ref_names = set(
+    re.findall(r'^name = "([^"]+)"', Path(sys.argv[1]).read_text(), re.MULTILINE)
+)
+for name in sys.argv[2:]:
+    if name in ref_names:
+        print(name)
+PY
+    }
+
+    local replace_pkgs=()
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && replace_pkgs+=("$pkg")
+    done < <(rh_wheel_packages_in_ref "$ref" "${RH_WHEEL_REPLACE_ALL[@]}")
+
+    local merge_pkgs=()
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && merge_pkgs+=("$pkg")
+    done < <(rh_wheel_packages_in_ref "$ref" "${RH_WHEEL_MERGE_BE[@]}")
+
+    if [[ ${#replace_pkgs[@]} -gt 0 ]]; then
+      python3 "$patch_script" replace "$lock_file" "$ref" "${replace_pkgs[@]}" || return 1
+    fi
+    if [[ ${#merge_pkgs[@]} -gt 0 ]]; then
+      python3 "$patch_script" merge-be "$lock_file" "$ref" "${merge_pkgs[@]}" || return 1
+    fi
+    return 0
+  }
+
   run_lock() {
     local flavor="$1"
     local index="$2"
@@ -264,6 +311,11 @@ PY
     else
       if ! apply_lock_policy_overrides "$output"; then
         warn "Failed to apply lock policy overrides in $TARGET_DIR"
+        DIR_SUCCESS=false
+        return
+      fi
+      if ! apply_rh_wheel_only_overlays "$output"; then
+        warn "Failed to apply RH wheel-only overlays in $TARGET_DIR"
         DIR_SUCCESS=false
         return
       fi
