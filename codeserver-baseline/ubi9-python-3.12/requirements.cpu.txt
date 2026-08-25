@@ -387,9 +387,17 @@ rfc3986-validator==0.1.1 ; python_full_version == '3.12.*' and implementation_na
     --hash=sha256:2f235c432ef459970b4306369336b9d5dbdda31b510ca1e327636e01f528bfa9
 rfc3987-syntax==1.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6c3d97604e4c5ce9f714898e05401a0445a641cfa276432b0a648c80856f6a3f
-ripgrep==15.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:9b9bbd02a7f2c3e88882f9a9df416da8e272957071ba8ab59a7a7f06813643cf \
-    --hash=sha256:3b4793859cd25c57ffd894b59ba9155636616b4084a1c12d0b9e819c16931ebf
+ripgrep==14.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:80404533ad72f4436030fcd84d49c1ba1e915d272465887ce1f94f4c65f351d9 \
+    --hash=sha256:e73652f3609cf9fe99e0b181979fe3a5c7726b7f8992cba5d452aae4dca82ecd \
+    --hash=sha256:a26a70bd3103984e855db748d1725d3e97ae896e84db93092816f62eab052b12 \
+    --hash=sha256:21deeafdbc537172a293d2978cfbe31cfcf0c65b66cf1fec11b14fd6860cfae3 \
+    --hash=sha256:631a217d7093c5da1917b8e2c4bf71ad00bba2537d0c88a24ec28a6bc450444e \
+    --hash=sha256:2048f2b64a0bfe8c425df0dea6729d9795f2d8df6cda77bf76cf718439c41453 \
+    --hash=sha256:62a81311061660d7d3dd6ed99c699d09028186aaa1e26b436052f77c0925ea41 \
+    --hash=sha256:b3e49ee6548e9175cb15535b28c582d756272d4c9cc902fd5e326a00cb69737a \
+    --hash=sha256:c380549562662316d10fb1712856ed13b48d24d1b9d3c69d20aab610536cf5ab \
+    --hash=sha256:d20c74dfa4b1085712ffc6528eb10cdccf4022050539053a5f9203f3959b34e0
 rpds-py==2026.6.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:55927d532399c2c646100ff7feb48eaa940ad70f42cd68e1328f3ded9f81ca24 \
     --hash=sha256:f56f1695bc5c0871cbc33dc0130fcf503aab0c57dcc5a6700a4f49eba4f2652e \

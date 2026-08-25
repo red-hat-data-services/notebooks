@@ -130,6 +130,15 @@ BASELINE_AIPCC_ALIGNMENT_SOURCE_ALIASES: dict[str, str] = {
     "pandoc": "pandoc-rhai",
 }
 
+# Direct deps that must not inherit the AIPCC pin on public-index baselines.
+# ripgrep: AIPCC ships 15.x EL9 wheels; PyPI 15.x is manylinux_2_39-only (sdist/maturin
+# offline), so codeserver-baseline pins 14.1.0 (manylinux_2_17 multi-arch).
+BASELINE_AIPCC_ALIGNMENT_SKIP_PACKAGES: frozenset[str] = frozenset(
+    {
+        "ripgrep",
+    }
+)
+
 # Optimal concurrency is 5-6 based on benchmarks (macOS 12-core, RH PyPI index with
 # no HTTP cache headers).  Each uv process internally uses UV_CONCURRENT_DOWNLOADS
 # (default 50) connections and UV_CONCURRENT_BUILDS (default cpu_count) build workers.
@@ -489,6 +498,8 @@ def generate_baseline_alignment_constraints(project_dir: Path, log: LogBuffer) -
 
     generated: list[str] = []
     for canonical_name, original_name in sorted(direct_deps.items()):
+        if canonical_name in BASELINE_AIPCC_ALIGNMENT_SKIP_PACKAGES:
+            continue
         source_name = BASELINE_AIPCC_ALIGNMENT_SOURCE_ALIASES.get(canonical_name, canonical_name)
         source_version = source_locked.get(source_name)
         if source_version is None:

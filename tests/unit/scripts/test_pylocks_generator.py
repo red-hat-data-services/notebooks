@@ -595,6 +595,7 @@ version = "0.1.0"
 dependencies = [
   "pandas",
   "pandoc",
+  "ripgrep==14.1.0",
   "uv",
 ]
 """.strip()
@@ -606,6 +607,7 @@ dependencies = [
 --index-url https://example.invalid/simple
 pandas==2.3.3 ; sys_platform == 'linux'
 pandoc-rhai==3.8.0 ; sys_platform == 'linux'
+ripgrep==15.1.0 ; sys_platform == 'linux'
 """.strip()
         + "\n",
         encoding="utf-8",
@@ -613,6 +615,7 @@ pandoc-rhai==3.8.0 ; sys_platform == 'linux'
     monkeypatch.setattr(pg, "ROOT_DIR", root)
     monkeypatch.setattr(pg, "BASELINE_AIPCC_ALIGNMENT_PAIRS", {baseline_rel: source_rel})
     monkeypatch.setattr(pg, "BASELINE_AIPCC_ALIGNMENT_SOURCE_ALIASES", {"pandoc": "pandoc-rhai"})
+    monkeypatch.setattr(pg, "BASELINE_AIPCC_ALIGNMENT_SKIP_PACKAGES", frozenset({"ripgrep"}))
 
     generated = pg.generate_baseline_alignment_constraints(baseline_dir, pg.LogBuffer())
 
@@ -622,6 +625,7 @@ pandoc-rhai==3.8.0 ; sys_platform == 'linux'
     assert "pandas==2.3.3" in content
     assert "pandoc==3.8.0" in content
     assert "uv==" not in content
+    assert "ripgrep==" not in content
     generated.unlink(missing_ok=True)
 
 
