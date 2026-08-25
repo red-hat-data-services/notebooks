@@ -33,7 +33,7 @@ spec:
   - name: rhoai-version
     value: "3.6.0-ea.2"
   - name: dockerfile
-    value: baseline/ubi9-python-3.12/Dockerfile.konflux.cpu
+    value: runtimes/baseline/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: path-context
     value: runtimes/
   - name: hermetic
