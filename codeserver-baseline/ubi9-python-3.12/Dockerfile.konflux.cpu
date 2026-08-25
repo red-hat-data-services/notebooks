@@ -49,7 +49,7 @@ ARG NODE_VERSION=22.22.0
 ARG CODESERVER_VERSION=v4.122.1
 
 # [HERMETIC] Import GPG keys for prefetched RPM verification.
-# CentOS key imported only if prefetched (present in Dockerfile.cpu; may be absent in Konflux).
+# CentOS key imported only if prefetched (may be absent in some Konflux paths).
 RUN rpm --import /cachi2/output/deps/generic/RPM-GPG-KEY-CentOS-Official || true
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
@@ -142,7 +142,7 @@ WORKDIR /opt/app-root/bin
 USER 0
 
 # [HERMETIC] Import GPG keys for prefetched RPM verification.
-# CentOS key imported only if prefetched (present in Dockerfile.cpu; may be absent in Konflux).
+# CentOS key imported only if prefetched (may be absent in some Konflux paths).
 RUN rpm --import /cachi2/output/deps/generic/RPM-GPG-KEY-CentOS-Official || true
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
@@ -217,9 +217,6 @@ PACKAGES=(
     gettext
     # nss_wrapper: required by generate_container_user (LD_PRELOAD=libnss_wrapper.so)
     nss_wrapper
-    # libzmq.so.5 required by AIPCC/pyzmq wheels (raw RHEL base does not ship zeromq;
-    # AIPCC bases install it via aipcc.sh). Pulls openpgm + libsodium as deps.
-    zeromq
 )
 dnf install -y "${PACKAGES[@]}"
 dnf clean all
@@ -338,7 +335,7 @@ ENV SHELL=/bin/bash
 ENV PYTHONPATH=/opt/app-root/lib/python3.12/site-packages
 
 # Copy requirements files (pylock.toml for metadata; requirements.txt used for installation)
-COPY ${CODESERVER_SOURCE_CODE}/uv.lock.d/pylock.${PYLOCK_FLAVOR}.toml ./pylock.toml
+COPY ${CODESERVER_SOURCE_CODE}/pylock.toml ./pylock.toml
 COPY ${CODESERVER_SOURCE_CODE}/requirements.${PYLOCK_FLAVOR}.txt ./requirements.txt
 
 # The raw RHEL Python base does not bootstrap uv the way AIPCC notebook bases

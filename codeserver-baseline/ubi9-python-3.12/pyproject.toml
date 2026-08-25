@@ -1,5 +1,5 @@
-# Hermetic baseline: lean code-server workbench deps locked against AIPCC CPU index.
-# BASE_IMAGE stays raw RHEL9 (build-args); INDEX_URL in konflux.cpu.conf selects AIPCC.
+# Hermetic baseline: lean code-server workbench deps locked from PyPI
+# (public-index layout: root pylock.toml + requirements.cpu.txt).
 
 [project]
 name = "notebooks"

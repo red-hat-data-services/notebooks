@@ -3,10 +3,10 @@
 Code-server (VS Code in the browser) image with Python 3.12 on RHEL 9, built
 for **RHDS / RHOAI** workbenches (not the ODH c9s path).
 
-## Architecture (AIPCC index + raw RHEL9 base)
+## Architecture (PyPI + raw RHEL9 base)
 
 - **BASE_IMAGE**: `registry.redhat.io/rhel9/python-312` (not AIPCC base)
-- **Python index**: AIPCC CPU (`INDEX_URL` in `build-args/konflux.cpu.conf`)
+- **Python index**: public PyPI (`pylock.toml` + `requirements.cpu.txt` at component root)
 - **RPM/generic prefetch**: `prefetch-input/rhds` (RHEL subscription / Pulp repos)
 - **Build args (Konflux)**: `build-args/konflux.cpu.conf` (`PRODUCT=rhoai`)
 - **Hermetic**: Cachi2/Hermeto prefetch for RPMs, npm, and pip (`hermetic: true` in `.tekton/`)
@@ -195,7 +195,7 @@ podman build \
 | Argument | Required | Description |
 |----------|----------|-------------|
 | `BASE_IMAGE` | Yes | Base image to build from (e.g. `quay.io/opendatahub/odh-base-image-cpu-py312-c9s:latest`) |
-| `PYLOCK_FLAVOR` | Yes | Python lockfile flavor (`cpu` or `cuda`). Selects `uv.lock.d/pylock.<flavor>.toml` |
+| `PYLOCK_FLAVOR` | Yes | Python lockfile flavor (`cpu` or `cuda`). Selects `requirements.<flavor>.txt` (public-index `pylock.toml` at component root) |
 
 ---
 
