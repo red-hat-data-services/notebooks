@@ -73,7 +73,9 @@ packages:
   - nginx
   - nginx-mod-stream
   - nginx-mod-http-perl
-  - httpd
+  # httpd is on registry.redhat.io/rhel9/python-312 (with httpd-devel).
+  # Do not prefetch — live EUS httpd can be newer and conflicts at dnf install.
+  # - httpd
   - nss_wrapper
 
   # SELinux

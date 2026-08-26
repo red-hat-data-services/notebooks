@@ -43,6 +43,8 @@ dependencies = [
     "ripgrep",
 ]
 
+
+
 [tool.uv]
 # RHAIENG-5451 / RHAIENG-7088: fail at lock-generation time (not inside the
 # Konflux build) if a package version lacks wheels for any architecture this
