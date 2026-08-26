@@ -25,9 +25,9 @@ spec:
   - name: output-image
     value: quay.io/rhoai/pull-request-pipelines:odh-pipeline-runtime-baseline-cpu-py312-{{revision}}
   - name: dockerfile
-    value: baseline/ubi9-python-3.12/Dockerfile.konflux.cpu
+    value: runtimes/baseline/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: path-context
-    value: runtimes/
+    value: .
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
