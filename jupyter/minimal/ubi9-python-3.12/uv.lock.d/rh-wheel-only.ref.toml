@@ -1,0 +1,11 @@
+# RH wheel-only overlay for jupyter-minimal public PyPI pylock.toml.
+# Patched by: scripts/lockfile-generators/helpers/patch-rh-wheel-only-packages.py merge-be
+
+[[packages]]
+name = "pyzmq"
+version = "27.1.0"
+marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
+wheels = [
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyzmq-27.1.0-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-07-18T13:23:49Z, size = 257638, hashes = { sha256 = "0d025fc6144ce2a8e0b0e404107f8ae3ade7a8e89cc080b2e630eeb64dbb2e84" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyzmq-27.1.0-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-07-18T13:23:49Z, size = 314109, hashes = { sha256 = "3e24d002e0b7e5727c32d6c149669555b50ecea275863046038b48f588d24e86" } },
+]
