@@ -7,8 +7,8 @@ dependencies = [
     "tf2onnx~=1.16.1",
 
     # TensorFlow packages
-    "tensorflow[and-cuda]~=2.20.0",
-    "tensorboard~=2.20.0",
+    "tensorflow[and-cuda]~=2.21.0",
+    "tensorboard~=2.21.0",
 
     # Datascience and useful extensions
     "boto3~=1.40.52",
