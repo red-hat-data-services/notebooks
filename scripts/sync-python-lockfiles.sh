@@ -106,3 +106,35 @@ if [[ ${#FAILED_DIRS[@]} -gt 0 ]]; then
   done
   exit 1
 fi
+
+PATCH_SCRIPT="$ROOT_DIR/scripts/lockfile-generators/helpers/patch-rh-wheel-only-packages.py"
+while IFS= read -r -d '' ref_file; do
+  lock_dir=$(dirname "$(dirname "$ref_file")")
+  lock_file="$lock_dir/pylock.toml"
+  if [[ ! -f "$lock_file" ]]; then
+    continue
+  fi
+  merge_pkgs=()
+  while IFS= read -r pkg; do
+    [[ -n "$pkg" ]] && merge_pkgs+=("$pkg")
+  done < <(python3 - "$ref_file" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+BE_ARCHES = ("ppc64le", "s390x")
+text = Path(sys.argv[1]).read_text()
+blocks = [b for b in re.split(r"(?=^\[\[packages\]\])", text, flags=re.M) if b.strip()]
+for block in blocks:
+    name_match = re.search(r'^name = "([^"]+)"', block, re.M)
+    if not name_match:
+        continue
+    urls = re.findall(r'url = "([^"]+)"', block)
+    if any(f"linux_{arch}" in url for url in urls for arch in BE_ARCHES):
+        print(name_match.group(1))
+PY
+)
+  if [[ ${#merge_pkgs[@]} -gt 0 ]]; then
+    python3 "$PATCH_SCRIPT" merge-be "$lock_file" "$ref_file" "${merge_pkgs[@]}"
+  fi
+done < <(find jupyter runtimes -path '*/uv.lock.d/rh-wheel-only.ref.toml' -print0)
