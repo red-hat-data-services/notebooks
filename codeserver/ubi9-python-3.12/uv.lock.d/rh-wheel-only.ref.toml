@@ -73,10 +73,10 @@ name = "pyarrow"
 version = "20.0.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-9-cp312-cp312-linux_aarch64.whl", upload-time = 2026-02-23T00:00:00Z, size = 0, hashes = { sha256 = "d982cd297909d08ef18f030a0a1b8af1a4eb33316d6f90c034dffd674378ebe3" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-9-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-02-23T00:00:00Z, size = 0, hashes = { sha256 = "f21dc36370749ffaf4f960605a68ce22c8390e37c32dfc1f5e14ece62347a586" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-9-cp312-cp312-linux_s390x.whl", upload-time = 2026-02-23T00:00:00Z, size = 0, hashes = { sha256 = "61d6859a5fd8d28f9001d8822fd5005c93a396c3c5a8d1fb23e2ed86ac510b0d" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-9-cp312-cp312-linux_x86_64.whl", upload-time = 2026-02-23T00:00:00Z, size = 0, hashes = { sha256 = "af96912a2c0942a6013127efcf6ce816eda16d528cb06ffb0d78e187ef754fac" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-11-cp312-cp312-linux_aarch64.whl", upload-time = 2026-08-08T12:49:36Z, size = 27716558, hashes = { sha256 = "bc99efb37c030541e3ae3e22ec3c0551ac30683c3641dcd0f3b60bde6ea709a0" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-11-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-08-08T12:39:36Z, size = 30879195, hashes = { sha256 = "57c6cdb1e7cb257e54efc631e15f1bd975e1340d5987be006dc0da9737035b03" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-11-cp312-cp312-linux_s390x.whl", upload-time = 2026-08-08T06:54:39Z, size = 38632297, hashes = { sha256 = "21eaca6c60bfec2e572bfeed6ed9269467373d61b694d3bdbe0fcdef2ea70047" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyarrow-20.0.0-11-cp312-cp312-linux_x86_64.whl", upload-time = 2026-08-08T12:53:31Z, size = 30081937, hashes = { sha256 = "2791da6218232e6a3c12814d41501c20eb035d8031ddc3c5e53d576ccd98fd09" } },
 ]
 
 [[packages]]

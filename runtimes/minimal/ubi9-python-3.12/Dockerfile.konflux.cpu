@@ -47,6 +47,10 @@ dnf clean all
 rm -rf /var/cache/yum
 EOF
 
+# RH pyzmq wheels on ppc64le/s390x link against libzmq.so.5 (not bundled like PyPI abi3 wheels).
+COPY scripts/install_libzmq_be.sh /tmp/install_libzmq_be.sh
+RUN chmod +x /tmp/install_libzmq_be.sh && /tmp/install_libzmq_be.sh "$(uname -m)"
+
 # Other apps and tools installed as default user
 USER 1001
 
