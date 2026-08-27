@@ -176,6 +176,9 @@ if [ "$TARGETARCH" = "s390x" ]; then
     # arrow/cpp/thirdparty/versions.txt for the pinned PYARROW_VERSION, or the bundled ORC build
     # fails a checksum mismatch.
     export ARROW_ORC_URL="https://archive.apache.org/dist/orc/orc-2.2.1/orc-2.2.1.tar.gz"
+    # RHAIENG-1643: AWS LC (ARROW_S3) does not support big-endian s390x
+    ARROW_S3_FLAG=""
+    if [ "$TARGETARCH" != "s390x" ]; then ARROW_S3_FLAG="-DARROW_S3=ON"; fi
     cmake -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_INSTALL_PREFIX=$ARROW_HOME \
           -DARROW_PYTHON=ON \
@@ -191,6 +194,8 @@ if [ "$TARGETARCH" = "s390x" ]; then
           -DARROW_S3=OFF \
           -DARROW_WITH_BZ2=ON \
           -DARROW_WITH_ZLIB=ON \
+          ${ARROW_S3_FLAG} \
+          -DARROW_SUBSTRAIT=ON \
           -DARROW_BUILD_TESTS=OFF \
           -DARROW_BUILD_BENCHMARKS=OFF \
           -DARROW_USE_CCACHE=OFF \
@@ -335,6 +340,8 @@ if [ "$TARGETARCH" = "ppc64le" ]; then
         -DARROW_CSV=ON \
         -DARROW_PYTHON=ON \
         -DARROW_PARQUET=ON \
+        -DARROW_S3=ON \
+        -DARROW_SUBSTRAIT=ON \
         -DARROW_BUILD_SHARED=ON \
         -DARROW_BUILD_TESTS=OFF
     cd cpp/build
