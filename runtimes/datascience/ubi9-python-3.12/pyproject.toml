@@ -16,7 +16,7 @@ dependencies = [
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.13.0", # Required for skl2onnx, as upgraded version is not compatible with protobuf
     "codeflare-sdk~=0.34.0; platform_machine != 's390x' and platform_machine != 'ppc64le'",
-    "feast~=0.59.0",
+    "feast~=0.63.0",
 
     # DB connectors
     "pymongo~=4.15.3",
@@ -33,6 +33,8 @@ dependencies = [
 
 [tool.uv]
 override-dependencies = [
+    # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk==0.34.0 pin cryptography==46.0.3
+    "cryptography>=46.0.7",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
 ]
@@ -41,7 +43,7 @@ constraint-dependencies = [
     "onnx>=1.21.0",
 ]
 environments = [
-    "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
+    "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
 
 [tool.uv.sources]

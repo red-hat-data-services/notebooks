@@ -175,6 +175,82 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
 
   DIR_SUCCESS=true
 
+  apply_lock_policy_overrides() {
+    local lock_file="$1"
+    if [[ "$TARGET_DIR" != "jupyter/datascience/ubi9-python-3.12" ]]; then
+      return 0
+    fi
+    if [[ ! -f "$lock_file" ]]; then
+      warn "Missing lock file for policy override: $lock_file"
+      return 1
+    fi
+
+    python3 - "$lock_file" <<'PY'
+import pathlib
+import re
+import sys
+
+lock_path = pathlib.Path(sys.argv[1])
+content = lock_path.read_text(encoding="utf-8")
+pattern = re.compile(r'(\[\[packages\]\]\nname = "pyarrow"\nversion = "[^"]+"\nmarker = ")([^"]+)(")', re.MULTILINE)
+expected = "implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
+match = pattern.search(content)
+if not match:
+    raise SystemExit("pyarrow block not found in lock file")
+if match.group(2) == expected:
+    raise SystemExit(0)
+updated = pattern.sub(rf"\1{expected}\3", content, count=1)
+lock_path.write_text(updated, encoding="utf-8")
+PY
+  }
+
+  apply_rh_wheel_only_overlays() {
+    local lock_file="$1"
+    local ref="${PWD}/uv.lock.d/rh-wheel-only.ref.toml"
+    [[ -f "$ref" ]] || return 0
+
+    local patch_script="$REPO_ROOT/scripts/lockfile-generators/helpers/patch-rh-wheel-only-packages.py"
+    RH_WHEEL_REPLACE_ALL=(uv ripgrep tornado fonttools httptools librt)
+    RH_WHEEL_MERGE_BE=(
+      argon2-cffi-bindings cryptography debugpy markupsafe
+      ml-dtypes numpy onnx pandas pillow psutil pyarrow pyyaml pyzmq
+      scikit-learn scipy uvloop
+    )
+
+    rh_wheel_packages_in_ref() {
+      python3 - "$@" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+ref_names = set(
+    re.findall(r'^name = "([^"]+)"', Path(sys.argv[1]).read_text(), re.MULTILINE)
+)
+for name in sys.argv[2:]:
+    if name in ref_names:
+        print(name)
+PY
+    }
+
+    local replace_pkgs=()
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && replace_pkgs+=("$pkg")
+    done < <(rh_wheel_packages_in_ref "$ref" "${RH_WHEEL_REPLACE_ALL[@]}")
+
+    local merge_pkgs=()
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && merge_pkgs+=("$pkg")
+    done < <(rh_wheel_packages_in_ref "$ref" "${RH_WHEEL_MERGE_BE[@]}")
+
+    if [[ ${#replace_pkgs[@]} -gt 0 ]]; then
+      python3 "$patch_script" replace "$lock_file" "$ref" "${replace_pkgs[@]}" || return 1
+    fi
+    if [[ ${#merge_pkgs[@]} -gt 0 ]]; then
+      python3 "$patch_script" merge-be "$lock_file" "$ref" "${merge_pkgs[@]}" || return 1
+    fi
+    return 0
+  }
+
   run_lock() {
     local flavor="$1"
     local index="$2"
@@ -233,6 +309,16 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
       rm -f "$output"
       DIR_SUCCESS=false
     else
+      if ! apply_lock_policy_overrides "$output"; then
+        warn "Failed to apply lock policy overrides in $TARGET_DIR"
+        DIR_SUCCESS=false
+        return
+      fi
+      if ! apply_rh_wheel_only_overlays "$output"; then
+        warn "Failed to apply RH wheel-only overlays in $TARGET_DIR"
+        DIR_SUCCESS=false
+        return
+      fi
       if [[ "$INDEX_MODE" == "public-index" ]]; then
         ok "pylock.toml generated successfully."
       else

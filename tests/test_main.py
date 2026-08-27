@@ -259,16 +259,22 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
         # ("package name", ("allowed version 1", "allowed version 2", ...))
         ("Codeflare-SDK", ("0.30", "0.29")),
         ("Scikit-learn", ("1.7", "1.6")),
-        ("Pandas", ("2.3", "1.5")),
         (
             "Numpy",
             (
-                "1.26",  # trustyai 0.6.2 depends on numpy~=1.26.4
-                "2.1",  # for tensorflow cuda
-                "2.3",  # this is our latest where possible
+                "1.26",  # trustyai
+                "2.1",  # tensorflow cuda / rocm
+                "2.3",  # latest where possible
             ),
         ),
-        ("Tensorboard", ("2.18", "2.20")),
+        (
+            "Pandas",
+            (
+                "1.5",  # trustyai
+                "2.3",  # latest where possible
+            ),
+        ),
+        ("Tensorboard", ("2.18", "2.20", "2.21")),
         ("PyTorch", ("2.6", "2.7")),
     )
 
@@ -315,23 +321,27 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         # ("package name", ("allowed specifier 1", "allowed specifier 2", ...))
         # codeserver RHAIENG-6201: CVE-2026-59890 requires setuptools>=83.0.0
         ("setuptools", ("~=80.9.0", "==80.9.0", "~=83.0.0")),
-        ("tensorboard", ("~=2.18.0", "~=2.20.0")),
+        ("tensorboard", ("~=2.18.0", "~=2.20.0", "~=2.21.0")),
         ("torch", ("==2.7.1", "==2.7.1+cu128", "==2.7.1+rocm6.3")),
         ("torchvision", ("==0.22.1", "~=0.22.1", "==0.22.1+cu128", "==0.22.1+rocm6.3")),
         (
             "numpy",
             (
-                "~=1.26.4",  # trustyai 0.6.2 depends on numpy~=1.26.4
-                "~=2.1.3",
-                "~=2.3.5",  # for llmcompressor, tensorflow cuda, latest possible at the time of writing
+                "~=1.26.4",  # trustyai
+                "~=2.1.3",  # tensorflow cuda / rocm
+                "~=2.3.5",  # latest where possible
             ),
         ),
-        ("pandas", ("~=2.3.3", "~=1.5.3")),
+        (
+            "pandas",
+            (
+                "~=2.3.3",  # latest where possible
+            ),
+        ),
         (
             "jupyter-bokeh",
             (
-                "~=3.0.5",  # trustyai 0.6.2 depends on jupyter-bokeh~=3.0.7
-                "~=4.0.5",
+                "~=4.0.5",  # latest where possible
             ),
         ),
         ("jupyterlab-lsp", ("~=5.1.0", "~=5.1.1")),
