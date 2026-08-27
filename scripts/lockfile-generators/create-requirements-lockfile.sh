@@ -147,6 +147,10 @@ if [[ -n "$REQUIREMENTS_INDEX_URL" ]]; then
   python3 "${SCRIPTS_PATH}/helpers/pylock-to-requirements.py" \
       "$PYLOCK_FILE" "$REQUIREMENTS_FILE" "$REQUIREMENTS_INDEX_URL"
 else
+  # Default --sdist-hashes el9-fallback: omit sdist hashes when an EL9-compatible
+  # wheel exists so Hermeto does not fetch Rust sdists (ripgrep, uv) and fail
+  # cargo vendor --locked. Public-index baselines still keep sdist when no EL9
+  # wheel exists (e.g. a future manylinux_2_39-only pin).
   python3 "${SCRIPTS_PATH}/helpers/pylock-to-requirements.py" \
       "$PYLOCK_FILE" "$REQUIREMENTS_FILE"
 fi
