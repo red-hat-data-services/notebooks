@@ -10,6 +10,28 @@ runs:
       run: |
         set -Eeuxo pipefail
 
+        # Retry helper: retries a command with exponential backoff
+        # Usage: retry_cmd <max_retries> <command...>
+        retry_cmd() {
+          local max_retries=$1; shift
+          local attempt=1
+          local delay=5
+          while true; do
+            echo "Attempt ${attempt}/${max_retries}: $*"
+            if "$@"; then
+              return 0
+            fi
+            if (( attempt >= max_retries )); then
+              echo "All ${max_retries} attempts failed for: $*"
+              return 1
+            fi
+            echo "Attempt ${attempt} failed, retrying in ${delay}s..."
+            sleep "${delay}"
+            delay=$(( delay * 2 ))
+            attempt=$(( attempt + 1 ))
+          done
+        }
+
         # the Microsoft repo's kubelet does not provide /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
         #  [Service]
         #  EnvironmentFile=-/var/lib/kubelet/kubeadm-flags.env
@@ -22,19 +44,22 @@ runs:
 
         # https://github.com/cri-o/packaging?tab=readme-ov-file#distributions-using-deb-packages
 
-        curl -fsSL https://pkgs.k8s.io/core:/stable:/v${KUBERNETES_VERSION}/deb/Release.key | \
-          sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        K8S_KEY_PRIMARY="https://pkgs.k8s.io/core:/stable:/v${KUBERNETES_VERSION}/deb/Release.key"
+        K8S_KEY_FALLBACK="https://prod-cdn.packages.k8s.io/core:/stable:/v${KUBERNETES_VERSION}/deb/Release.key"
+        if ! retry_cmd 3 bash -c "set -o pipefail; curl -fsSL '${K8S_KEY_PRIMARY}' | sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg"; then
+          echo "Primary URL failed, falling back to CDN: ${K8S_KEY_FALLBACK}"
+          retry_cmd 3 bash -c "set -o pipefail; curl -fsSL '${K8S_KEY_FALLBACK}' | sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg"
+        fi
 
         echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${KUBERNETES_VERSION}/deb/ /" | \
           sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-        curl -fsSL https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${CRIO_VERSION}/deb/Release.key | \
-          sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
+        retry_cmd 3 bash -c "set -o pipefail; curl -fsSL 'https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${CRIO_VERSION}/deb/Release.key' | sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/cri-o-apt-keyring.gpg"
 
         echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${CRIO_VERSION}/deb/ /" | \
           sudo tee /etc/apt/sources.list.d/cri-o.list
 
-        sudo apt-get update
+        retry_cmd 3 sudo apt-get update
 
         # [ERROR FileExisting-conntrack]: conntrack not found in system path
         # see man apt-patterns for the ~name=version* syntax
@@ -158,10 +183,29 @@ runs:
       run: |
         set -Eeuxo pipefail
         # InspectFailed Failed to inspect image "": rpc error: code = Unknown desc = short name mode is enforcing, but image name rancher/local-path-provisioner:v0.0.31 returns ambiguous list
-        (curl -fsSL https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml |
+        retry_cmd() {
+          local max_retries=$1; shift
+          local attempt=1
+          local delay=5
+          while true; do
+            echo "Attempt ${attempt}/${max_retries}: $*"
+            if "$@"; then
+              return 0
+            fi
+            if (( attempt >= max_retries )); then
+              echo "All ${max_retries} attempts failed for: $*"
+              return 1
+            fi
+            echo "Attempt ${attempt} failed, retrying in ${delay}s..."
+            sleep "${delay}"
+            delay=$(( delay * 2 ))
+            attempt=$(( attempt + 1 ))
+          done
+        }
+        (retry_cmd 3 bash -c "set -o pipefail; curl -fsSL 'https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml' |
           sed 's|image: rancher/local-path-provisioner|image: docker.io/rancher/local-path-provisioner|g' |
           kubectl apply -f -
-        )
+        ")
         kubectl wait deployments --all --namespace=local-path-storage --for=condition=Available --timeout=100s || (
           kubectl describe deployments --namespace=local-path-storage
           kubectl --namespace=local-path-storage get events --sort-by='.lastTimestamp'

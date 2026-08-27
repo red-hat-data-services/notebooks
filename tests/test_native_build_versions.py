@@ -18,25 +18,42 @@ NATIVE_IMAGE_DIRS = (
     ROOT / "runtimes/datascience/ubi9-python-3.12",
 )
 
+FORBIDDEN_NATIVE_BUILD_PATTERNS = (
+    re.compile(r"ARG ONNX_VERSION"),
+    re.compile(r"ARG PYARROW_VERSION"),
+    re.compile(r"ONNX_VERSION=1\.20\.1"),
+    re.compile(r"apache-arrow-17\.0\.0"),
+)
+
+
+def _uses_rh_be_wheels(dockerfile_text: str) -> bool:
+    return "install_zeromq_be.sh" in dockerfile_text
+
 
 @pytest.mark.parametrize("image_dir", NATIVE_IMAGE_DIRS, ids=lambda p: p.relative_to(ROOT).as_posix())
 def test_dockerfiles_read_native_versions_from_pylock(image_dir: Path, subtests: Subtests) -> None:
     dockerfiles = sorted(image_dir.glob("Dockerfile*"))
     assert dockerfiles, f"no Dockerfiles under {image_dir}"
-    forbidden = (
-        re.compile(r"ARG ONNX_VERSION"),
-        re.compile(r"ARG PYARROW_VERSION"),
-        re.compile(r"ONNX_VERSION=1\.20\.1"),
-        re.compile(r"apache-arrow-17\.0\.0"),
-    )
+    rh_wheel_ref = image_dir / "uv.lock.d/rh-wheel-only.ref.toml"
 
     @with_subtests(subtests, dockerfiles, msg="dockerfile")
     def _(dockerfile: Path) -> None:
         text = dockerfile.read_text()
 
-        @with_subtests(subtests, forbidden, msg="forbidden-pattern")
+        @with_subtests(subtests, FORBIDDEN_NATIVE_BUILD_PATTERNS, msg="forbidden-pattern")
         def _(pattern: re.Pattern[str]) -> None:
             assert not pattern.search(text), f"{dockerfile.name} still uses {pattern.pattern}"
+
+        if _uses_rh_be_wheels(text):
+            assert rh_wheel_ref.is_file(), f"{image_dir.name} should ship {rh_wheel_ref.name}"
+            assert "install_zeromq_be.sh" in text, f"{dockerfile.name} should install BE runtime deps"
+            assert re.search(r"--requirements=./pylock\.toml", text), (
+                f"{dockerfile.name} should install from pylock.toml"
+            )
+            assert "pylock_version.py" not in text, (
+                f"{dockerfile.name} should not copy pylock_version.py when using RH BE wheels"
+            )
+            return
 
         assert "pylock_version.py" in text, f"{dockerfile.name} should copy pylock_version.py"
 
