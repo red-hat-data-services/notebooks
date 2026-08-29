@@ -430,6 +430,7 @@ set -Eeuxo pipefail
 echo "Installing softwares and packages"
 # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds on ppc64le/s390x
 echo "meson<1.11" > build_constraints.txt
+echo "cython<3.3" >> build_constraints.txt
 if [ "$TARGETARCH" = "ppc64le" ]; then
     export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
     export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}

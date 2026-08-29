@@ -414,7 +414,9 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
     #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
     # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
+    # Cython 3.3.0 breaks pyzmq 27.1.0 sdist builds on ppc64le/s390x (redeclared errors).
     echo "meson<1.11" > build_constraints.txt && \
+    echo "cython<3.3" >> build_constraints.txt && \
     if [ "$TARGETARCH" = "ppc64le" ] || [ "$TARGETARCH" = "s390x" ]; then \
         GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 \
         CFLAGS="-O3" CXXFLAGS="-O3" \
