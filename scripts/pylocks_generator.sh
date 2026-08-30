@@ -176,32 +176,7 @@ for TARGET_DIR in "${TARGET_DIRS[@]}"; do
   DIR_SUCCESS=true
 
   apply_lock_policy_overrides() {
-    local lock_file="$1"
-    if [[ "$TARGET_DIR" != "jupyter/datascience/ubi9-python-3.12" ]]; then
-      return 0
-    fi
-    if [[ ! -f "$lock_file" ]]; then
-      warn "Missing lock file for policy override: $lock_file"
-      return 1
-    fi
-
-    python3 - "$lock_file" <<'PY'
-import pathlib
-import re
-import sys
-
-lock_path = pathlib.Path(sys.argv[1])
-content = lock_path.read_text(encoding="utf-8")
-pattern = re.compile(r'(\[\[packages\]\]\nname = "pyarrow"\nversion = "[^"]+"\nmarker = ")([^"]+)(")', re.MULTILINE)
-expected = "implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
-match = pattern.search(content)
-if not match:
-    raise SystemExit("pyarrow block not found in lock file")
-if match.group(2) == expected:
-    raise SystemExit(0)
-updated = pattern.sub(rf"\1{expected}\3", content, count=1)
-lock_path.write_text(updated, encoding="utf-8")
-PY
+    return 0
   }
 
   apply_rh_wheel_only_overlays() {

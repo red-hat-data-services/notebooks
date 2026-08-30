@@ -21,6 +21,8 @@ spec:
           imagePullPolicy: Always
           workingDir: /opt/app-root/src
           env:
+            - name: MPLBACKEND
+              value: Agg
             - name: NOTEBOOK_ARGS
               value: |-
                 --ServerApp.port=8888
@@ -32,10 +34,17 @@ spec:
             - name: notebook-port
               protocol: TCP
               containerPort: 8888
+          # Allow up to 10 minutes for startup on slow or constrained nodes (e.g. ppc64le in CI).
+          startupProbe:
+            tcpSocket:
+              port: notebook-port
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 60
           livenessProbe:
             tcpSocket:
               port: notebook-port
-            initialDelaySeconds: 120
+            initialDelaySeconds: 5
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 3
@@ -44,14 +53,15 @@ spec:
               path: /notebook/opendatahub/jovyan/api
               port: notebook-port
               scheme: HTTP
-            initialDelaySeconds: 90
+            initialDelaySeconds: 10
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 3
+          # Jupyter + papermill share the pod cgroup; datascience unittest imports need >8Gi on ppc64le CI.
           resources:
             limits:
-              cpu: 500m
-              memory: 4Gi
+              cpu: "2"
+              memory: 12Gi
             requests:
-              cpu: 500m
-              memory: 4Gi
+              cpu: "2"
+              memory: 12Gi
