@@ -181,7 +181,8 @@ if [[ -f "$RH_WHEEL_REF" ]]; then
   echo ""
   echo "=== Patching RH wheel-only packages for hermeto prefetch ==="
   # Rust sdists break hermeto cargo prefetch — replace on all arches.
-  RH_WHEEL_REPLACE_ALL=(uv ripgrep)
+  # pandoc-rhai is RH-index-only (not on PyPI), so uv pip compile never emits it.
+  RH_WHEEL_REPLACE_ALL=(uv ripgrep pandoc-rhai)
   # Native deps missing ppc64le/s390x PyPI wheels — merge BE RH wheels only.
   RH_WHEEL_MERGE_BE=(
       argon2-cffi-bindings cryptography debugpy httptools librt markupsafe

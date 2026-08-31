@@ -224,6 +224,7 @@ echo "Installing softwares and packages"
 printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
 # we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
 UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt
+pandoc --version
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
 UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')

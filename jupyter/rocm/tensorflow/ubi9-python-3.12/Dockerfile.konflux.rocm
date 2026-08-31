@@ -156,6 +156,7 @@ echo "Installing softwares and packages"
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 # Not using --build-constraints=./requirements.txt because error: Unnamed requirements are not allowed as constraints (found: `https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
+pandoc --version
 # setup path for runtime configuration
 mkdir /opt/app-root/runtimes
 # Remove default Elyra runtime-images
