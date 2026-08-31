@@ -23,10 +23,15 @@ if [[ "$(uname -m)" == "s390x" ]]; then
     exit 0
 fi
 
-# texlive-tcolorbox is in the RHOAI 3.3 layered-product repo (not AppStream/EPEL).
-# See RHAIENG-4114 and scripts/lockfile-generators/Dockerfile.rpm-lockfile.
-_basearch="$(uname -m)"
-dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${_basearch}-rpms" 2>/dev/null || true
+enable_rhelai_texlive_repo() {
+    local basearch
+    basearch="$(uname -m)"
+    # Layered-product repo for texlive-tcolorbox (RHAIENG-4114 / AIPCC-7791).
+    if command -v subscription-manager &>/dev/null; then
+        subscription-manager repos --enable "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+    fi
+    dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+}
 
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
 PACKAGES=(
@@ -47,7 +52,6 @@ texlive-parskip
 texlive-plain
 texlive-pxfonts
 texlive-rsfs
-texlive-tcolorbox
 texlive-times
 texlive-titling
 texlive-txfonts
@@ -64,6 +68,16 @@ texlive-trimspaces
 )
 
 dnf install -y "${PACKAGES[@]}"
+
+enable_rhelai_texlive_repo
+if ! dnf install -y texlive-tcolorbox; then
+    echo "ERROR: Failed to install texlive-tcolorbox from rhelai-3.3-for-rhel-9-$(uname -m)-rpms." >&2
+    echo "AppStream texlive packages require a subscribed RHEL/AIPCC build or c9s AppStream." >&2
+    echo "Unsubscribed UBI-only template builds are tracked in" >&2
+    echo "https://github.com/red-hat-data-services/notebooks/issues/2310" >&2
+    exit 1
+fi
+
 dnf clean all
 
 pdflatex --version

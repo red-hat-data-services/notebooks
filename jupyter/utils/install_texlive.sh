@@ -1,10 +1,14 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
-# texlive-tcolorbox is in the RHOAI 3.3 layered-product repo (not AppStream/EPEL).
-# See RHAIENG-4114 and scripts/lockfile-generators/Dockerfile.rpm-lockfile.
-_basearch="$(uname -m)"
-dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${_basearch}-rpms" 2>/dev/null || true
+enable_rhelai_texlive_repo() {
+    local basearch
+    basearch="$(uname -m)"
+    if command -v subscription-manager &>/dev/null; then
+        subscription-manager repos --enable "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+    fi
+    dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+}
 
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
 PACKAGES=(
@@ -25,7 +29,6 @@ texlive-parskip
 texlive-plain
 texlive-pxfonts
 texlive-rsfs
-texlive-tcolorbox
 texlive-times
 texlive-titling
 texlive-txfonts
@@ -42,6 +45,10 @@ texlive-trimspaces
 )
 
 dnf install -y "${PACKAGES[@]}"
+
+enable_rhelai_texlive_repo
+dnf install -y texlive-tcolorbox
+
 dnf clean all
 
 pdflatex --version
