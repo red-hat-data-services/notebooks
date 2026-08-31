@@ -1,6 +1,11 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
+# texlive-tcolorbox is in the RHOAI 3.3 layered-product repo (not AppStream/EPEL).
+# See RHAIENG-4114 and scripts/lockfile-generators/Dockerfile.rpm-lockfile.
+_basearch="$(uname -m)"
+dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${_basearch}-rpms" 2>/dev/null || true
+
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
 PACKAGES=(
 texlive-adjustbox
@@ -20,8 +25,7 @@ texlive-parskip
 texlive-plain
 texlive-pxfonts
 texlive-rsfs
-# available in epel but not in rhel9
-#texlive-tcolorbox
+texlive-tcolorbox
 texlive-times
 texlive-titling
 texlive-txfonts
@@ -41,13 +45,5 @@ dnf install -y "${PACKAGES[@]}"
 dnf clean all
 
 pdflatex --version
-
-# install texlive-tcolorbox by other means
-dnf install -y cpio
-dnf clean all
-pushd /
-texlive_toolbox_rpm=https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/t/texlive-tcolorbox-20200406-38.el9.noarch.rpm
-curl -sSfL ${texlive_toolbox_rpm} | rpm2cpio /dev/stdin | cpio -idmv
-popd
 texhash
 kpsewhich tcolorbox.sty
