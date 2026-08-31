@@ -1,18 +1,19 @@
 #!/bin/bash
 
 # Install OS dependencies required for JupyterLab PDF export.
-# Uses RHEL/UBI AppStream texlive RPMs plus rhelai texlive-tcolorbox.
+# Uses RHEL/UBI AppStream texlive RPMs plus tcolorbox from CTAN.
 # Pandoc comes from the RHOAI public-rhai pandoc-rhai wheel (x86_64, aarch64, ppc64le, s390x).
 # Requires AppStream (subscription or c9s); plain unsubscribed UBI lacks these packages
 # (see https://github.com/red-hat-data-services/notebooks/issues/2310).
-# Backport of main's RPM approach (RHAIENG-2186 / RHAIENG-2345); replaces Utah/CTAN curl.
+# AppStream texlive RPMs (RHAIENG-2186 / RHAIENG-2345); tcolorbox from CTAN, not EPEL/CDN.
 
 set -Eeuxo pipefail
 
 _arch="$(uname -m)"
 
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
-# texlive-tcolorbox is not in AppStream; do not use EPEL. Install the rhelai 3.5 noarch RPM.
+# texlive-tcolorbox is not in AppStream; do not use EPEL or the rhelai CDN RPM.
+# Install tcolorbox from CTAN after the AppStream texlive set.
 PACKAGES=(
 texlive-adjustbox
 texlive-bibtex
@@ -31,8 +32,6 @@ texlive-parskip
 texlive-plain
 texlive-pxfonts
 texlive-rsfs
-# texlive-tcolorbox rebuild of EPEL package
-https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhelai/3.5/os/Packages/t/texlive-tcolorbox-20200406-1.el9ai.noarch.rpm
 texlive-times
 texlive-titling
 texlive-txfonts
@@ -60,6 +59,25 @@ if ! dnf install -y "${PACKAGES[@]}"; then
 fi
 
 dnf clean all
+
+# tcolorbox is not in AppStream. Unpack the CTAN TDS zip into TEXMFLOCAL.
+# https://www.ctan.org/pkg/tcolorbox
+_tcolorbox_zip=/tmp/tcolorbox.tds.zip
+curl --fail --location --show-error \
+    -o "${_tcolorbox_zip}" \
+    "https://mirror.ctan.org/install/macros/latex/contrib/tcolorbox.tds.zip"
+_texmf_local="$(kpsewhich -var-value TEXMFLOCAL)"
+mkdir -p "${_texmf_local}"
+python - "${_texmf_local}" <<'PY'
+import pathlib
+import sys
+import zipfile
+
+dest = pathlib.Path(sys.argv[1])
+with zipfile.ZipFile("/tmp/tcolorbox.tds.zip") as zf:
+    zf.extractall(dest)
+PY
+rm -f "${_tcolorbox_zip}"
 
 # Unpack pandoc from the RHOAI wheel onto PATH.
 # Index: https://console.redhat.com/api/pypi/public-rhai/rhoai/3.5/cpu-ubi9/simple/pandoc-rhai/
