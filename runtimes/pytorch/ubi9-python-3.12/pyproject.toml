@@ -21,7 +21,7 @@ dependencies = [
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.16.0",  # ONNX 1.21+ (skl2onnx); was ~=1.13.0
     "onnx>=1.22.0; platform_machine != 's390x'",  # CVE-2026-28500
-    "codeflare-sdk~=0.31.2",
+    "codeflare-sdk~=0.39.1",
     "feast>=0.63.0",
 
     # DB connectors

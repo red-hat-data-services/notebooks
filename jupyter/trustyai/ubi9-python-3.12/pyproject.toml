@@ -5,7 +5,7 @@ requires-python = "==3.12.*"
 
 dependencies = [
     # PyTorch packages
-    "torch==2.7.1+cu128; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    "torch==2.11.0+cu128; platform_machine != 'ppc64le' and platform_machine != 's390x'",
 
     # Triton here is a dependency of torch, and is just being
     # explicitly re-declared so that the index to pull it from can be
@@ -18,31 +18,31 @@ dependencies = [
     #
     # Since it's a dependency of torch, I've also added same platform
     # exclusion marker to omit for ppc64le.
-    "triton==3.3.1; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    "triton==3.6.0; platform_machine != 'ppc64le' and platform_machine != 's390x'",
 
     # TrustyAI packages
     # More information available at:
     #   - https://pypi.org/project/trustyai/
     #   - https://github.com/trustyai-explainability/trustyai-explainability-python/blob/main/requirements.txt
-    "transformers~=4.56.1",
-    "datasets~=4.0.0",
-    "accelerate~=1.10.1; platform_machine != 'ppc64le' and platform_machine != 's390x'",
-    "trustyai~=0.6.2",
+    "transformers~=5.17.0",
+    "datasets~=5.0.1",
+    "accelerate~=1.15.0; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    "trustyai~=0.6.4",
     # Datascience and useful extensions
     "boto3~=1.40.27",
     "kafka-python-ng~=2.2.3",
-    "kfp~=2.15.1",
+    "kfp~=2.17.0",
     "matplotlib~=3.10.6", # Should be pinned down to this version in order to be compatible with trustyai
     "numpy~=1.26.4", # Should be pinned down to this version in order to be compatible with trustyai
-    "pandas~=1.5.3", # Should be pinned down to this version in order to be compatible with trustyai
+    "pandas~=3.0.6", # Required by TrustyAI 0.6.4
     "plotly~=6.3.0",
     "scikit-learn~=1.7.2", # Should be pinned down to this version in order to be compatible with trustyai
     "scipy~=1.16.1",
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.16.0",  # ONNX 1.21+ (skl2onnx); was ~=1.13.0
     "onnx>=1.22.0; platform_machine != 's390x'",  # CVE-2026-28500
-    "codeflare-sdk~=0.31.2; platform_machine != 'ppc64le' and platform_machine != 's390x'",
-    "kubeflow-training==1.9.3",
+    "codeflare-sdk~=0.39.1; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    "kubeflow-training==1.9.4",
 
     # DB connectors
     "pymongo~=4.14.1",
@@ -55,8 +55,8 @@ dependencies = [
     "odh-jupyter-trash-cleanup==0.1.1",
 
     "jupyterlab==4.6.2",
-    "jupyter-bokeh~=3.0.5", # trustyai 0.6.1 depends on jupyter-bokeh~=3.0.5
-    "jupyter-server~=2.20.0",
+    "jupyter-bokeh~=4.0.5", # Required by TrustyAI 0.6.4
+    "jupyter-server~=2.21.0",
     "jupyter-server-proxy~=4.4.0",
     "jupyter-server-terminals~=0.5.3",
     "jupyterlab-git~=0.54.0",
@@ -68,7 +68,7 @@ dependencies = [
 
     # Base packages
     "wheel~=0.46.2",
-    "setuptools~=80.9.0",
+    "setuptools>=80.9.0,<82",
 ]
 
 [tool.uv]
@@ -83,6 +83,8 @@ environments = [
 # when installing locked requirements via `uv pip install --requirements=pylock.toml`.
 extra-build-dependencies = { pandas = ["setuptools>=80.9.0,<82", "wheel"] }
 override-dependencies = [
+    "kubernetes>=35.0.0",
+    "protobuf==7.36.1",
     # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.2 jupyterlab override)
     "jupyterlab>=4.5.7",
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack

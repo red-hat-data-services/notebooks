@@ -12,7 +12,7 @@ dependencies = [
     # Datascience and useful extensions
     "boto3~=1.40.27",
     "kafka-python-ng~=2.2.3",
-    "kfp~=2.15.1",
+    "kfp~=2.17.0",
     "matplotlib~=3.10.6",
     "numpy~=2.3.3",
     "pandas~=2.3.2",
@@ -22,8 +22,8 @@ dependencies = [
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.16.0",  # ONNX 1.21+ (skl2onnx); was ~=1.13.0
     "onnx>=1.22.0; platform_machine != 's390x'",  # CVE-2026-28500
-    "codeflare-sdk~=0.31.2",
-    "kubeflow-training==1.9.3",
+    "codeflare-sdk~=0.39.1",
+    "kubeflow-training==1.9.4",
     "feast>=0.63.0",
 
     # DB connectors
@@ -38,7 +38,7 @@ dependencies = [
 
     "jupyterlab==4.6.2",
     "jupyter-bokeh~=4.0.5",
-    "jupyter-server~=2.20.0",
+    "jupyter-server~=2.21.0",
     "jupyter-server-proxy~=4.4.0",
     "jupyter-server-terminals~=0.5.3",
     "jupyterlab-git~=0.54.0",
@@ -50,7 +50,7 @@ dependencies = [
 
     # Base packages
     "wheel~=0.46.2",
-    "setuptools~=80.9.0",
+    "setuptools>=83.0.0",
 ]
 
 [tool.uv.sources]
@@ -70,6 +70,8 @@ environments = [
 ]
 
 override-dependencies = [
+    "kubernetes>=35.0.0",
+    "protobuf==7.36.1",
     # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.2 jupyterlab override)
     "jupyterlab>=4.5.7",
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
