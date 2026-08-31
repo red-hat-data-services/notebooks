@@ -46,13 +46,13 @@ set -Eeuxo pipefail
 ARCH=$(uname -m)
 echo "Detected architecture: $ARCH"
 PACKAGES=(perl mesa-libGL skopeo)
-if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then
-    PACKAGES+=(gcc gcc-c++ make openssl-devel autoconf automake libtool cmake)
-fi
 dnf install -y "${PACKAGES[@]}"
 dnf clean all
 rm -rf /var/cache/yum
 EOF
+
+COPY scripts/install_zeromq_be.sh /tmp/install_zeromq_be.sh
+RUN chmod +x /tmp/install_zeromq_be.sh && /tmp/install_zeromq_be.sh "$(uname -m)"
 
 # Other apps and tools installed as default user
 USER 1001

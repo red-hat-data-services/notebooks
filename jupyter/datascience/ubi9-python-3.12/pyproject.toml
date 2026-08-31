@@ -64,4 +64,6 @@ override-dependencies = [
 constraint-dependencies = [
     # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability
     "onnx>=1.21.0",
+    # RH ppc64le/s390x wheels are pyarrow 25.0.0 (rhoai/3.5/cpu-ubi9); keep LE arches aligned
+    "pyarrow==25.0.0",
 ]
