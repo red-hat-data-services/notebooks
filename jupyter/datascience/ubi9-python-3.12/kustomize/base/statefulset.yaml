@@ -21,8 +21,6 @@ spec:
           imagePullPolicy: Always
           workingDir: /opt/app-root/src
           env:
-            - name: MPLBACKEND
-              value: Agg
             - name: NOTEBOOK_ARGS
               value: |-
                 --ServerApp.port=8888
@@ -34,34 +32,29 @@ spec:
             - name: notebook-port
               protocol: TCP
               containerPort: 8888
-          # Allow up to 10 minutes for startup on slow or constrained nodes (e.g. ppc64le in CI).
-          startupProbe:
-            tcpSocket:
-              port: notebook-port
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 60
+          # Generous delays for slow or constrained nodes (e.g. ppc64le in CI).
+          # Liveness must allow Jupyter + datascience deps to bind before first check (avoids restart loops).
           livenessProbe:
             tcpSocket:
               port: notebook-port
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: 120
+            periodSeconds: 10
             successThreshold: 1
-            failureThreshold: 3
+            failureThreshold: 6
           readinessProbe:
             httpGet:
               path: /notebook/opendatahub/jovyan/api
               port: notebook-port
               scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 90
+            periodSeconds: 10
             successThreshold: 1
-            failureThreshold: 3
-          # Jupyter + papermill share the pod cgroup; datascience unittest imports need >8Gi on ppc64le CI.
+            failureThreshold: 6
+          # Jupyter + papermill share the pod cgroup; keep headroom for datascience tests on ppc64le CI.
           resources:
             limits:
-              cpu: "2"
-              memory: 12Gi
+              cpu: 500m
+              memory: 4Gi
             requests:
-              cpu: "2"
-              memory: 12Gi
+              cpu: 500m
+              memory: 4Gi

@@ -177,9 +177,6 @@ ARG TARGETARCH
 ARG DATASCIENCE_SOURCE_CODE=jupyter/datascience/ubi9-python-3.12
 ARG TARGETARCH
 
-# Share a stable matplotlib config dir so build-time font cache is reused at runtime.
-ENV MPLCONFIGDIR=/opt/app-root/.config/matplotlib
-
 # pull_request_target runs workflow from main; clear stale BE CFLAGS per stage.
 ENV CFLAGS=
 ENV CXXFLAGS=
@@ -282,10 +279,6 @@ install -D -m 0644 /opt/app-root/bin/utils/jupyter_server_config.py \
 jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 # Apply JupyterLab addons
 /opt/app-root/bin/utils/addons/apply.sh
-# Pre-build matplotlib font cache so papermill E2E on memory-constrained BE CI
-# does not OOM while unittest imports run alongside first-time cache creation.
-mkdir -p "${MPLCONFIGDIR}"
-MPLBACKEND=Agg python -c 'import matplotlib.pyplot as plt; plt.figure(); plt.close("all")'
 # Fix permissions to support pip in Openshift environments
 chmod -R g+w /opt/app-root/lib/python3.12/site-packages
 fix-permissions /opt/app-root -P
