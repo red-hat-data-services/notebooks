@@ -51,6 +51,9 @@ override-dependencies = [
     "onnx>=1.21.0",
     "idna>=3.15",
     "jupyterlab>=4.6.2",
-    "pyarrow>=23.0.1",
     "setuptools>=83.0.0,<84",
+]
+constraint-dependencies = [
+    # RH ppc64le/s390x wheels are pyarrow 25.0.0 (rhoai/3.5/cpu-ubi9); keep LE arches aligned
+    "pyarrow==25.0.0",
 ]

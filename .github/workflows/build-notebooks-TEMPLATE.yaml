@@ -294,11 +294,7 @@ jobs:
           from typing import Literal
 
           extra_podman_build_args = ""
-          if "${{ inputs.platform }}" == "linux/s390x":
-             # workaround for known issue https://github.com/zeromq/libzmq/pull/4486
-             # In qemu-user, CACHELINE_SIZE probe is undefined
-             # Compiling pyzmq through UV needs this in CFLAGS
-             extra_podman_build_args += '--env=CFLAGS=-Dundefined=64 --env=CXXFLAGS=-Dundefined=64 --unsetenv=CFLAGS --unsetenv=CXXFLAGS'
+          # RH pyzmq wheels are prebuilt; pylock install no longer compiles libzmq on s390x.
 
           if "codeserver" in "${{ inputs.target }}":
              # Hermetic codeserver builds compile from source on every run — there
