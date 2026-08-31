@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Install OS dependencies required for JupyterLab PDF export.
-# Uses RHEL/UBI AppStream texlive RPMs plus tcolorbox from CTAN.
+# Uses RHEL/UBI AppStream texlive RPMs plus tcolorbox 4.42 (TeX Live 2020 vintage).
 # Pandoc comes from the RHOAI public-rhai pandoc-rhai wheel (x86_64, aarch64, ppc64le, s390x).
 # Requires AppStream (subscription or c9s); plain unsubscribed UBI lacks these packages
 # (see https://github.com/red-hat-data-services/notebooks/issues/2310).
-# AppStream texlive RPMs (RHAIENG-2186 / RHAIENG-2345); tcolorbox from CTAN, not EPEL/CDN.
+# AppStream texlive RPMs (RHAIENG-2186 / RHAIENG-2345); tcolorbox 4.42, not current CTAN/EPEL/CDN.
 
 set -Eeuxo pipefail
 
@@ -13,7 +13,7 @@ _arch="$(uname -m)"
 
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
 # texlive-tcolorbox is not in AppStream; do not use EPEL or the rhelai CDN RPM.
-# Install tcolorbox from CTAN after the AppStream texlive set.
+# Current CTAN tcolorbox 6.x needs tikz 2023 / \NewStructureName; pin 4.42 for TeX Live 2020.
 PACKAGES=(
 texlive-adjustbox
 texlive-bibtex
@@ -60,24 +60,36 @@ fi
 
 dnf clean all
 
-# tcolorbox is not in AppStream. Unpack the CTAN TDS zip into TEXMFLOCAL.
-# https://www.ctan.org/pkg/tcolorbox
-_tcolorbox_zip=/tmp/tcolorbox.tds.zip
+# tcolorbox is not in AppStream. Unpack tcolorbox 4.42 (TeX Live 2020 vintage) into TEXMFLOCAL.
+# Current CTAN 6.x fails on RHEL 9 XeTeX (\NewStructureName / tikz 2023).
+# https://github.com/T-F-S/tcolorbox/releases/tag/v4.42
+_tcolorbox_tgz=/tmp/tcolorbox-4.42.tar.gz
 curl --fail --location --show-error \
-    -o "${_tcolorbox_zip}" \
-    "https://mirror.ctan.org/install/macros/latex/contrib/tcolorbox.tds.zip"
+    -o "${_tcolorbox_tgz}" \
+    "https://github.com/T-F-S/tcolorbox/archive/refs/tags/v4.42.tar.gz"
 _texmf_local="$(kpsewhich -var-value TEXMFLOCAL)"
 mkdir -p "${_texmf_local}"
 python - "${_texmf_local}" <<'PY'
 import pathlib
 import sys
-import zipfile
+import tarfile
 
-dest = pathlib.Path(sys.argv[1])
-with zipfile.ZipFile("/tmp/tcolorbox.tds.zip") as zf:
-    zf.extractall(dest)
+dest = pathlib.Path(sys.argv[1]) / "tex" / "latex" / "tcolorbox"
+dest.mkdir(parents=True, exist_ok=True)
+with tarfile.open("/tmp/tcolorbox-4.42.tar.gz", "r:gz") as tf:
+    for member in tf.getmembers():
+        name = pathlib.PurePosixPath(member.name)
+        if not member.isfile() or name.suffix not in {".sty", ".tex", ".def", ".code"}:
+            continue
+        if name.suffix == ".tex" and not str(name).endswith(".code.tex"):
+            continue
+        target = dest / name.name
+        src = tf.extractfile(member)
+        if src is None:
+            continue
+        target.write_bytes(src.read())
 PY
-rm -f "${_tcolorbox_zip}"
+rm -f "${_tcolorbox_tgz}"
 
 # Unpack pandoc from the RHOAI wheel onto PATH.
 # Index: https://console.redhat.com/api/pypi/public-rhai/rhoai/3.5/cpu-ubi9/simple/pandoc-rhai/
