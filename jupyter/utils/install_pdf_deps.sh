@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Install dependencies required for Notebooks PDF exports
+# Install OS dependencies required for JupyterLab PDF export.
+# Uses RHEL/UBI AppStream texlive RPMs plus the RHOAI 3.3 texlive-tcolorbox
+# package and the RHOAI public-rhai pandoc-rhai wheel.
 
 set -Eeuxo pipefail
 
@@ -65,6 +67,9 @@ texlive-xetex
 # dependencies of texlive-tcolorbox
 texlive-environ
 texlive-trimspaces
+# runtime deps of the pandoc-rhai binary
+gmp
+libffi
 )
 
 dnf install -y "${PACKAGES[@]}"
@@ -84,34 +89,34 @@ pdflatex --version
 texhash
 kpsewhich tcolorbox.sty
 
-# pandoc installation
-# https://github.com/jgm/pandoc/releases/3.7.0.2
-# alternative installation method (EPEL, currently pandoc-2.14.0.3-17):
-#   dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-#   dnf install -y pandoc
-#   mkdir -p /usr/local/pandoc/bin
-#   ln -s /usr/bin/pandoc /usr/local/pandoc/bin/pandoc
-#   export PATH="/usr/local/pandoc/bin:$PATH"
-#   pandoc --version
-# github installation method (newer version, but missing ppc64le):
-#   curl -fL "https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-${ARCH}.tar.gz"  -o /tmp/pandoc.tar.gz
-#   mkdir -p /usr/local/pandoc
-#   tar xvzf /tmp/pandoc.tar.gz --strip-components 1 -C /usr/local/pandoc/
-#   rm -f /tmp/pandoc.tar.gz
+# Unpack pandoc from the RHOAI wheel onto PATH.
+# Index: https://console.redhat.com/api/pypi/public-rhai/rhoai/3.5/cpu-ubi9/simple/pandoc-rhai/
+case "$(uname -m)" in
+    x86_64|aarch64|ppc64le) _pandoc_arch="$(uname -m)" ;;
+    *) echo "ERROR: unsupported arch for pandoc-rhai wheel: $(uname -m)" >&2; exit 1 ;;
+esac
 
-if [[ "$ARCH" == "ppc64le" ]]; then
-  dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-  dnf install -y pandoc
-  mkdir -p /usr/local/pandoc/bin
-  ln -s /usr/bin/pandoc /usr/local/pandoc/bin/pandoc
-  export PATH="/usr/local/pandoc/bin:$PATH"
-  pandoc --version
-else
-  curl -fL "https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-${ARCH}.tar.gz"  -o /tmp/pandoc.tar.gz
-  mkdir -p /usr/local/pandoc
-  tar xvzf /tmp/pandoc.tar.gz --strip-components 1 -C /usr/local/pandoc/
-  rm -f /tmp/pandoc.tar.gz
-fi
+_pandoc_whl=/tmp/pandoc_rhai.whl
+curl --fail --location --show-error \
+    -o "${_pandoc_whl}" \
+    "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
+
+python - <<'PY'
+import pathlib
+import zipfile
+
+whl = pathlib.Path("/tmp/pandoc_rhai.whl")
+dest = pathlib.Path("/usr/local/bin/pandoc")
+with zipfile.ZipFile(whl) as zf:
+    names = [name for name in zf.namelist() if name.endswith("/data/bin/pandoc")]
+    if len(names) != 1:
+        raise SystemExit(f"expected one pandoc binary in wheel, found {names!r}")
+    dest.write_bytes(zf.read(names[0]))
+dest.chmod(0o755)
+PY
+rm -f "${_pandoc_whl}"
+
+pandoc --version
 
 # clean up /tmp
 rm -rf /tmp/* /tmp/.[!.]*
