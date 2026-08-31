@@ -3,13 +3,9 @@
 
 Two strategies:
   replace   — swap the entire [[packages]] block from the reference lock (all arches).
-              Use for Rust-backed packages (uv, ripgrep) where PyPI sdists break hermeto,
-              and for RH-index-only packages (pandoc-rhai) that uv pip compile cannot emit.
-              Missing names in the target lock are inserted in name order.
-              Names absent from the reference lock are skipped.
+              Use for Rust-backed packages (uv, ripgrep) where PyPI sdists break hermeto.
   merge-be  — keep PyPI wheels for x86_64/aarch64; add RH wheels for ppc64le/s390x only;
               drop sdists. Aligns rhoai-2.25 with public PyPI on LE while BE stays offline.
-              Names absent from the reference or target lock are skipped.
 
 Usage:
     patch-rh-wheel-only-packages.py replace <pylock.toml> <reference.toml> pkg [pkg ...]
@@ -179,33 +175,23 @@ def strip_sdist(header: str) -> str:
 
 def patch_replace(target: Path, reference: Path, names: list[str]) -> None:
     ref_map = load_package_map(reference)
-    names = [name for name in names if name in ref_map]
-    if not names:
-        print("  No matching RH replace packages in reference lock; skipping")
-        return
+    missing = [name for name in names if name not in ref_map]
+    if missing:
+        raise SystemExit(f"Reference lock missing packages: {', '.join(missing)}")
 
     header, blocks = split_packages(target.read_text(encoding="utf-8"))
-    names_set = set(names)
     updated: list[str] = []
-    inserted: set[str] = set()
-
-    def flush_before(next_name: str | None) -> None:
-        for name in sorted(names_set - inserted):
-            if next_name is None or name < next_name:
-                updated.append(ref_map[name].rstrip() + "\n")
-                inserted.add(name)
-
+    replaced: set[str] = set()
     for block in blocks:
         name = package_name(block)
-        if name in names_set:
-            flush_before(name)
+        if name in names:
             updated.append(ref_map[name].rstrip() + "\n")
-            inserted.add(name)
+            replaced.add(name)
         else:
-            if name:
-                flush_before(name)
             updated.append(block.rstrip() + "\n")
-    flush_before(None)
+
+    for name in sorted(set(names) - replaced):
+        updated.append(ref_map[name].rstrip() + "\n")
 
     target.write_text(header + "\n".join(updated), encoding="utf-8")
     print(f"  Replaced RH wheel-only entries for: {', '.join(names)}")
@@ -213,19 +199,17 @@ def patch_replace(target: Path, reference: Path, names: list[str]) -> None:
 
 def patch_merge_be(target: Path, reference: Path, names: list[str]) -> None:
     ref_map = load_package_map(reference)
-    names = [name for name in names if name in ref_map]
-    if not names:
-        print("  No matching RH merge-be packages in reference lock; skipping")
-        return
+    missing = [name for name in names if name not in ref_map]
+    if missing:
+        raise SystemExit(f"Reference lock missing packages: {', '.join(missing)}")
 
     header, blocks = split_packages(target.read_text(encoding="utf-8"))
     updated: list[str] = []
     merged: set[str] = set()
-    names_set = set(names)
 
     for block in blocks:
         name = package_name(block)
-        if name not in names_set:
+        if name not in names:
             updated.append(block.rstrip() + "\n")
             continue
 
@@ -256,12 +240,11 @@ def patch_merge_be(target: Path, reference: Path, names: list[str]) -> None:
         updated.append(new_block.rstrip() + "\n")
         merged.add(name)
 
-    skipped = sorted(names_set - merged)
-    if skipped:
-        print(f"  Skipped merge-be (not in target lock): {', '.join(skipped)}")
+    if merged != set(names):
+        raise SystemExit(f"Target lock missing packages to merge: {', '.join(sorted(set(names) - merged))}")
 
     target.write_text(header + "\n".join(updated), encoding="utf-8")
-    print(f"  Merged BE RH wheels for: {', '.join(sorted(merged)) if merged else '(none)'}")
+    print(f"  Merged BE RH wheels for: {', '.join(names)}")
 
 
 def _find_wheel_line(block: str, url: str) -> str:

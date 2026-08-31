@@ -108,15 +108,15 @@ if [[ ${#FAILED_DIRS[@]} -gt 0 ]]; then
 fi
 
 PATCH_SCRIPT="$ROOT_DIR/scripts/lockfile-generators/helpers/patch-rh-wheel-only-packages.py"
-# RH-index-only (or all-arch RH) packages: replace/insert the full ref block.
-RH_WHEEL_REPLACE_ALL=(uv ripgrep pandoc-rhai)
 while IFS= read -r -d '' ref_file; do
   lock_dir=$(dirname "$(dirname "$ref_file")")
   lock_file="$lock_dir/pylock.toml"
   if [[ ! -f "$lock_file" ]]; then
     continue
   fi
-  python3 "$PATCH_SCRIPT" replace "$lock_file" "$ref_file" "${RH_WHEEL_REPLACE_ALL[@]}"
+  if grep -Fq 'name = "pandoc-rhai"' "$ref_file"; then
+    python3 "$PATCH_SCRIPT" replace "$lock_file" "$ref_file" pandoc-rhai
+  fi
   merge_pkgs=()
   while IFS= read -r pkg; do
     [[ -n "$pkg" ]] && merge_pkgs+=("$pkg")
