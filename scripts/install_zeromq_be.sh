@@ -60,7 +60,7 @@ cmake --build "${workdir}/thrift-build" -j"$(nproc)"
 cmake --install "${workdir}/thrift-build"
 thrift_soname="$(find /usr/lib64 /usr/lib -maxdepth 1 -name 'libthrift.so.*' -type f 2>/dev/null | sort -V | tail -1)"
 test -n "${thrift_soname}"
-ln -sf "$(basename "${thrift_soname}")" "$(dirname "${thrift_soname}")/libthrift-0.24.0.so"
+ln -sf "${thrift_soname}" /usr/lib64/libthrift-0.24.0.so
 
 curl -fL "https://github.com/google/re2/archive/refs/tags/${RE2_VERSION}.tar.gz" \
     -o "${workdir}/re2.tar.gz"
