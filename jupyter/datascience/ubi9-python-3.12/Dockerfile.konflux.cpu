@@ -70,7 +70,7 @@ echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
     PACKAGES=(perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel)
 elif [ "$TARGETARCH" = "ppc64le" ]; then
-    PACKAGES=(perl mesa-libGL skopeo gcc gcc-c++ make autoconf automake libtool)
+    PACKAGES=(perl mesa-libGL skopeo gcc gcc-c++ make autoconf automake libtool cmake openssl-devel)
 else
     PACKAGES=(perl mesa-libGL skopeo)
 fi
@@ -79,8 +79,8 @@ dnf install -y "${PACKAGES[@]}"
 dnf clean all && rm -rf /var/cache/yum
 EOF
 
-COPY scripts/install_zeromq_be.sh /tmp/install_zeromq_be.sh
-RUN chmod +x /tmp/install_zeromq_be.sh && /tmp/install_zeromq_be.sh "$TARGETARCH"
+COPY scripts/install_libzmq_be.sh scripts/install_zeromq_be.sh /tmp/
+RUN chmod +x /tmp/install_libzmq_be.sh /tmp/install_zeromq_be.sh && /tmp/install_zeromq_be.sh "$TARGETARCH"
 
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
