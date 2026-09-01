@@ -75,10 +75,15 @@ endif
 define build_image
 	$(eval IMAGE_NAME := $(IMAGE_REGISTRY):$(1)-$(IMAGE_TAG))
 
-	# Checks if there’s a build-args/*.conf matching the Dockerfile
+	# Checks if there’s a build-args/*.conf matching the Dockerfile.
+	# RHOAI GHA/Konflux builds use AIPCC RHEL bases (konflux.*.conf); ODH uses c9s/UBI conf.
 	$(eval BUILD_DIR := $(dir $(2)))
 	$(eval DOCKERFILE_NAME := $(notdir $(2)))
-	$(eval CONF_FILE := $(BUILD_DIR)build-args/$(shell echo $(DOCKERFILE_NAME) | cut -d. -f2).conf)
+	$(eval CONF_FILE := $(shell \
+		flavor=$$(echo '$(DOCKERFILE_NAME)' | cut -d. -f2); \
+		konflux='$(BUILD_DIR)build-args/konflux.'$$flavor'.conf'; \
+		default='$(BUILD_DIR)build-args/'$$flavor'.conf'; \
+		if [ '$(PRODUCT)' = rhoai ] && [ -f "$$konflux" ]; then echo "$$konflux"; else echo "$$default"; fi))
 
 	# if the conf file exists, transform it into quoted --build-arg flags
 	# NOTE: lines must match KEY=VALUE; single quotes in values are escaped

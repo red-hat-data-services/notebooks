@@ -23,6 +23,16 @@ if [[ "$(uname -m)" == "s390x" ]]; then
     exit 0
 fi
 
+enable_rhelai_texlive_repo() {
+    local basearch
+    basearch="$(uname -m)"
+    # Layered-product repo for texlive-tcolorbox (RHAIENG-4114 / AIPCC-7791).
+    if command -v subscription-manager &>/dev/null; then
+        subscription-manager repos --enable "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+    fi
+    dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+}
+
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
 PACKAGES=(
 texlive-adjustbox
@@ -42,8 +52,6 @@ texlive-parskip
 texlive-plain
 texlive-pxfonts
 texlive-rsfs
-# available in epel but not in rhel9
-#texlive-tcolorbox
 texlive-times
 texlive-titling
 texlive-txfonts
@@ -60,17 +68,19 @@ texlive-trimspaces
 )
 
 dnf install -y "${PACKAGES[@]}"
+
+enable_rhelai_texlive_repo
+if ! dnf install -y texlive-tcolorbox; then
+    echo "ERROR: Failed to install texlive-tcolorbox from rhelai-3.3-for-rhel-9-$(uname -m)-rpms." >&2
+    echo "AppStream texlive packages require a subscribed RHEL/AIPCC build or c9s AppStream." >&2
+    echo "Unsubscribed UBI-only template builds are tracked in" >&2
+    echo "https://github.com/red-hat-data-services/notebooks/issues/2310" >&2
+    exit 1
+fi
+
 dnf clean all
 
 pdflatex --version
-
-# install texlive-tcolorbox by other means
-dnf install -y cpio
-dnf clean all
-pushd /
-texlive_toolbox_rpm=https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/t/texlive-tcolorbox-20200406-38.el9.noarch.rpm
-curl -sSfL ${texlive_toolbox_rpm} | rpm2cpio /dev/stdin | cpio -idmv
-popd
 texhash
 kpsewhich tcolorbox.sty
 

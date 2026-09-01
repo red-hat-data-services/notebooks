@@ -1,6 +1,15 @@
 #!/bin/bash
 set -Eeuxo pipefail
 
+enable_rhelai_texlive_repo() {
+    local basearch
+    basearch="$(uname -m)"
+    if command -v subscription-manager &>/dev/null; then
+        subscription-manager repos --enable "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+    fi
+    dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+}
+
 # https://github.com/rh-aiservices-bu/workbench-images/blob/main/snippets/ides/1-jupyter/os/os-packages.txt
 PACKAGES=(
 texlive-adjustbox
@@ -20,8 +29,6 @@ texlive-parskip
 texlive-plain
 texlive-pxfonts
 texlive-rsfs
-# available in epel but not in rhel9
-#texlive-tcolorbox
 texlive-times
 texlive-titling
 texlive-txfonts
@@ -38,16 +45,12 @@ texlive-trimspaces
 )
 
 dnf install -y "${PACKAGES[@]}"
+
+enable_rhelai_texlive_repo
+dnf install -y texlive-tcolorbox
+
 dnf clean all
 
 pdflatex --version
-
-# install texlive-tcolorbox by other means
-dnf install -y cpio
-dnf clean all
-pushd /
-texlive_toolbox_rpm=https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/t/texlive-tcolorbox-20200406-38.el9.noarch.rpm
-curl -sSfL ${texlive_toolbox_rpm} | rpm2cpio /dev/stdin | cpio -idmv
-popd
 texhash
 kpsewhich tcolorbox.sty
