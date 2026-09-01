@@ -214,6 +214,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Verify SHAs match version comments
         # aquasecurity org has an IP allowlist that blocks GHA runners
-        run: pinact run --verify --exclude '^aquasecurity/trivy-action$'
+        # devops-shared-resources reusable workflow cannot be verified by pinact --verify
+        run: pinact run --verify --exclude '^aquasecurity/trivy-action$' --exclude '^red-hat-data-services/devops-shared-resources/.*'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
