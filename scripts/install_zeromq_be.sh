@@ -41,6 +41,8 @@ tar -xzf "${workdir}/thrift.tar.gz" -C "${workdir}"
 cmake -S "${workdir}/thrift-${THRIFT_VERSION}" -B "${workdir}/thrift-build" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib64 \
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_COMPILER=OFF \
     -DBUILD_TESTING=OFF \
     -DBUILD_TUTORIALS=OFF \
@@ -56,6 +58,9 @@ cmake -S "${workdir}/thrift-${THRIFT_VERSION}" -B "${workdir}/thrift-build" \
     -DWITH_OPENSSL=ON
 cmake --build "${workdir}/thrift-build" -j"$(nproc)"
 cmake --install "${workdir}/thrift-build"
+thrift_soname="$(find /usr/lib64 /usr/lib -maxdepth 1 -name 'libthrift.so.*' -type f 2>/dev/null | sort -V | tail -1)"
+test -n "${thrift_soname}"
+ln -sf "$(basename "${thrift_soname}")" "$(dirname "${thrift_soname}")/libthrift-0.24.0.so"
 
 curl -fL "https://github.com/google/re2/archive/refs/tags/${RE2_VERSION}.tar.gz" \
     -o "${workdir}/re2.tar.gz"
@@ -63,6 +68,7 @@ tar -xzf "${workdir}/re2.tar.gz" -C "${workdir}"
 cmake -S "${workdir}/re2-${RE2_VERSION}" -B "${workdir}/re2-build" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib64 \
     -DBUILD_SHARED_LIBS=ON \
     -DRE2_BUILD_TESTING=OFF
 cmake --build "${workdir}/re2-build" -j"$(nproc)"
@@ -72,7 +78,7 @@ cmake --install "${workdir}/re2-build"
 
 ldconfig
 
-dnf remove -y "${DNF_OPTS[@]}" boost-devel libevent-devel zlib-devel openssl-devel || true
+dnf remove -y "${DNF_OPTS[@]}" boost-devel libevent-devel || true
 dnf clean all
 
 if test -f /usr/lib64/libopenblasp.so.0 && ! test -e /usr/lib64/libopenblas.so.0; then
