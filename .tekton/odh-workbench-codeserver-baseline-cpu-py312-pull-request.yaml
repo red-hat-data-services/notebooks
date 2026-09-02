@@ -11,7 +11,6 @@ metadata:
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-codeserver-baseline)"
     pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-workbench, kfbuild-cpu, kfbuild-codeserver-baseline, kfbuild-workbench-codeserver-baseline-cpu]"
     pipelinesascode.tekton.dev/on-target-branch: '[{{target_branch}}]'
-    pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-odh-wb-codeserver-baseline-cpu-py312
