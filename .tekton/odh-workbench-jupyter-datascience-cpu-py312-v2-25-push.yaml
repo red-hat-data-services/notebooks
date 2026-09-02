@@ -1,6 +1,6 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
-# konflux build manual retrigger - 2026-05-29 15:32:03
+# konflux build manual retrigger - 2026-09-02 02:05:00
 metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/red-hat-data-services/notebooks?rev={{revision}}
@@ -15,7 +15,9 @@ metadata:
       && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-v2-25-push.yaml".pathChanged() ||
            "jupyter/utils/**".pathChanged() ||
            "jupyter/minimal/ubi9-python-3.12/**".pathChanged() ||
-           "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() )
+           "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() ||
+           "jupyter/datascience/ubi9-python-3.12/**".pathChanged() ||
+           "scripts/**".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v2-25
     appstudio.openshift.io/component: odh-workbench-jupyter-datascience-cpu-py312-v2-25
