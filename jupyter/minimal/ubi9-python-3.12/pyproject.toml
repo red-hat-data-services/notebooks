@@ -14,6 +14,8 @@ dependencies = [
     "jupyterlab-git~=0.54.0",
     "nbdime~=4.0.2",
     "nbgitpuller~=1.2.2",
+    # PDF export (nbconvert): pandoc-rhai is RH-index-only; injected into pylock.toml
+    # from uv.lock.d/rh-wheel-only.ref.toml (not listed here — not on public PyPI).
 
     # Base packages
     "wheel~=0.46.2",

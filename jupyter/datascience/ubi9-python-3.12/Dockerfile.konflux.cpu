@@ -251,6 +251,7 @@ else
         --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match \
         --requirements=./pylock.toml
 fi
+pandoc --version
 mkdir /opt/app-root/runtimes
 mkdir /opt/app-root/pipeline-runtimes
 rm /opt/app-root/share/jupyter/metadata/runtime-images/*.json
