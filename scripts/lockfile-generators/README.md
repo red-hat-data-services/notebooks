@@ -292,7 +292,7 @@ python3 scripts/lockfile-generators/create-artifact-lockfile.py \
 
 After running these, the generated files are:
 
-```
+```text
 codeserver/ubi9-python-3.12/
 ├── requirements.cpu.txt                      # pinned pip packages (generated from pylock.cpu.toml)
 ├── uv.lock.d/
@@ -741,7 +741,12 @@ packages on ppc64le and s390x**. Baseline `pyproject.toml` files therefore:
 
 - Keep **uv, wheel, setuptools, micropipenv, ripgrep** (etc.) ungated so every arch resolves.
 - Gate **Jupyter / Elyra / Kale stacks** with
-  `sys_platform == 'linux' and (platform_machine == 'x86_64' or platform_machine == 'aarch64')`.
+  `platform_machine != 'ppc64le' and platform_machine != 's390x'`
+  (same form as AIPCC meta packages). Pair that with a single
+  `[tool.uv] environments` entry
+  (`sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'`)
+  so exported requirements.txt markers include linux/cpython plus the exclusion. Do not list four arch-specific
+  environments: uv then emits ``== x86_64 or == aarch64`` ORs instead of ``!= ppc64le``.
 - Set `[tool.uv] required-environments` for all four arches so lock resolution fails early
   if a truly universal dep is missing a wheel on any platform.
 
