@@ -3,7 +3,7 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/opendatahub-io/notebooks?style=plastic)](https://github.com/opendatahub-io/notebooks/releases)
 ![GitHub License](https://img.shields.io/github/license/opendatahub-io/notebooks)
 
-
+<!-- Konflux experiment: control PR (README-only, no bind-mount fix). -->
 Welcome to the OpenDataHub Notebooks repository! This repository provides a collection of notebooks tailored for data analysis, machine learning, research and coding within the OpenDataHub ecosystem. Designed to streamline data science workflows, these notebooks offer an integrated environment equipped with the latest tools and libraries. These notebooks were created to be used with OpenDataHub ecosystem with the ODH Notebook Controller as the launcher.
 
 These workbenches are available at: [quay.io/repository/opendatahub/workbench-images](https://quay.io/repository/opendatahub/workbench-images)

@@ -42,12 +42,12 @@ spec:
   - name: enable-cache-proxy
     value: true
   - name: hermetic
-    value: false
+    value: 'true'
   - name: build-image-index
     value: true
   - name: build-platforms
     value:
-    - linux-extra-fast/amd64
+    - linux/x86_64
     - linux-d160-m2xlarge/arm64
   - name: image-expires-after
     value: 5d
