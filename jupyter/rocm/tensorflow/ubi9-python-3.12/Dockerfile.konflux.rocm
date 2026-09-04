@@ -199,6 +199,7 @@ EOF
 # Workaround for https://issues.redhat.com/browse/AIPCC-8152
 ENV ROCM_PATH=/opt/rocm
 
+USER 1001
 WORKDIR /opt/app-root/src
 
 LABEL name="rhoai/odh-workbench-jupyter-tensorflow-rocm-py312-rhel9" \
