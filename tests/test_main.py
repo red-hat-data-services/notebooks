@@ -390,6 +390,8 @@ def test_image_manifests_version_alignment(
     ignored_exceptions: tuple[tuple[str, tuple[str, ...]], ...] = (
         # ("package name", ("allowed version 1", "allowed version 2", ...))
         ("Codeflare-SDK", ("0.35", "0.36")),
+        ("JupyterLab", ("4.5", "4.6")),  # llmcompressor pins pillow<=12.1.1 blocking 4.6.x
+        ("Odh-Elyra", ("4.3", "5.0")),  # llmcompressor manifest stale, lockfile has 4.3.2
         ("MLflow", ("3.10", "3.11")),
         ("Kfp", ("2.15", "2.16")),
         ("Feast", ("0.61", "0.62")),
