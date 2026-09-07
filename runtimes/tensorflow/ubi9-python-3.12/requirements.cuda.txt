@@ -124,8 +124,8 @@ gast==0.7.0 ; python_full_version >= '3.12' and implementation_name == 'cpython'
     --hash=sha256:f9d3298beab561c2064626650eaf01b376a023c0d8811d3c61d5a440f8e8ec44
 gitdb==4.0.12 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7eb16a6e9c4562cc1be28136acd015b3c1f40329962b2cd385d3b576771a4cf0
-gitpython==3.1.52 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:74daaf876217eb1542d9e757f94c8557d6a1c32adb82e1dea4c4573e1add71d4
+gitpython==3.1.57 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a44bd2d4746c75c364d270dd7b313b106d176323caae5690b4d466e5f9d85c5a
 google-api-core==2.30.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6e1330f5ec6439eee90e12987912b9d11c7507cd561652c11db9d891832025b4
 google-auth==2.49.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -365,6 +365,8 @@ py-spy==0.4.1 ; python_full_version >= '3.12' and implementation_name == 'cpytho
 pyarrow==23.0.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:fe670d3b6e6e17fc28fa5ddb20ee20db289fa6e4b40279a5643e7963692ba014 \
     --hash=sha256:b09f0daa4cc8d593fd0f2a28dedb42f485efc802045c83082826edcc88c7437e \
+    --hash=sha256:bada776b3156c9702f05e83cfa877672ea627f3ff3e8520d5c20347e8994826b \
+    --hash=sha256:b6e14427c25c83eaf49cec19b0eaa8b743827281afb7f9ba44ceff1bb67a9db5 \
     --hash=sha256:5f2aefda93dff508a809f26899c744d276f2d707fdefa473301d0daa3aa156e9 \
     --hash=sha256:8c9d009aa86f24541e2e481edbaf99cdf31550938f88b05fee0fecb208e25043 \
     --hash=sha256:de982b9bd68e72a4bf805056649932432a60ed172bd27ff9c3808c4913c4d9e0 \
