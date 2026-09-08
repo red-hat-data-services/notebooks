@@ -15,7 +15,9 @@ metadata:
       && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-v2-25-push.yaml".pathChanged() ||
            "jupyter/utils/**".pathChanged() ||
            "jupyter/minimal/ubi9-python-3.12/**".pathChanged() ||
-           "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() )
+           "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() ||
+           "jupyter/datascience/ubi9-python-3.12/**".pathChanged() ||
+           "scripts/**".pathChanged() )
   labels:
     appstudio.openshift.io/application: rhoai-v2-25
     appstudio.openshift.io/component: odh-workbench-jupyter-datascience-cpu-py312-v2-25

@@ -24,6 +24,11 @@ make -j"$(nproc)"
 make install
 ldconfig
 
+if test -f /usr/lib/libzmq.so.5 && ! test -e /usr/lib64/libzmq.so.5; then
+    ln -sf /usr/lib/libzmq.so.5 /usr/lib64/libzmq.so.5
+    ldconfig
+fi
+
 if ! test -f /usr/lib64/libzmq.so.5 && ! test -f /usr/lib/libzmq.so.5; then
     echo "Error: libzmq.so.5 was not found after installation" >&2
     exit 1

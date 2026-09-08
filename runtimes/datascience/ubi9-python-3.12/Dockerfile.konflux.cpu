@@ -50,7 +50,7 @@ fi
 if [ "$TARGETARCH" = "s390x" ]; then
     PACKAGES+=(gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel openssl zlib-devel)
 elif [ "$TARGETARCH" = "ppc64le" ]; then
-    PACKAGES+=(gcc gcc-c++ make unixODBC-devel autoconf automake libtool)
+    PACKAGES+=(gcc gcc-c++ make unixODBC-devel autoconf automake libtool cmake openssl-devel)
 fi
 if [ ${#PACKAGES[@]} -gt 0 ]; then
     echo "Installing: ${PACKAGES[*]}"
@@ -59,8 +59,8 @@ if [ ${#PACKAGES[@]} -gt 0 ]; then
 fi
 EOF
 
-COPY scripts/install_zeromq_be.sh /tmp/install_zeromq_be.sh
-RUN chmod +x /tmp/install_zeromq_be.sh && /tmp/install_zeromq_be.sh "$TARGETARCH"
+COPY scripts/install_libzmq_be.sh scripts/install_zeromq_be.sh /tmp/
+RUN chmod +x /tmp/install_libzmq_be.sh /tmp/install_zeromq_be.sh && /tmp/install_zeromq_be.sh "$TARGETARCH"
 
 # For s390x only, set ENV vars and install Rust
 RUN /bin/bash <<'EOF'
