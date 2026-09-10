@@ -1343,6 +1343,8 @@ marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' a
 wheels = [
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6-EA1/cuda13.0-ubi9/pandas-2.3.3-3-cp312-cp312-linux_aarch64.whl", upload-time = 2026-08-14T07:19:22Z, size = 12065023, hashes = { sha256 = "0534f0ffc31cfc27209f097aa958ac0d6d0625c02e50f368d251b2fb3e57c860" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6-EA1/cuda13.0-ubi9/pandas-2.3.3-3-cp312-cp312-linux_x86_64.whl", upload-time = 2026-08-15T14:12:57Z, size = 12761080, hashes = { sha256 = "0a1c798d214f04d70828e492071350d40630d2250825869d137cc1e69b683665" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6-EA1/cuda13.0-ubi9/pandas-2.3.3-4-cp312-cp312-linux_aarch64.whl", upload-time = 2026-08-28T00:52:18Z, size = 12053826, hashes = { sha256 = "900b4202267fd4921a2cbf16dcb6e6ce0b1f331f8ea25657610ae33d7599c58f" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6-EA1/cuda13.0-ubi9/pandas-2.3.3-4-cp312-cp312-linux_x86_64.whl", upload-time = 2026-08-28T00:45:38Z, size = 12742529, hashes = { sha256 = "7eadb0e55acd1fc3c1c3129ddde47629ff38b0dead0ff023d5626c3d2d05a9e0" } },
 ]
 
 [[packages]]

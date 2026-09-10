@@ -294,7 +294,9 @@ packaging==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cp
     --hash=sha256:78b6de736023f1d0527818f140c4c9fe41a24ba50ea5ab48e0971b948b3b8025
 pandas==2.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0534f0ffc31cfc27209f097aa958ac0d6d0625c02e50f368d251b2fb3e57c860 \
-    --hash=sha256:0a1c798d214f04d70828e492071350d40630d2250825869d137cc1e69b683665
+    --hash=sha256:0a1c798d214f04d70828e492071350d40630d2250825869d137cc1e69b683665 \
+    --hash=sha256:900b4202267fd4921a2cbf16dcb6e6ce0b1f331f8ea25657610ae33d7599c58f \
+    --hash=sha256:7eadb0e55acd1fc3c1c3129ddde47629ff38b0dead0ff023d5626c3d2d05a9e0
 pandocfilters==1.5.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e910fdfb5465e33f4007a3f9e90a56a79f78a62a150ad24d6ebe7d846dedb95e
 papermill==2.7.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
