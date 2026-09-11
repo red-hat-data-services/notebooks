@@ -14,7 +14,7 @@ metadata:
       && target_branch == "rhoai-3.3"
       && !("manifests/base/params-latest.env".pathChanged())
       && ( ".tekton/odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-3-push.yaml".pathChanged() ||
-           "runtimes/pytorch-llmcompressor/ubi9-python-3.12/**".pathChanged())
+           "runtimes/pytorch+llmcompressor/ubi9-python-3.12/**".pathChanged())
   labels:
     appstudio.openshift.io/application: rhoai-v3-3
     appstudio.openshift.io/component: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-3
