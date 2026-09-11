@@ -15,7 +15,8 @@ metadata:
       && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-pull-request.yaml".pathChanged() ||
       "jupyter/utils/**".pathChanged() ||
       "jupyter/minimal/ubi9-python-3.12/**".pathChanged() ||
-      "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() )
+      "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() ||
+      "jupyter/datascience/ubi9-python-3.12/**".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-datascience)"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:
