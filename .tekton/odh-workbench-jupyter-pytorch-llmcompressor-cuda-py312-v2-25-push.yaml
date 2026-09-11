@@ -14,7 +14,7 @@ metadata:
       && target_branch == "rhoai-2.25"
       && !("manifests/base/params-latest.env".pathChanged())
       && ( ".tekton/odh-workbench-jupyter-pytorch-llmcompressor-cuda-py312-v2-25-push.yaml".pathChanged() ||
-           "jupyter/pytorch-llmcompressor/ubi9-python-3.12/**".pathChanged() ||
+           "jupyter/pytorch+llmcompressor/ubi9-python-3.12/**".pathChanged() ||
            "cuda/**".pathChanged() ||
            "jupyter/utils/**".pathChanged() ||
            "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() ||
