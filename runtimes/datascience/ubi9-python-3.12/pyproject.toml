@@ -37,6 +37,8 @@ override-dependencies = [
     "cryptography>=46.0.7",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.3",
+    # RHAIENG-6855: CVE-2026-57516 Ray WebDataset unsafe deserialization (fixed in ray>=2.56.0)
+    "ray~=2.56.0",
 ]
 constraint-dependencies = [
     # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability

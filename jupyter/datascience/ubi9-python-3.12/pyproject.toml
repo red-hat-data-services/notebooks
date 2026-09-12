@@ -60,6 +60,8 @@ override-dependencies = [
     # odh-elyra -> appengine-python-standard caps urllib3<2; override required (constraints unsatisfiable)
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
     "urllib3>=2.6.0",
+    # RHAIENG-6855: CVE-2026-57516 Ray WebDataset unsafe deserialization (fixed in ray>=2.56.0)
+    "ray~=2.56.0",
 ]
 constraint-dependencies = [
     # RHAIENG-4275: CVE-2026-27489 ONNX path traversal vulnerability
