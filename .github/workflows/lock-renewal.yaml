@@ -378,6 +378,10 @@ jobs:
 
       - name: Validate manifests (make test)
         run: make test
+        env:
+          # Renewals run on release branches (e.g. rhoai-3.5) that lag main; compare to the
+          # checked-out tip before renewal commits, not origin/main (see code-quality.yaml).
+          NOTEBOOKS_DOWNGRADE_BASE_REF: ${{ github.sha }}
 
       - name: Create Pull Request
         env:
