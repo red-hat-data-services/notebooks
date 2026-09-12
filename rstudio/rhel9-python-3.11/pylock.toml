@@ -6,17 +6,17 @@ requires-python = ">=3.11"
 
 [[packages]]
 name = "packaging"
-version = "26.2"
+version = "26.3"
 marker = "(python_full_version == '3.11.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.11.*' and platform_machine == 'x86_64' and sys_platform == 'linux')"
-sdist = { url = "https://files.pythonhosted.org/packages/d7/f1/e7a6dd94a8d4a5626c03e4e99c87f241ba9e350cd9e6d75123f992427270/packaging-26.2.tar.gz", upload-time = 2026-04-24T20:15:23Z, size = 228134, hashes = { sha256 = "ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl", upload-time = 2026-04-24T20:15:22Z, size = 100195, hashes = { sha256 = "5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/7d/fa/3944b40b07da9ce895c0e6303a5ab7d53da063554f534556b134a54d6093/packaging-26.3.tar.gz", upload-time = 2026-08-04T18:15:28Z, size = 313412, hashes = { sha256 = "94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl", upload-time = 2026-08-04T18:15:27Z, size = 129956, hashes = { sha256 = "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c" } }]
 
 [[packages]]
 name = "setuptools"
-version = "80.9.0"
+version = "84.0.0"
 marker = "(python_full_version == '3.11.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.11.*' and platform_machine == 'x86_64' and sys_platform == 'linux')"
-sdist = { url = "https://files.pythonhosted.org/packages/18/5d/3bf57dcd21979b887f014ea83c24ae194cfcd12b9e0fda66b957c69d1fca/setuptools-80.9.0.tar.gz", upload-time = 2025-05-27T00:56:51Z, size = 1319958, hashes = { sha256 = "f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl", upload-time = 2025-05-27T00:56:49Z, size = 1201486, hashes = { sha256 = "062d34222ad13e0cc312a4c02d73f059e86a4acbfbdea8f8f76b28c99f306922" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/44/f5da03a8ef95d369145c5bb53050e7877c9f3d312e128605fd9504829143/setuptools-84.0.0.tar.gz", upload-time = 2026-08-08T18:27:58Z, size = 1168449, hashes = { sha256 = "f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/95/9c/c510029fc6ef33a6275cd2c5d3cecd6613dfd6aa401d57c54f1c18852ccf/setuptools-84.0.0-py3-none-any.whl", upload-time = 2026-08-08T18:27:56Z, size = 818216, hashes = { sha256 = "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670" } }]
 
 [[packages]]
 name = "wheel"
