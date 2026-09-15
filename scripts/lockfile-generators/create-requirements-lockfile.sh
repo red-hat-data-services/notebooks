@@ -182,6 +182,9 @@ if [[ -f "$RH_WHEEL_REF" ]]; then
   echo "=== Patching RH wheel-only packages for hermeto prefetch ==="
   # Rust sdists break hermeto cargo prefetch — replace on all arches.
   RH_WHEEL_REPLACE_ALL=(uv ripgrep)
+  if grep -Fq 'name = "pandoc-rhai"' "$RH_WHEEL_REF"; then
+    RH_WHEEL_REPLACE_ALL+=(pandoc-rhai)
+  fi
   # Native deps missing ppc64le/s390x PyPI wheels — merge BE RH wheels only.
   RH_WHEEL_MERGE_BE=(
       argon2-cffi-bindings cryptography debugpy httptools librt markupsafe
