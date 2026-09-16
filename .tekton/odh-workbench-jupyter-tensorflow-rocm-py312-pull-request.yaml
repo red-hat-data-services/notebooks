@@ -7,6 +7,17 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      event == "pull_request"
+      && target_branch == "rhoai-3.3"
+      && !("manifests/base/params-latest.env".pathChanged())
+      && ( ".tekton/odh-workbench-jupyter-tensorflow-rocm-py312-pull-request.yaml".pathChanged() ||
+      "jupyter/rocm/tensorflow/ubi9-python-3.12/**".pathChanged() ||
+      "jupyter/utils/**".pathChanged() ||
+      "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() ||
+      "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() ||
+      "jupyter/datascience/ubi9-python-3.12/mssql-3.3.repo-x86_64/**".pathChanged() ||
+      "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-tensorflow-rocm)"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:

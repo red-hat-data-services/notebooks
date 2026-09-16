@@ -8,22 +8,15 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "pull_request"
-      && target_branch == "rhoai-3.3"
-      && !("manifests/base/params-latest.env".pathChanged())
-      && ( ".tekton/odh-workbench-jupyter-datascience-cpu-py312-pull-request.yaml".pathChanged() ||
-      "jupyter/utils/**".pathChanged() ||
-      "jupyter/minimal/ubi9-python-3.12/**".pathChanged() ||
-      "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() ||
-      "jupyter/datascience/ubi9-python-3.12/**".pathChanged() )
-    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-datascience)"
+    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-pytorch-llmcompressor-cuda)"
+    pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-pytorch, kfbuild-cuda, kfbuild-llmcompressor, kfbuild-runtime-pytorch-llmcompressor-cuda]"
+    pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
   labels:
     appstudio.openshift.io/application: automation
     appstudio.openshift.io/component: pull-request-pipelines-notebooks
     pipelines.appstudio.openshift.io/type: build
-  name: odh-workbench-jupyter-datascience-cpu-py312-on-pull-request
+  name: odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-on-pull-request-77104
   namespace: rhoai-tenant
 spec:
   params:
@@ -33,37 +26,44 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/rhoai/pull-request-pipelines:notebooks-{{revision}}
-  - name: rhoai-version
-    value: "3.3.0"
   - name: additional-tags
     value:
     - '{{target_branch}}-{{revision}}'
   - name: additional-labels
     value:
     - version=on-pr-{{revision}}
-    - io.openshift.tags=odh-workbench-jupyter-datascience-cpu-py312
+    - io.openshift.tags=odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312
   - name: dockerfile
-    value: jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda
   - name: build-args-file
-    value: jupyter/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf
+    value: runtimes/pytorch+llmcompressor/ubi9-python-3.12/build-args/konflux.cuda.conf
   - name: path-context
     value: .
+  - name: enable-cache-proxy
+    value: true
   - name: hermetic
     value: false
   - name: build-image-index
     value: true
   - name: build-platforms
     value:
-    - linux/x86_64
-    - linux-m2xlarge/arm64
-    - linux/ppc64le
-    - linux/s390x
+    - linux-extra-fast/amd64
+    - linux-d160-m2xlarge/arm64
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
     value: "false"
-  - name: fips-check-blocking
-    value: "false"
+  - name: rhel-subscription-activation-key
+    value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
+  - name: prefetch-input
+    value:
+    - path: prefetch-input/rhds
+      type: rpm
+    - path: runtimes/pytorch+llmcompressor/ubi9-python-3.12
+      type: pip
+      binary:
+        arch: "x86_64,aarch64"
+      requirements_files: [requirements.cuda.txt]
   pipelineRef:
     resolver: git
     params:
@@ -73,6 +73,34 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  timeouts:
+    pipeline: 8h
+    tasks: 4h
+  taskRunSpecs:
+    - pipelineTaskName: prefetch-dependencies
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 8Gi
+        limits:
+          cpu: '3'
+          memory: 8Gi
+    - pipelineTaskName: ecosystem-cert-preflight-checks
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
+    - pipelineTaskName: clair-scan
+      computeResources:
+        requests:
+          cpu: '8'
+          memory: 16Gi
+        limits:
+          cpu: '16'
+          memory: 32Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
