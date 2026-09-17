@@ -8,7 +8,7 @@ COPY base-images/utils/fix-permissions /mnt/usr/bin/
 # base             #
 ####################
 # quay.io/sclorg/python-312-c9s:c9s
-FROM quay.io/sclorg/python-312-c9s@sha256:bad808b581bcfe487e7ce90a6bafd7cfd4487909b9d6f0dbc1a0bb62082be6e7 AS base
+FROM quay.io/sclorg/python-312-c9s@sha256:842c4a76fcf35588412045469c884b8bd84b118a1456b4e07f514da2f6961a6f AS base
 
 USER 0
 ARG TARGETARCH
