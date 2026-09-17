@@ -72,24 +72,20 @@ reviews:
   path_instructions:
     - path: "codeserver/ubi9-python-3.12/prefetch-input/code-server"
       instructions: >
-        This is a git submodule reference (code-server). Changes to this path
-        alter the pinned submodule commit. Flag the change prominently when its
-        intent is unclear. An intentional update should include
-        [submodule-update] in the commit message; otherwise suggest checking
-        the submodule worktree and restoring its expected revision before
-        staging.
+        This is a git submodule reference (code-server). Changes to this file
+        alter the pinned submodule commit. Flag this prominently in the review
+        and ask the author to confirm the change is intentional — accidental
+        bumps happen when switching branches without running
+        `git submodule update --init --recursive --force`.
     - path: "codeserver-baseline/ubi9-python-3.12/prefetch-input/code-server"
       instructions: >
         This is a git submodule reference (code-server baseline). Changes to
-        this path alter the pinned submodule commit. Flag the change prominently
-        when its intent is unclear. An intentional update should include
-        [submodule-update] in the commit message; otherwise suggest checking
-        the submodule worktree and restoring its expected revision before
-        staging.
+        this file alter the pinned submodule commit. Flag this prominently in
+        the review and ask the author to confirm the change is intentional —
+        accidental bumps happen when switching branches without running
+        `git submodule update --init --recursive --force`.
     - path: "prefetch-input/mongocli"
       instructions: >
-        This is a git submodule reference (mongocli). Changes to this path alter
-        the pinned submodule commit. Flag the change prominently when its intent
-        is unclear. An intentional update should include [submodule-update] in
-        the commit message; otherwise suggest checking the submodule worktree
-        and restoring its expected revision before staging.
+        This is a git submodule reference (mongocli). Changes to this file
+        alter the pinned submodule commit. Flag this prominently and ask the
+        author to confirm the change is intentional.

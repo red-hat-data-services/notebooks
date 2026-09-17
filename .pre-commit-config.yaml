@@ -53,16 +53,18 @@ repos:
     rev: v8.30.1
     hooks:
       - id: gitleaks
+  # Guard against accidental submodule ref bumps (commit-msg stage)
+  - repo: local
+    hooks:
+      - id: guard-submodule-refs
+        name: guard-submodule-refs
+        language: script
+        entry: ci/hooks/guard_submodule_refs.py
+        stages: [commit-msg]
+        always_run: true
   # https://pre-commit.com/#new-hooks
   - repo: local
     hooks:
-      # Guard against accidental submodule ref bumps (commit-msg stage)
-      - id: guard-submodule-refs
-        name: guard-submodule-refs
-        language: python
-        entry: python ci/hooks/guard_submodule_refs.py
-        stages: [commit-msg]
-        always_run: true
       # https://github.com/microsoft/pyright/issues/3612
       # https://github.com/RobertCraigie/pyright-python#pre-commit
       - id: pyright
