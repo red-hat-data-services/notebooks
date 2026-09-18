@@ -52,8 +52,8 @@ frozenlist==1.8.0 ; python_full_version == '3.12.*' and implementation_name == '
     --hash=sha256:c668e7042eb355ad052b8ded2ffec94fc1c4e45c5f2f1252d7d41265d99d3ec2
 gitdb==4.0.12 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:08112220b4c417cd3ae29b811fd370c15f421874fd61d8d439e9073b32bcad76
-gitpython==3.1.52 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1ad0221fa8a7ed6391fa649858c07ac66f8b3099af98663a9db85a328bf1cfbb
+gitpython==3.1.62 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f675121110ba0564de57ca08f9556646c90a1437aa15ee0c2bb6c0f614cd8311
 h11==0.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e4a676d94250b058f135d8dc9de79193392e8773846d3ae9a19f9a8a202071fc
 httpcore==1.0.9 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
