@@ -30,8 +30,3 @@ paths:
       # actions/upload-code-coverage) that actionlint's known-scope list has
       # not caught up with; drop once a newer actionlint recognizes it.
       - 'unknown permission scope "code-quality"'
-      # actionlint does not support YAML anchors/aliases in `on.*.paths`;
-      # several workflows DRY their path filters with anchors (e.g.
-      # &buildinputs_paths / *buildinputs_paths). Drop once actionlint
-      # supports alias nodes in trigger path lists.
-      - '"paths" section must be sequence node but got alias node'
