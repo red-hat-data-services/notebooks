@@ -1,6 +1,7 @@
+---
 name: Post-Codefreeze Gatekeeper
 
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request_target:
     types: [opened, synchronize, reopened, edited, labeled]
     branches:

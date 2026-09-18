@@ -12,3 +12,7 @@ separator: "  # "
 ignore_actions:
   - name: opendatahub-io/disconnected-readiness-scorer/.github/workflows/disconnected-readiness-check.yml
     ref: v1
+  # Reusable workflow from devops-shared-resources, pinned to `main`
+  # intentionally so it always runs the latest gate logic.
+  - name: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml
+    ref: main
