@@ -210,6 +210,17 @@ def process_tag(tag):
         log.info("Skipping processing of this tag as it is marked as outdated.")
         print_delimiter()
         return 0
+    # Only validate the currently recommended stream. Older non-recommended tags
+    # often keep published digests whose contents lag annotation updates (esp. on
+    # release branches where params-latest points recommended tags at "dummy").
+    recommended_annotation = "opendatahub.io/workbench-image-recommended"
+    if tag_annotations.get(recommended_annotation) == "false":
+        log.info(
+            f"Skipping tag '{tag['name']}' because it is marked "
+            f"{recommended_annotation}=false."
+        )
+        print_delimiter()
+        return 0
     if "from" not in tag or "name" not in tag["from"]:
         log.error(f"Missing 'from.name' in tag {tag['name']}")
         return 1
