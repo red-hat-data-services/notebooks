@@ -25,7 +25,7 @@ metadata:
     appstudio.openshift.io/component: odh-workbench-jupyter-baseline-cpu-py312-c9s-ci
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-baseline-cpu-py312-c9s-on-pull-request
-  namespace: open-data-hub-tenant
+  namespace: rhoai-tenant
 spec:
   params:
   - name: git-url
