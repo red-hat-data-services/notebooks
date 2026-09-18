@@ -56,8 +56,8 @@ jobs:
         id: hash-n
         shell: bash
         run: |
-          PAYLOAD=$(curl --silent -H 'Accept: application/vnd.github.v4.raw' https://api.github.com/repos/red-hat-data-services/notebooks/commits?sha=release-$RELEASE_VERSION_N&per_page=1)
-          echo "HASH_N=$(echo $PAYLOAD | jq -r '.[0].sha[0:7]')" >> ${GITHUB_OUTPUT}
+          PAYLOAD=$(curl --silent -H 'Accept: application/vnd.github.v4.raw' "https://api.github.com/repos/red-hat-data-services/notebooks/commits?sha=release-${RELEASE_VERSION_N}&per_page=1")
+          echo "HASH_N=$(echo "$PAYLOAD" | jq -r '.[0].sha[0:7]')" >> "${GITHUB_OUTPUT}"
 
       # Checkout the release branch to apply the updates
       - name: Checkout release branch
@@ -151,8 +151,8 @@ jobs:
         id: hash-n-1
         shell: bash
         run: |
-          PAYLOAD=$(curl --silent -H 'Accept: application/vnd.github.v4.raw' https://api.github.com/repos/red-hat-data-services/notebooks/commits?sha=release-$RELEASE_VERSION_N_1&per_page=1)
-          echo "HASH_N_1=$(echo $PAYLOAD | jq -r '.[0].sha[0:7]')" >> ${GITHUB_OUTPUT}
+          PAYLOAD=$(curl --silent -H 'Accept: application/vnd.github.v4.raw' "https://api.github.com/repos/red-hat-data-services/notebooks/commits?sha=release-${RELEASE_VERSION_N_1}&per_page=1")
+          echo "HASH_N_1=$(echo "$PAYLOAD" | jq -r '.[0].sha[0:7]')" >> "${GITHUB_OUTPUT}"
 
       # Checkout the release branch to apply the updates
       - name: Checkout release branch
