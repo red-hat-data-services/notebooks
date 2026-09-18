@@ -59,7 +59,14 @@ spec:
   - name: hermetic
     value: 'false'
   pipelineRef:
-    name: multiarch-odh-main-combined-pipeline
+    resolver: git
+    params:
+    - name: url
+      value: https://github.com/opendatahub-io/odh-konflux-central.git
+    - name: revision
+      value: main
+    - name: pathInRepo
+      value: pipeline/multi-arch-container-build.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-baseline-cpu-py312-c9s-ci
   workspaces:
