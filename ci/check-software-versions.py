@@ -223,6 +223,16 @@ def process_tag(tag):
         log.error(f"Failed to parse image value reference pointing by '{image_ref}'!")
         return 1
 
+    # params-latest.env uses "dummy" for unpublished / PR-only tags on older release
+    # branches. Those cannot be pulled or run; skip like outdated tags.
+    if image_val.strip().lower() == "dummy":
+        log.info(
+            f"Skipping tag '{tag['name']}' because params resolve '{image_ref}' to 'dummy' "
+            "(image not published for this branch)."
+        )
+        print_delimiter()
+        return 0
+
     container_id = run_podman_container(image_var, image_val)
     if not container_id:
         log.error(f"Failed to start a container from image '{image_val}' for the '{image_ref}' tag!")
