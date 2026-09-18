@@ -60,13 +60,13 @@ jobs:
       - name: Configure registry auth for rootful Podman
         run: |
           set -Eeuxo pipefail
-          # check-software-versions.py runs under sudo podman; install auth for root.
+          # check-software-versions.py runs under sudo; only root auth is required.
+          # (~/.config/containers may already exist root-owned on these runners.)
           sudo mkdir -p /root/.config/containers /root/.docker
           sudo cp ci/secrets/pull-secret.json /root/.config/containers/auth.json
           sudo cp ci/secrets/pull-secret.json /root/.docker/config.json
-          mkdir -p "${HOME}/.config/containers" "${HOME}/.docker"
-          cp ci/secrets/pull-secret.json "${HOME}/.config/containers/auth.json"
-          cp ci/secrets/pull-secret.json "${HOME}/.docker/config.json"
+          # Confirm unlock produced real JSON (not still git-crypt ciphertext).
+          sudo jq -e 'type == "object"' /root/.config/containers/auth.json >/dev/null
 
       - name: Check software versions in manifest referencing the images
         id: software-versions-check
