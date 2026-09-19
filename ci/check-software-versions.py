@@ -210,6 +210,14 @@ def process_tag(tag):
         log.info("Skipping processing of this tag as it is marked as outdated.")
         print_delimiter()
         return 0
+    # Only validate the currently recommended stream. Older non-recommended tags
+    # often keep published digests whose contents lag annotation updates (esp. on
+    # release branches where params-latest points recommended tags at "dummy").
+    recommended_annotation = "opendatahub.io/workbench-image-recommended"
+    if tag_annotations.get(recommended_annotation) == "false":
+        log.info(f"Skipping tag '{tag['name']}' because it is marked {recommended_annotation}=false.")
+        print_delimiter()
+        return 0
     if "from" not in tag or "name" not in tag["from"]:
         log.error(f"Missing 'from.name' in tag {tag['name']}")
         return 1
@@ -222,6 +230,16 @@ def process_tag(tag):
     if not image_val:
         log.error(f"Failed to parse image value reference pointing by '{image_ref}'!")
         return 1
+
+    # params-latest.env uses "dummy" for unpublished / PR-only tags on older release
+    # branches. Those cannot be pulled or run; skip like outdated tags.
+    if image_val.strip().lower() == "dummy":
+        log.info(
+            f"Skipping tag '{tag['name']}' because params resolve '{image_ref}' to 'dummy' "
+            "(image not published for this branch)."
+        )
+        print_delimiter()
+        return 0
 
     container_id = run_podman_container(image_var, image_val)
     if not container_id:

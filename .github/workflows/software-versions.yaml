@@ -3,15 +3,14 @@ name: Validation of software versions referenced in ImageStream manifests
 on:  # yamllint disable-line rule:truthy
   push:
     # Since this check is so resource demanding, let's restrict also push action here.
-    paths:
+    paths: &trigger_paths
+      - '.github/workflows/software-versions.yaml'
       - 'manifests/base/params.env'
+      - 'manifests/base/params-latest.env'
       - 'manifests/base/*-imagestream.yaml'
       - 'ci/check-software-versions.py'
   pull_request:
-    paths:
-      - 'manifests/base/params.env'
-      - 'manifests/base/*-imagestream.yaml'
-      - 'ci/check-software-versions.py'
+    paths: *trigger_paths
   workflow_dispatch:
   release:
 
@@ -25,6 +24,21 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
+
+      - name: Install git-crypt
+        run: |
+          set -Eeuxo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git-crypt
+
+      - name: Unlock encrypted secrets with git-crypt
+        run: |
+          set -Eeuxo pipefail
+          echo "${GIT_CRYPT_KEY}" | base64 --decode > ./git-crypt-key
+          trap 'rm -f ./git-crypt-key' EXIT
+          git-crypt unlock ./git-crypt-key
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: Prepare disk / Podman storage
         run: |
@@ -42,6 +56,17 @@ jobs:
 
           # quick check that podman works
           sudo podman info
+
+      - name: Configure registry auth for rootful Podman
+        run: |
+          set -Eeuxo pipefail
+          # check-software-versions.py runs under sudo; only root auth is required.
+          # (~/.config/containers may already exist root-owned on these runners.)
+          sudo mkdir -p /root/.config/containers /root/.docker
+          sudo cp ci/secrets/pull-secret.json /root/.config/containers/auth.json
+          sudo cp ci/secrets/pull-secret.json /root/.docker/config.json
+          # Confirm unlock produced real JSON (not still git-crypt ciphertext).
+          sudo jq -e 'type == "object"' /root/.config/containers/auth.json >/dev/null
 
       - name: Check software versions in manifest referencing the images
         id: software-versions-check

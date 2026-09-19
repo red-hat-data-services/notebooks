@@ -14,7 +14,9 @@ workdir="$(mktemp -d)"
 trap 'rm -rf "$workdir"' EXIT
 
 THRIFT_VERSION=0.24.0
-RE2_VERSION=2023-03-01
+# RH pyarrow 25.0.0 BE wheels DT_NEEDED libre2.so.9 (google/re2 SONAME 9).
+# 2022-12-01+ bumps SONAME to 10+ and breaks import (sklearn→pyarrow on ppc64le).
+RE2_VERSION=2022-06-01
 
 DNF_OPTS=(
     --disablerepo='*-debug-*'
@@ -94,4 +96,4 @@ export OMP_NUM_THREADS=1
 EOF
 
 test -f /usr/lib64/libthrift-0.24.0.so
-test -f /usr/lib64/libre2.so || test -f /usr/lib64/libre2.so.10
+test -f /usr/lib64/libre2.so.9

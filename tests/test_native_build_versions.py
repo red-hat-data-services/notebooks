@@ -25,9 +25,22 @@ FORBIDDEN_NATIVE_BUILD_PATTERNS = (
     re.compile(r"apache-arrow-17\.0\.0"),
 )
 
+# RH pyarrow 25 BE wheels need libre2.so.9; google/re2 2022-06-01 is last tag with SONAME 9.
+BE_RE2_VERSION_FOR_PYARROW = "2022-06-01"
+
 
 def _uses_rh_be_wheels(dockerfile_text: str) -> bool:
     return "install_zeromq_be.sh" in dockerfile_text
+
+
+def test_install_zeromq_be_builds_re2_soname_matching_rh_pyarrow() -> None:
+    script = (ROOT / "scripts/install_zeromq_be.sh").read_text()
+    match = re.search(r"^RE2_VERSION=([0-9]{4}-[0-9]{2}-[0-9]{2})$", script, re.M)
+    assert match, "install_zeromq_be.sh must pin RE2_VERSION=YYYY-MM-DD"
+    assert match.group(1) == BE_RE2_VERSION_FOR_PYARROW, (
+        f"RE2_VERSION must stay {BE_RE2_VERSION_FOR_PYARROW} so libre2.so.9 matches RH pyarrow"
+    )
+    assert "libre2.so.9" in script, "post-install check must require libre2.so.9"
 
 
 @pytest.mark.parametrize("image_dir", NATIVE_IMAGE_DIRS, ids=lambda p: p.relative_to(ROOT).as_posix())
