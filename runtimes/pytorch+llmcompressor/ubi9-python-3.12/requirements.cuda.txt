@@ -119,8 +119,8 @@ fsspec==2025.10.0 ; python_full_version >= '3.12' and implementation_name == 'cp
     --hash=sha256:49c8e555fb012f235522c67ab02f0badf6ed422dabbcdfb9dcb332cb3f8638e5
 gitdb==4.0.12 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3b52cdcc889333bf2b1057ef5e5e553f12f5fbd773151c4af5fd2ea00fa1b28a
-gitpython==3.1.52 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:2bd707bbf10758cdeb78e2952cda5c5de138d65be0eef0c5056892c91017465c
+gitpython==3.1.62 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:4ce109fcee0855b25da7690e673a347fe68933f5cee181973b3cca911c2ada8f
 google-auth==2.49.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:27395a0c89774d1f5e11dcdbb6b7443e4378edfa2e7b0b6b6a992f4d0912a678
 graphene==3.4.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -347,6 +347,8 @@ py-cpuinfo==9.0.0 ; python_full_version >= '3.12' and implementation_name == 'cp
 pyarrow==23.0.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e9f8ec930b04bb02227a15683c2415ace41f6f738b42dc3429297cf8210e6804 \
     --hash=sha256:a0e88356cbe971695fc62037eccd8d1df66e00e8bb7f23bb56e2a1ce0dc0332d \
+    --hash=sha256:201dc48691481e160e3a33f6f681bde832645bd78464e8e3677f7cd6bb17b841 \
+    --hash=sha256:0ef1a0d7cceb2195fa9c7408c4e9cbe4b5b520f2106c80c255cd21f5b4f25c73 \
     --hash=sha256:8cdd496bef21c9cbd8d3da6c59a8fa6e1aff8bf3b08e7ea4fc907a45efbd5b87 \
     --hash=sha256:af44f2f03b4a70c37a2b1080d90f790d19c49e50bcc4156e21250654d06c1146 \
     --hash=sha256:c6902e42f0edefc389119d2bdb3329e3a77e23d9e6dd9e70f6e7499347a082c1 \
