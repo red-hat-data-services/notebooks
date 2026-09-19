@@ -8,5 +8,5 @@ name: Post-Codefreeze Gatekeeper
 jobs:
   post-codefreeze-gate:
     if: github.event.action != 'labeled' || github.event.label.name == 'run-gatekeeper'
-    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@c2463faab077df5f54a4b875e33bc91632180903  # main
+    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@2930a6bea48c0f840e814b9333ab67591d7c5ab0  # main
     secrets: inherit
