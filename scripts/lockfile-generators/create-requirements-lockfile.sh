@@ -24,9 +24,10 @@ set -euo pipefail
 #   ./scripts/lockfile-generators/create-requirements-lockfile.sh \
 #       --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml --download
 #
-#   # Custom flavor
+#   # Custom flavor — rh-index flow (downstream 3.5+):
+#   # Dockerfile.konflux.<flavor> and build-args/konflux.<flavor>.conf
 #   ./scripts/lockfile-generators/create-requirements-lockfile.sh \
-#       --pyproject-toml codeserver/ubi9-python-3.12/pyproject.toml --flavor cuda
+#       --pyproject-toml jupyter/minimal/ubi9-python-3.12/pyproject.toml --flavor cuda
 
 SCRIPTS_PATH="scripts/lockfile-generators"
 PYLOCKS_GENERATOR="scripts/pylocks_generator.py"
@@ -34,6 +35,7 @@ PYLOCKS_GENERATOR="scripts/pylocks_generator.py"
 # --- Defaults ---
 PYPROJECT=""
 FLAVOR="cpu"
+FLAVOR_EXPLICIT=false
 DO_DOWNLOAD=false
 
 # --- Functions ---
@@ -47,9 +49,11 @@ a pip-compatible requirements.<flavor>.txt with sha256 hashes.
 Options:
   --pyproject-toml FILE  Path to pyproject.toml (required)
                          (e.g. codeserver/ubi9-python-3.12/pyproject.toml)
-  --flavor NAME          Lock file flavor (default: cpu).
-                         Must match a Dockerfile.<flavor> and
-                         build-args/konflux.<flavor>.conf for the RH-index flow.
+  --flavor NAME          Lock file flavor (default: cpu, or the first available
+                         Dockerfile.konflux.{cpu,cuda,rocm} when cpu is absent).
+                         Must match Dockerfile.konflux.<flavor> in the
+                         project directory. The rh-index flow also requires
+                         build-args/konflux.<flavor>.conf.
   --download             After generating, download all wheels into
                          cachi2/output/deps/pip/ for offline builds.
   -h, --help             Show this help message and exit
@@ -67,6 +71,35 @@ error_exit() {
   exit 1
 }
 
+# resolve_konflux_flavor PROJECT_DIR FLAVOR FLAVOR_EXPLICIT
+# Echoes the flavor to use. When FLAVOR is the default and its Dockerfile is
+# missing, picks the first available cpu/cuda/rocm Dockerfile.konflux.* instead.
+resolve_konflux_flavor() {
+  local project_dir="$1"
+  local flavor="$2"
+  local explicit="$3"
+  local candidate
+
+  if [[ -f "${project_dir}/Dockerfile.konflux.${flavor}" ]]; then
+    echo "$flavor"
+    return 0
+  fi
+
+  if [[ "$explicit" == true ]]; then
+    error_exit "Konflux Dockerfile not found: ${project_dir}/Dockerfile.konflux.${flavor}"
+  fi
+
+  for candidate in cpu cuda rocm; do
+    if [[ -f "${project_dir}/Dockerfile.konflux.${candidate}" ]]; then
+      echo "Note: auto-selected flavor '${candidate}' (no Dockerfile.konflux.${flavor})" >&2
+      echo "$candidate"
+      return 0
+    fi
+  done
+
+  error_exit "No Dockerfile.konflux.{cpu,cuda,rocm} found in ${project_dir}; use --flavor"
+}
+
 # --- Validation ---
 if [[ ! -d "$SCRIPTS_PATH" ]]; then
   error_exit "This script MUST be run from the repository root."
@@ -80,7 +113,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -h|--help)           show_help; exit 0 ;;
     --pyproject-toml)    PYPROJECT="$2"; shift 2 ;;
-    --flavor)            FLAVOR="$2"; shift 2 ;;
+    --flavor)            FLAVOR="$2"; FLAVOR_EXPLICIT=true; shift 2 ;;
     --download)          DO_DOWNLOAD=true; shift ;;
     *)                   error_exit "Unknown argument: '$1'" ;;
   esac
@@ -91,6 +124,7 @@ done
 
 # Derive paths
 PROJECT_DIR="$(dirname "$PYPROJECT")"
+FLAVOR="$(resolve_konflux_flavor "$PROJECT_DIR" "$FLAVOR" "$FLAVOR_EXPLICIT")"
 REQUIREMENTS_FILE="${PROJECT_DIR}/requirements.${FLAVOR}.txt"
 
 # Use public-index when PROJECT_DIR equals a listed path or is a subdirectory (e.g. .../ubi9-python-3.12).
@@ -111,6 +145,7 @@ fi
 
 PYLOCK_FILE="${PROJECT_DIR}/uv.lock.d/pylock.${FLAVOR}.toml"
 REQUIREMENTS_INDEX_URL=""
+KONFLUX_DOCKERFILE="${PROJECT_DIR}/Dockerfile.konflux.${FLAVOR}"
 if [[ "$PYLOCKS_MODE" == "public-index" ]]; then
   PYLOCK_FILE="${PROJECT_DIR}/pylock.toml"
   HERMETO_INDEX_URL="https://pypi.org/simple"
