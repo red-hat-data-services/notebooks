@@ -23,19 +23,27 @@ WORKDIR /opt/app-root/bin
 USER 0
 
 ### BEGIN upgrade first to avoid fixable vulnerabilities
-RUN /bin/bash <<'EOF'
-# If we have a Red Hat subscription prepared, refresh it
-set -Eeuxo pipefail
-if command -v subscription-manager &> /dev/null; then
-  subscription-manager identity &>/dev/null && subscription-manager refresh || echo "No identity, skipping refresh."
-fi
-EOF
-
 # Problem: The operation would result in removing the following protected packages: systemd
 #  (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
 # Solution: --best --skip-broken does not work either, so use --nobest
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
+# GHA mounts entitlement/consumer via mounts.conf; Konflux registers from
+# rhel-subscription-activation-key. Refresh rewrites redhat.repo cert paths.
+# AIPCC 3.0.3 / activation key are RHEL 9.6 EUS — pin that minor and EUS repos.
+if command -v subscription-manager &> /dev/null; then
+  if subscription-manager identity &>/dev/null; then
+    subscription-manager refresh
+    subscription-manager release --set=9.6
+    basearch="$(rpm --eval '%{_arch}')"
+    subscription-manager repos --disable='*' \
+      --enable="rhel-9-for-${basearch}-baseos-eus-rpms" \
+      --enable="rhel-9-for-${basearch}-appstream-eus-rpms" \
+      --enable="codeready-builder-for-rhel-9-${basearch}-eus-rpms"
+  else
+    echo "No identity, skipping refresh."
+  fi
+fi
 dnf -y upgrade --refresh --nobest --skip-broken --nodocs --noplugins --setopt=install_weak_deps=0 --setopt=keepcache=0
 dnf clean all -y
 EOF
@@ -53,9 +61,9 @@ EOF
 # Other apps and tools installed as default user
 USER 1001
 
-# Install micropipenv and uv to deploy packages from requirements.txt begin
-RUN pip install --no-cache-dir -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
-# Install micropipenv and uv to deploy packages from requirements.txt end
+### BEGIN Install micropipenv and uv to deploy packages from requirements.txt
+RUN pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
+### END Install micropipenv and uv to deploy packages from requirements.txt
 
 # Install the oc client begin
 RUN /bin/bash <<'EOF'

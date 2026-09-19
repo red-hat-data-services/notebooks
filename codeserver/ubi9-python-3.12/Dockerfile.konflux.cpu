@@ -60,7 +60,9 @@ RUN dnf module enable nodejs:22 -y
 # libxkbfile-devel is not in public UBI repos. Headers for native-keymap come from
 # X.org sources (install-xkbfile-from-generic.sh); libxkbfile RPM is runtime.
 # curl binary comes from curl-minimal (UBI default); do not install curl (conflicts).
-RUN dnf install -y \
+# --allowerasing: floating ubi9/python-312:latest can already ship a newer nodejs
+# NEVR than AppStream's nodejs-devel (cannot install both … from @System).
+RUN dnf install -y --nobest --allowerasing \
         nodejs nodejs-devel npm \
         jq patch libtool rsync gettext git-lfs gcc-toolset-14 gcc-toolset-14-libatomic-devel \
         make autoconf automake pkgconf-pkg-config \
