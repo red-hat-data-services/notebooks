@@ -140,8 +140,8 @@ fsspec==2026.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpy
     --hash=sha256:9697877b97d918c301a21fa0a0cab3cabd3134f964610d3334ec1b2cceb67ef2
 gitdb==4.0.12 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:595192f8d0f0b53c0869245ed6263f4d072ab0c628201fbc7d62f66768891c38
-gitpython==3.1.57 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:e7804603f9ca491ad9824717308415bde85884d4f3adc3e5342c671c490cd391
+gitpython==3.1.62 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:3128b7c2ab56dcde4ef449e4b4add1d17c2b55dac9ccb26ce52625445685d766
 google-api-core==2.30.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:33001f1576bcdcdccb5497c6eb0fa62ea0defe6d4dd360fa06d30a163eb9d55b
 google-auth==2.49.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

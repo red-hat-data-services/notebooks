@@ -61,6 +61,15 @@ _TRACKED_PYPI_RAW: tuple[str, ...] = (
 
 TRACKED_PACKAGES_CANONICAL: frozenset[str] = frozenset(packaging.utils.canonicalize_name(n) for n in _TRACKED_PYPI_RAW)
 
+# Intentional tracked downgrades when a CVE floor forces an incompatible stack.
+# odh-elyra 5.0.0 requires jupyterlab~=4.5.0; cve-constraints jupyterlab>=4.6.2 therefore
+# requires odh-elyra 4.3.2 on the llmcompressor workbench (same elyra line as other 3.4 images).
+_ALLOWED_TRACKED_DOWNGRADES: dict[str, frozenset[tuple[str, packaging.version.Version, packaging.version.Version]]] = {
+    "jupyter/pytorch+llmcompressor/ubi9-python-3.12/uv.lock.d/pylock.cuda.toml": frozenset(
+        {("odh-elyra", packaging.version.Version("5.0.0"), packaging.version.Version("4.3.2"))}
+    ),
+}
+
 
 def _resolve_base_ref() -> str | None:
     env = (os.environ.get("NOTEBOOKS_DOWNGRADE_BASE_REF") or "").strip()
@@ -193,7 +202,12 @@ def test_pylock_tracked_packages_not_downgraded_vs_git_base(subtests):
             with subtests.test(msg=rel):
                 raise AssertionError(f"Failed to parse pylock for downgrade check: {rel}") from e
 
-        downgrades = list(_iter_downgrades(cur_map, base_map))
+        allowed = _ALLOWED_TRACKED_DOWNGRADES.get(rel, frozenset())
+        downgrades = [
+            (name, cur_v, base_v)
+            for name, cur_v, base_v in _iter_downgrades(cur_map, base_map)
+            if (packaging.utils.canonicalize_name(name), base_v, cur_v) not in allowed
+        ]
         with subtests.test(msg=rel):
             if not downgrades:
                 continue
