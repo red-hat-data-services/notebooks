@@ -721,7 +721,7 @@ function check_image_variable_matches_name_and_commitref_and_size() {
             # Rollout automation rewrites released workbench keys with numeric
             # release suffixes (for example '-3-5', '-3-6'). Keep this check
             # forward-compatible instead of hardcoding every new release key.
-            if [[ "${image_variable}" =~ ^(odh-workbench-[a-z0-9-]+-py312-(ubi9|c9s))-[0-9]+-[0-9]+$ ]]; then
+            if [[ "${image_variable}" =~ ^(odh-workbench-[a-z0-9-]+-py312-(ubi9|c9s))-[0-9]{1,2}-[0-9]+$ ]]; then
                 local image_base
                 image_base="${BASH_REMATCH[1]}"
 
@@ -1143,9 +1143,19 @@ process_file() {
             continue
         fi
 
-        if check_image "${IMAGE_VARIABLE}" "${IMAGE_URL}"; then
-            :
+        local check_image_output
+        if check_image_output="$(check_image "${IMAGE_VARIABLE}" "${IMAGE_URL}")"; then
+            echo "${check_image_output}"
         else
+            local check_image_ret_code=$?
+            echo "${check_image_output}"
+            if test "${check_image_ret_code}" -eq 2; then
+                echo "ERROR: Image '${IMAGE_VARIABLE}' size changed beyond threshold; see the size details above"
+                echo "------------------------"
+                local_ret_code=1
+                continue
+            fi
+
             echo "ERROR: Image definition for '${IMAGE_VARIABLE}' isn't okay!"
             echo "------------------------"
             local_ret_code=1
