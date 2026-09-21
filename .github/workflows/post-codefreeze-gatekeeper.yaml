@@ -1,14 +1,14 @@
----
 name: Post-Codefreeze Gatekeeper
 
-on:  # yamllint disable-line rule:truthy
+on:
   pull_request_target:
     types: [opened, synchronize, reopened, edited, labeled]
     branches:
       - 'rhoai-3.5'
       - 'rhoai-3.6-ea.1'
+      - 'rhoai-3.6-ea.2'
 jobs:
   post-codefreeze-gate:
     if: github.event.action != 'labeled' || github.event.label.name == 'run-gatekeeper'
-    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@c2463faab077df5f54a4b875e33bc91632180903  # main
+    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@main
     secrets: inherit
