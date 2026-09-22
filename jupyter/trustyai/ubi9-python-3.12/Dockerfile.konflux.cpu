@@ -53,15 +53,11 @@ RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked,id=notebooks-dnf \
 set -Eeuxo pipefail
 # RHAIENG-2111: Looking in indexes: https://console.redhat.com/api/pypi/public-rhai/rhoai/3.0/cpu-ubi9/simple/
 #  ERROR: Could not find a version that satisfies the requirement uv (from versions: none)
-pip install --no-cache-dir --extra-index-url https://pypi.org/simple uv
+python -m pip install --no-cache-dir --extra-index-url https://pypi.org/simple -U "pip>=26.1.2"
+python -m pip install --no-cache-dir --extra-index-url https://pypi.org/simple "uv==0.9.6"
 
-# the devel script is ppc64le and s390x specific - sets up build-time dependencies
+# Build custom wheels and install the runtime environment.
 source ./devel_env_setup.sh
-# This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
-#  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
-echo "setuptools<82" > build_constraints.txt
-# RHAIENG-2111: building pandas requires cython from PyPI
-UV_NO_CACHE=false UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --extra-index-url https://pypi.org/simple --requirements=./pylock.toml --build-constraint build_constraints.txt
 EOF
 
 ####################
@@ -228,8 +224,6 @@ fi
 EOF
 
 # Install Python packages and Jupyterlab extensions from requirements.txt
-COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml ./
-
 # install openblas for ppc64le
 RUN --mount=type=cache,from=whl-cache,source=/root/OpenBLAS/,target=/OpenBlas/,rw /bin/bash <<'EOF'
 set -Eeuxo pipefail
@@ -239,30 +233,14 @@ if [ "$ARCH" = "ppc64le" ]; then
 fi
 EOF
 
-# Install packages and cleanup
-# install packages as USER 0 (this will allow us to consume uv cache)
-RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
-    --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
+# Copy the completed Python environment from the builder. It was installed
+# exactly once there; this stage only performs image-specific configuration.
+COPY --from=whl-cache /opt/app-root /opt/app-root
+RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-ARCH=$(uname -m)
-if [ "$ARCH" = "ppc64le" ] || [ "$ARCH" = "s390x" ]; then
-    UV_NO_CACHE=false UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --extra-index-url https://pypi.org/simple --cache-dir /root/.cache/uv
-fi
-EOF
-
-RUN --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
-set -Eeuxo pipefail
-echo "Installing softwares and packages"
-# we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
-echo "setuptools<82" > build_constraints.txt
-# RHAIENG-2111: building pandas requires cython from PyPI
-UV_NO_CACHE=false UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --strict --no-deps --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --extra-index-url https://pypi.org/simple --requirements=./pylock.toml --build-constraint build_constraints.txt
-# Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
-#       Build debugpy from source instead
-UV_NO_CACHE=false UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')
 # setup path for runtime configuration
 mkdir /opt/app-root/runtimes
-# Remove default Elyra runtime-images
+# Remove default Elyra runtime-images.
 rm /opt/app-root/share/jupyter/metadata/runtime-images/*.json
 # Replace Notebook's launcher, "(ipykernel)" with Python's version 3.x.y
 sed -i -e "s/Python.*/$(python --version | cut -d '.' -f-2)\",/" /opt/app-root/share/jupyter/kernels/python3/kernel.json

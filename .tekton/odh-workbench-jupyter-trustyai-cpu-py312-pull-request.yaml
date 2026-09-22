@@ -58,6 +58,7 @@ spec:
     value:
     - linux-d160-m8xlarge/amd64
     - linux-d160-m8xlarge/arm64
+    - linux/ppc64le
     - linux/s390x
   - name: image-expires-after
     value: 5d
