@@ -67,6 +67,15 @@ spec:
   timeouts:
     pipeline: 8h
     tasks: 4h
+  taskRunSpecs:
+    - pipelineTaskName: fips-check
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 4Gi
+        limits:
+          cpu: '3'
+          memory: 4Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-pipeline-runtime-datascience-cpu-py312-v3-3
   workspaces:
