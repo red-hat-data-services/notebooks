@@ -55,8 +55,6 @@ spec:
       params:
       - name: image-url
         value: $(params.image-url)
-      - name: image-digest
-        value: $(params.image-digest)
       taskSpec:
         params:
         - name: image-platform
