@@ -5,20 +5,9 @@ requires-python = "==3.12.*"
 
 dependencies = [
     # PyTorch packages
-    "torch==2.7.1+cu128; platform_machine != 'ppc64le' and platform_machine != 's390x'",
-
-    # Triton here is a dependency of torch, and is just being
-    # explicitly re-declared so that the index to pull it from can be
-    # customized. Although torch was being pulled from the PyTorch
-    # index, all of its dependencies are still defaulting to coming
-    # from PyPI (or whatever default index is used for a build). In
-    # the triton case, PyPI only has x86_64 wheels for this version,
-    # but the PyTorch index has both x86_64 and aarch64 wheels,
-    # matching the arches that are available for torch.
-    #
-    # Since it's a dependency of torch, I've also added same platform
-    # exclusion marker to omit for ppc64le.
-    "triton==3.3.1; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    "torch==2.7.1+cpu; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    # Keep Torch's otherwise exclusive dependency locked on IBM architectures too.
+    "sympy>=1.13.3",
 
     # TrustyAI packages
     # More information available at:
@@ -26,7 +15,7 @@ dependencies = [
     #   - https://github.com/trustyai-explainability/trustyai-explainability-python/blob/main/requirements.txt
     "transformers~=4.56.1",
     "datasets~=4.0.0",
-    "accelerate~=1.10.1; platform_machine != 'ppc64le' and platform_machine != 's390x'",
+    "accelerate~=1.10.1",
     "trustyai~=0.6.4",
     # Datascience and useful extensions
     "boto3~=1.40.52",
@@ -75,6 +64,9 @@ environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
 ]
 override-dependencies = [
+    # IBM architectures install a locally built CPU wheel before the locked environment.
+    # Apply the same marker to transitive requirements from packages such as accelerate.
+    "torch==2.7.1+cpu; platform_machine != 'ppc64le' and platform_machine != 's390x'",
     # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk pin cryptography==46.0.3
     "cryptography>=46.0.7",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
@@ -89,11 +81,5 @@ constraint-dependencies = [
     "onnx>=1.22.0",
 ]
 
-[tool.uv.sources]
-torch = { index = "pytorch-cuda" }
-triton = { index = "pytorch-cuda" }
-
-[[tool.uv.index]]
-name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
-explicit = true
+[tool.uv.pip]
+torch-backend = "cpu"

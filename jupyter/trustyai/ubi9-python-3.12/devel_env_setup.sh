@@ -18,16 +18,36 @@ else
     export PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig}
 fi
 
-# the build uses uv cache to pass artifacts between stages
+# Copy installed files out of the cache so the runtime environment is standalone.
 export UV_NO_CACHE=false
 export UV_LINK_MODE=copy
+export UV_COMPILE_BYTECODE=1
 
 # compiling jpype1==1.5.0 requires g++ and this gets compiled on all platforms
 # gcc and g++ is present by default on registry.access.redhat.com/ubi9/python-312:latest
 dnf install -y --setopt=keepcache=0 gcc gcc-g++
 
-WHEELS_DIR=/wheelsdir
-mkdir -p ${WHEELS_DIR}
+RUNTIME_PYTHON=/opt/app-root/bin/python
+"${RUNTIME_PYTHON}" -c 'import sys; assert sys.prefix == "/opt/app-root", sys.prefix'
+LOCK_FILE=$(pwd)/pylock.toml
+locked_source_version() {
+    "${RUNTIME_PYTHON}" - "${LOCK_FILE}" "$1" <<'PY'
+import sys
+import tomllib
+
+with open(sys.argv[1], "rb") as stream:
+    packages = tomllib.load(stream)["packages"]
+versions = {p["version"].split("+", 1)[0] for p in packages if p["name"] == sys.argv[2]}
+assert len(versions) == 1, f"Expected one source version for {sys.argv[2]}: {versions}"
+print(versions.pop())
+PY
+}
+BUILD_DIR=$(mktemp -d)
+WHEELS_DIR=${BUILD_DIR}/wheels
+mkdir -p "${WHEELS_DIR}"
+# Keep build requirements and editable source trees outside the copied environment.
+uv venv --seed --extra-index-url https://pypi.org/simple --python "${RUNTIME_PYTHON}" "${BUILD_DIR}/venv"
+source "${BUILD_DIR}/venv/bin/activate"
 if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
     CURDIR=$(pwd)
 
@@ -115,7 +135,7 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
 
     # Torch
     cd ${CURDIR}
-    TORCH_VERSION=$(grep -A1 '"torch"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
+    TORCH_VERSION=$(locked_source_version torch)
     cd ${TMP}
     if [[ $(uname -m) == "s390x" ]]; then
         echo "Building PyTorch for s390x"
@@ -128,23 +148,21 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
         # RHAIENG-2111: missing dep in aipcc python index
         #  ERROR: Could not find a version that satisfies the requirement expecttest>=0.3.0 (from versions: none)
         pip install --extra-index-url https://pypi.org/simple --no-cache-dir -r requirements.txt
-        python setup.py develop
         rm -f dist/torch*+git*whl
-        MAX_JOBS=${MAX_JOBS} PYTORCH_BUILD_VERSION=${TORCH_VERSION} PYTORCH_BUILD_NUMBER=1 uv build --extra-index-url https://pypi.org/simple --wheel --out-dir ${WHEELS_DIR}
+        MAX_JOBS=${MAX_JOBS} USE_CUDA=0 USE_ROCM=0 PYTORCH_BUILD_VERSION=${TORCH_VERSION}+cpu PYTORCH_BUILD_NUMBER=1 uv build --extra-index-url https://pypi.org/simple --wheel --out-dir ${WHEELS_DIR}
         echo "PyTorch build completed successfully"
     else
 	git clone --depth 1 --branch "v${TORCH_VERSION}" --recurse-submodules --shallow-submodules https://github.com/pytorch/pytorch.git
         cd pytorch
         uv pip install --extra-index-url https://pypi.org/simple -r requirements.txt
-        python setup.py develop
         rm -f dist/torch*+git*whl
         MAX_JOBS=${MAX_JOBS:-$(nproc)} \
-            PYTORCH_BUILD_VERSION=${TORCH_VERSION} PYTORCH_BUILD_NUMBER=1 uv build --extra-index-url https://pypi.org/simple --wheel --out-dir ${WHEELS_DIR}
+            USE_CUDA=0 USE_ROCM=0 PYTORCH_BUILD_VERSION=${TORCH_VERSION}+cpu PYTORCH_BUILD_NUMBER=1 uv build --extra-index-url https://pypi.org/simple --wheel --out-dir ${WHEELS_DIR}
     fi
 
     cd ${CURDIR}
     # Pyarrow
-    PYARROW_VERSION=$(grep -A1 '"pyarrow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
+    PYARROW_VERSION=$(locked_source_version pyarrow)
     cd ${TMP}
     git clone --depth 1 --branch "apache-arrow-${PYARROW_VERSION}" --recurse-submodules --shallow-submodules https://github.com/apache/arrow.git
     cd arrow/cpp
@@ -194,11 +212,11 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
         --build-type=release --bundle-arrow-cpp \
         bdist_wheel
     fi && \
-    mkdir -p /wheelsdir && cp dist/pyarrow-*.whl /wheelsdir/ && cp dist/pyarrow-*.whl ${WHEELS_DIR}/
+    mkdir -p "${WHEELS_DIR}" && cp dist/pyarrow-*.whl "${WHEELS_DIR}/"
 
     # Pillow (use auditwheel repaired wheel to avoid pulling runtime libs from EPEL)
     cd ${CURDIR}
-    PILLOW_VERSION=$(grep -A1 '"pillow"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
+    PILLOW_VERSION=$(locked_source_version pillow)
     cd ${TMP}
     git clone --recursive https://github.com/python-pillow/Pillow.git -b ${PILLOW_VERSION}
     cd Pillow
@@ -212,14 +230,11 @@ if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
     ls -ltr ${WHEELS_DIR}
 
     cd ${CURDIR}
-    # Install wheels for s390x and ppc64le
-    if [[ $(uname -m) == "ppc64le" ]] || [[ $(uname -m) == "s390x" ]]; then
-        pip install --no-cache-dir "${WHEELS_DIR}"/*.whl
-        uv pip install --extra-index-url https://pypi.org/simple --refresh ${WHEELS_DIR}/*.whl accelerate==$(grep -A1 '"accelerate"' pylock.toml | grep -Eo '\b[0-9\.]+\b')
-    fi
 
-    uv pip list
-    cd ${CURDIR}
+    # Torch is omitted from the lock on IBM architectures. Preinstall all custom
+    # wheels so the locked install also retains our matching PyArrow and Pillow builds.
+    uv pip install --python "${RUNTIME_PYTHON}" \
+        --offline --no-index --no-deps --no-config "${WHEELS_DIR}"/*.whl
 
     # cleanup temporary build files
     rm -rf ${TMP}
@@ -227,3 +242,22 @@ else
     # only for mounting on non-ppc64le and non-s390x
     mkdir -p /root/OpenBLAS/
 fi
+
+# Install the locked runtime environment once into the base image's existing
+# Python environment. The final image copies this complete app root.
+printf 'setuptools<82\n' > build_constraints.txt
+UV_NO_CACHE=false UV_LINK_MODE=copy UV_COMPILE_BYTECODE=1 \
+    uv pip install --python "${RUNTIME_PYTHON}" \
+    --strict --no-deps --no-config --no-progress \
+    --no-verify-hashes \
+    --compile-bytecode --index-strategy=unsafe-best-match \
+    --extra-index-url https://pypi.org/simple \
+    --requirements="${LOCK_FILE}" \
+    --build-constraint build_constraints.txt
+
+# The universal debugpy wheel bundles amd64 binaries; replace it with a build
+# from the locked source tag for the current architecture.
+DEBUGPY_VERSION=$(locked_source_version debugpy)
+uv pip install --python "${RUNTIME_PYTHON}" \
+    --no-deps --no-config --extra-index-url https://pypi.org/simple \
+    "git+https://github.com/microsoft/debugpy.git@v${DEBUGPY_VERSION}"
