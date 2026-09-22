@@ -21,8 +21,14 @@ spec:
   params:
   - name: image-url
     value: quay.io/rhoai/pull-request-pipelines:notebooks-be39ae3ccb48502be9415f7e65c3ac31c9aff0f8
-  - name: image-digest
-    value: sha256:79fe667883e14f6aa50c93defb0d276248a3f3aaf683b6e73e62486c0968a9ba
+  - name: image-digests
+    value:
+    - sha256:69ad1108aeed7c98dd047161b6f42a30d268de7d5b75300811d533111a4614e8
+    - sha256:721be769429d03a7995d0ecc314c39947b5685679b98fb44afbe96f99c304811
+    - sha256:79fe667883e14f6aa50c93defb0d276248a3f3aaf683b6e73e62486c0968a9ba
+    - sha256:d07ef5f1ccc3007747887db91970d8e324e107be3620701dbf3f0759f048f50b
+    - sha256:90916eb80fb269d12bc01dd5a66d4d160f3de8ba1e5ac050ff0ab247c10ca972
+    - sha256:7c67197385e2636a21563b699796a6f759124fa744e26d60cf19875c56b8a84c
   - name: build-platforms
     value:
     - linux/x86_64
@@ -30,8 +36,8 @@ spec:
     params:
     - name: image-url
       type: string
-    - name: image-digest
-      type: string
+    - name: image-digests
+      type: array
     - name: build-platforms
       type: array
     workspaces:
@@ -43,6 +49,9 @@ spec:
         - name: image-platform
           value:
           - $(params.build-platforms)
+        - name: image-digest
+          value:
+          - $(params.image-digests)
       params:
       - name: image-url
         value: $(params.image-url)
