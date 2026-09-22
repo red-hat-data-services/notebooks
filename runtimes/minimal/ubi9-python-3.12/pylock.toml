@@ -1485,8 +1485,8 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/19/72/a74a007cd636f903448c6ab66628104b1fc5f2ba018733d5eabb94a0a6fb/pyzmq-27.1.0-pp39-pypy39_pp73-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", upload-time = 2025-09-08T23:10:11Z, size = 758756, hashes = { sha256 = "4a19387a3dddcc762bfd2f570d14e2395b2c9701329b266f83dd87a2b3cbd381" } },
     { url = "https://files.pythonhosted.org/packages/a9/d4/30c25b91f2b4786026372f5ef454134d7f576fcf4ac58539ad7dd5de4762/pyzmq-27.1.0-pp39-pypy39_pp73-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", upload-time = 2025-09-08T23:10:14Z, size = 567742, hashes = { sha256 = "4c618fbcd069e3a29dcd221739cacde52edcc681f041907867e0f5cc7e85f172" } },
     { url = "https://files.pythonhosted.org/packages/92/aa/ee86edad943438cd0316964020c4b6d09854414f9f945f8e289ea6fcc019/pyzmq-27.1.0-pp39-pypy39_pp73-win_amd64.whl", upload-time = 2025-09-08T23:10:16Z, size = 544857, hashes = { sha256 = "ff8d114d14ac671d88c89b9224c63d6c4e5a613fe8acd5594ce53d752a3aafe9" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyzmq-27.1.0-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-07-18T13:23:49Z, size = 257638, hashes = { sha256 = "0d025fc6144ce2a8e0b0e404107f8ae3ade7a8e89cc080b2e630eeb64dbb2e84" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pyzmq-27.1.0-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-07-18T13:23:49Z, size = 314109, hashes = { sha256 = "3e24d002e0b7e5727c32d6c149669555b50ecea275863046038b48f588d24e86" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.3/cpu-ubi9-test/pyzmq-27.2.0-2-cp312-cp312-linux_ppc64le.whl", size = 266722, hashes = { sha256 = "a2122ab49c11c7a86bba22e058720d5d40fbd7bf22673f614bb06d1471459cd7" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.3/cpu-ubi9-test/pyzmq-27.2.0-2-cp312-cp312-linux_s390x.whl", size = 310879, hashes = { sha256 = "9750921ebe3686580c3e456d37c8503b8332b8ae16decafa2a39e8496886e224" } },
 ]
 
 [[packages]]
