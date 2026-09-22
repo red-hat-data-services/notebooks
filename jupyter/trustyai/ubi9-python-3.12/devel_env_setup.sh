@@ -8,8 +8,11 @@ set -eoux pipefail
 #####################################################################################################
 
 # Initialize environment variables with default values
-if [[ $(uname -m) == "s390x" ]]; then
+if [[ $(uname -m) == "ppc64le" || $(uname -m) == "s390x" ]]; then
     export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
+fi
+
+if [[ $(uname -m) == "s390x" ]]; then
     export CFLAGS="-O3"
     export CXXFLAGS="-O3"
 else
