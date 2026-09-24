@@ -16723,13 +16723,13 @@ arches:
     name: scl-utils
     evr: 1:2.0.3-4.el9
     sourcerpm: scl-utils-2.0.3-4.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/s/skopeo-1.22.2-7.el9_8.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 8623168
-    checksum: sha256:ec499a7f895bc70eae5e50527dbbe6b1ff621ba0599bc8bbf0a55a4661924bbc
+    size: 8615797
+    checksum: sha256:238e02ab0d4538f02daf64af0ba68a571b16103ef06d345ac234a05b40505727
     name: skopeo
-    evr: 2:1.22.2-7.el9_8
-    sourcerpm: skopeo-1.22.2-7.el9_8.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/s/slirp4netns-1.3.3-1.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 48562
@@ -18230,7 +18230,7 @@ arches:
     sourcerpm: openshift-clients-4.12.0-202312200531.p0.gd4c9e3c.assembly.stream.el8.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/repodata/d4126ff9d0deb3c7640f553936365cf5b4759073971b9a7309bbdd8b5beb863e-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/repodata/6c3d0a927f0e05de7df4c552df01a905ece027c5ebd606215742bc05d7f4566d-modules.yaml.gz
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 8505
-    checksum: sha256:d4126ff9d0deb3c7640f553936365cf5b4759073971b9a7309bbdd8b5beb863e
+    checksum: sha256:6c3d0a927f0e05de7df4c552df01a905ece027c5ebd606215742bc05d7f4566d
