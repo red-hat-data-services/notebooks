@@ -420,8 +420,8 @@ soupsieve==2.8.4 ; python_full_version == '3.12.*' and implementation_name == 'c
 sqlalchemy==2.0.51 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9f2b2266f9143fe5fc56c4353992440f7ba8f2fcbed0c4c8d5696cc7451fb0b9 \
     --hash=sha256:19b01e87279cfb98c7b5e505e0d3e33dbbc14182c67d4ccb2d27e3f3953a0783
-sqlparse==0.5.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:bc0e162eedee5a06b515d79cf280bae168b949fc0bdd4d830cb624eb3dd11033
+sqlparse==0.6.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f858cbe5f85da3c857ba0e522525cfad2685a495ed7e45106749f0e4c9d02b91
 stack-data==0.6.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7bade982c9d44e34392f50f5316f60388e8d60ad15565d6eb0891c1decc018e8
 starlette==1.3.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

@@ -5,6 +5,9 @@
 
 # --- CVE-motivated floors ---
 
+# RHOAIENG-89164: CVE-2026-54284, CVE-2026-59893, CVE-2026-71491 sqlparse CPU denial of service
+sqlparse>=0.6.0
+
 # RHAIENG-5303: CVE-2026-44431 urllib3 information disclosure via cross-origin redirects
 urllib3>=2.7.0
 # RHAIENG-2893: CVE-2026-0897 Keras denial of service via crafted HDF5 weight loading file
