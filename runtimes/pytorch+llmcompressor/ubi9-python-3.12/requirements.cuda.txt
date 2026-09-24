@@ -443,8 +443,8 @@ sqlalchemy==2.0.49 ; python_full_version >= '3.12' and implementation_name == 'c
     --hash=sha256:183667994440c0b9f64c9200e5604a9a1e9a9b8b3652d562ee8b80e3425d38c2
 sqlitedict==2.1.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f47329c9f87e923ec756a5222e6575b4b9b1a148a229e452a239e7e1ff3c9473
-sqlparse==0.5.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:76a002e63dfd611b8518e71bb36d750ed99d052a1c29a0134c269cf8a5a6301d
+sqlparse==0.6.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0564936c3b01051bbd9a5b5de3d92a316c329276efb46961628e546025fae423
 stack-data==0.6.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:beac96bba94edc29fce151f456ce2b0fc584a8bb0c51527f8c8bf8e15b3804eb
 starlette==1.3.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

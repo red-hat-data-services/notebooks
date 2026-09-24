@@ -635,8 +635,8 @@ sqlalchemy==2.0.49 ; implementation_name == 'cpython' and sys_platform == 'linux
     --hash=sha256:1fd85f768d9c11bf3bf45ef5384d82c555cd132ce103498a53c70c99eedc5cdb \
     --hash=sha256:908a4752106dc407a89e906d257f9a7891ac4f0c0b67dca986207178571c1ea5 \
     --hash=sha256:2ae54c222fe9b0076e6c33ad0fd102b73001618408045f56ea6ca9ec4eb3709b
-sqlparse==0.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:e14e47d6edcac7eaf3e6a1cf85c236e9c71f06e269b16928da76ad47683d4a8f
+sqlparse==0.6.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:4727e0a13e075ef8043e086e4f05fe349fe59bd710c7d88e57f03e27b1e33e56
 stack-data==0.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:074f4a60339970ce76773f3eb9eb2c88591f83d335f5764551610cb07597a3c9
 starlette==1.3.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \

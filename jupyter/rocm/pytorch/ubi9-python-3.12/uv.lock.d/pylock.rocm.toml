@@ -1612,9 +1612,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "sqlparse"
-version = "0.5.5"
+version = "0.6.0"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/sqlparse-0.5.5-12-py3-none-any.whl", upload-time = 2026-03-13T12:23:10Z, size = 47041, hashes = { sha256 = "6765f6aa723dc993fc1872dd1454bdd95757baf60fda8b1034ac11b801b66c0e" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/sqlparse-0.6.0-12-py3-none-any.whl", upload-time = 2026-09-09T19:16:44Z, size = 50971, hashes = { sha256 = "d2d868e2c1dedb84fd89924270212e11b97921044540859432f712511fc606af" } }]
 
 [[packages]]
 name = "stack-data"
