@@ -100,6 +100,14 @@ spec:
         limits:
           cpu: '16'
           memory: 32Gi
+    - pipelineTaskName: fips-check
+      computeResources:
+        requests:
+          cpu: '4'
+          memory: 8Gi
+        limits:
+          cpu: '4'
+          memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
