@@ -12,7 +12,7 @@ arches:
     evr: 1.11.1-9.el9ai
     sourcerpm: ninja-build-1.11.1-9.el9ai.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/c/containers-common-5.8-1.el9.aarch64.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-aarch64-appstream-rpms
     size: 170106
     checksum: sha256:aa8c02f753696dd2daa5816e5efee49f9247ccb83da6e7cdaa66e72c4bf02cac
     name: containers-common
@@ -3470,7 +3470,7 @@ arches:
     evr: 3.12.9-1.el9_6.10
     sourcerpm: python3.12-3.12.9-1.el9_6.10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.aarch64.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-aarch64-appstream-rpms
     size: 7728433
     checksum: sha256:be0b5ff1c69b95d98431ed35560f96173778ac55f4d8f5d2630efc21cb4216be
     name: skopeo
@@ -4910,7 +4910,7 @@ arches:
     evr: 1.11.1-9.el9ai
     sourcerpm: ninja-build-1.11.1-9.el9ai.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/c/containers-common-5.8-1.el9.ppc64le.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 170148
     checksum: sha256:eff6e08557b9ea0e97b991801e37a52ba5cdb83a7d8347b5818081bd64cb5981
     name: containers-common
@@ -8389,7 +8389,7 @@ arches:
     evr: 3.12.9-1.el9_6.10
     sourcerpm: python3.12-3.12.9-1.el9_6.10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.ppc64le.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 7800625
     checksum: sha256:f435fd959404449f9af25223ee98ca4d016b88fe686b0152ed61167a98d9141c
     name: skopeo
@@ -9843,7 +9843,7 @@ arches:
     evr: 1.11.1-9.el9ai
     sourcerpm: ninja-build-1.11.1-9.el9ai.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/c/containers-common-5.8-1.el9.s390x.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-s390x-appstream-rpms
     size: 170120
     checksum: sha256:68a07c297e84156268ba3950c547acae2789576a1db99f7076edc956f1fe1d2b
     name: containers-common
@@ -13350,7 +13350,7 @@ arches:
     evr: 3.12.9-1.el9_6.10
     sourcerpm: python3.12-3.12.9-1.el9_6.10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.s390x.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-s390x-appstream-rpms
     size: 8194943
     checksum: sha256:8e6974b150c135e6a83bee621b91ef5167398ede9f2620adf68a87ddaa99093f
     name: skopeo
@@ -14748,7 +14748,7 @@ arches:
     evr: 1.11.1-9.el9ai
     sourcerpm: ninja-build-1.11.1-9.el9ai.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/c/containers-common-5.8-1.el9.x86_64.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-x86_64-appstream-rpms
     size: 170139
     checksum: sha256:6db3b80aff7a892ea57ce84c95d0cd62bd70f43b1824009bc9a2ba47bca629d2
     name: containers-common
@@ -18227,7 +18227,7 @@ arches:
     evr: 3.12.9-1.el9_6.10
     sourcerpm: python3.12-3.12.9-1.el9_6.10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.x86_64.rpm
-    repoid: ubi9-security-tools
+    repoid: ubi-9-for-x86_64-appstream-rpms
     size: 8615797
     checksum: sha256:238e02ab0d4538f02daf64af0ba68a571b16103ef06d345ac234a05b40505727
     name: skopeo
