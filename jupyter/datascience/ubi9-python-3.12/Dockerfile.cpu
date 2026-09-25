@@ -69,16 +69,18 @@ EOF
 
 # Install useful OS packages
 COPY jupyter/utils utils/
+COPY base-images/utils/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
 RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
-  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel
 elif [ "$TARGETARCH" = "ppc64le" ]; then
-  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo gcc gcc-c++ make autoconf automake libtool
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' gcc gcc-c++ make autoconf automake libtool
 else
-  ./utils/install_with_retry.sh dnf-install perl mesa-libGL skopeo
+  ./utils/install_with_retry.sh dnf-install perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8'
 fi
+rm -f /etc/yum.repos.d/ubi9-security-tools.repo
 EOF
 
 COPY scripts/install_zeromq_be.sh /tmp/install_zeromq_be.sh
@@ -124,7 +126,7 @@ RUN python -m pip install --no-cache-dir --extra-index-url https://pypi.org/simp
 ### BEGIN Install the oc client
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
+curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/4.22.14/openshift-client-linux.tar.gz \
     -o /tmp/openshift-client-linux.tar.gz
 tar -xzvf /tmp/openshift-client-linux.tar.gz oc
 rm -f /tmp/openshift-client-linux.tar.gz

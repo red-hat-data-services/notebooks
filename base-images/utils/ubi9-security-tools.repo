@@ -1,0 +1,9 @@
+# CVE-2026-56853: fixed skopeo and its containers-common dependency.
+# Keep all other packages on the release's configured repositories.
+[ubi9-security-tools]
+name=UBI 9 security tools
+baseurl=https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/$basearch/appstream/os
+enabled=1
+includepkgs=skopeo containers-common
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
