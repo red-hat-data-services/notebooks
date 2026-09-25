@@ -15,7 +15,7 @@ contentOrigin:
     # RHDS (downstream) — uses RHEL subscription repos
     # Option 1: subscription-manager registered system (redhat.repo)
     - /etc/yum.repos.d/redhat.repo
-    - ../../../../base-images/utils/ubi9-security-tools.repo
+    - ../../../../prefetch-input/repos/ubi9-security-tools.repo
 
     # Option 2: Internal Red Hat repos (Pulp mirror)
     # - ../repos/rhsm-pulp.repo
