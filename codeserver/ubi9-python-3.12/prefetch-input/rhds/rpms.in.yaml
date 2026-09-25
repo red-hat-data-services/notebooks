@@ -17,6 +17,8 @@
 contentOrigin:
   repofiles:
     # rhoai-2.25 — public UBI + openshift mirror (no subscription)
+    # Full UBI AppStream includes the security tools; do not also load the
+    # restricted security-tools repo with the same repository ID.
     - ../repos/ubi.repo
     - ../repos/openshift-clients.repo
 
@@ -136,7 +138,7 @@ packages:
   - jq
   - libsndfile
   - perl
-  - skopeo
+  - 'skopeo >= 2:1.22.2-8.el9_8'
   - tar
   - wget
 
