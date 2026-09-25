@@ -550,13 +550,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-687.50.1.el9_8.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-687.51.1.el9_8.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 2908697
-    checksum: sha256:ff4ee143fa43863903ee32fd44898dccb0b1886f37fa109d205fa786c21f645e
+    size: 2920105
+    checksum: sha256:ae8b59ca60eeccb54ee78021fa7ddce8057539ea191cbf39b4bc05b9a92ddc80
     name: kernel-headers
-    evr: 5.14.0-687.50.1.el9_8
-    sourcerpm: kernel-5.14.0-687.50.1.el9_8.src.rpm
+    evr: 5.14.0-687.51.1.el9_8
+    sourcerpm: kernel-5.14.0-687.51.1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 14098
@@ -963,13 +963,13 @@ arches:
     name: libxkbfile
     evr: 1.1.0-8.el9
     sourcerpm: libxkbfile-1.1.0-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.4.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.5.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 927255
-    checksum: sha256:dfaba1f8d46cd684534fc9edff2ede8eb3daad0828de9963f9f544a9e63f3189
+    size: 927258
+    checksum: sha256:2a0bd9b1c03c07d916357e6147ddfa318868bae8304145e95bbd6fafeeb4107c
     name: libxml2-devel
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/l/libxshmfence-1.3-10.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 14163
@@ -3049,13 +3049,13 @@ arches:
     name: scl-utils
     evr: 1:2.0.3-4.el9
     sourcerpm: scl-utils-2.0.3-4.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/s/skopeo-1.22.2-7.el9_8.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
-    size: 7730213
-    checksum: sha256:074a883d072a5cbf34005d8d5b4a001358d346636ea9215cf45962081133d93e
+    size: 7728433
+    checksum: sha256:be0b5ff1c69b95d98431ed35560f96173778ac55f4d8f5d2630efc21cb4216be
     name: skopeo
-    evr: 2:1.22.2-7.el9_8
-    sourcerpm: skopeo-1.22.2-7.el9_8.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/s/slirp4netns-1.3.3-1.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 48428
@@ -3987,13 +3987,13 @@ arches:
     name: libxcrypt
     evr: 4.4.18-3.el9
     sourcerpm: libxcrypt-4.4.18-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.4.aarch64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.5.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
-    size: 754646
-    checksum: sha256:10417dde519f111c6248fae0eb6fb9889efd3e68c575caced652823d7ef4f169
+    size: 754850
+    checksum: sha256:39e0ffab5e42aa3688a39a9f27cecb77ee8dbf03682ca5b38c3e15ebc5493863
     name: libxml2
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/l/libzstd-1.5.5-1.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 283159
@@ -4535,10 +4535,10 @@ arches:
     sourcerpm: openshift-clients-4.12.0-202312200531.p0.gd4c9e3c.assembly.stream.el8.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/repodata/25506080b56d8b78355061031197de0d5bef427eab6fd24973d19e81972e4db6-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/repodata/09e83c5ad80f12634577c7a72c6e8b27fcbeb428e9dd8f26b44de9301e5c9408-modules.yaml.gz
     repoid: ubi-9-for-aarch64-appstream-rpms
     size: 8809
-    checksum: sha256:25506080b56d8b78355061031197de0d5bef427eab6fd24973d19e81972e4db6
+    checksum: sha256:09e83c5ad80f12634577c7a72c6e8b27fcbeb428e9dd8f26b44de9301e5c9408
 - arch: ppc64le
   packages:
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/a/annobin-12.98-2.el9.ppc64le.rpm
@@ -5101,13 +5101,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-687.50.1.el9_8.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-687.51.1.el9_8.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 2932497
-    checksum: sha256:5b6aa1838d71417d7a49933f8813e8295a56284f9ec6d4398208637e756df4e7
+    size: 2943909
+    checksum: sha256:9f76ca5204046390a8514054f77cd2a2039c46853001e026faece81ec574e6b2
     name: kernel-headers
-    evr: 5.14.0-687.50.1.el9_8
-    sourcerpm: kernel-5.14.0-687.50.1.el9_8.src.rpm
+    evr: 5.14.0-687.51.1.el9_8
+    sourcerpm: kernel-5.14.0-687.51.1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 14098
@@ -5521,13 +5521,13 @@ arches:
     name: libxkbfile
     evr: 1.1.0-8.el9
     sourcerpm: libxkbfile-1.1.0-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.4.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.5.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 927380
-    checksum: sha256:efb3e68cd7e7b52928b8da0f0b3a0505175daaa038a455693d0bccf2fdd74030
+    size: 927466
+    checksum: sha256:5acbbc4c9a1a42933774724c76d19075f05cae8c1999cdbc2badc8fb10bb133e
     name: libxml2-devel
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/l/libxshmfence-1.3-10.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 14118
@@ -7607,13 +7607,13 @@ arches:
     name: scl-utils
     evr: 1:2.0.3-4.el9
     sourcerpm: scl-utils-2.0.3-4.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/s/skopeo-1.22.2-7.el9_8.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 7796636
-    checksum: sha256:50cdbb25c13f0f63f486e69a7bc72b2bb2df0237fd9c3352ef964a975ef06bc0
+    size: 7800625
+    checksum: sha256:f435fd959404449f9af25223ee98ca4d016b88fe686b0152ed61167a98d9141c
     name: skopeo
-    evr: 2:1.22.2-7.el9_8
-    sourcerpm: skopeo-1.22.2-7.el9_8.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/s/slirp4netns-1.3.3-1.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 50838
@@ -8559,13 +8559,13 @@ arches:
     name: libxcrypt
     evr: 4.4.18-3.el9
     sourcerpm: libxcrypt-4.4.18-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.4.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.5.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
-    size: 848848
-    checksum: sha256:6f6b25cf2206acdbaeb27722aeac871c415adb4c72a09c0fdbaae59b410bd68e
+    size: 849744
+    checksum: sha256:267461e4d4e7428d7e0f375370ec97b0c910f26e5236204d052fa2fc6ebdd413
     name: libxml2
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/l/libzstd-1.5.5-1.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 329280
@@ -9107,10 +9107,10 @@ arches:
     sourcerpm: openshift-clients-4.12.0-202301312133.p0.gb05f7d4.assembly.stream.el8.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/repodata/c4b41f6f24737381bd4eca606f0ef1e21aec4aa3239cb0a9ef966657492e0033-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/repodata/022062d5da3f9ece98c0a39be014dde737bba6376a78c11e30204a2a7090b024-modules.yaml.gz
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 8880
-    checksum: sha256:c4b41f6f24737381bd4eca606f0ef1e21aec4aa3239cb0a9ef966657492e0033
+    checksum: sha256:022062d5da3f9ece98c0a39be014dde737bba6376a78c11e30204a2a7090b024
 - arch: s390x
   packages:
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/a/annobin-12.98-2.el9.s390x.rpm
@@ -9701,13 +9701,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-687.50.1.el9_8.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-687.51.1.el9_8.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
-    size: 2938685
-    checksum: sha256:ec4f80beb8ae7fc21f7a86ccd3cb6d81a6ea63fa99b435007b884516fc440d6a
+    size: 2950065
+    checksum: sha256:466ee30ce9de877e94256ad77714eddbbcb7cc02dd578fbef51289b52e061738
     name: kernel-headers
-    evr: 5.14.0-687.50.1.el9_8
-    sourcerpm: kernel-5.14.0-687.50.1.el9_8.src.rpm
+    evr: 5.14.0-687.51.1.el9_8
+    sourcerpm: kernel-5.14.0-687.51.1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 14098
@@ -10121,13 +10121,13 @@ arches:
     name: libxkbfile
     evr: 1.1.0-8.el9
     sourcerpm: libxkbfile-1.1.0-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.4.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.5.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
-    size: 927111
-    checksum: sha256:2cb3efc9b649efade706aab1dac06be946f2ed486ab93a7747ae4248c1af2eb2
+    size: 927233
+    checksum: sha256:08041aa257e195f42d32c423308fca460c7526af7e1c14e189f573065fd7c605
     name: libxml2-devel
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/l/libxshmfence-1.3-10.el9.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 13891
@@ -12207,13 +12207,13 @@ arches:
     name: scl-utils
     evr: 1:2.0.3-4.el9
     sourcerpm: scl-utils-2.0.3-4.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/s/skopeo-1.22.2-7.el9_8.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
-    size: 8188641
-    checksum: sha256:f6443948836661ed52d4f2a887dc31b706d0ac0d3e3211080b7ace46d2e05044
+    size: 8194943
+    checksum: sha256:8e6974b150c135e6a83bee621b91ef5167398ede9f2620adf68a87ddaa99093f
     name: skopeo
-    evr: 2:1.22.2-7.el9_8
-    sourcerpm: skopeo-1.22.2-7.el9_8.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/s/slirp4netns-1.3.3-1.el9.s390x.rpm
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 48338
@@ -13103,13 +13103,13 @@ arches:
     name: libxcrypt
     evr: 4.4.18-3.el9
     sourcerpm: libxcrypt-4.4.18-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.4.s390x.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.5.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
-    size: 734166
-    checksum: sha256:1ad6ef220ab2ca03325ba296fdb0e345c3f56fbfb261c18278dccdf3145ff300
+    size: 734699
+    checksum: sha256:866077b2b08672a703e77c7154dd9d23ea8908926657d74ec2a12156f48c69a7
     name: libxml2
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/l/libzstd-1.5.5-1.el9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 283786
@@ -13651,10 +13651,10 @@ arches:
     sourcerpm: openshift-clients-4.12.0-202301312133.p0.gb05f7d4.assembly.stream.el8.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/repodata/d48c2cc265690fd7f1f3ec57251b187f96d84d728a241e1519eea0ba5f76639c-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/repodata/6673e42c54e078bb8dbafa10dddedfe6fb8a8033080d48a3bec03e9b13623882-modules.yaml.gz
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 8499
-    checksum: sha256:d48c2cc265690fd7f1f3ec57251b187f96d84d728a241e1519eea0ba5f76639c
+    checksum: sha256:6673e42c54e078bb8dbafa10dddedfe6fb8a8033080d48a3bec03e9b13623882
 - arch: x86_64
   packages:
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/a/annobin-12.98-2.el9.x86_64.rpm
@@ -14224,13 +14224,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-687.50.1.el9_8.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-687.51.1.el9_8.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 2947937
-    checksum: sha256:292d1be22f2d28c14cab8940e1c45505dd0edb889c8ca0ad772573591da03c61
+    size: 2959397
+    checksum: sha256:bf3a6de0e2eab861051d6a8903b465145c2e2888a458c8f1008c5589f8aa3f58
     name: kernel-headers
-    evr: 5.14.0-687.50.1.el9_8
-    sourcerpm: kernel-5.14.0-687.50.1.el9_8.src.rpm
+    evr: 5.14.0-687.51.1.el9_8
+    sourcerpm: kernel-5.14.0-687.51.1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 14098
@@ -14637,13 +14637,13 @@ arches:
     name: libxkbfile
     evr: 1.1.0-8.el9
     sourcerpm: libxkbfile-1.1.0-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.4.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxml2-devel-2.9.13-14.el9_8.5.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 927267
-    checksum: sha256:3ada69c4c91f25a7c168f6908602dde1779fda7e63755f3c9539cc0d1b4547a6
+    size: 927486
+    checksum: sha256:b9ec20db51f78c642acfdc624110848008c77bcf2487fbe2ebb16289cf89ef77
     name: libxml2-devel
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/l/libxshmfence-1.3-10.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 14099
@@ -17682,13 +17682,13 @@ arches:
     name: libxcrypt
     evr: 4.4.18-3.el9
     sourcerpm: libxcrypt-4.4.18-3.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.4.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libxml2-2.9.13-14.el9_8.5.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 772646
-    checksum: sha256:3b2b7f705584d2aa9dc1a110ef1b00dbefb3305285877a24a24605fcb9567eb0
+    size: 773693
+    checksum: sha256:d55744c4fe83a63a71906ca41607c5c0deff227a69b957708cc6a37537be4a29
     name: libxml2
-    evr: 2.9.13-14.el9_8.4
-    sourcerpm: libxml2-2.9.13-14.el9_8.4.src.rpm
+    evr: 2.9.13-14.el9_8.5
+    sourcerpm: libxml2-2.9.13-14.el9_8.5.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/l/libzstd-1.5.5-1.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 304135
@@ -18230,7 +18230,7 @@ arches:
     sourcerpm: openshift-clients-4.12.0-202312200531.p0.gd4c9e3c.assembly.stream.el8.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/repodata/6c3d0a927f0e05de7df4c552df01a905ece027c5ebd606215742bc05d7f4566d-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/repodata/4351e027189617aa6a5104f784368778b57e3cab03010e018288e09b7d749da7-modules.yaml.gz
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 8505
-    checksum: sha256:6c3d0a927f0e05de7df4c552df01a905ece027c5ebd606215742bc05d7f4566d
+    checksum: sha256:4351e027189617aa6a5104f784368778b57e3cab03010e018288e09b7d749da7
