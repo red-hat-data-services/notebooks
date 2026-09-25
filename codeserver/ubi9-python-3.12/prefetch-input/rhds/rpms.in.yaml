@@ -22,7 +22,7 @@ contentOrigin:
     # rhoai-3.3 Konflux (AIPCC) — RHEL subscription repos
     - /etc/yum.repos.d/redhat.repo
     # Fixed skopeo and containers-common; leave other RPMs on release repositories.
-    - ../../../../prefetch-input/repos/ubi9-security-tools.repo
+    - ../repos/ubi9-security-tools.repo
 
     # Local/GHA public UBI fallback (see prefetch-input/odh/rpms.in.yaml)
     # - ../repos/ubi.repo
