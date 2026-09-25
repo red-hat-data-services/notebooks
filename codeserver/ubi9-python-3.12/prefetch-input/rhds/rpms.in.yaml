@@ -15,6 +15,7 @@ contentOrigin:
     # RHDS (downstream) — uses RHEL subscription repos
     # Option 1: subscription-manager registered system (redhat.repo)
     - /etc/yum.repos.d/redhat.repo
+    - ../../../../base-images/utils/ubi9-security-tools.repo
 
     # Option 2: Internal Red Hat repos (Pulp mirror)
     # - ../repos/rhsm-pulp.repo
@@ -141,7 +142,7 @@ packages:
   - jq
   - libsndfile
   - perl
-  - skopeo
+  - 'skopeo >= 2:1.22.2-8.el9_8'
   - tar
   - wget
 
@@ -157,4 +158,4 @@ packages:
   # ── OpenShift Clients (rhocp / mirror) ──────────────────
   # compat-openssl11: provides libcrypto.so.1.1 / libssl.so.1.1 for openshift-clients on EL9 (check-payload FIPS scan).
   - compat-openssl11
-  - openshift-clients
+  - 'openshift-clients >= 4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9'
