@@ -171,18 +171,20 @@ RUN dnf module enable nodejs:22 -y
 RUN dnf install -y nodejs npm tar && dnf clean all
 
 # Install useful OS packages; oc from mirror.openshift.com client tarball (not RPM).
+COPY base-images/utils/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-dnf install -y tar perl mesa-libGL skopeo
+dnf install -y tar perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8'
 dnf clean all
 rm -rf /var/cache/dnf
 # Install the oc client
-curl -fsSL "https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz" \
+curl -fsSL "https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/4.22.14/openshift-client-linux.tar.gz" \
     -o /tmp/openshift-client-linux.tar.gz
 tar -xzf /tmp/openshift-client-linux.tar.gz -C /usr/local/bin oc
 rm -f /tmp/openshift-client-linux.tar.gz
 chmod 755 /usr/local/bin/oc
 oc version --client
+rm -f /etc/yum.repos.d/ubi9-security-tools.repo
 EOF
 
 # ppc64le/s390x: install openblas-threads (provides libopenblasp.so.0 at runtime for numpy/scipy)
