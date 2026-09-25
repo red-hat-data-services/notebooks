@@ -3,7 +3,7 @@
 #
 # Hybrid (hermetic=false on v2-25 push pipeline):
 #   - npm: still prefetched by cachi2 (/cachi2/output/deps/npm) for the large VS Code tree
-#   - RPMs: installed from UBI/AppStream over the network (dnf)
+#   - RPMs: prefetched from public UBI for base-image-compatible build and runtime packages
 #   - Python: uv/pip install from PyPI at build time (avoids hermeto:pip:package:binary)
 #   - X.org util-macros/libxkbfile: downloaded at build time when not prefetched
 #   - oc: curl openshift-client tarball (pre-hermetic path; avoids openshift-clients RPM repo id)
@@ -146,7 +146,7 @@ RUN echo "done" > /tmp/control
 ############################################################################################
 # cpu-base: Runtime base image with OS packages, tools (oc)
 #
-# Installs OS packages via dnf (network) and oc from the OpenShift client tarball
+# Installs prefetched OS packages via dnf and oc from the OpenShift client tarball
 # (pre-hermetic path) to avoid openshift-clients RPM repository_id Conforma failures.
 ############################################################################################
 FROM ${BASE_IMAGE} AS cpu-base
