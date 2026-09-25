@@ -57,8 +57,12 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     cd "${TMP}"
     git clone --recursive https://github.com/pytorch/pytorch.git -b "${TORCH_TAG}"
     cd pytorch
-    # lintrunner's sdist pyproject.toml is non-compliant with PEP 621; skip it (dev-only dep)
-    grep -v '^lintrunner' requirements.txt | uv pip install -r /dev/stdin
+    # lintrunner's sdist pyproject.toml is non-compliant with PEP 621; skip it (dev-only dep).
+    # Keep the filtered requirements file in this directory so uv resolves nested
+    # requirements includes (for example requirements-build.txt) relative to PyTorch.
+    grep -v '^lintrunner' requirements.txt > requirements-pytorch-build.txt
+    uv pip install -r requirements-pytorch-build.txt
+    rm -f requirements-pytorch-build.txt
     python setup.py develop
     rm -f dist/torch*+git*whl
     MAX_JOBS=${MAX_JOBS:-$(nproc)} \
