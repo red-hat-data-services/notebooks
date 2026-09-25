@@ -65,6 +65,8 @@ spec:
     value: "rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6"
   - name: prefetch-input
     value:
+    - path: codeserver/ubi9-python-3.12/prefetch-input/security-tools
+      type: rpm
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server/lib/vscode/.vscode/extensions/vscode-selfhost-import-aid
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server/lib/vscode/.vscode/extensions/vscode-selfhost-test-provider
