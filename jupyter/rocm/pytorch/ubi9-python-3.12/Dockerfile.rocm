@@ -53,7 +53,7 @@ EOF
 ### END upgrade first to avoid fixable vulnerabilities
 
 # Install useful OS packages
-COPY base-images/utils/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
+COPY prefetch-input/repos/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 dnf install -y perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8'

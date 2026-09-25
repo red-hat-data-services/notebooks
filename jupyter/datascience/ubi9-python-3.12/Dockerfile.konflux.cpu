@@ -69,7 +69,7 @@ EOF
 
 # Install useful OS packages
 COPY jupyter/utils utils/
-COPY base-images/utils/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
+COPY prefetch-input/repos/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
 RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
