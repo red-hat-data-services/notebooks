@@ -315,10 +315,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/88/39/799be3f2f0f38cc
 
 [[packages]]
 name = "codeflare-sdk"
-version = "0.31.5"
+version = "0.39.1"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/3e/d4/2041c57f7852d943f461cf9c794e05dd0472005a1470d4412c0b506bfc98/codeflare_sdk-0.31.5.tar.gz", upload-time = 2026-03-30T13:27:03Z, size = 89751, hashes = { sha256 = "00b76b509bb60ca1ebca70681aebd1eadbe3f6b104360c94cea2550bd839466f" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/85/2d/bf567a46fc740b9e48a72e68a220c916b5bc20104de008dd1fb25e04ad65/codeflare_sdk-0.31.5-py3-none-any.whl", upload-time = 2026-03-30T13:27:01Z, size = 140610, hashes = { sha256 = "bc9826a16ca5ed0cb42f6baee7b4a951c927d9eeb97cf43eaf2443596addd8be" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/74/80/805e343a3caf484559a1b4614cb422cfb40242e7ee6aa87a2e50c9bcb9c4/codeflare_sdk-0.39.1.tar.gz", upload-time = 2026-09-15T12:26:35Z, size = 186975, hashes = { sha256 = "cf732f885b936c9de5c0e0585103349488058a3a6aee597e07190bd14b14b2dd" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/2e/49/d2ea8152daa24b76b2ab63d2bc456dd8cb9a8de90ba507215d7b92faf3ef/codeflare_sdk-0.39.1-py3-none-any.whl", upload-time = 2026-09-15T12:26:33Z, size = 262175, hashes = { sha256 = "72eafe523c811008abf195698dbc42798484b316bc115b2319f8f6bc228f271c" } }]
 
 [[packages]]
 name = "colorama"
@@ -455,6 +455,13 @@ sdist = { url = "https://files.pythonhosted.org/packages/52/d8/8abe80d62c5dce107
 wheels = [{ url = "https://files.pythonhosted.org/packages/56/7b/af3d0da15bed3a8665419bb3a630585756920f4ad67abfdfef26240ebcc0/docstring_to_markdown-0.17-py3-none-any.whl", upload-time = 2025-05-02T15:09:06Z, size = 23479, hashes = { sha256 = "fd7d5094aa83943bf5f9e1a13701866b7c452eac19765380dead666e36d3711c" } }]
 
 [[packages]]
+name = "durationpy"
+version = "0.11"
+marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
+sdist = { url = "https://files.pythonhosted.org/packages/b0/5d/5f8571bd5dedc80863191621ac4be001f3f3dd8315d2ec078705dab7dec1/durationpy-0.11.tar.gz", upload-time = 2026-08-26T13:56:00Z, size = 3582, hashes = { sha256 = "181898e1ae282e288f0a2291829656bf1b6b3aadf30a97993b85db4943642905" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/e6/c4/ebdf7837bc4ef6fd98cfb013c28855bb358467bf86c1af011bbc21e21df0/durationpy-0.11-py3-none-any.whl", upload-time = 2026-08-26T13:55:59Z, size = 4133, hashes = { sha256 = "a739fe2b8972c250ff72f8e2c488d18cf25f7b852f49ee76048775d5171df30c" } }]
+
+[[packages]]
 name = "entrypoints"
 version = "0.4"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
@@ -463,10 +470,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/35/a8/365059bbcd4572c
 
 [[packages]]
 name = "executing"
-version = "1.2.0"
+version = "2.2.1"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/8f/ac/89ff37d8594b0eef176b7cec742ac868fef853b8e18df0309e3def9f480b/executing-1.2.0.tar.gz", upload-time = 2022-10-29T13:51:11Z, size = 654544, hashes = { sha256 = "19da64c18d2d851112f09c287f8d3dbbdf725ab0e569077efb6cdcbd3497c107" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/28/3c/bc3819dd8b1a1588c9215a87271b6178cc5498acaa83885211f5d4d9e693/executing-1.2.0-py2.py3-none-any.whl", upload-time = 2022-10-29T13:51:08Z, size = 24360, hashes = { sha256 = "0314a69e37426e3608aada02473b4161d4caf5a4b244d1d0c48072b8fee7bacc" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/cc/28/c14e053b6762b1044f34a13aab6859bbf40456d37d23aa286ac24cfd9a5d/executing-2.2.1.tar.gz", upload-time = 2025-09-01T09:48:10Z, size = 1129488, hashes = { sha256 = "3632cc370565f6648cc328b32435bd120a1e4ebb20c77e3fdde9a13cd1e533c4" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/c1/ea/53f2148663b321f21b5a606bd5f191517cf40b7072c0497d3c92c4a13b1e/executing-2.2.1-py2.py3-none-any.whl", upload-time = 2025-09-01T09:48:08Z, size = 28317, hashes = { sha256 = "760643d3452b4d777d295bb167ccc74c64a81df23fb5e08eff250c425a4b2017" } }]
 
 [[packages]]
 name = "fastapi"
@@ -892,10 +899,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/28/74/3975cf07c16cfaf
 
 [[packages]]
 name = "jupyter-server"
-version = "2.20.0"
+version = "2.21.1"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/6b/dc/db3a582633170186f8c8b31298d7eb26ad0eb031a1f53476c258b64eed05/jupyter_server-2.20.0.tar.gz", upload-time = 2026-06-17T12:09:09Z, size = 756523, hashes = { sha256 = "b5778ba337d8015a3dc2b80803ecdd5ac18d3797fddf61a50ea5fb472b4ebe14" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/f3/71/8c002223e873a870f5c41dc69b0a7c922301123e4a31d5d01ecb700aef77/jupyter_server-2.20.0-py3-none-any.whl", upload-time = 2026-06-17T12:09:07Z, size = 393143, hashes = { sha256 = "c3b67c93c471e947c18b5026f04f21614218adb706df8f48227d3ee8e0a7cdcc" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/65/3d/3c9f8bce5d5448107bd285cd80185e76c9c871d076b580dfd90997e52904/jupyter_server-2.21.1.tar.gz", upload-time = 2026-09-15T16:00:07Z, size = 761651, hashes = { sha256 = "a8960aa29263f6041283e97d4756b099fb49b767baab6371891ecb1bd40a63df" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/1d/39/91bc08650cc8e3efeb7a83c25e20ebddcc9b70d28b4eb6f51a4fb55da7a4/jupyter_server-2.21.1-py3-none-any.whl", upload-time = 2026-09-15T16:00:05Z, size = 394641, hashes = { sha256 = "2a6467606af7dbae2e7e31640030025969e15db6a649eae334af90415dc71dca" } }]
 
 [[packages]]
 name = "jupyter-server-proxy"
@@ -969,10 +976,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/0f/61/22e778f642465a1
 
 [[packages]]
 name = "kfp"
-version = "2.15.2"
+version = "2.17.0"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/89/4b/2dd0352eb21aa8166ec0effe48c08e64f4eb05dc82cf7586e39dfd35f828/kfp-2.15.2.tar.gz", upload-time = 2025-12-03T21:35:30Z, size = 297293, hashes = { sha256 = "389933cbebdead61dd1eef538ff09d467048dc97edee2a70c80ca264506501cd" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/50/db/5ee012dafdaaf5981e2dfe9c990d78e4218d62c128ea743f5c2340d73329/kfp-2.15.2-py3-none-any.whl", upload-time = 2025-12-03T21:35:28Z, size = 397542, hashes = { sha256 = "5d522b522707d10fe1c2b42884f003a778794bb8d858e7a4e30545ab9dd7be97" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/e9/e8/a14556188eb695055db4bfa7714ed84eb555637c97e4da77b67df573499b/kfp-2.17.0.tar.gz", upload-time = 2026-07-09T13:46:40Z, size = 362373, hashes = { sha256 = "92dd2fc0cca5b073f14860253e936cc9e6901f871dfae355be6a9f8ea9d580c5" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/e9/c6/eab3e5ed59497c09e0aca3f1cf0fc7c9c7ceaa05be0db620787355ffb351/kfp-2.17.0-py3-none-any.whl", upload-time = 2026-07-09T13:46:38Z, size = 477920, hashes = { sha256 = "dff321b76b2be8a09748a1be805a88699b4919e13bb6a1bf67ebf3074ea8ce3f" } }]
 
 [[packages]]
 name = "kfp-kubernetes"
@@ -1019,18 +1026,25 @@ wheels = [
 ]
 
 [[packages]]
-name = "kubeflow-training"
-version = "1.9.3"
+name = "kube-authkit"
+version = "0.4.0"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/2d/09/461224b1a3bbea34ca919def3b11d5a50c8c6a73bd6d9d135729a54d35db/kubeflow_training-1.9.3.tar.gz", upload-time = 2025-07-16T18:44:11Z, size = 66274, hashes = { sha256 = "9033752cf32467bb93d0b6706b40445d29bc85b115a57b892aabfead6c88cd5c" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/20/fb/6d1db6bdaba68ccd9e74a76ba730cdafa6d453111563fb2f143962e89e2d/kubeflow_training-1.9.3-py3-none-any.whl", upload-time = 2025-07-16T18:44:10Z, size = 113508, hashes = { sha256 = "f13634679b506119eb514164179a98b1963d8a59ba1c491eb43631b32d65576a" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/11/69/3890e8934aab209f5b02c11409e906a507005202caea2b40901d44a101de/kube_authkit-0.4.0.tar.gz", upload-time = 2026-02-18T15:56:51Z, size = 106762, hashes = { sha256 = "1df61ac392fca96c8f5ae8c3d6e9918f1e1655d212434b3c3da5f92cc23b660d" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/52/b1/45bc0f80d554ec68327a8948698015712d11edd5a8c00f6d1e11bc90234b/kube_authkit-0.4.0-py3-none-any.whl", upload-time = 2026-02-18T15:56:50Z, size = 32210, hashes = { sha256 = "3bf5fc6ddc882498040118c907628ea68789f9a947454c241972008be59601a3" } }]
+
+[[packages]]
+name = "kubeflow-training"
+version = "1.9.4"
+marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
+sdist = { url = "https://files.pythonhosted.org/packages/f1/94/dfd113d721aab778d63dacc1aff19259a1622a6dd809c5f71305d9b403ad/kubeflow_training-1.9.4.tar.gz", upload-time = 2026-08-18T17:47:24Z, size = 66922, hashes = { sha256 = "a881c61857149354e5679df87ab120c861f19beb603181170e8e0b76ad43f78c" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/a8/bc/075681eb480e6f0d36647c7332ea9a1506903367181ccc1d348207effec8/kubeflow_training-1.9.4-py3-none-any.whl", upload-time = 2026-08-18T17:47:23Z, size = 113515, hashes = { sha256 = "8e97dea4ed0970845e49277e0fc048ee135226dd8c66691498153ed451092b2b" } }]
 
 [[packages]]
 name = "kubernetes"
-version = "30.1.0"
+version = "36.0.3"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/82/3c/9f29f6cab7f35df8e54f019e5719465fa97b877be2454e99f989270b4f34/kubernetes-30.1.0.tar.gz", upload-time = 2024-06-06T15:58:30Z, size = 887810, hashes = { sha256 = "41e4c77af9f28e7a6c314e3bd06a8c6229ddd787cad684e0ab9f69b498e98ebc" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/62/a1/2027ddede72d33be2effc087580aeba07e733a7360780ae87226f1f91bd8/kubernetes-30.1.0-py2.py3-none-any.whl", upload-time = 2024-06-06T15:58:27Z, size = 1706042, hashes = { sha256 = "e212e8b7579031dd2e512168b617373bc1e03888d41ac4e04039240a292d478d" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/ca/57/b07b96353f902aa1bdbe00e878e3a12a137977d03a962479785576aa8ec9/kubernetes-36.0.3.tar.gz", upload-time = 2026-07-13T20:38:12Z, size = 2337528, hashes = { sha256 = "36993ed25ce59b789c9341473a228fcf268504a2fec7c2b2b1531d73072e5ce7" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/5b/30/a96d47df739689ac0001ade0afefc16e3b477fc2fb426b568515fdc8afce/kubernetes-36.0.3-py2.py3-none-any.whl", upload-time = 2026-07-13T20:38:10Z, size = 4618066, hashes = { sha256 = "8fde9241c4b298e6374a069dcf728359b4e72c2fb29489a975ba4e1c047cf10f" } }]
 
 [[packages]]
 name = "lark"
@@ -1613,12 +1627,12 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/41/5d/0f04b85dafdc325
 
 [[packages]]
 name = "protobuf"
-version = "6.33.6"
+version = "7.36.1"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/66/70/e908e9c5e52ef7c3a6c7902c9dfbb34c7e29c25d2f81ade3856445fd5c94/protobuf-6.33.6.tar.gz", upload-time = 2026-03-18T19:05:00Z, size = 444531, hashes = { sha256 = "a6768d25248312c297558af96a9f9c929e8c4cee0659cb07e780731095f38135" } }
+sdist = { url = "https://files.pythonhosted.org/packages/86/73/f66c748df06e7fe24e658eddd600d19c4b40bad836c97ce2d0ad9851fb6b/protobuf-7.36.1.tar.gz", upload-time = 2026-08-31T22:40:04Z, size = 512499, hashes = { sha256 = "d0f6470f0ce2b84e3feaea2d4b816378b37ba4d4aa08a274305373de93e2d524" } }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/16/92/d1e32e3e0d894fe00b15ce28ad4944ab692713f2e7f0a99787405e43533a/protobuf-6.33.6-cp39-abi3-manylinux2014_x86_64.whl", upload-time = 2026-03-18T19:04:55Z, size = 323436, hashes = { sha256 = "e9db7e292e0ab79dd108d7f1a94fe31601ce1ee3f7b79e0692043423020b0593" } },
-    { url = "https://files.pythonhosted.org/packages/c4/72/02445137af02769918a93807b2b7890047c32bfb9f90371cbc12688819eb/protobuf-6.33.6-py3-none-any.whl", upload-time = 2026-03-18T19:04:59Z, size = 170656, hashes = { sha256 = "77179e006c476e69bf8e8ce866640091ec42e1beb80b213c3900006ecfba6901" } },
+    { url = "https://files.pythonhosted.org/packages/22/df/c799fe7a05ef16ba853a59db01f3a2c5f7d0676469589ccc4874f76a2a88/protobuf-7.36.1-cp310-abi3-manylinux2014_x86_64.whl", upload-time = 2026-08-31T22:40:00Z, size = 343228, hashes = { sha256 = "97198b77e369a0abd8e262b8f6c7266c55ddb796a3a12c76d7b8881188ed83aa" } },
+    { url = "https://files.pythonhosted.org/packages/39/ca/c47f91d3cab175b01fd8c4f0d80fdf8613be876cc616e66ad281a59c5ddf/protobuf-7.36.1-py3-none-any.whl", upload-time = 2026-08-31T22:40:03Z, size = 179813, hashes = { sha256 = "7d951e46b3f963d6c264c367c437921de9d5aedd9c3f9612b9077736b4e3ad5c" } },
 ]
 
 [[packages]]
@@ -1942,11 +1956,12 @@ wheels = [
 
 [[packages]]
 name = "ray"
-version = "2.52.1"
+version = "2.58.0"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d7/a5/eaea6f080953dfe1506c4d7b7e16a46536b6ebc9f39703683e0c94e115e0/ray-2.52.1-cp312-cp312-manylinux2014_x86_64.whl", upload-time = 2025-11-28T02:22:56Z, size = 72267230, hashes = { sha256 = "843c0108ad72bb7fc6c23a22e29e6099546a5eaad3ad675c78a146d9080f6ec6" } },
-    { url = "https://files.pythonhosted.org/packages/a0/a0/b5e0099e1b1b3dc2e4c6c78a6630fd97ed2706cd47daba4d7872897cfe86/ray-2.52.1-cp313-cp313-manylinux2014_x86_64.whl", upload-time = 2025-11-28T02:23:17Z, size = 72181309, hashes = { sha256 = "bbe492c780a39a64bd3d0766cad10d54cf12222df88d287ec2d8f2d52de37c79" } },
+    { url = "https://files.pythonhosted.org/packages/21/7d/414e1f271bd5f849fbdb4e8646d23c2897719b0c0399a626c73a3815e2ef/ray-2.58.0-cp312-cp312-manylinux2014_x86_64.whl", upload-time = 2026-08-23T04:46:42Z, size = 78389778, hashes = { sha256 = "1e20c4a8d2563d9580e78f7c15297a9f8afe92401b698bceb4106c34b30c01c6" } },
+    { url = "https://files.pythonhosted.org/packages/ae/1f/59306bf0583844fc935497c7400b30abf3914d85c6a0fd664d5cf184d6ef/ray-2.58.0-cp313-cp313-manylinux2014_x86_64.whl", upload-time = 2026-08-23T04:47:02Z, size = 78330547, hashes = { sha256 = "b2262140a199458c5ad6f7917ec758d057d1669f824048f785119c6ce2539363" } },
+    { url = "https://files.pythonhosted.org/packages/36/15/b684b53e67a2d9da4bfb3ebadf2a4ddec8c7ca170689647b4057a2b42437/ray-2.58.0-cp314-cp314-manylinux2014_x86_64.whl", upload-time = 2026-08-23T04:47:22Z, size = 78295648, hashes = { sha256 = "79765b3adaec0ece8ae4e7ae8cd599ff599a71e6dd4f0e773a1187b47261ca7b" } },
 ]
 
 [[packages]]
@@ -1958,10 +1973,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/2c/58/ca301544e1fa93e
 
 [[packages]]
 name = "requests"
-version = "2.34.2"
+version = "2.33.0"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/ac/c3/e2a2b89f2d3e2179abd6d00ebd70bff6273f37fb3e0cc209f48b39d00cbf/requests-2.34.2.tar.gz", upload-time = 2026-05-14T19:25:27Z, size = 142856, hashes = { sha256 = "f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl", upload-time = 2026-05-14T19:25:26Z, size = 73075, hashes = { sha256 = "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/34/64/8860370b167a9721e8956ae116825caff829224fbca0ca6e7bf8ddef8430/requests-2.33.0.tar.gz", upload-time = 2026-03-25T15:10:41Z, size = 134232, hashes = { sha256 = "c7ebc5e8b0f21837386ad0e1c8fe8b829fa5f544d8df3b2253bff14ef29d7652" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/56/5d/c814546c2333ceea4ba42262d8c4d55763003e767fa169adc693bd524478/requests-2.33.0-py3-none-any.whl", upload-time = 2026-03-25T15:10:40Z, size = 65017, hashes = { sha256 = "3324635456fa185245e24865e810cecec7b4caf933d7eb133dcde67d48cee69b" } }]
 
 [[packages]]
 name = "requests-oauthlib"
