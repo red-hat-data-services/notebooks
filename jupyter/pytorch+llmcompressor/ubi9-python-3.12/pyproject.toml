@@ -41,7 +41,7 @@ dependencies = [
     "mysql-connector-python~=9.4.0",
 
     # JupyterLab packages
-    "odh-elyra==5.0.2",
+    "odh-elyra==5.0.3",
     "odh-jupyter-trash-cleanup==0.1.1",
 
     "jupyterlab==4.6.3",
@@ -83,7 +83,7 @@ override-dependencies = [
     "protobuf==7.36.1",
     # RHAIENG-6097+: llmcompressor caps pillow<=12.2.0
     "pillow>=12.3.0",
-    # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.2 jupyterlab override)
+    # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.3 jupyterlab override)
     "jupyterlab>=4.5.7",
     # RHAIENG-2458: elyra pins urllib3 below RHAIIS/CVE floor; constraints alone do not replace transitive caps
     "urllib3>=2.7.0",

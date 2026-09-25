@@ -35,7 +35,7 @@ dependencies = [
     "mysql-connector-python~=9.4.0",
 
     # JupyterLab packages
-    "odh-elyra==5.0.2",
+    "odh-elyra==5.0.3",
     "odh-jupyter-trash-cleanup==0.1.1",
 
     "jupyterlab==4.6.3",
@@ -60,7 +60,7 @@ dependencies = [
 override-dependencies = [
     "kubernetes>=35.0.0",
     "protobuf==7.36.1",
-    # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.2 jupyterlab override)
+    # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.3 jupyterlab override)
     "jupyterlab>=4.5.7",
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
     "cryptography>=46.0.7",
