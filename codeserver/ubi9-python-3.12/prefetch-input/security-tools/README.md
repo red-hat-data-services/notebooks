@@ -9,10 +9,11 @@ GHA already fetches the larger `../rhds/rpms.lock.yaml`. Keep skopeo and
 containers-common versions, URLs and checksums synchronized between the two
 lockfiles; other dependencies may use the release-specific GHA RPM versions.
 The initial public UBI entries are taken from the rhoai-2.25 Code Server
-RHDS lockfile. When updating skopeo, update its exact filename in
+RHDS lockfile. When updating skopeo, update the minimum version in
 `Dockerfile.konflux.cpu` and test the installation with networking disabled.
 
-The Dockerfile installs these local RPMs with remote repositories disabled
-and `localpkg_gpgcheck=1`. Missing files, signatures or dependencies fail the
-build instead of falling back to a network download. This does not make the
+The Dockerfile uses normal DNF dependency resolution. The build must expose
+Hermeto-generated repository definitions pointing to the prefetched RPMs;
+the Makefile mounts these definitions at `/etc/yum.repos.d`. RPM signature
+checks remain enabled in those repositories. This does not make the
 remaining hybrid Code Server build steps hermetic.

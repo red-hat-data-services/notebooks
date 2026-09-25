@@ -167,13 +167,7 @@ RUN dnf install -y nodejs npm tar && dnf clean all
 # Install useful OS packages; oc from mirror.openshift.com client tarball (not RPM).
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-dnf install -y tar perl mesa-libGL
-# Both GHA and Konflux prefetch these signed RPMs; never resolve them online.
-security_rpms="/cachi2/output/deps/rpm/$(uname -m)"
-dnf --disablerepo='*' --setopt=localpkg_gpgcheck=1 install -y \
-    "${security_rpms}"/*/{containers-common,crun,shadow-utils-subid,yajl}-*.rpm \
-    "${security_rpms}"/*/skopeo-1.22.2-8.el9_8.*.rpm
-rpm -q skopeo
+dnf install -y tar perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8'
 dnf clean all
 rm -rf /var/cache/dnf
 # Install the oc client (same approach as pre-hermetic Dockerfile.cpu)
