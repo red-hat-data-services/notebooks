@@ -9,9 +9,7 @@ case "${arch}" in
     *) exit 0 ;;
 esac
 
-EPEL=https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-
-dnf install -y dnf-plugins-core "${EPEL}"
+dnf install -y dnf-plugins-core
 subscription-manager repos --enable "codeready-builder-for-rhel-9-${arch}-rpms"
 
 dnf install -y \
