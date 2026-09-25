@@ -54,7 +54,7 @@ dependencies = [
     "odh-elyra==5.0.2",
     "odh-jupyter-trash-cleanup==0.1.1",
 
-    "jupyterlab==4.6.2",
+    "jupyterlab==4.6.3",
     "jupyter-bokeh~=4.0.5", # Required by TrustyAI 0.6.4
     "jupyter-server~=2.21.0",
     "jupyter-server-proxy~=4.4.0",
