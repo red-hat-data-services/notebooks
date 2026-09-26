@@ -102,7 +102,7 @@ define build_image
 # Dockerfile runs). The mount hides the base image's default repos.
 # Konflux buildah-oci-ta task mounts YUM_REPOS_D_FETCHED at YUM_REPOS_D_TARGET (/etc/yum.repos.d).
 # See https://github.com/konflux-ci/build-definitions/blob/main/task/buildah-oci-ta/
-$(eval _DOCKERFILE_USES_PREFETCH := $(shell grep -q 'prefetch-input/' $(2) 2>/dev/null && echo yes))
+$(eval _DOCKERFILE_USES_PREFETCH := $(shell grep -q '/cachi2/output' $(2) 2>/dev/null && echo yes))
 $(eval PREFETCH_INPUT_DIR := $(or $(wildcard $(BUILD_DIR)prefetch-input),$(if $(_DOCKERFILE_USES_PREFETCH),$(wildcard $(ROOT_DIR)prefetch-input),)))
 $(eval CACHI2_VOLUME := $(if $(and $(wildcard cachi2/output),$(PREFETCH_INPUT_DIR)),\
 	--volume $(ROOT_DIR)cachi2/output:/cachi2/output:Z \

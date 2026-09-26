@@ -15,6 +15,7 @@ contentOrigin:
     # RHDS (downstream) — uses RHEL subscription repos
     # Option 1: subscription-manager registered system (redhat.repo)
     - /etc/yum.repos.d/redhat.repo
+    - ../repos/ubi9-security-tools.repo
 
     # Option 2: Internal Red Hat repos (Pulp mirror)
     # - ../repos/rhsm-pulp.repo
@@ -30,7 +31,7 @@ arches:
 
 packages:
   - perl
-  - skopeo
+  - 'skopeo >= 2:1.22.2-8.el9_8'
 
   - mesa-dri-drivers
   - mesa-filesystem
@@ -49,7 +50,7 @@ packages:
   - protobuf
 
   - compat-openssl11
-  - openshift-clients
+  - 'openshift-clients >= 4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9'
 
   # texlive
   - texlive-adjustbox
