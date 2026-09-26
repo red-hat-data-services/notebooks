@@ -11,14 +11,15 @@
 # Previously, the Dockerfile ran `dnf install` with network access.
 #
 # rhoai-2.25 Konflux builds use BASE_IMAGE=registry.access.redhat.com/ubi9/python-312:latest
-# with public UBI repos + openshift-clients mirror (no subscription). Regenerate
+# with public UBI repos (no subscription). Regenerate
 # rhds/rpms.lock.yaml via create-rpm-lockfile.sh without subscription.
 
 contentOrigin:
   repofiles:
-    # rhoai-2.25 — public UBI + openshift mirror (no subscription)
+    # rhoai-2.25 — public UBI (no subscription)
+    # Full UBI AppStream includes the security tools; do not also load the
+    # restricted security-tools repo with the same repository ID.
     - ../repos/ubi.repo
-    - ../repos/openshift-clients.repo
 
     # RHOAI 3.5+ AIPCC — RHEL subscription repos (requires --activation-key --org)
     # - /etc/yum.repos.d/redhat.repo
@@ -136,7 +137,7 @@ packages:
   - jq
   - libsndfile
   - perl
-  - skopeo
+  - 'skopeo >= 2:1.22.2-8.el9_8'
   - tar
   - wget
 
@@ -150,6 +151,6 @@ packages:
   - rsync
 
   # ── OpenShift Clients (rhocp / mirror) ──────────────────
+  # oc is installed from its client tarball; do not prefetch openshift-clients.
   # compat-openssl11: provides libcrypto.so.1.1 / libssl.so.1.1 for openshift-clients on EL9 (check-payload FIPS scan).
   - compat-openssl11
-  - openshift-clients
