@@ -96,7 +96,7 @@ define build_image
 	$(if $(findstring PARSE_FAILED,$(_BUILD_ARGS_OUT)),$(error Failed to parse $(CONF_FILE) — see stderr for details))
 	$(eval BUILD_ARGS := $(_BUILD_ARGS_OUT))
 
-$(eval _DOCKERFILE_USES_PREFETCH := $(shell grep -q '/cachi2/output' $(2) 2>/dev/null && echo yes))
+$(eval _DOCKERFILE_USES_PREFETCH := $(shell sed '/^[[:space:]]*\#/d' $(2) 2>/dev/null | grep -q '/cachi2/output' && echo yes))
 $(eval PREFETCH_INPUT_DIR := $(or $(wildcard $(BUILD_DIR)prefetch-input),$(if $(_DOCKERFILE_USES_PREFETCH),$(wildcard $(ROOT_DIR)prefetch-input),)))
 $(eval CACHI2_VOLUME := $(if $(and $(wildcard cachi2/output),$(PREFETCH_INPUT_DIR)),\
 	--volume $(ROOT_DIR)/cachi2/output:/cachi2/output:Z \

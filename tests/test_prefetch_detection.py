@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -57,24 +57,52 @@ def test_workflow_prefetch_detection(tmp_path: Path, dockerfile: str, component_
     assert result.stdout.strip() == expected
 
 
-@pytest.mark.parametrize("uses_cache", [False, True])
-def test_makefile_shared_prefetch_detection(tmp_path: Path, uses_cache: bool) -> None:
+@pytest.mark.parametrize(
+    ("dockerfile", "uses_cache"),
+    [
+        ("COPY prefetch-input/repos/ubi9-security-tools.repo /etc/yum.repos.d/tools.repo\n", False),
+        ("# npm cache: /cachi2/output/deps/npm\n", False),
+        ("  # npm cache: /cachi2/output/deps/npm\n", False),
+        ("\t# npm cache: /cachi2/output/deps/npm\n", False),
+        ("COPY /cachi2/output/deps/pip /wheels\n", True),
+        ("RUN pip install --no-index \\\n    --find-links /cachi2/output/deps/pip example\n", True),
+    ],
+)
+@pytest.mark.parametrize("component_prefetch", [False, True])
+def test_makefile_shared_prefetch_detection(
+    tmp_path: Path, dockerfile: str, uses_cache: bool, component_prefetch: bool
+) -> None:
     makefile = (ROOT / "Makefile").read_text()
-    match = re.search(r"_DOCKERFILE_USES_PREFETCH := \$\(shell (.*?)\)\)", makefile)
-    if match is None:
-        pytest.skip("This release only mounts component-specific prefetch in Makefile")
-    path = tmp_path / "Dockerfile"
-    path.write_text(
-        "COPY /cachi2/output/deps/pip /wheels\n"
-        if uses_cache
-        else "COPY prefetch-input/repos/ubi9-security-tools.repo /etc/yum.repos.d/tools.repo\n"
+    lines = [
+        line
+        for line in makefile.splitlines()
+        if line.startswith(("$(eval _DOCKERFILE_USES_PREFETCH :=", "$(eval PREFETCH_INPUT_DIR :="))
+    ]
+    assert len(lines) == 2
+    component = tmp_path / "component"
+    component.mkdir()
+    if component_prefetch:
+        (component / "prefetch-input").mkdir()
+    (tmp_path / "prefetch-input").mkdir()
+    path = component / "Dockerfile"
+    path.write_text(dockerfile)
+    harness = tmp_path / "Makefile"
+    harness.write_text(
+        "define detect\n" + "\n".join(lines) + "\nendef\n"
+        "$(call detect,unused,$(BUILD_DIR)Dockerfile)\n"
+        "$(info uses_cache=$(_DOCKERFILE_USES_PREFETCH))\n"
+        "$(info input=$(PREFETCH_INPUT_DIR))\n"
+        ".PHONY: all\nall:;@:\n"
     )
-    command = match.group(1).replace("$(2)", '"$DOCKERFILE"')
     result = subprocess.run(
-        ["bash", "-c", command],
-        env={**os.environ, "DOCKERFILE": str(path)},
+        [shutil.which("gmake") or "make", "-s", "-f", str(harness), f"BUILD_DIR={component}/", f"ROOT_DIR={tmp_path}/"],
+        cwd=tmp_path,
         capture_output=True,
         text=True,
-        check=False,
+        check=True,
     )
-    assert (result.stdout.strip() == "yes") == uses_cache
+    expected_dir = (
+        component / "prefetch-input" if component_prefetch else tmp_path / "prefetch-input" if uses_cache else ""
+    )
+    assert f"uses_cache={'yes' if uses_cache else ''}\n" in result.stdout
+    assert f"input={expected_dir}\n" in result.stdout
