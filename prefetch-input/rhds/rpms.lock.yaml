@@ -25,13 +25,13 @@ arches:
     name: containers-common
     evr: 3:1-78.rhaos4.16.el9
     sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.aarch64.rpm
     repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 54080966
-    checksum: sha256:aca8538e130743bdd3aeae1ec02732402ed7d71840d6ac7016bd27cd63c7540c
+    size: 54115507
+    checksum: sha256:814ad26801c6c0bdafc0d65c64c0741391cfb44cc563f4ae0161d3cd7b606217
     name: openshift-clients
-    evr: 4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.src.rpm
+    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
+    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/a/abattis-cantarell-fonts-0.301-4.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 377278
@@ -445,13 +445,13 @@ arches:
     name: git-core
     evr: 2.47.3-1.el9_6
     sourcerpm: git-2.47.3-1.el9_6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.4.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.7.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 4432600
-    checksum: sha256:ba94efeb4409b6295429c1a2541437df4ec1ed5016ff6ccf2e4316467324dc2d
+    size: 4520428
+    checksum: sha256:88380de7372c47585756dd119c6fed0a50f29b5be2aba16c8943462217b567df
     name: git-lfs
-    evr: 3.6.1-2.el9_6.4
-    sourcerpm: git-lfs-3.6.1-2.el9_6.4.src.rpm
+    evr: 3.6.1-2.el9_6.7
+    sourcerpm: git-lfs-3.6.1-2.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/g/glibc-devel-2.34-168.el9_6.25.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 558834
@@ -494,13 +494,13 @@ arches:
     name: gstreamer1
     evr: 1.22.12-3.el9
     sourcerpm: gstreamer1-1.22.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 2221812
-    checksum: sha256:9f6f9ff87d912ec32cc3fbc84a620667674f06affdffea13514eba351774a7dd
+    size: 2220943
+    checksum: sha256:a8ed76fbe989d14c2b0eedbf47ab3c128161f84f8492f3d37692c84f380b7b17
     name: gstreamer1-plugins-base
-    evr: 1.22.12-5.el9_6
-    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.src.rpm
+    evr: 1.22.12-5.el9_6.1
+    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/g/gtk-update-icon-cache-3.24.31-6.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 32574
@@ -529,20 +529,20 @@ arches:
     name: iso-codes
     evr: 4.6.0-3.el9
     sourcerpm: iso-codes-4.6.0-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/j/java-17-openjdk-17.0.20.0.8-1.1.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/j/java-17-openjdk-17.0.20.1.1-1.1.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 461893
-    checksum: sha256:e9fb35003c61caff1cc0aff6ef2ce1d4b6d585c2a5fbb6727fd85b5586985d09
+    size: 462321
+    checksum: sha256:a024681afa542827144b22f4bd7f6afa46a273848eaa02759d0a17b27a808b20
     name: java-17-openjdk
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.0.8-1.1.el9.aarch64.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.1.1-1.1.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 46640993
-    checksum: sha256:e5d2f834d040b37c0c18e9723a2507ca37d5391509e3f1340bff467baf4198d9
+    size: 46650559
+    checksum: sha256:62417e9102cf06b4865eb1328111ef35f0df554e074d2b159ab934dfdf824716
     name: java-17-openjdk-headless
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/j/javapackages-filesystem-6.4.0-1.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17320
@@ -564,13 +564,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-570.134.1.el9_6.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/k/kernel-headers-5.14.0-570.141.1.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 3825653
-    checksum: sha256:c65e5540c80520e59a34b6e089c1d3bb7fa8931417a31b9e86193d9fcfabc244
+    size: 3825453
+    checksum: sha256:1f6099323373752f243b964478e035ede5672f48e8d7d3a6c3098a2a1edc7c05
     name: kernel-headers
-    evr: 5.14.0-570.134.1.el9_6
-    sourcerpm: kernel-5.14.0-570.134.1.el9_6.src.rpm
+    evr: 5.14.0-570.141.1.el9_6
+    sourcerpm: kernel-5.14.0-570.141.1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/k/kernel-srpm-macros-1.0-13.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17792
@@ -1194,48 +1194,48 @@ arches:
     name: mpg123-libs
     evr: 1.32.9-1.el9_5
     sourcerpm: mpg123-1.32.9-1.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nspr-4.36.0-8.el9_4.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nspr-4.39.0-5.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 133009
-    checksum: sha256:62c1b2f3c3449398c9e26260fd5ffef5b2a98c46021f0500997acf300dd73c8c
+    size: 133400
+    checksum: sha256:b1dbf78aeec6ff02fc8938197360b84530d84d01e033fddfdb5c78cd2c7643c1
     name: nspr
-    evr: 4.36.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-3.112.0-8.el9_4.aarch64.rpm
+    evr: 4.39.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-3.124.0-5.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 716665
-    checksum: sha256:0ef932c6db313eaa521bf06bfb9f4db64fde4c7ebd0d7c1a52d83d47681c3835
+    size: 721073
+    checksum: sha256:ee17c2a42a75197b48c75aa288e52e5d89b8eca35ac2f71948ee1b45ee077670
     name: nss
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-softokn-3.112.0-8.el9_4.aarch64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-softokn-3.124.0-5.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 401904
-    checksum: sha256:b29a815c51c277a643d6be562b5adada99b176a5ba88ef70846857dd5a7afae3
+    size: 412622
+    checksum: sha256:202050820e402f88166053502c475f927f9767ebf40b535679085fb243d43975
     name: nss-softokn
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-softokn-freebl-3.112.0-8.el9_4.aarch64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-softokn-freebl-3.124.0-5.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 426649
-    checksum: sha256:bf4b311a50db968ea7b6792d4bc65abd76c69e175c1f98c93ab58b15ace50867
+    size: 388011
+    checksum: sha256:4edf3f47df832c89e9fe5ad647b987c0f381104b7803d72c3e16b9d292e9c967
     name: nss-softokn-freebl
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-sysinit-3.112.0-8.el9_4.aarch64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-sysinit-3.124.0-5.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 18107
-    checksum: sha256:94fece74db2641d00a59c645854b095079ceba5229ff865ed7f4c02b668a94f6
+    size: 18492
+    checksum: sha256:df260629800ab66f4d884bd96ff0f3ed50923c94600b93223925eb0d7307bb88
     name: nss-sysinit
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-util-3.112.0-8.el9_4.aarch64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/n/nss-util-3.124.0-5.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 88444
-    checksum: sha256:231995ed0e7855c83a0ce2ff70d435c430b32f347573cc4969734438715b313c
+    size: 89281
+    checksum: sha256:027f9a254cd14827427935e7fe65a019408ee0e129f492583eff3ef31e6d7cc5
     name: nss-util
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/o/ocaml-srpm-macros-6-6.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 9270
@@ -3028,20 +3028,20 @@ arches:
     name: poppler-glib
     evr: 21.01.0-22.el9_6.1
     sourcerpm: poppler-21.01.0-22.el9_6.1.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/p/postgresql-13.23-1.el9_6.3.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/p/postgresql-13.23-1.el9_6.4.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 1691843
-    checksum: sha256:e3a9d09988041ba15777389d0ee646175f1962ca7908b2f62df451fef180d2f6
+    size: 1692150
+    checksum: sha256:d5fc1b1502db2546389fecd5a0dda4b3533fc596c6d6f01231c170f6fb4d8d05
     name: postgresql
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.3.aarch64.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.4.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 138851
-    checksum: sha256:b33560ccb1b6b8e6c6cb323a2face4cab062404f852c30e8626c61ff5dd1cf59
+    size: 139088
+    checksum: sha256:7df8a4517d66c6cfe3d035c3a4130293773e896fc70ba3bd5353ddb66528bbb3
     name: postgresql-private-libs
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/p/protobuf-3.14.0-16.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 957285
@@ -4554,13 +4554,13 @@ arches:
     name: zziplib
     evr: 0.13.71-11.el9_4
     sourcerpm: zziplib-0.13.71-11.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/a/acl-2.3.1-4.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/a/acl-2.4.0-0.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 77245
-    checksum: sha256:59d24711260ff0e69762fc4e728279b0e7b6ecfdb5a9b8ba01cd96682c679022
+    size: 77159
+    checksum: sha256:3b88acdb403b28e3d9b72010d6794d2306a3a92295e264f9ca6447883886ac8b
     name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/a/alternatives-1.24-2.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 42137
@@ -4890,13 +4890,13 @@ arches:
     name: glib-networking
     evr: 2.68.3-3.el9
     sourcerpm: glib-networking-2.68.3-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.6.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.7.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 2736456
-    checksum: sha256:928a409533e3b9bff560f8c508500702eae9403efe86ca6de174424b280b0338
+    size: 2737308
+    checksum: sha256:e655edc02dffbdfbad94e8b040c6558f3d2839b95572b0bc618794a3581234f2
     name: glib2
-    evr: 2.68.4-16.el9_6.6
-    sourcerpm: glib2-2.68.4-16.el9_6.6.src.rpm
+    evr: 2.68.4-16.el9_6.7
+    sourcerpm: glib2-2.68.4-16.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/g/glibc-2.34-168.el9_6.25.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 1783976
@@ -5086,20 +5086,20 @@ arches:
     name: less
     evr: 590-5.el9
     sourcerpm: less-590-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libacl-2.3.1-4.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libacl-2.4.0-0.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 24374
-    checksum: sha256:7c98786eea7783275ff88dc4b524ab4a9cc0c4c8b40206b2cdf7174d3e339918
+    size: 24904
+    checksum: sha256:44a0d95be843d5b5104a6182e13de076c3ed83321977aee6f69148a1d5fb2780
     name: libacl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.1.aarch64.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.2.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 394025
-    checksum: sha256:8c1f5f7ff517776b06cd35b6a1a4ff2f037f45cb7d47ab13a73dbf08072c7e5f
+    size: 394186
+    checksum: sha256:509a32a90e146cbba064dec89b8e4f7dc9667932aafef7a8c3c2c71101bea796
     name: libarchive
-    evr: 3.5.3-7.el9_6.1
-    sourcerpm: libarchive-3.5.3-7.el9_6.1.src.rpm
+    evr: 3.5.3-7.el9_6.2
+    sourcerpm: libarchive-3.5.3-7.el9_6.2.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libassuan-2.5.5-3.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 71019
@@ -5520,13 +5520,13 @@ arches:
     name: mpfr
     evr: 4.1.0-7.el9
     sourcerpm: mpfr-4.1.0-7.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 1939982
-    checksum: sha256:06529a5a8cf8b32527f626f5269398670f58b46edf006a15403b95f7449ad46b
+    size: 1938555
+    checksum: sha256:7eeefefce6568da081477bf1a34515dc1a6f14fbd42bfec7458da994c55d2da1
     name: NetworkManager-libnm
-    evr: 1:1.52.0-11.el9_6
-    sourcerpm: NetworkManager-1.52.0-11.el9_6.src.rpm
+    evr: 1:1.52.0-11.el9_6.1
+    sourcerpm: NetworkManager-1.52.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/n/ncurses-6.2-10.20210508.el9_6.2.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 414358
@@ -5576,20 +5576,20 @@ arches:
     name: openldap
     evr: 2.6.8-4.el9
     sourcerpm: openldap-2.6.8-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.3.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.4.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 457294
-    checksum: sha256:01d1ede18433793c9e889db4fb413d2f851eef8fc9e42b59db7a00ad7d45773a
+    size: 456765
+    checksum: sha256:3534b08fc922286c6cda29719390db41ddf7822f6fbfa246f892cdea0dff98df
     name: openssh
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.3.aarch64.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.4.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 699700
-    checksum: sha256:a713e5442d91533a08021c68c29b9c29f0639d3758cf73577fffb3f2aa2aefea
+    size: 699364
+    checksum: sha256:e944accee643c03db938dcba977e694b216d89ba86da80dc7a289b76a06cab52
     name: openssh-clients
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/o/openssl-3.2.2-7.el9_6.2.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 1384462
@@ -5632,13 +5632,13 @@ arches:
     name: p11-kit-trust
     evr: 0.25.3-3.el9_5
     sourcerpm: p11-kit-0.25.3-3.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/p/pam-1.5.1-26.el9_6.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/p/pam-1.5.1-26.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 636107
-    checksum: sha256:fd8dc3ae80d01e90bed08e84e32e3b47b568fe5ddc857dffbae36cc4bde0887b
+    size: 635566
+    checksum: sha256:4fc15c430e72d977ad4a04cb89c4cee10b5fb89382e267150a254f6e8de79e1a
     name: pam
-    evr: 1.5.1-26.el9_6
-    sourcerpm: pam-1.5.1-26.el9_6.src.rpm
+    evr: 1.5.1-26.el9_6.1
+    sourcerpm: pam-1.5.1-26.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/p/pcre-8.44-4.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 187289
@@ -5828,13 +5828,13 @@ arches:
     name: shared-mime-info
     evr: 2.1-5.el9
     sourcerpm: shared-mime-info-2.1-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 628213
-    checksum: sha256:95a789e08f9d0ddd023ce601ec17d3af70cc49f6533f5ec805d6195e5e385cfa
+    size: 628254
+    checksum: sha256:67dfa6b3a7d73a4f94006ed966fd9accc37c3884539e3b4a3660164f0ee1e949
     name: sqlite-libs
-    evr: 3.34.1-8.el9_6
-    sourcerpm: sqlite-3.34.1-8.el9_6.src.rpm
+    evr: 3.34.1-8.el9_6.1
+    sourcerpm: sqlite-3.34.1-8.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/s/systemd-252-51.el9_6.6.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 4127313
@@ -6035,13 +6035,13 @@ arches:
     name: containers-common
     evr: 3:1-78.rhaos4.16.el9
     sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.ppc64le.rpm
     repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 51126038
-    checksum: sha256:eadbf175188502377555dc98a03d2359ba7c03ed14bc1b788bbfd3a83cddbab1
+    size: 51106987
+    checksum: sha256:f16a825fc74afbda18ab5988674e865ff100a6fbf446dd2969368ea0131dfe2b
     name: openshift-clients
-    evr: 4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.src.rpm
+    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
+    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/a/abattis-cantarell-fonts-0.301-4.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 377278
@@ -6455,13 +6455,13 @@ arches:
     name: git-core
     evr: 2.47.3-1.el9_6
     sourcerpm: git-2.47.3-1.el9_6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.4.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.7.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 4473244
-    checksum: sha256:3a666d5841bbbc470639c7b148af4b932d2f6c6787d43d9b8a239d66050ffa3d
+    size: 4572000
+    checksum: sha256:c5d349f9838bf6a1075b67826cf14ce0e183b25179f0aaa7253c834bb807de74
     name: git-lfs
-    evr: 3.6.1-2.el9_6.4
-    sourcerpm: git-lfs-3.6.1-2.el9_6.4.src.rpm
+    evr: 3.6.1-2.el9_6.7
+    sourcerpm: git-lfs-3.6.1-2.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/g/glibc-devel-2.34-168.el9_6.25.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 569890
@@ -6504,13 +6504,13 @@ arches:
     name: gstreamer1
     evr: 1.22.12-3.el9
     sourcerpm: gstreamer1-1.22.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 2376269
-    checksum: sha256:fd58689880a5e485bbb0043efadffbaffff2697e465deb5f7fd93cb4996531c5
+    size: 2375826
+    checksum: sha256:8ae376c4553a260ed434a9b4ba3c28569c793b282634aa6cad9c2e0c413ae70f
     name: gstreamer1-plugins-base
-    evr: 1.22.12-5.el9_6
-    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.src.rpm
+    evr: 1.22.12-5.el9_6.1
+    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/g/gtk-update-icon-cache-3.24.31-6.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 33914
@@ -6539,20 +6539,20 @@ arches:
     name: iso-codes
     evr: 4.6.0-3.el9
     sourcerpm: iso-codes-4.6.0-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/j/java-17-openjdk-17.0.20.0.8-1.1.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/j/java-17-openjdk-17.0.20.1.1-1.1.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 515071
-    checksum: sha256:48a7a7d473ed154b01c9573b4e9b8f014ed45d4c1072ff2cdf9ecf9e815bc22d
+    size: 515513
+    checksum: sha256:1447246180be0b634d12f2316b36816caeb49403abb6b3733fc82646c243c19c
     name: java-17-openjdk
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.0.8-1.1.el9.ppc64le.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.1.1-1.1.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 46658399
-    checksum: sha256:82fc46f97412c5373431df87f94b01dfcd16c515d5e01df43d7520838c85f367
+    size: 46681150
+    checksum: sha256:abf7ec1bc17f277cec4d72320bb174b4245d294d9a1a062316639ffab0d62fa1
     name: java-17-openjdk-headless
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/j/javapackages-filesystem-6.4.0-1.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17320
@@ -6574,13 +6574,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-570.134.1.el9_6.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-570.141.1.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 3847361
-    checksum: sha256:7be3c0d8238a653d1a4110502c2d371e8236a0634dde3bb74fc59852043d4240
+    size: 3847149
+    checksum: sha256:a6af0d5ae498aca8e469d7a941826748a5e1a27a455d4d7a5b0532d3c12b94ef
     name: kernel-headers
-    evr: 5.14.0-570.134.1.el9_6
-    sourcerpm: kernel-5.14.0-570.134.1.el9_6.src.rpm
+    evr: 5.14.0-570.141.1.el9_6
+    sourcerpm: kernel-5.14.0-570.141.1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/k/kernel-srpm-macros-1.0-13.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17792
@@ -7204,48 +7204,48 @@ arches:
     name: mpg123-libs
     evr: 1.32.9-1.el9_5
     sourcerpm: mpg123-1.32.9-1.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nspr-4.36.0-8.el9_4.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nspr-4.39.0-5.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 150610
-    checksum: sha256:99a7a001327b95375a1803bcd569cd67f669cc6c825f34047a2aae43de86ac6f
+    size: 150428
+    checksum: sha256:f87eafc191ff520bf73314a21e0e1975d8800710a50bec557fd368163af64b7d
     name: nspr
-    evr: 4.36.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-3.112.0-8.el9_4.ppc64le.rpm
+    evr: 4.39.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-3.124.0-5.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 815124
-    checksum: sha256:b11739b55dee3f18881bf6205039e0d1045038bc0736117f7d0968427e7eb824
+    size: 820115
+    checksum: sha256:574448e521326153325765417381b47f1ee6edaf32b8dbcf541b6cf55325bed9
     name: nss
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-softokn-3.112.0-8.el9_4.ppc64le.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-softokn-3.124.0-5.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 443304
-    checksum: sha256:cbc4ba3eaf83c5efbab8357835c7f4d99cae0623ee2045b9323c68d3d80f7d31
+    size: 453569
+    checksum: sha256:0feee96404d366ec32c02429694c25895ba23a021a09158d15b10d8091974098
     name: nss-softokn
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-softokn-freebl-3.112.0-8.el9_4.ppc64le.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-softokn-freebl-3.124.0-5.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 461129
-    checksum: sha256:a5c357701fbbdafe6b6c76ead7613bbb088d53a2f8b8255a19130f165aff1f67
+    size: 425280
+    checksum: sha256:c3d59ce35f16d6c3fa3a514174440e5b5c3f911648961447d841c780b764dece
     name: nss-softokn-freebl
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-sysinit-3.112.0-8.el9_4.ppc64le.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-sysinit-3.124.0-5.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 18333
-    checksum: sha256:b593da50424027dd16ebd290b438d9b6e3e632cb3169ec149d456cd8921dbcde
+    size: 18738
+    checksum: sha256:0a802e1731c528affe3bc7a17f31364a88bfd2988cd66cb6edbb8b9c61968227
     name: nss-sysinit
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-util-3.112.0-8.el9_4.ppc64le.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/n/nss-util-3.124.0-5.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 101062
-    checksum: sha256:5f35939db9815f64e2e47c223c6a512a7a6d55f48bb128addab643970c1639f7
+    size: 101060
+    checksum: sha256:a467a10e78dc9555d1e7db32b8e6a6e2493a0c754093eb2c7c92802dadf0421f
     name: nss-util
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/o/ocaml-srpm-macros-6-6.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 9270
@@ -9038,20 +9038,20 @@ arches:
     name: poppler-glib
     evr: 21.01.0-22.el9_6.1
     sourcerpm: poppler-21.01.0-22.el9_6.1.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/p/postgresql-13.23-1.el9_6.3.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/p/postgresql-13.23-1.el9_6.4.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 1747780
-    checksum: sha256:0af428046b286bceef18d4f1bdf7d8f50c54082f1eb9c2f7590e3ae34dada914
+    size: 1747819
+    checksum: sha256:288802404c2c2ff3c5890dd50d3f96af06556185e9c515c09d6972c40129956a
     name: postgresql
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.3.ppc64le.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.4.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 158228
-    checksum: sha256:49a5c95e51403d6a5e3c5b8cc8ce30e7bc0296bc086cb9c4335627b1b26dd5e8
+    size: 158603
+    checksum: sha256:4286bc3b0569e1357e7c205da49245a744ed014efc1991ed94f2597bce6774cc
     name: postgresql-private-libs
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/p/protobuf-3.14.0-16.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 1052890
@@ -10564,13 +10564,13 @@ arches:
     name: zziplib
     evr: 0.13.71-11.el9_4
     sourcerpm: zziplib-0.13.71-11.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/a/acl-2.3.1-4.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/a/acl-2.4.0-0.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 79564
-    checksum: sha256:5abf618a32e0cfd20a2402b5b383e0d8055dd61c958bd1df066f5ab868358b63
+    size: 80056
+    checksum: sha256:901cd632cef74d3b0be5e1594ee5af07d5c69d6ba8fbc60e389276220611f13b
     name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/a/alternatives-1.24-2.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 44269
@@ -10900,13 +10900,13 @@ arches:
     name: glib-networking
     evr: 2.68.3-3.el9
     sourcerpm: glib-networking-2.68.3-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.6.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.7.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 2881444
-    checksum: sha256:5ead7571604c7169211fe074db15b1214fe81f352f4a9133afc1cb22c3226704
+    size: 2883424
+    checksum: sha256:5f3145e62657d6c345c5e5aeb5a2ed89515ece00c5071ec991f146acced21caa
     name: glib2
-    evr: 2.68.4-16.el9_6.6
-    sourcerpm: glib2-2.68.4-16.el9_6.6.src.rpm
+    evr: 2.68.4-16.el9_6.7
+    sourcerpm: glib2-2.68.4-16.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/g/glibc-2.34-168.el9_6.25.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 2845198
@@ -11096,20 +11096,20 @@ arches:
     name: less
     evr: 590-5.el9
     sourcerpm: less-590-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libacl-2.3.1-4.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libacl-2.4.0-0.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 26589
-    checksum: sha256:3612c4b0b3abab058e19ff290b96147ccbbd8179317a8d51f9ed78958d982b4a
+    size: 27337
+    checksum: sha256:ac3eaa856c1b539980f9108c1ef9fe79a7628e53cd985ca57e4288aa8471dbbc
     name: libacl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.1.ppc64le.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.2.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 464748
-    checksum: sha256:6884b5718216c7d378571497807c0f7127f9870f4bb24de21782fce4c7edab17
+    size: 465362
+    checksum: sha256:3d488a5ad856dba218f0de53edad0761da49cddf0597efe25bdb673b9b991041
     name: libarchive
-    evr: 3.5.3-7.el9_6.1
-    sourcerpm: libarchive-3.5.3-7.el9_6.1.src.rpm
+    evr: 3.5.3-7.el9_6.2
+    sourcerpm: libarchive-3.5.3-7.el9_6.2.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libassuan-2.5.5-3.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 75672
@@ -11544,13 +11544,13 @@ arches:
     name: mpfr
     evr: 4.1.0-7.el9
     sourcerpm: mpfr-4.1.0-7.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 2013954
-    checksum: sha256:5d0c4105fd3d42f7466863d490dbd7d97ce6eec81c3ce9b2010d3b37cca398e1
+    size: 2011754
+    checksum: sha256:416a31bd35b0a1f879dbb03d69d840c257886083dc5f102a345cc46dbc936e4b
     name: NetworkManager-libnm
-    evr: 1:1.52.0-11.el9_6
-    sourcerpm: NetworkManager-1.52.0-11.el9_6.src.rpm
+    evr: 1:1.52.0-11.el9_6.1
+    sourcerpm: NetworkManager-1.52.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/n/ncurses-6.2-10.20210508.el9_6.2.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 422671
@@ -11600,20 +11600,20 @@ arches:
     name: openldap
     evr: 2.6.8-4.el9
     sourcerpm: openldap-2.6.8-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.3.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.4.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 481029
-    checksum: sha256:c3ea9c6e8fcf04ca82a7af776de2aba135efe1d86c6fdc32746b8152778a85a9
+    size: 480548
+    checksum: sha256:dbe9b99637097ec2259ce87043fa43716e428c809c678bcdfa093482af254d22
     name: openssh
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.3.ppc64le.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.4.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 755087
-    checksum: sha256:6610611362a5532ae537eda40d2a538787979fd61dd54322f64d8a3a0327b3b0
+    size: 755957
+    checksum: sha256:1719ae5cb520b83bedb3f5bc355c67a62a03df54ab726f990264d7d0d8e262b3
     name: openssh-clients
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/o/openssl-3.2.2-7.el9_6.2.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 1408694
@@ -11656,13 +11656,13 @@ arches:
     name: p11-kit-trust
     evr: 0.25.3-3.el9_5
     sourcerpm: p11-kit-0.25.3-3.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/p/pam-1.5.1-26.el9_6.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/p/pam-1.5.1-26.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 677447
-    checksum: sha256:93eb19dd21e5bb33d1d004c9e49e49d0049aca990074b8c6f4204e5af4c3c38e
+    size: 676992
+    checksum: sha256:51b9647914d0fc982e0d544bbddf2901a79762ab92a13a15452bb40ce84d4060
     name: pam
-    evr: 1.5.1-26.el9_6
-    sourcerpm: pam-1.5.1-26.el9_6.src.rpm
+    evr: 1.5.1-26.el9_6.1
+    sourcerpm: pam-1.5.1-26.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/p/pcre-8.44-4.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 208333
@@ -11852,13 +11852,13 @@ arches:
     name: shared-mime-info
     evr: 2.1-5.el9
     sourcerpm: shared-mime-info-2.1-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 721557
-    checksum: sha256:1caa3c9561e3c8c5c5226b0bee6a65653b0eebea23221205ccadb8432740514f
+    size: 721468
+    checksum: sha256:e664c269f367865ba05a54a272ae009fb411f6064b12723d22f9ef2119bc6df0
     name: sqlite-libs
-    evr: 3.34.1-8.el9_6
-    sourcerpm: sqlite-3.34.1-8.el9_6.src.rpm
+    evr: 3.34.1-8.el9_6.1
+    sourcerpm: sqlite-3.34.1-8.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/s/systemd-252-51.el9_6.6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 4403547
@@ -12059,13 +12059,13 @@ arches:
     name: containers-common
     evr: 3:1-78.rhaos4.16.el9
     sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.s390x.rpm
     repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 52969532
-    checksum: sha256:f64c95c9dbb421beddef5dcaa741d2765c5303f872e9eb7d19c337a5cda3cd6b
+    size: 53015009
+    checksum: sha256:a5995487cebd8c6b453f68bcd38f33f09a6124b51d6c1a97f2ca82c8c494f875
     name: openshift-clients
-    evr: 4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.src.rpm
+    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
+    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/a/abattis-cantarell-fonts-0.301-4.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 377278
@@ -12486,13 +12486,13 @@ arches:
     name: git-core
     evr: 2.47.3-1.el9_6
     sourcerpm: git-2.47.3-1.el9_6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.4.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.7.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 4629305
-    checksum: sha256:3d799b6db7db598326865c20a981e61c9bca39d5c57051df2299a5b59d743d19
+    size: 4743120
+    checksum: sha256:115d5410e0b2bc0f87c269a9243c0b891d05fc2fd2a65499c1ddcc6576b8f25d
     name: git-lfs
-    evr: 3.6.1-2.el9_6.4
-    sourcerpm: git-lfs-3.6.1-2.el9_6.4.src.rpm
+    evr: 3.6.1-2.el9_6.7
+    sourcerpm: git-lfs-3.6.1-2.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/g/glibc-devel-2.34-168.el9_6.25.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 37887
@@ -12549,13 +12549,13 @@ arches:
     name: gstreamer1
     evr: 1.22.12-3.el9
     sourcerpm: gstreamer1-1.22.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 2207912
-    checksum: sha256:f4dd339dab88fcfacf6265285921246068bace37062d312b77f7957293a4da04
+    size: 2208120
+    checksum: sha256:2e3a6c63df8f9b458d990e2bcd16aaee501499efe5a1e70837529f7c62843ed2
     name: gstreamer1-plugins-base
-    evr: 1.22.12-5.el9_6
-    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.src.rpm
+    evr: 1.22.12-5.el9_6.1
+    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/g/gtk-update-icon-cache-3.24.31-6.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 32650
@@ -12591,20 +12591,20 @@ arches:
     name: iso-codes
     evr: 4.6.0-3.el9
     sourcerpm: iso-codes-4.6.0-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/j/java-17-openjdk-17.0.20.0.8-1.1.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/j/java-17-openjdk-17.0.20.1.1-1.1.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 378481
-    checksum: sha256:5193f18726e0c1adce22ae259b331f17a065017b085cc57f9d5ab2f3b2e5e297
+    size: 379127
+    checksum: sha256:700e3f8d2e224b00d89626c525188bb65617afc4d086230b54905a7b77627f2b
     name: java-17-openjdk
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.0.8-1.1.el9.s390x.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.1.1-1.1.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 43437839
-    checksum: sha256:70dddf4b11f64fec06e042e689bc96964178640bc38b79716a7956a13cbd97d8
+    size: 43436988
+    checksum: sha256:ca037430926fa257a326d2764efeef3d3fa304217a040cb526559b38901dd0d0
     name: java-17-openjdk-headless
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/j/javapackages-filesystem-6.4.0-1.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17320
@@ -12626,13 +12626,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-570.134.1.el9_6.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/k/kernel-headers-5.14.0-570.141.1.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 3855313
-    checksum: sha256:3b1f00377f4526ceb727f198b6cc69fe5fd9b51482ef82d341bd83010f8f3998
+    size: 3855105
+    checksum: sha256:3e5d811bb8f35248a81878bb39d6037471f18661685b5ce64edc52884a927699
     name: kernel-headers
-    evr: 5.14.0-570.134.1.el9_6
-    sourcerpm: kernel-5.14.0-570.134.1.el9_6.src.rpm
+    evr: 5.14.0-570.141.1.el9_6
+    sourcerpm: kernel-5.14.0-570.141.1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/k/kernel-srpm-macros-1.0-13.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17792
@@ -13256,48 +13256,48 @@ arches:
     name: mpg123-libs
     evr: 1.32.9-1.el9_5
     sourcerpm: mpg123-1.32.9-1.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nspr-4.36.0-8.el9_4.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nspr-4.39.0-5.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 135771
-    checksum: sha256:deff4a55c804bec418ce8f01dca3b0b3e8935643c83adceb2cb18b5293652dd8
+    size: 136333
+    checksum: sha256:8c4484e82d6c5429d443daae07b99a4dcba0a9c39e5f616bb30a2cdcab47ff9d
     name: nspr
-    evr: 4.36.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-3.112.0-8.el9_4.s390x.rpm
+    evr: 4.39.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-3.124.0-5.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 695174
-    checksum: sha256:ee749fb762a63a7786c70d18cd1d6e6ca024aa35087fac90a7b44263f2565ccf
+    size: 699967
+    checksum: sha256:52f8ccd7b61595330ef01b611f6871cbdccbdeb99d6e6fb801cabf5bf1afe414
     name: nss
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-softokn-3.112.0-8.el9_4.s390x.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-softokn-3.124.0-5.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 394640
-    checksum: sha256:7773863ca2592520a17fcfc61a3f0001b5b37195c0b97049155e7714a516c094
+    size: 401063
+    checksum: sha256:f4f6ac36fd5d20f1e317fc847970982edf9b9b163b21d25f619098e82f4b7c11
     name: nss-softokn
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-softokn-freebl-3.112.0-8.el9_4.s390x.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-softokn-freebl-3.124.0-5.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 419526
-    checksum: sha256:6ed17f2d27a71623739131340e4d951434681af06ca090320a7110573ac00f95
+    size: 384274
+    checksum: sha256:3cb331f59440e31f9f6b2e7d74a27f52dfdeda22b5352721958e31f3d69b8616
     name: nss-softokn-freebl
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-sysinit-3.112.0-8.el9_4.s390x.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-sysinit-3.124.0-5.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 18198
-    checksum: sha256:41935da0c1fd8372386f0d6775f47ab2d6e0faecb8b4c8cc7e0961f7db077757
+    size: 18480
+    checksum: sha256:5d13a5cdf76cf57097f2919c50b52cc6a0a07776da1aa9f2e71b3388c6a13fb2
     name: nss-sysinit
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-util-3.112.0-8.el9_4.s390x.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/n/nss-util-3.124.0-5.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 90500
-    checksum: sha256:9de26758ea9420e1c530e96f18ecf9bc2c30e9dbfc0dd48aafdf32c6cdcf0a9a
+    size: 90672
+    checksum: sha256:c25040d1d15609f1b74b52d808c0c52c4217f763e489502941faf8ef053a3961
     name: nss-util
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/o/ocaml-srpm-macros-6-6.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 9270
@@ -15090,20 +15090,20 @@ arches:
     name: poppler-glib
     evr: 21.01.0-22.el9_6.1
     sourcerpm: poppler-21.01.0-22.el9_6.1.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/p/postgresql-13.23-1.el9_6.3.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/p/postgresql-13.23-1.el9_6.4.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 1718415
-    checksum: sha256:6c2a7443fc85fe73eeb925d7b2ade7e4a055237cd2a76cd9a9c66cd5171b4109
+    size: 1717328
+    checksum: sha256:1e6d8254a3ad18be098096201187fd512f1d4ea2e4a9e07942141686edfc33bb
     name: postgresql
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.3.s390x.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.4.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 138206
-    checksum: sha256:782f63eaed5b1e86ab37a2b451fdf32769f8840b20b2d928eaa907c5fad53b81
+    size: 138291
+    checksum: sha256:f1f9759ccfc4c5f4893533b44a02569ce24867582fe8c470ff86b006ad78aa47
     name: postgresql-private-libs
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/p/protobuf-3.14.0-16.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 983743
@@ -16616,13 +16616,13 @@ arches:
     name: zziplib
     evr: 0.13.71-11.el9_4
     sourcerpm: zziplib-0.13.71-11.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/a/acl-2.3.1-4.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/a/acl-2.4.0-0.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 77024
-    checksum: sha256:88638fac051b5720b50d694b52172b0f8553376085e868030fb2032fa662b55b
+    size: 76976
+    checksum: sha256:0d4459e3b8b7d40defa1c0866036135c7b1a8ae72bc2d2e769c4cf11be8f315b
     name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/a/alternatives-1.24-2.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 42270
@@ -16945,13 +16945,13 @@ arches:
     name: glib-networking
     evr: 2.68.3-3.el9
     sourcerpm: glib-networking-2.68.3-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.6.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.7.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 2715491
-    checksum: sha256:985a5207ca5f5d6bc63d8cdd23cc838945bc51f110edd90c5c23c9cd2092d735
+    size: 2716394
+    checksum: sha256:b0d13596dd6fd41d579c677f3e8da2cfcceeebf9c2843f0745eff0faa1ad7a5d
     name: glib2
-    evr: 2.68.4-16.el9_6.6
-    sourcerpm: glib2-2.68.4-16.el9_6.6.src.rpm
+    evr: 2.68.4-16.el9_6.7
+    sourcerpm: glib2-2.68.4-16.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/g/glibc-2.34-168.el9_6.25.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 1759645
@@ -17127,20 +17127,20 @@ arches:
     name: less
     evr: 590-5.el9
     sourcerpm: less-590-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libacl-2.3.1-4.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libacl-2.4.0-0.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 24699
-    checksum: sha256:f60b315d07f772b787b49e01a0ea12cbcdb635125fbc554eb7b9dc0d7e86f462
+    size: 24944
+    checksum: sha256:8192062850c367c982656039fd1b760c5e063177de4545ae7461346bdd5bca0d
     name: libacl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.1.s390x.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.2.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 394352
-    checksum: sha256:9c3674f7370e0ad6a28a9755b705806f3821751e670fee0d08a1d4faf229e6a8
+    size: 394372
+    checksum: sha256:c3f6145d7b502bd2a18bdd033e6bcd209fd4629169bcf09b44bcbfd7ec45a9b1
     name: libarchive
-    evr: 3.5.3-7.el9_6.1
-    sourcerpm: libarchive-3.5.3-7.el9_6.1.src.rpm
+    evr: 3.5.3-7.el9_6.2
+    sourcerpm: libarchive-3.5.3-7.el9_6.2.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libassuan-2.5.5-3.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 70075
@@ -17554,13 +17554,13 @@ arches:
     name: mpfr
     evr: 4.1.0-7.el9
     sourcerpm: mpfr-4.1.0-7.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 1945006
-    checksum: sha256:1d26945e6a9dc986327355f4524ddf052e747591d0199665f3bbd24584635097
+    size: 1944493
+    checksum: sha256:1459dafac472cf0f6543ebe7c4e674c4ff4274e744029fbc61fe9b9ca2a81922
     name: NetworkManager-libnm
-    evr: 1:1.52.0-11.el9_6
-    sourcerpm: NetworkManager-1.52.0-11.el9_6.src.rpm
+    evr: 1:1.52.0-11.el9_6.1
+    sourcerpm: NetworkManager-1.52.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/n/ncurses-6.2-10.20210508.el9_6.2.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 417296
@@ -17610,20 +17610,20 @@ arches:
     name: openldap
     evr: 2.6.8-4.el9
     sourcerpm: openldap-2.6.8-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.3.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.4.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 452992
-    checksum: sha256:bc946292138e047e26e6f2f440ee061622aeca8ab8f4bbd90f756500a9a8afc1
+    size: 452398
+    checksum: sha256:89c2332ee9c7941d16d66fda793e3b6f6bbd8c1e4451f9843ff9548bc89910da
     name: openssh
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.3.s390x.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.4.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 682348
-    checksum: sha256:4f5341c7b36a9d27b68726d016ca5bdf72e85d4d5b5c1969af2ea768691be042
+    size: 681852
+    checksum: sha256:fc322ea227174b040a5f18183153fe5773199fb1fe4e7e4d9ba44d2af438802f
     name: openssh-clients
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/o/openssl-3.2.2-7.el9_6.2.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 1393266
@@ -17666,13 +17666,13 @@ arches:
     name: p11-kit-trust
     evr: 0.25.3-3.el9_5
     sourcerpm: p11-kit-0.25.3-3.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/p/pam-1.5.1-26.el9_6.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/p/pam-1.5.1-26.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 628673
-    checksum: sha256:0817657a9c8638a20357b6d057abe3448dd9cf8c3fed61a74772e18a9d5a209b
+    size: 627629
+    checksum: sha256:6a5108e98e6980564999b4a6497b14196b72e15feacc843892f6917937a4390f
     name: pam
-    evr: 1.5.1-26.el9_6
-    sourcerpm: pam-1.5.1-26.el9_6.src.rpm
+    evr: 1.5.1-26.el9_6.1
+    sourcerpm: pam-1.5.1-26.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/p/pcre-8.44-4.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 121477
@@ -17862,13 +17862,13 @@ arches:
     name: shared-mime-info
     evr: 2.1-5.el9
     sourcerpm: shared-mime-info-2.1-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 620368
-    checksum: sha256:c0470648db7b09c72a9ab4c6fb6ee3764d8a53e10048c1fd894f3d985cbd9eee
+    size: 620335
+    checksum: sha256:5d569524be9fd45f6924f06943d7481bb333cc17b509de7925eef8eccc83c2e6
     name: sqlite-libs
-    evr: 3.34.1-8.el9_6
-    sourcerpm: sqlite-3.34.1-8.el9_6.src.rpm
+    evr: 3.34.1-8.el9_6.1
+    sourcerpm: sqlite-3.34.1-8.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/s/systemd-252-51.el9_6.6.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 4134969
@@ -18069,13 +18069,13 @@ arches:
     name: containers-common
     evr: 3:1-78.rhaos4.16.el9
     sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.x86_64.rpm
     repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 54964214
-    checksum: sha256:ee71ce72f2b9a1804559527a18c68dd2430394425f9ad64e3fe6384fdb28e00b
+    size: 54905233
+    checksum: sha256:69a11c0159a951add980be403e13f587f523bf82ced7e1279238ccbbd575a323
     name: openshift-clients
-    evr: 4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202511271316.p2.g6f88b58.assembly.stream.el9.src.rpm
+    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
+    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/a/abattis-cantarell-fonts-0.301-4.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 377278
@@ -18489,13 +18489,13 @@ arches:
     name: git-core
     evr: 2.47.3-1.el9_6
     sourcerpm: git-2.47.3-1.el9_6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.4.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/g/git-lfs-3.6.1-2.el9_6.7.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 4920070
-    checksum: sha256:ef17b38bec906103ad3974eadf7d5aa7f5425940f5a55d967671546d79296f6b
+    size: 5015000
+    checksum: sha256:d7b8b12c5e81bb75c7c352053f6bcf56b7a06dbab6ab7d09d74841f6e12bdcee
     name: git-lfs
-    evr: 3.6.1-2.el9_6.4
-    sourcerpm: git-lfs-3.6.1-2.el9_6.4.src.rpm
+    evr: 3.6.1-2.el9_6.7
+    sourcerpm: git-lfs-3.6.1-2.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/g/glibc-devel-2.34-168.el9_6.25.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 30053
@@ -18545,13 +18545,13 @@ arches:
     name: gstreamer1
     evr: 1.22.12-3.el9
     sourcerpm: gstreamer1-1.22.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/g/gstreamer1-plugins-base-1.22.12-5.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 2358575
-    checksum: sha256:2bde6de4aebe16e6923313a1d8566c2ab76b97346ab572a1177f7e116a798927
+    size: 2357391
+    checksum: sha256:0354a8574c672c85517e9d6786e93a042e3a95915ed2348083d36d3a8f616046
     name: gstreamer1-plugins-base
-    evr: 1.22.12-5.el9_6
-    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.src.rpm
+    evr: 1.22.12-5.el9_6.1
+    sourcerpm: gstreamer1-plugins-base-1.22.12-5.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/g/gtk-update-icon-cache-3.24.31-6.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 32571
@@ -18580,20 +18580,20 @@ arches:
     name: iso-codes
     evr: 4.6.0-3.el9
     sourcerpm: iso-codes-4.6.0-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/j/java-17-openjdk-17.0.20.0.8-1.1.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/j/java-17-openjdk-17.0.20.1.1-1.1.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 465108
-    checksum: sha256:c924595ae18cc42278e6b42c0339e9a2ab82f1f63028008dbc168f305629c68e
+    size: 465827
+    checksum: sha256:babbdb221d5b67915536cfacd396c7fe0a467bb186d30ccf0604784a883433ff
     name: java-17-openjdk
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.0.8-1.1.el9.x86_64.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/j/java-17-openjdk-headless-17.0.20.1.1-1.1.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 47308987
-    checksum: sha256:444323e0e0605a81be674ac4f2a096ded3c120a8f4360ad83a3aebdc3d1a282a
+    size: 47266078
+    checksum: sha256:ade8510fa109bb0ce33668f2ad4f046b194fd636755e1b7dd92ca1dc32362ada
     name: java-17-openjdk-headless
-    evr: 1:17.0.20.0.8-1.1.el9
-    sourcerpm: java-17-openjdk-17.0.20.0.8-1.1.el9.src.rpm
+    evr: 1:17.0.20.1.1-1.1.el9
+    sourcerpm: java-17-openjdk-17.0.20.1.1-1.1.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/j/javapackages-filesystem-6.4.0-1.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17320
@@ -18615,13 +18615,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-570.134.1.el9_6.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-570.141.1.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 3864621
-    checksum: sha256:e8075af54454544986aabe4acd86452892eceeede0df84a35ee9a717e2954987
+    size: 3864453
+    checksum: sha256:b3b3d414fcc7b3116c990ea3bf2a376f049f78668a72372e683468e116d6d9dd
     name: kernel-headers
-    evr: 5.14.0-570.134.1.el9_6
-    sourcerpm: kernel-5.14.0-570.134.1.el9_6.src.rpm
+    evr: 5.14.0-570.141.1.el9_6
+    sourcerpm: kernel-5.14.0-570.141.1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/k/kernel-srpm-macros-1.0-13.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 17792
@@ -19231,48 +19231,48 @@ arches:
     name: mpg123-libs
     evr: 1.32.9-1.el9_5
     sourcerpm: mpg123-1.32.9-1.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nspr-4.36.0-8.el9_4.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nspr-4.39.0-5.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 136884
-    checksum: sha256:dd84e03ec155228c5a9489f0d2184e3303a24e17107b943bdcde19f22a6a46af
+    size: 136829
+    checksum: sha256:da2ad8713a9319ef9f6ab0d6547ddfc22add58dfa4b3b4b95a2b0bbb4eea1355
     name: nspr
-    evr: 4.36.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-3.112.0-8.el9_4.x86_64.rpm
+    evr: 4.39.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-3.124.0-5.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 741751
-    checksum: sha256:df2dc36ea504d4fcc7739cbe2c866cfd313a266f4335daecf6dbfc1a203a8cd8
+    size: 746280
+    checksum: sha256:1ef5fe905ab964a205e2e750d7eb502a8c5efacf18af99f29180206d6e7c6bb3
     name: nss
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-softokn-3.112.0-8.el9_4.x86_64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-softokn-3.124.0-5.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 411899
-    checksum: sha256:301a158bb76422e2127583cd0fa60f19c70713bad412cfa4994f97a6690065b1
+    size: 423440
+    checksum: sha256:1c59e871d85a1ce8e21125fc0de523bddacdffe21f171f5a3e2407acb6d4e5f4
     name: nss-softokn
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-softokn-freebl-3.112.0-8.el9_4.x86_64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-softokn-freebl-3.124.0-5.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 426105
-    checksum: sha256:8912ba4e4057cdb463137fa149610974c824058c56d8cad240dcd2b43f9233e6
+    size: 389746
+    checksum: sha256:ea2b0a48f020870b3272e1675c24a42ea001a9bce1c8d451d01af390f7c9a646
     name: nss-softokn-freebl
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-sysinit-3.112.0-8.el9_4.x86_64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-sysinit-3.124.0-5.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 18340
-    checksum: sha256:169f7510b31fab5bcbf4ea9e689ea99184f8cf1fbba0b9b6221fb599989f63a6
+    size: 18738
+    checksum: sha256:143c648d9da8f1fedd507b4d3d50b55838f89189d8b7e9930b8945968779d76d
     name: nss-sysinit
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-util-3.112.0-8.el9_4.x86_64.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/n/nss-util-3.124.0-5.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 91341
-    checksum: sha256:dfe93ee9bc42ba4fafe838db1d0c616b788b833be051841c0a882754f863fadd
+    size: 91657
+    checksum: sha256:ddaf45f5b2aeceaa1f3ac523c0abfff6e2894d94a19bbf4e45ad4a655051c447
     name: nss-util
-    evr: 3.112.0-8.el9_4
-    sourcerpm: nss-3.112.0-8.el9_4.src.rpm
+    evr: 3.124.0-5.el9_6
+    sourcerpm: nss-3.124.0-5.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/o/ocaml-srpm-macros-6-6.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 9270
@@ -21065,20 +21065,20 @@ arches:
     name: poppler-glib
     evr: 21.01.0-22.el9_6.1
     sourcerpm: poppler-21.01.0-22.el9_6.1.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/p/postgresql-13.23-1.el9_6.3.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/p/postgresql-13.23-1.el9_6.4.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 1703652
-    checksum: sha256:0b6b802cd725efec370050aed1ca3bc0142c34e0d2e360783ebf11b01d0c0d5f
+    size: 1703930
+    checksum: sha256:4d2bf5b9219ff89fea91d600a90f1cce619644c5944929a6f80e8240ce015088
     name: postgresql
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.3.x86_64.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/p/postgresql-private-libs-13.23-1.el9_6.4.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 141612
-    checksum: sha256:3dce862f572d9cea29be4aa4694717905e8520837fb89a980624549f84905bc2
+    size: 141794
+    checksum: sha256:2bcc45f5d6abb7e0e7c73f7ae7e80b56ddc1736f852c0e9882e3afe42705b33c
     name: postgresql-private-libs
-    evr: 13.23-1.el9_6.3
-    sourcerpm: postgresql-13.23-1.el9_6.3.src.rpm
+    evr: 13.23-1.el9_6.4
+    sourcerpm: postgresql-13.23-1.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/p/protobuf-3.14.0-16.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 1053185
@@ -22591,13 +22591,13 @@ arches:
     name: zziplib
     evr: 0.13.71-11.el9_4
     sourcerpm: zziplib-0.13.71-11.el9_4.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/a/acl-2.3.1-4.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/a/acl-2.4.0-0.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 77226
-    checksum: sha256:150d7232faa90f84a09268f8998ee32670eef59cba98612aeb996ab75c4dfcc4
+    size: 77918
+    checksum: sha256:7922ff8b02bdd4f0771e3036c3d293939bc2d182505772d7fccfb28a650fedc6
     name: acl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/a/alternatives-1.24-2.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 42874
@@ -22927,13 +22927,13 @@ arches:
     name: glib-networking
     evr: 2.68.3-3.el9
     sourcerpm: glib-networking-2.68.3-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.6.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/g/glib2-2.68.4-16.el9_6.7.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 2767247
-    checksum: sha256:3924fd6bc69b72d130521612b01df40d87e1a3ac06cbf4401e8d1772697d6069
+    size: 2768702
+    checksum: sha256:f41a32d651144e8fd5764fd694c2eb4262927eb5d63c8f1e8947975530f5c912
     name: glib2
-    evr: 2.68.4-16.el9_6.6
-    sourcerpm: glib2-2.68.4-16.el9_6.6.src.rpm
+    evr: 2.68.4-16.el9_6.7
+    sourcerpm: glib2-2.68.4-16.el9_6.7.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/g/glibc-2.34-168.el9_6.25.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 2048324
@@ -23123,20 +23123,20 @@ arches:
     name: less
     evr: 590-5.el9
     sourcerpm: less-590-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libacl-2.3.1-4.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libacl-2.4.0-0.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 24627
-    checksum: sha256:dc50fd67447efd6367395b3e1517bfc1fa958652a75ce7619358812a8f6c80aa
+    size: 25027
+    checksum: sha256:3fefd0c83d5b54dab6f88bd85fd00493983fc26656c5e1f62f5ea56ce1711388
     name: libacl
-    evr: 2.3.1-4.el9
-    sourcerpm: acl-2.3.1-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.1.x86_64.rpm
+    evr: 2.4.0-0.el9_6.1
+    sourcerpm: acl-2.4.0-0.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libarchive-3.5.3-7.el9_6.2.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 396447
-    checksum: sha256:27ecc3fe1bfcc05aa20ed368f2e070cd76b39c5ef6bbe1a2ebf8a1d761e2d814
+    size: 396290
+    checksum: sha256:1815d7a6a52bdb375a42033768931d51078b3a77155b95b5671e6db7686d657f
     name: libarchive
-    evr: 3.5.3-7.el9_6.1
-    sourcerpm: libarchive-3.5.3-7.el9_6.1.src.rpm
+    evr: 3.5.3-7.el9_6.2
+    sourcerpm: libarchive-3.5.3-7.el9_6.2.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libassuan-2.5.5-3.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 72450
@@ -23564,13 +23564,13 @@ arches:
     name: mpfr
     evr: 4.1.0-7.el9
     sourcerpm: mpfr-4.1.0-7.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/n/NetworkManager-libnm-1.52.0-11.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 1968299
-    checksum: sha256:a6b13dbf8465e441cfc6ebef3fc224aa5777056df458d6129c18c7060021b793
+    size: 1969396
+    checksum: sha256:903b4790743bdd67fd89826fced3fa24448d0c0946913bc2bd8a89aed96d8c51
     name: NetworkManager-libnm
-    evr: 1:1.52.0-11.el9_6
-    sourcerpm: NetworkManager-1.52.0-11.el9_6.src.rpm
+    evr: 1:1.52.0-11.el9_6.1
+    sourcerpm: NetworkManager-1.52.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/n/ncurses-6.2-10.20210508.el9_6.2.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 416227
@@ -23620,20 +23620,20 @@ arches:
     name: openldap
     evr: 2.6.8-4.el9
     sourcerpm: openldap-2.6.8-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.3.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/o/openssh-8.7p1-45.el9_6.4.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 468389
-    checksum: sha256:0a6bab6f52576526094dfcb521190ed5911190a7764a89b7cb2d2503cf249271
+    size: 467908
+    checksum: sha256:e4eeb264f72d5fa7ecd3a11d37342e333d8329cbd178181885d95ef2d43b4607
     name: openssh
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.3.x86_64.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/o/openssh-clients-8.7p1-45.el9_6.4.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 730072
-    checksum: sha256:5f0a83bbc6c97522b8ccf7127702a39900d699709d860ad392c82f16f47d206b
+    size: 730299
+    checksum: sha256:a679af014e014ac1654aeaf37644bd2166d7b1fa3f4924e4d8874a92943f95c8
     name: openssh-clients
-    evr: 8.7p1-45.el9_6.3
-    sourcerpm: openssh-8.7p1-45.el9_6.3.src.rpm
+    evr: 8.7p1-45.el9_6.4
+    sourcerpm: openssh-8.7p1-45.el9_6.4.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/o/openssl-3.2.2-7.el9_6.2.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 1406687
@@ -23676,13 +23676,13 @@ arches:
     name: p11-kit-trust
     evr: 0.25.3-3.el9_5
     sourcerpm: p11-kit-0.25.3-3.el9_5.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/p/pam-1.5.1-26.el9_6.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/p/pam-1.5.1-26.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 636788
-    checksum: sha256:247027fa7a2236c1fb46756ed372637f85cf85886603a2ad5ba918e4231324bc
+    size: 636834
+    checksum: sha256:320111b15cae6c8f08c5ffc094dc563ca77b462b8949aba3af41fdabaff4501a
     name: pam
-    evr: 1.5.1-26.el9_6
-    sourcerpm: pam-1.5.1-26.el9_6.src.rpm
+    evr: 1.5.1-26.el9_6.1
+    sourcerpm: pam-1.5.1-26.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/p/pcre-8.44-4.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 205261
@@ -23872,13 +23872,13 @@ arches:
     name: shared-mime-info
     evr: 2.1-5.el9
     sourcerpm: shared-mime-info-2.1-5.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/s/sqlite-libs-3.34.1-8.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 633167
-    checksum: sha256:be7524457a2d8853ef494e8de0f938eca14804adf1178469fa75436eb7438edb
+    size: 633075
+    checksum: sha256:60fade11b1bbc83f98b4991ae24d144ad17cfd682a65e4db939bfe53ff1bd6b0
     name: sqlite-libs
-    evr: 3.34.1-8.el9_6
-    sourcerpm: sqlite-3.34.1-8.el9_6.src.rpm
+    evr: 3.34.1-8.el9_6.1
+    sourcerpm: sqlite-3.34.1-8.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/s/systemd-252-51.el9_6.6.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 4374165
