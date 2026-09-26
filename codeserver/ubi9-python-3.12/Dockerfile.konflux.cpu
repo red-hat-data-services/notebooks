@@ -167,11 +167,11 @@ RUN dnf install -y nodejs npm tar && dnf clean all
 # Install useful OS packages; oc from mirror.openshift.com client tarball (not RPM).
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-dnf install -y tar perl mesa-libGL skopeo
+dnf install -y tar perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8'
 dnf clean all
 rm -rf /var/cache/dnf
 # Install the oc client (same approach as pre-hermetic Dockerfile.cpu)
-curl -fsSL "https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz" \
+curl -fsSL "https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/4.22.14/openshift-client-linux.tar.gz" \
     -o /tmp/openshift-client-linux.tar.gz
 tar -xzf /tmp/openshift-client-linux.tar.gz -C /usr/local/bin oc
 rm -f /tmp/openshift-client-linux.tar.gz

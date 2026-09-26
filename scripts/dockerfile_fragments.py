@@ -168,6 +168,12 @@ def main():
             sanity_check(dockerfile, replacements)
 
             for prefix, contents in replacements.items():
+                if (
+                    prefix == "Install the oc client"
+                    and dockerfile.parent.name == "ubi9-python-3.12"
+                    and dockerfile.is_relative_to(ntb.ROOT_DIR / "jupyter")
+                ):
+                    contents = contents.replace("/clients/ocp/stable/", "/clients/ocp/4.22.14/")
                 ntb.blockinfile(
                     filename=dockerfile,
                     contents=contents,
