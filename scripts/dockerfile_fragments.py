@@ -112,7 +112,7 @@ def main():
         "Install the oc client": textwrap.dedent(r"""
             RUN /bin/bash <<'EOF'
             set -Eeuxo pipefail
-            curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
+            curl -L https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/4.22.14/openshift-client-linux.tar.gz \
                 -o /tmp/openshift-client-linux.tar.gz
             tar -xzvf /tmp/openshift-client-linux.tar.gz oc
             rm -f /tmp/openshift-client-linux.tar.gz
@@ -133,7 +133,7 @@ def main():
             ######################################################
             # mongocli-builder (build stage only, not published) #
             ######################################################
-            FROM registry.access.redhat.com/ubi9/go-toolset:latest AS mongocli-builder
+            FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
 
             ARG MONGOCLI_VERSION=2.0.4
 
@@ -150,7 +150,7 @@ def main():
             ######################################################
             # mongocli-builder (build stage only, not published) #
             ######################################################
-            FROM registry.access.redhat.com/ubi9/go-toolset:latest AS mongocli-builder
+            FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
 
             ARG MONGOCLI_VERSION=2.0.4
 

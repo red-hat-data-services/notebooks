@@ -52,8 +52,8 @@ spec:
     value: .
   - name: enable-cache-proxy
     value: true
-  # rhoai-2.25: hermetic waiver (hermetic_task.hermetic until 2027-05-03). Keep npm
-  # prefetch for the large VS Code tree; install pip / X.org / oc at build time so
+  # rhoai-2.25: hermetic waiver (hermetic_task.hermetic until 2027-05-03). Keep RPM and npm
+  # prefetch; install pip / X.org / oc at build time so
   # Hermeto does not emit Conforma-failing binary-wheel / generic / openshift-clients SBOM attrs.
   - name: hermetic
     value: false
@@ -75,6 +75,8 @@ spec:
     value: "rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6"
   - name: prefetch-input
     value:
+    - path: codeserver/ubi9-python-3.12/prefetch-input/rhds
+      type: rpm
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server/lib/vscode/.vscode/extensions/vscode-selfhost-import-aid
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server/lib/vscode/.vscode/extensions/vscode-selfhost-test-provider
@@ -210,6 +212,15 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+    - pipelineTaskName: fips-check
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 4Gi
+        limits:
+          cpu: '3'
+          memory: 4Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:

@@ -337,7 +337,7 @@ jobs:
           fi
           FLAVOR=$(echo "$DOCKERFILE" | sed -n 's/.*\.\([^.]*\)$/\1/p')
           FLAVOR=${FLAVOR:-cpu}
-          if [ -d "$COMPONENT_DIR/prefetch-input" ] || { grep -q 'prefetch-input/' "$DOCKERFILE" 2>/dev/null && [ -d prefetch-input ]; }; then
+          if [ -d "$COMPONENT_DIR/prefetch-input" ] || { grep -q '/cachi2/output' "$DOCKERFILE" 2>/dev/null && [ -d prefetch-input ]; }; then
             PREFETCH_ROOT="$COMPONENT_DIR/prefetch-input"
             if [[ ! -d "$PREFETCH_ROOT" ]]; then
               PREFETCH_ROOT="prefetch-input"
