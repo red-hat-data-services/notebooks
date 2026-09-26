@@ -48,7 +48,7 @@ set -Eeuxo pipefail
 pip install --no-cache-dir "uv==0.8.12"
 # the devel script is ppc64le specific - sets up build-time dependencies
 source ./devel_env_setup.sh
-uv pip install 'cython>=3.1,<3.3' scikit-build-core
+uv pip install 'cython>=3.1,<3.3' 'libcst>=1.8.6' scikit-build-core 'setuptools_scm>=8'
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
 # RHAIENG-5986: cap setuptools version in isolated sdist builds (pkg_resources removed in 82+)
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
@@ -238,7 +238,7 @@ echo "Installing softwares and packages"
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
 printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
 # we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
-uv pip install 'cython>=3.1,<3.3' scikit-build-core
+uv pip install 'cython>=3.1,<3.3' 'libcst>=1.8.6' scikit-build-core 'setuptools_scm>=8'
 UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead

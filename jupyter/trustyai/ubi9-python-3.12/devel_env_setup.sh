@@ -22,7 +22,7 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     source /opt/rh/gcc-toolset-13/enable
     source "$HOME/.cargo/env"
     
-    uv pip install cmake 'cython>=3.1,<3.3' scikit-build-core
+    uv pip install cmake 'cython>=3.1,<3.3' 'libcst>=1.8.6' scikit-build-core 'setuptools_scm>=8'
 
     export MAX_JOBS=${MAX_JOBS:-$(nproc)}
     export OPENBLAS_VERSION=${OPENBLAS_VERSION:-0.3.30}
@@ -87,10 +87,9 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     cd ../../python/ && \
     uv pip install 'cython<3.3' && \
     uv pip install -v -r requirements-wheel-build.txt && \
-    PYARROW_PARALLEL=${PYARROW_PARALLEL:-$(nproc)} \
-    python setup.py build_ext \
-    --build-type=release --bundle-arrow-cpp \
-    bdist_wheel --dist-dir "${WHEELS_DIR}"
+    PYARROW_BUNDLE_ARROW_CPP=ON \
+    CMAKE_BUILD_PARALLEL_LEVEL="${PYARROW_PARALLEL:-$(nproc)}" \
+    uv build --python "$(command -v python)" --wheel --no-build-isolation --out-dir "${WHEELS_DIR}"
 
     # Pillow (use auditwheel repaired wheel to avoid pulling runtime libs from EPEL)
     cd "${CURDIR}"
