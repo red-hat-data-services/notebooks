@@ -219,9 +219,8 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
     # TODO(jdanek): review these, if any are unwarranted
     ignored_exceptions: tuple[tuple[str, tuple[str, ...]], ...] = (
         # ("package name", ("allowed version 1", "allowed version 2", ...))
-        ("Codeflare-SDK", ("0.30", "0.29")),
         ("Scikit-learn", ("1.7", "1.6")),
-        ("Pandas", ("2.3", "1.5")),
+        ("Pandas", ("3.0", "2.3")),
         (
             "Numpy",
             (
@@ -233,7 +232,7 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
             ),
         ),
         ("Tensorboard", ("2.20", "2.18")),
-        ("PyTorch", ("2.6", "2.7")),
+        ("PyTorch", ("2.7", "2.11")),
     )
 
     for name, data in packages.items():
@@ -276,11 +275,11 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
     # TODO(jdanek): review these, if any are unwarranted
     ignored_exceptions: tuple[tuple[str, tuple[str, ...]], ...] = (
         # ("package name", ("allowed specifier 1", "allowed specifier 2", ...))
-        ("setuptools", ("~=80.9.0", "==80.9.0")),
+        ("setuptools", ("==80.9.0", ">=83.0.0", "<82,>=80.9.0")),
         ("wheel", ("==0.46.2", "~=0.46.2")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
-        ("torch", ("==2.7.1", "==2.7.1+cu128", "==2.7.1+rocm6.3")),
-        ("torchvision", ("==0.22.1", "~=0.22.1", "==0.22.1+cu128", "==0.22.1+rocm6.3")),
+        ("torch", ("==2.7.1+cu128", "==2.7.1+rocm6.3", "==2.11.0", "==2.11.0+cu128")),
+        ("torchvision", ("==0.22.1+cu128", "==0.22.1+rocm6.3", "~=0.26.0")),
         (
             "matplotlib",
             ("~=3.10.6",),
@@ -295,9 +294,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
                 "~=2.3.3",  # for tensorflow cuda and latest possible
             ),
         ),
-        ("pandas", ("~=2.3.2", "~=1.5.3")),
+        ("pandas", ("~=2.3.2", "~=3.0.6")),
         ("scikit-learn", ("~=1.7.2",)),
-        ("codeflare-sdk", ("~=0.31.0", "~=0.31.1")),
         ("ipython-genutils", (">=0.2.0", "~=0.2.0")),
         ("jinja2", (">=3.1.6", "~=3.1.6")),
         ("jupyter-client", ("~=8.6.3", ">=8.6.3")),
@@ -318,7 +316,7 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         ("transformers", ("<5.0,>4.0", "~=4.55.0")),
         ("datasets", ("", "~=3.4.1")),
         ("accelerate", ("!=1.1.0,>=0.20.3", "~=1.5.2")),
-        ("kubeflow-training", ("==1.9.0", "==1.9.2", "==1.9.3")),
+        ("kubeflow-training", ("==1.9.3", "==1.9.4")),
         (
             "jupyter-bokeh",
             (
