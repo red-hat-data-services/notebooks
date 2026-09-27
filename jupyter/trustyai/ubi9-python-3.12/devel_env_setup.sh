@@ -22,7 +22,7 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     source /opt/rh/gcc-toolset-13/enable
     source "$HOME/.cargo/env"
     
-    uv pip install cmake 'cython>=3.1,<3.3' 'libcst>=1.8.6' scikit-build-core 'setuptools_scm>=8'
+    uv pip install cmake 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
 
     export MAX_JOBS=${MAX_JOBS:-$(nproc)}
     export OPENBLAS_VERSION=${OPENBLAS_VERSION:-0.3.30}
