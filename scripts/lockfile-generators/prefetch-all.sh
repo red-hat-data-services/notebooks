@@ -167,11 +167,9 @@ fi
 # For standalone/local use, auto-detect from credentials when not in CI.
 PREFETCH_DIR="$COMPONENT_DIR/prefetch-input"
 if [[ ! -d "$PREFETCH_DIR" ]] && [[ -d prefetch-input ]]; then
-  # Check if any Dockerfile in the component dir references repo-root prefetch-input/.
-  # This catches components whose symlinks were removed (Konflux Hermeto rejects
-  # symlink segments in git submodule paths) but whose Dockerfiles still use
-  # COPY prefetch-input/... relative to the repo-root build context.
-  if grep -rq 'prefetch-input/' "$COMPONENT_DIR"/Dockerfile* 2>/dev/null; then
+  # Shared prefetch is needed when the Dockerfile consumes the downloaded cache.
+  # Copying a .repo definition from prefetch-input/repos alone is an online build.
+  if grep -rq '/cachi2/output' "$COMPONENT_DIR"/Dockerfile* 2>/dev/null; then
     PREFETCH_DIR="prefetch-input"
   fi
 fi

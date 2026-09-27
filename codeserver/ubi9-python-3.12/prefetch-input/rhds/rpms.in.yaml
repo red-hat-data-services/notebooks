@@ -21,11 +21,12 @@ contentOrigin:
   repofiles:
     # rhoai-3.3 Konflux (AIPCC) — RHEL subscription repos
     - /etc/yum.repos.d/redhat.repo
+    # Fixed skopeo and containers-common; leave other RPMs on release repositories.
+    - ../repos/ubi9-security-tools.repo
 
     # Local/GHA public UBI fallback (see prefetch-input/odh/rpms.in.yaml)
     # - ../repos/ubi.repo
     # - ../repos/centos.repo
-    # - ../repos/openshift-clients.repo
 
 context:
   bare: true
@@ -78,9 +79,8 @@ packages:
   - npm
 
   # Web servers
-  # httpd is already on ubi9/python-312 base; do not prefetch CentOS Stream httpd
-  # (conflicts with base httpd-devel during hermetic build). RHOAI 3.5+ AIPCC
-  # builds without ubi9/python-312 may list httpd here when using subscription lock.
+  # AIPCC does not include the Apache server required by Code Server CGI.
+  - httpd
   - nginx
   - nginx-mod-stream
   - nginx-mod-http-perl
@@ -141,7 +141,7 @@ packages:
   - jq
   - libsndfile
   - perl
-  - skopeo
+  - 'skopeo >= 2:1.22.2-8.el9_8'
   - tar
   - wget
 
@@ -154,7 +154,4 @@ packages:
   - patch
   - rsync
 
-  # ── OpenShift Clients (rhocp / mirror) ──────────────────
-  # compat-openssl11: provides libcrypto.so.1.1 / libssl.so.1.1 for openshift-clients on EL9 (check-payload FIPS scan).
-  - compat-openssl11
-  - openshift-clients
+  # oc is installed from the pinned upstream tarball in Dockerfile.konflux.cpu.
