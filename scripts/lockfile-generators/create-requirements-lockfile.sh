@@ -215,7 +215,9 @@ if [[ "$DO_DOWNLOAD" == true ]]; then
 
     if [[ ! -f "$dest" ]]; then
       echo "  Downloading: ${url}"
-      if ! wget -q -O "$dest" "$url"; then
+      # Retry temporary index/CDN failures, but keep permanent errors fatal.
+      if ! wget --no-verbose --tries=4 --waitretry=2 --timeout=60 \
+          --retry-on-http-error=429,500,502,503,504 -O "$dest" "$url"; then
         echo "  ERROR: download failed for ${filename}" >&2
         echo "  URL: ${url}" >&2
         echo "  Run 'wget -O /dev/null \"${url}\"' to see the full error." >&2

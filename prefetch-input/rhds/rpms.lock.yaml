@@ -11,20 +11,20 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.16/os/Packages/c/containers-common-1-78.rhaos4.16.el9.aarch64.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 100637
-    checksum: sha256:571152e2d73c5e5afec496dba87098edb8210f77a2aa6a901afe48f9d917d7ef
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/c/containers-common-5.8-1.el9.aarch64.rpm
+    repoid: ubi-9-for-aarch64-appstream-rpms
+    size: 170106
+    checksum: sha256:aa8c02f753696dd2daa5816e5efee49f9247ccb83da6e7cdaa66e72c4bf02cac
     name: containers-common
-    evr: 3:1-78.rhaos4.16.el9
-    sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.aarch64.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 54115507
-    checksum: sha256:814ad26801c6c0bdafc0d65c64c0741391cfb44cc563f4ae0161d3cd7b606217
+    evr: 5:5.8-1.el9
+    sourcerpm: containers-common-5.8-1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.aarch64.rpm
+    repoid: rhocp-4.22-for-rhel-9-aarch64-rpms
+    size: 27504036
+    checksum: sha256:4c102c93adc3c58b17e742043b4b1073fadd365a815ff246472cfb5d0d5ccff8
     name: openshift-clients
-    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
+    evr: 4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9
+    sourcerpm: openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9.6/aarch64/appstream/os/Packages/a/adobe-mappings-cmap-20171205-12.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
     size: 1991695
@@ -3777,13 +3777,13 @@ arches:
     name: python3-devel
     evr: 3.9.21-2.el9_6.6
     sourcerpm: python3.9-3.9.21-2.el9_6.6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/s/skopeo-1.18.1-5.el9_6.1.aarch64.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 8844438
-    checksum: sha256:b2d58cd41bb5a5353c9b37db78f89fca990ac1189a2e7aa38dec89ab20b4bd93
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.aarch64.rpm
+    repoid: ubi-9-for-aarch64-appstream-rpms
+    size: 7728433
+    checksum: sha256:be0b5ff1c69b95d98431ed35560f96173778ac55f4d8f5d2630efc21cb4216be
     name: skopeo
-    evr: 2:1.18.1-5.el9_6.1
-    sourcerpm: skopeo-1.18.1-5.el9_6.1.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/s/systemtap-sdt-devel-5.2-4.el9_6.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 74915
@@ -5048,20 +5048,20 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.16/os/Packages/c/containers-common-1-78.rhaos4.16.el9.ppc64le.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 100652
-    checksum: sha256:be390fce7b185b4256231f98fe813c038b51dabf800d28b77aa5a08d4e9196be
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/c/containers-common-5.8-1.el9.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-appstream-rpms
+    size: 170148
+    checksum: sha256:eff6e08557b9ea0e97b991801e37a52ba5cdb83a7d8347b5818081bd64cb5981
     name: containers-common
-    evr: 3:1-78.rhaos4.16.el9
-    sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.ppc64le.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 51106987
-    checksum: sha256:f16a825fc74afbda18ab5988674e865ff100a6fbf446dd2969368ea0131dfe2b
+    evr: 5:5.8-1.el9
+    sourcerpm: containers-common-5.8-1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.ppc64le.rpm
+    repoid: rhocp-4.22-for-rhel-9-aarch64-rpms
+    size: 27413297
+    checksum: sha256:1a7a280ca61a190f987606d9af431d93a39fa7f12cba5053a120ea8ed109b68b
     name: openshift-clients
-    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
+    evr: 4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9
+    sourcerpm: openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9.6/ppc64le/appstream/os/Packages/a/adobe-mappings-cmap-20171205-12.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
     size: 1991695
@@ -8814,13 +8814,13 @@ arches:
     name: python3-devel
     evr: 3.9.21-2.el9_6.6
     sourcerpm: python3.9-3.9.21-2.el9_6.6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/s/skopeo-1.18.1-5.el9_6.1.ppc64le.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 9041037
-    checksum: sha256:e86a7506580f084f813cb614b97baad92ad5c89cd4aaaa2c8cf4f089db573807
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.ppc64le.rpm
+    repoid: ubi-9-for-ppc64le-appstream-rpms
+    size: 7800625
+    checksum: sha256:f435fd959404449f9af25223ee98ca4d016b88fe686b0152ed61167a98d9141c
     name: skopeo
-    evr: 2:1.18.1-5.el9_6.1
-    sourcerpm: skopeo-1.18.1-5.el9_6.1.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/s/systemtap-sdt-devel-5.2-4.el9_6.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 74928
@@ -10099,20 +10099,20 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.16/os/Packages/c/containers-common-1-78.rhaos4.16.el9.s390x.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 100645
-    checksum: sha256:1fe1523a23fee3fc6d25ba9da1dec3869094d81093ff798b318611b1f159d94a
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/c/containers-common-5.8-1.el9.s390x.rpm
+    repoid: ubi-9-for-s390x-appstream-rpms
+    size: 170120
+    checksum: sha256:68a07c297e84156268ba3950c547acae2789576a1db99f7076edc956f1fe1d2b
     name: containers-common
-    evr: 3:1-78.rhaos4.16.el9
-    sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.s390x.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 53015009
-    checksum: sha256:a5995487cebd8c6b453f68bcd38f33f09a6124b51d6c1a97f2ca82c8c494f875
+    evr: 5:5.8-1.el9
+    sourcerpm: containers-common-5.8-1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.s390x.rpm
+    repoid: rhocp-4.22-for-rhel-9-aarch64-rpms
+    size: 29029843
+    checksum: sha256:0ff954113412138134be6f882a3f74803997802d6dbcd5b08f09ac8594d24ded
     name: openshift-clients
-    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
+    evr: 4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9
+    sourcerpm: openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9.6/s390x/appstream/os/Packages/a/adobe-mappings-cmap-20171205-12.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
     size: 1991695
@@ -13900,13 +13900,13 @@ arches:
     name: python3-devel
     evr: 3.9.21-2.el9_6.6
     sourcerpm: python3.9-3.9.21-2.el9_6.6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/s/skopeo-1.18.1-5.el9_6.1.s390x.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 9251309
-    checksum: sha256:adad0f1fe61eedf34b793823257085b6d23d8889b735b292e661e104f235cb45
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.s390x.rpm
+    repoid: ubi-9-for-s390x-appstream-rpms
+    size: 8194943
+    checksum: sha256:8e6974b150c135e6a83bee621b91ef5167398ede9f2620adf68a87ddaa99093f
     name: skopeo
-    evr: 2:1.18.1-5.el9_6.1
-    sourcerpm: skopeo-1.18.1-5.el9_6.1.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/s/systemtap-sdt-devel-5.2-4.el9_6.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 74919
@@ -15143,20 +15143,20 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.16/os/Packages/c/containers-common-1-78.rhaos4.16.el9.x86_64.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 100670
-    checksum: sha256:9595ebcd282ee6a423d78fef0ca24f3eca5343ccb5b073ba93b4b34c6440c7a8
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/c/containers-common-5.8-1.el9.x86_64.rpm
+    repoid: ubi-9-for-x86_64-appstream-rpms
+    size: 170139
+    checksum: sha256:6db3b80aff7a892ea57ce84c95d0cd62bd70f43b1824009bc9a2ba47bca629d2
     name: containers-common
-    evr: 3:1-78.rhaos4.16.el9
-    sourcerpm: containers-common-1-78.rhaos4.16.el9.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.16/os/Packages/o/openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.x86_64.rpm
-    repoid: rhocp-4.16-for-rhel-9-x86_64-rpms
-    size: 54905233
-    checksum: sha256:69a11c0159a951add980be403e13f587f523bf82ced7e1279238ccbbd575a323
+    evr: 5:5.8-1.el9
+    sourcerpm: containers-common-5.8-1.el9.src.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.x86_64.rpm
+    repoid: rhocp-4.22-for-rhel-9-aarch64-rpms
+    size: 30595460
+    checksum: sha256:c03d9b04107b666c506d77f7edc303a5395ee71cebfae8905d6890531446a580
     name: openshift-clients
-    evr: 4.16.0-202608211840.p2.g33afbae.assembly.stream.el9
-    sourcerpm: openshift-clients-4.16.0-202608211840.p2.g33afbae.assembly.stream.el9.src.rpm
+    evr: 4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9
+    sourcerpm: openshift-clients-4.22.0-202609111846.p2.gaea5a82.assembly.stream.el9.src.rpm
   - url: https://cdn.redhat.com/content/dist/rhel9/9.6/x86_64/appstream/os/Packages/a/adobe-mappings-cmap-20171205-12.el9.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-rpms
     size: 1991695
@@ -18902,13 +18902,13 @@ arches:
     name: python3-devel
     evr: 3.9.21-2.el9_6.6
     sourcerpm: python3.9-3.9.21-2.el9_6.6.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/s/skopeo-1.18.1-5.el9_6.1.x86_64.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 9785972
-    checksum: sha256:07b1e185902de0affdb41d8ba9dbee84bae0916faae901ea783acb6c0063001b
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/s/skopeo-1.22.2-8.el9_8.x86_64.rpm
+    repoid: ubi-9-for-x86_64-appstream-rpms
+    size: 8615797
+    checksum: sha256:238e02ab0d4538f02daf64af0ba68a571b16103ef06d345ac234a05b40505727
     name: skopeo
-    evr: 2:1.18.1-5.el9_6.1
-    sourcerpm: skopeo-1.18.1-5.el9_6.1.src.rpm
+    evr: 2:1.22.2-8.el9_8
+    sourcerpm: skopeo-1.22.2-8.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/s/systemtap-sdt-devel-5.2-4.el9_6.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 74950
