@@ -9,6 +9,16 @@ import pytest
 BUILD_SCRIPT = Path(__file__).resolve().parents[1] / "jupyter/trustyai/ubi9-python-3.12/build_pyarrow.sh"
 
 
+def test_runtime_consumes_wheels_without_bootstrapping_arrow_build_dependencies() -> None:
+    dockerfile = BUILD_SCRIPT.with_name("Dockerfile.konflux.cpu").read_text()
+    builder, runtime = dockerfile.split("FROM ${BASE_IMAGE} AS cpu-base", maxsplit=1)
+    assert "uv pip install 'cython" in builder
+    for build_dependency in ("libcst", "scikit-build-core", "setuptools_scm", "uv pip install 'cython"):
+        assert build_dependency not in runtime
+    locked_install = next(line for line in runtime.splitlines() if "--requirements=./pylock.toml" in line)
+    assert "--cache-dir /root/.cache/uv" in locked_install
+
+
 @pytest.mark.parametrize("failed_phase", ["-S", "--build", "--install"])
 def test_arrow_native_failure_stops_before_wheel_build(tmp_path: Path, failed_phase: str) -> None:
     """A native failure must not be hidden by a later successful Python command."""

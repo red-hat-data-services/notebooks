@@ -239,8 +239,8 @@ echo "Installing softwares and packages"
 # supplies [tool.uv] extra-build-dependencies and must remain discoverable (no --no-config).
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
 printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
-# we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
-uv pip install 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
+# Build dependencies belong in whl-cache, not the runtime image. Reuse its
+# cache and the installed local PyArrow wheel without bootstrapping LibCST.
 UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
     --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files

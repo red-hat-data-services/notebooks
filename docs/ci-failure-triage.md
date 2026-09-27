@@ -108,6 +108,16 @@ Dockerfile locked-install commands and verify that they retain the wheel.
 AMD64 validates this shared build sequence; ppc64le still needs native CI
 validation for architecture-specific compiler and linker behavior.
 
+Keep PyArrow's Python build dependencies in `whl-cache`. Installing LibCST
+again in the final stage triggers a Rust build on ppc64le, where no public
+wheel is available and the runtime has no Rust compiler. The final locked
+install uses the explicit `/root/.cache/uv` cache; its inherited
+`HOME` is `/opt/app-root/src`, unlike the builder's `/root`. Validate with a
+runtime lacking Cython, LibCST and the Python build backends, not a copy of the
+builder environment. The separate debugpy source rebuild remains intentional.
+Do not add `--no-build` to this uv 0.8.12 pylock install: it rejects source-only
+lock entries such as `kfp-server-api` even when their built wheels are cached.
+
 ## Other failure classes (pointers)
 
 | Symptom | Likely cause | Direction |
