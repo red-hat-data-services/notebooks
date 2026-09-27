@@ -41,6 +41,7 @@ ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/pyproject.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/devel_env_setup.sh .
+COPY ${TRUSTYAI_SOURCE_CODE}/build_pyarrow.sh .
 COPY scripts/pylock_version.py ./pylock_version.py
 
 RUN --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
@@ -57,7 +58,8 @@ printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
 # pylock.toml is the install input; pyproject.toml is copied for uv config only.
 # do not use --no-config — uv must discover pyproject.toml in this directory.
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
-UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow
+UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
+    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
 EOF
 
 ####################
@@ -200,10 +202,10 @@ LABEL name="rhoai/odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
 
 USER 0
 
-# Install jre that is needed to run the trustyai library
+# TrustyAI needs Java; source-built Arrow libraries need libatomic at runtime.
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-INSTALL_PKGS="java-17-openjdk"
+INSTALL_PKGS="java-17-openjdk libatomic"
 dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS
 dnf -y clean all --enablerepo='*'
 EOF
@@ -239,7 +241,8 @@ echo "Installing softwares and packages"
 printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
 # we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
 uv pip install 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
-UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow
+UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
+    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
 UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')

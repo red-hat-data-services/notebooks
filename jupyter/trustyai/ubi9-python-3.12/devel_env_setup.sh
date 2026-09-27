@@ -14,7 +14,7 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     # install development packages
     dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     # patchelf: needed by `auditwheel repair`
-    dnf install -y fribidi-devel gcc-toolset-13 lcms2-devel libimagequant-devel patchelf \
+    dnf install -y fribidi-devel gcc-toolset-13 gcc-toolset-13-libatomic-devel lcms2-devel libimagequant-devel patchelf \
         libraqm-devel openjpeg2-devel tcl-devel tk-devel unixODBC-devel
 
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -42,10 +42,14 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     # set path for openblas
     export LD_LIBRARY_PATH="/opt/OpenBLAS/lib/:/usr/local/lib64:/usr/local/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
     export PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':')
-    export CMAKE_ARGS="-DPython3_EXECUTABLE=python"
+    CMAKE_ARGS="-DPython3_EXECUTABLE=$(command -v python)"
+    export CMAKE_ARGS
     export CMAKE_POLICY_VERSION_MINIMUM=3.5
 
     TMP=$(mktemp -d)
+    # Fail before the expensive builds if the selected toolchain cannot link libatomic.
+    printf 'int main(void) { return 0; }\n' | gcc -x c - -latomic -o "${TMP}/libatomic-check"
+    "${TMP}/libatomic-check"
 
     # Torch
     cd "${CURDIR}"
@@ -73,23 +77,8 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     PYARROW_VERSION=$(python3 ./pylock_version.py pyarrow --platform ppc64le)
     cd "${TMP}"
     git clone --recursive https://github.com/apache/arrow.git -b "apache-arrow-${PYARROW_VERSION}"
-    cd arrow/cpp
-    mkdir build && cd build && \
-    cmake -DCMAKE_BUILD_TYPE=release \
-        -DCMAKE_INSTALL_PREFIX=/usr/local \
-        -DARROW_PYTHON=ON \
-        -DARROW_BUILD_TESTS=OFF \
-        -DARROW_JEMALLOC=ON \
-        -DARROW_BUILD_STATIC="OFF" \
-        -DARROW_PARQUET=ON \
-        .. && \
-    make install -j "${MAX_JOBS:-$(nproc)}" && \
-    cd ../../python/ && \
-    uv pip install 'cython<3.3' && \
-    uv pip install -v -r requirements-wheel-build.txt && \
-    PYARROW_BUNDLE_ARROW_CPP=ON \
-    CMAKE_BUILD_PARALLEL_LEVEL="${PYARROW_PARALLEL:-$(nproc)}" \
-    uv build --python "$(command -v python)" --wheel --no-build-isolation --out-dir "${WHEELS_DIR}"
+    bash "${CURDIR}/build_pyarrow.sh" "${TMP}/arrow" "${WHEELS_DIR}"
+    compgen -G "${WHEELS_DIR}/pyarrow-${PYARROW_VERSION}-*.whl" > /dev/null
 
     # Pillow (use auditwheel repaired wheel to avoid pulling runtime libs from EPEL)
     cd "${CURDIR}"

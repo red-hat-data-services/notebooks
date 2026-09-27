@@ -78,6 +78,36 @@ separate.
 - Lockfile generators:
   [`scripts/lockfile-generators/README.md`](../scripts/lockfile-generators/README.md)
 
+## TrustyAI: PyArrow source builds
+
+Read the first native-build error, not only uv's final missing-module hint.
+On ppc64le, a failed Arrow C++ link (`cannot find -latomic`) previously skipped
+the rest of an `&&` chain without stopping `devel_env_setup.sh`. The later
+locked install then tried to build PyArrow again, masking the original error.
+GCC toolset 13 needs `gcc-toolset-13-libatomic-devel` for the linker input.
+
+PyArrow's CMake interpreter must match uv's `/opt/app-root` environment.
+`ModuleNotFoundError: Cython` can mean CMake selected `/usr/bin/python3.12`,
+even when Cython is installed in the virtual environment. Pass
+`cmake.define.Python3_EXECUTABLE` through the build backend's config settings;
+adding more build dependencies does not fix the interpreter mismatch.
+
+The Arrow portion can be tested on AMD64 without building PyTorch. In a clean
+UBI Python 3.12 container, install GCC toolset 13 (including its libatomic devel
+package), uv 0.8.12, CMake and Ninja, activate the toolset, and run:
+
+```bash
+export CMAKE_POLICY_VERSION_MINIMUM=3.5
+bash jupyter/trustyai/ubi9-python-3.12/build_pyarrow.sh /path/to/arrow-checkout /wheelsdir
+```
+
+Use the Arrow tag matching `pylock.toml`. Validate the resulting wheel in a
+separate runtime container without the C++ install tree. Check Compute,
+Dataset, Parquet compression and Hugging Face `datasets`, then apply the exact
+Dockerfile locked-install commands and verify that they retain the wheel.
+AMD64 validates this shared build sequence; ppc64le still needs native CI
+validation for architecture-specific compiler and linker behavior.
+
 ## Other failure classes (pointers)
 
 | Symptom | Likely cause | Direction |
