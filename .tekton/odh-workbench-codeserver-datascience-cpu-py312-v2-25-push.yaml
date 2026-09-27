@@ -46,8 +46,8 @@ spec:
     value: .
   - name: enable-cache-proxy
     value: true
-  # rhoai-2.25: hermetic waiver (hermetic_task.hermetic until 2027-05-03). Keep RPM and npm
-  # prefetch; install pip / X.org / oc at build time so
+  # rhoai-2.25: hermetic waiver (hermetic_task.hermetic until 2027-05-03). Keep npm
+  # prefetch for the large VS Code tree; install pip / X.org / oc at build time so
   # Hermeto does not emit Conforma-failing binary-wheel / generic / openshift-clients SBOM attrs.
   # Mirrors notebooks PR #2533 (RHAIENG-6200).
   - name: hermetic
