@@ -190,8 +190,8 @@ def patch_replace(target: Path, reference: Path, names: list[str]) -> None:
         else:
             updated.append(block.rstrip() + "\n")
 
-    if replaced != set(names):
-        raise SystemExit(f"Target lock missing packages to patch: {', '.join(sorted(set(names) - replaced))}")
+    for name in sorted(set(names) - replaced):
+        updated.append(ref_map[name].rstrip() + "\n")
 
     target.write_text(header + "\n".join(updated), encoding="utf-8")
     print(f"  Replaced RH wheel-only entries for: {', '.join(names)}")

@@ -114,6 +114,9 @@ while IFS= read -r -d '' ref_file; do
   if [[ ! -f "$lock_file" ]]; then
     continue
   fi
+  if grep -Fq 'name = "pandoc-rhai"' "$ref_file"; then
+    python3 "$PATCH_SCRIPT" replace "$lock_file" "$ref_file" pandoc-rhai
+  fi
   merge_pkgs=()
   while IFS= read -r pkg; do
     [[ -n "$pkg" ]] && merge_pkgs+=("$pkg")
@@ -123,11 +126,14 @@ import sys
 from pathlib import Path
 
 BE_ARCHES = ("ppc64le", "s390x")
+REPLACE_ALL = {"uv", "ripgrep", "pandoc-rhai"}
 text = Path(sys.argv[1]).read_text()
 blocks = [b for b in re.split(r"(?=^\[\[packages\]\])", text, flags=re.M) if b.strip()]
 for block in blocks:
     name_match = re.search(r'^name = "([^"]+)"', block, re.M)
     if not name_match:
+        continue
+    if name_match.group(1) in REPLACE_ALL:
         continue
     urls = re.findall(r'url = "([^"]+)"', block)
     if any(f"linux_{arch}" in url for url in urls for arch in BE_ARCHES):
