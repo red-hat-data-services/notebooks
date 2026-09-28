@@ -327,7 +327,11 @@ def main():
                 if (
                     prefix == "Install the oc client"
                     and dockerfile.parent.name == "ubi9-python-3.12"
-                    and dockerfile.is_relative_to(ntb.ROOT_DIR / "jupyter")
+                    and (
+                        dockerfile.is_relative_to(ntb.ROOT_DIR / "jupyter")
+                        or dockerfile.is_relative_to(ntb.ROOT_DIR / "runtimes")
+                        or dockerfile.is_relative_to(ntb.ROOT_DIR / "codeserver")
+                    )
                 ):
                     contents = contents.replace("/clients/ocp/stable/", "/clients/ocp/4.22.14/")
                 ntb.blockinfile(
