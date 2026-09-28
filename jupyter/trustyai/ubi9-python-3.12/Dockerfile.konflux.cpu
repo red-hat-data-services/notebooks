@@ -239,6 +239,8 @@ RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
 set -Eeuxo pipefail
 if [[ $(uname -m) == "ppc64le" ]]; then
     UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --cache-dir /root/.cache/uv
+elif [[ $(uname -m) == "s390x" ]]; then
+    UV_LINK_MODE=copy uv pip install /wheelsdir/pyarrow-*.whl --cache-dir /root/.cache/uv
 fi
 EOF
 

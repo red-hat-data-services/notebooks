@@ -57,6 +57,19 @@ if [[ "${ARCH}" == "ppc64le" || "${ARCH}" == "s390x" ]]; then
 
     export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
     uv pip install cmake 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
+
+    if [[ "${ARCH}" == "s390x" ]]; then
+        # PyArrow has no s390x wheel. Build Arrow C++ first, then cache the
+        # resulting PyArrow wheel for the later non-isolated package install.
+        PYARROW_VERSION=$(python3 ./pylock_version.py pyarrow --platform "${ARCH}")
+        PYARROW_TMP=$(mktemp -d)
+        git clone --recursive https://github.com/apache/arrow.git -b "apache-arrow-${PYARROW_VERSION}" "${PYARROW_TMP}/arrow"
+        export CMAKE_POLICY_VERSION_MINIMUM=3.5
+        bash "${CURDIR}/build_pyarrow.sh" "${PYARROW_TMP}/arrow" "${WHEELS_DIR}"
+        compgen -G "${WHEELS_DIR}/pyarrow-${PYARROW_VERSION}-*.whl" > /dev/null
+        uv pip install "${WHEELS_DIR}"/pyarrow-"${PYARROW_VERSION}"-*.whl
+        cd "${CURDIR}"
+    fi
 fi
 
 if [[ "${ARCH}" == "ppc64le" ]]; then
