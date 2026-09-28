@@ -2,28 +2,77 @@
 set -eoux pipefail
 
 #####################################################################################################
-# This script is expected to be run on ppc64le hosts as `root`                                      #
-# It installs the required build-time dependencies for python wheels                                #
-# OpenBlas is built from source (instead of distro provided) with recommended flags for performance #
+# This script installs build-time dependencies for ppc64le and s390x Python wheels.                  #
+# OpenBLAS is built from source on ppc64le; s390x uses the distro-provided library.                  #
 #####################################################################################################
 WHEELS_DIR=/wheelsdir
 mkdir -p "${WHEELS_DIR}"
-if [[ $(uname -m) == "ppc64le" ]]; then
+ARCH=$(uname -m)
+
+if [[ "${ARCH}" == "ppc64le" || "${ARCH}" == "s390x" ]]; then
     CURDIR=$(pwd)
 
-    # install development packages
+    # Install development packages shared by the IBM architectures.
     dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-    # patchelf: needed by `auditwheel repair`
-    dnf install -y fribidi-devel gcc-toolset-13 gcc-toolset-13-libatomic-devel lcms2-devel libimagequant-devel patchelf \
-        libraqm-devel openjpeg2-devel tcl-devel tk-devel unixODBC-devel
+    if [[ "${ARCH}" == "s390x" ]]; then
+        dnf clean all
+        dnf install -y dnf-plugins-core
+        if command -v subscription-manager &> /dev/null; then
+            subscription-manager repos --enable "codeready-builder-for-rhel-9-${ARCH}-rpms"
+        else
+            dnf config-manager --set-enabled crb
+        fi
+    fi
 
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    dnf install -y gcc gcc-c++ gcc-gfortran make cmake ninja-build \
+        autoconf automake libtool pkg-config \
+        python3.12-devel python3-devel pybind11-devel openssl-devel \
+        fribidi-devel lcms2-devel libimagequant-devel patchelf libraqm-devel \
+        openjpeg2-devel tcl-devel tk-devel unixODBC-devel \
+        zlib-devel libjpeg-devel libtiff-devel freetype-devel libwebp-devel \
+        git tar wget unzip
 
-    source /opt/rh/gcc-toolset-13/enable
-    source "$HOME/.cargo/env"
-    
+    if [[ "${ARCH}" == "ppc64le" ]]; then
+        dnf install -y gcc-toolset-13 gcc-toolset-13-libatomic-devel
+        source /opt/rh/gcc-toolset-13/enable
+    else
+        dnf install -y openblas-devel
+        export CFLAGS="-O3"
+        export CXXFLAGS="-O3"
+    fi
+
+    # Isolate rustup from any pre-existing root configuration in the base image.
+    RUSTUP_TMP=$(mktemp -d)
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "${RUSTUP_TMP}/rustup-init.sh"
+    chmod +x "${RUSTUP_TMP}/rustup-init.sh"
+    mkdir -p /opt/.cargo /opt/.rustup
+    CARGO_HOME=/opt/.cargo RUSTUP_HOME=/opt/.rustup HOME=/root \
+        "${RUSTUP_TMP}/rustup-init.sh" -y --no-modify-path --default-toolchain stable --profile minimal
+    rm -rf "${RUSTUP_TMP}"
+    export CARGO_HOME=/opt/.cargo
+    export RUSTUP_HOME=/opt/.rustup
+    export PATH="${CARGO_HOME}/bin:${PATH}"
+    rustc --version
+    cargo --version
+
+    export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
     uv pip install cmake 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
 
+    if [[ "${ARCH}" == "s390x" ]]; then
+        # PyArrow has no s390x wheel. Build Arrow C++ first, then cache the
+        # resulting PyArrow wheel for the later non-isolated package install.
+        PYARROW_VERSION=$(python3 ./pylock_version.py pyarrow --platform "${ARCH}")
+        PYARROW_TMP=$(mktemp -d)
+        git clone --recursive https://github.com/apache/arrow.git -b "apache-arrow-${PYARROW_VERSION}" "${PYARROW_TMP}/arrow"
+        export CMAKE_POLICY_VERSION_MINIMUM=3.5
+        bash "${CURDIR}/build_pyarrow.sh" "${PYARROW_TMP}/arrow" "${WHEELS_DIR}"
+        compgen -G "${WHEELS_DIR}/pyarrow-${PYARROW_VERSION}-*.whl" > /dev/null
+        uv pip install "${WHEELS_DIR}"/pyarrow-"${PYARROW_VERSION}"-*.whl
+        cd "${CURDIR}"
+    fi
+fi
+
+if [[ "${ARCH}" == "ppc64le" ]]; then
     export MAX_JOBS=${MAX_JOBS:-$(nproc)}
     export OPENBLAS_VERSION=${OPENBLAS_VERSION:-0.3.30}
 
@@ -41,7 +90,8 @@ if [[ $(uname -m) == "ppc64le" ]]; then
 
     # set path for openblas
     export LD_LIBRARY_PATH="/opt/OpenBLAS/lib/:/usr/local/lib64:/usr/local/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
-    export PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':')
+    PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':' || true)
+    export PKG_CONFIG_PATH
     CMAKE_ARGS="-DPython3_EXECUTABLE=$(command -v python)"
     export CMAKE_ARGS
     export CMAKE_POLICY_VERSION_MINIMUM=3.5
@@ -103,6 +153,7 @@ if [[ $(uname -m) == "ppc64le" ]]; then
     uv pip list
     cd "${CURDIR}"
 else
-    # only for mounting on non-ppc64le
+    # s390x and other architectures do not build the ppc64le OpenBLAS wheel;
+    # keep this directory for the Dockerfile cache mount.
     mkdir -p /root/OpenBLAS/
 fi
