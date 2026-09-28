@@ -232,7 +232,7 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
             ),
         ),
         ("Tensorboard", ("2.20", "2.18")),
-        ("PyTorch", ("2.7", "2.11")),
+        ("PyTorch", ("2.7", "2.13")),
     )
 
     for name, data in packages.items():
@@ -278,8 +278,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         ("setuptools", ("==80.9.0", ">=83.0.0", "<82,>=80.9.0")),
         ("wheel", ("==0.46.2", "~=0.46.2")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
-        ("torch", ("==2.7.1+cu128", "==2.7.1+rocm6.3", "==2.11.0", "==2.11.0+cu128")),
-        ("torchvision", ("==0.22.1+cu128", "==0.22.1+rocm6.3", "~=0.26.0")),
+        ("torch", ("==2.7.1+cu128", "==2.7.1+rocm6.3", "==2.11.0+cu128", "==2.13.0")),
+        ("torchvision", ("==0.22.1+cu128", "==0.22.1+rocm6.3", "==0.28.0")),
         (
             "matplotlib",
             ("~=3.10.6",),
