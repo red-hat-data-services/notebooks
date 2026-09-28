@@ -77,7 +77,7 @@ if [[ "${ARCH}" == "ppc64le" ]]; then
 
     # set path for openblas
     export LD_LIBRARY_PATH="/opt/OpenBLAS/lib/:/usr/local/lib64:/usr/local/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
-    PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':')
+    PKG_CONFIG_PATH=$(find / -type d -name "pkgconfig" 2>/dev/null | tr '\n' ':' || true)
     export PKG_CONFIG_PATH
     CMAKE_ARGS="-DPython3_EXECUTABLE=$(command -v python)"
     export CMAKE_ARGS
