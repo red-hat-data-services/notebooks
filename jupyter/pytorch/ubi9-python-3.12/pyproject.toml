@@ -6,8 +6,9 @@ requires-python = "==3.12.*"
 dependencies = [
     # PyTorch packages
     "tensorboard~=2.20.0",
-    "torch==2.7.1+cu128",
-    "torchvision==0.22.1+cu128",
+    # CVE-2026-65918: torchvision>=0.28 fixed; pytorch.org has no cu128 build for 2.13
+    "torch==2.13.0",
+    "torchvision==0.28.0",
 
     # Datascience and useful extensions
     "boto3~=1.40.27",
@@ -22,6 +23,7 @@ dependencies = [
     "skl2onnx~=1.19.1",
     "onnxconverter-common~=1.16.0",  # ONNX 1.21+ (skl2onnx); was ~=1.13.0
     "onnx>=1.22.0; platform_machine != 's390x'",  # CVE-2026-28500
+    "onnxscript",  # required by torch.onnx.export on torch 2.13+
     "codeflare-sdk~=0.39.1",
     "kubeflow-training==1.9.4",
     "feast>=0.63.0",
@@ -60,13 +62,13 @@ torchvision = {index = "pytorch-cuda"}
 # https://docs.astral.sh/uv/concepts/indexes/#package-indexes
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
+url = "https://download.pytorch.org/whl/cu126"
 explicit = true
 
 [tool.uv]
 environments = [
     "python_version == '3.12' and sys_platform == 'linux' and platform_machine == 'x86_64'",
-    # aarch64 omitted: lock resolution fails — torchvision==0.22.1+cu128 has no linux/aarch64 wheels
+    # aarch64 omitted: keep lock environments aligned with other CUDA pytorch images
 ]
 
 override-dependencies = [
