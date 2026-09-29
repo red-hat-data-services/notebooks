@@ -9,8 +9,9 @@ dependencies = [
 
     # PyTorch packages
     "tensorboard~=2.20.0",
-    "torch==2.11.0",
-    "torchvision~=0.26.0",
+    # CVE-2026-65918: torchvision>=0.28 fixed; pytorch.org has no cu128 build for 2.13
+    "torch==2.13.0",
+    "torchvision==0.28.0",
 
     # LLMCompressor 0.14.0 is required for the patched Torch/Transformers dependency stack.
     "llmcompressor==0.14.0",
@@ -66,7 +67,7 @@ torchvision = { index = "pytorch-cuda" }
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
+url = "https://download.pytorch.org/whl/cu126"
 explicit = true
 
 [tool.uv]
@@ -101,5 +102,5 @@ constraint-dependencies = [
 
 environments = [
     "python_version == '3.12' and sys_platform == 'linux' and platform_machine == 'x86_64'",
-    # aarch64 omitted: lock resolution fails — torchvision==0.22.1+cu128 has no linux/aarch64 wheels
+    # aarch64 omitted: lock resolution fails — torchvision==0.28.0+cu126 has no linux/aarch64 wheels
 ]

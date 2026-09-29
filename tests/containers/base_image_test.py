@@ -65,9 +65,25 @@ class TestBaseImage:
                             continue
 
                         count_scanned += 1
-                        ld_library_path = (
-                            os.environ.get("LD_LIBRARY_PATH", "") + os.path.pathsep + os.path.dirname(dlib)
-                        )
+                        # Drop empty entries (e.g. from an unset LD_LIBRARY_PATH): an
+                        # empty path element makes the dynamic loader search the current
+                        # working directory, which could shadow a library under test.
+                        configured_paths = [
+                            entry for entry in os.environ.get("LD_LIBRARY_PATH", "").split(os.pathsep) if entry
+                        ]
+                        extra_paths = [
+                            *configured_paths,
+                            # $ORIGIN
+                            os.path.dirname(dlib),
+                        ]
+                        # triton plugins (site-packages/triton/plugins/*.so) link against
+                        # libtriton.so, which the triton package bundles in
+                        # site-packages/triton/_C/ and triton pre-loads via dlopen before
+                        # loading the plugins; ldd run in isolation cannot see it.
+                        dlib_dir = os.path.dirname(dlib)
+                        if os.path.basename(dlib_dir) == "plugins":
+                            extra_paths.append(os.path.join(os.path.dirname(dlib_dir), "_C"))
+                        ld_library_path = os.path.pathsep.join(extra_paths)
                         output = subprocess.check_output(
                             ["ldd", dlib],
                             # search the $ORIGIN, essentially; most python libs expect this
