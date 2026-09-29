@@ -1540,10 +1540,24 @@ wheels = [
 ]
 
 [[packages]]
+name = "onnx-ir"
+version = "1.0.0"
+marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
+sdist = { url = "https://files.pythonhosted.org/packages/d6/c2/61194cec0dbc5622273c0ebd592d37cc1dca0d7f1a744f02edd45ac905a3/onnx_ir-1.0.0.tar.gz", upload-time = 2026-08-11T14:49:46Z, size = 163121, hashes = { sha256 = "9e261f25fde8da9612ae5cb43b3b374d5ff469c04af0363cad588b2bb000b812" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/91/cd/6d1637172eb59c7b18ac90ed089d1f599a11fe0e63b4db2d017f3bb38a32/onnx_ir-1.0.0-py3-none-any.whl", upload-time = 2026-08-11T14:49:45Z, size = 185849, hashes = { sha256 = "e578f0d608d3062866b48223616eb2d10a6d6d01f8b8faac596129034f483cc7" } }]
+
+[[packages]]
 name = "onnxconverter-common"
 version = "1.16.0"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
 wheels = [{ url = "https://files.pythonhosted.org/packages/4a/67/8dca1868a6e226f8d3f7d666cb6a48b79a60aad5267b16b24627cd8d9eb8/onnxconverter_common-1.16.0-py2.py3-none-any.whl", upload-time = 2025-08-28T19:37:46Z, size = 89511, hashes = { sha256 = "df39ee96f17fff119dff10dd245467651b60b9e8a96020eb93402239794852f7" } }]
+
+[[packages]]
+name = "onnxscript"
+version = "0.7.2"
+marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
+sdist = { url = "https://files.pythonhosted.org/packages/0a/01/3e3fab8d643ca097ea4aa9e51246643699dfaaa0650589744fe44bc46651/onnxscript-0.7.2.tar.gz", upload-time = 2026-09-09T17:06:44Z, size = 646719, hashes = { sha256 = "2c664f6383d10f332a4d47b2876dcab16dba84909fe703656b19abc281fda165" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/b9/3b/06260997cdc41138e58718588a6c87d0eb342bbe0dda8a6aae91d163c384/onnxscript-0.7.2-py3-none-any.whl", upload-time = 2026-09-09T17:06:46Z, size = 754215, hashes = { sha256 = "d0e7121c6a1eefd608058928e111cbdb76709f70d269ff0d07aee493bd1d13c9" } }]
 
 [[packages]]
 name = "opencensus"
