@@ -2,6 +2,7 @@ import { expect, type Locator, type Page, type TestInfo } from '@playwright/test
 import { randomUUID } from 'node:crypto';
 import { basename } from 'node:path';
 import { jupyterLabSelectors } from './selectors';
+import { chainable, type Chain } from './chain';
 
 /** Shared interaction plumbing; workflows use the typed views below. */
 class LabSession {
@@ -71,18 +72,20 @@ export class JupyterLab {
     this.files = new FileBrowser(session);
   }
 
-  static async open(page: Page, testInfo: TestInfo, baseURL?: string): Promise<JupyterLab> {
-    const session = new LabSession(page, testInfo);
-    const workspace = `offline-${randomUUID()}`;
-    const workspaceURL = baseURL
-      ? `${baseURL}lab/workspaces/${workspace}?reset`
-      : `./lab/workspaces/${workspace}?reset`;
-    await page.goto(workspaceURL);
-    await expect(session.ui.shell).toBeVisible({ timeout: 120_000 });
-    await expect(session.ui.sidebar).toBeVisible();
-    await session.dismissOfflineServiceError();
-    return new JupyterLab(session);
-  }
+  static readonly open: (page: Page, testInfo: TestInfo, baseURL?: string) => Chain<JupyterLab> = chainable(
+    async (page: Page, testInfo: TestInfo, baseURL?: string): Promise<JupyterLab> => {
+      const session = new LabSession(page, testInfo);
+      const workspace = `offline-${randomUUID()}`;
+      const workspaceURL = baseURL
+        ? `${baseURL}lab/workspaces/${workspace}?reset`
+        : `./lab/workspaces/${workspace}?reset`;
+      await page.goto(workspaceURL);
+      await expect(session.ui.shell).toBeVisible({ timeout: 120_000 });
+      await expect(session.ui.sidebar).toBeVisible();
+      await session.dismissOfflineServiceError();
+      return new JupyterLab(session);
+    },
+  );
 
   async openLauncher(): Promise<Launcher> {
     const { launcher } = this.session.ui;
@@ -221,6 +224,9 @@ export class SavedNotebook extends Notebook {
   }
 
   async rename(name: string): Promise<SavedNotebook> {
+    // Workaround for RHOAIENG-82538: Kale can asynchronously show a blocking
+    // error dialog while the notebook UI is being used.
+    await this.session.dismissOfflineServiceError();
     await this.session.ui.tab(this.name).click();
     const { menu, dialogs } = this.session.ui;
     await menu.file.click();
