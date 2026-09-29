@@ -6,8 +6,9 @@ requires-python = "==3.12.*"
 dependencies = [
     # PyTorch packages
     "tensorboard~=2.20.0",
-    "torch==2.7.1+cu128",
-    "torchvision==0.22.1+cu128",
+    # CVE-2026-65918: torchvision>=0.28 fixed; pytorch.org has no cu128 build for 2.13
+    "torch==2.13.0",
+    "torchvision==0.28.0",
 
     # Datascience and useful extensions
     "boto3~=1.40.27",
@@ -62,13 +63,13 @@ torchvision = { index = "pytorch-cuda" }
 # https://docs.astral.sh/uv/concepts/indexes/#package-indexes
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
+url = "https://download.pytorch.org/whl/cu126"
 explicit = true
 
 [tool.uv]
 environments = [
     "python_version == '3.12' and sys_platform == 'linux' and platform_machine == 'x86_64'",
-    # aarch64 omitted: lock resolution fails — torchvision==0.22.1+cu128 has no linux/aarch64 wheels
+    # aarch64 omitted: keep lock environments aligned with other CUDA pytorch images
 ]
 override-dependencies = [
     # RHAIENG-3209: CVE-2026-25990  Pillow: Out-of-bounds Write
