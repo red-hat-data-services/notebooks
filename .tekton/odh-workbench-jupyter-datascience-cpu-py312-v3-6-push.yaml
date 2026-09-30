@@ -57,8 +57,6 @@ spec:
     - linux/s390x
   - name: build-args-file
     value: jupyter/datascience/ubi9-python-3.12/build-args/konflux.cpu.conf
-  - name: disable-slack-notifications
-    value: "true"
   - name: rhel-subscription-activation-key
     value: rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6
   - name: prefetch-input

@@ -57,8 +57,6 @@ spec:
     - linux-d160-m8xlarge/arm64
     - linux/ppc64le
     - linux/s390x
-  - name: disable-slack-notifications
-    value: "true"
   - name: rhel-subscription-activation-key
     value: "rhel-subscription-activation-key-rhoai-devops-for-notebooks-rhel9-6"
   - name: prefetch-input
