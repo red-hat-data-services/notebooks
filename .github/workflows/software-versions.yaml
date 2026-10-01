@@ -4,11 +4,13 @@ on:  # yamllint disable-line rule:truthy
   push:
     # Since this check is so resource demanding, let's restrict also push action here.
     paths:
+      - '.github/workflows/software-versions.yaml'
       - 'manifests/base/params.env'
       - 'manifests/base/*-imagestream.yaml'
       - 'ci/check-software-versions.py'
   pull_request:
     paths:
+      - '.github/workflows/software-versions.yaml'
       - 'manifests/base/params.env'
       - 'manifests/base/*-imagestream.yaml'
       - 'ci/check-software-versions.py'
@@ -20,7 +22,10 @@ permissions:
 
 jobs:
   validation-of-sw-versions-in-imagestreams:
-    runs-on: ubuntu-latest
+    # ubuntu-24.04 (ubuntu-latest) podman fails Configure Podman with
+    # "runroot must be set" after copying ci/cached-builds/storage.conf.
+    # Match rhoai-2.25: pin ubuntu-26.04 where the same storage.conf works.
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
