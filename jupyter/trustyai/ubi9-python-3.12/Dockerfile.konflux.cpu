@@ -6,7 +6,7 @@ ARG BASE_IMAGE
 ######################################################
 # mongocli-builder (build stage only, not published) #
 ######################################################
-FROM registry.access.redhat.com/ubi9/go-toolset:latest AS mongocli-builder
+FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
 
 ARG MONGOCLI_VERSION=2.0.4
 
@@ -41,13 +41,15 @@ ARG TRUSTYAI_SOURCE_CODE=jupyter/trustyai/ubi9-python-3.12
 COPY ${TRUSTYAI_SOURCE_CODE}/pylock.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/pyproject.toml .
 COPY ${TRUSTYAI_SOURCE_CODE}/devel_env_setup.sh .
+COPY ${TRUSTYAI_SOURCE_CODE}/build_pyarrow.sh .
 COPY scripts/pylock_version.py ./pylock_version.py
 
 RUN --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
 pip install --no-cache-dir "uv==0.8.12"
-# the devel script is ppc64le specific - sets up build-time dependencies
+# the devel script sets up shared IBM-architecture build dependencies and builds ppc64le custom wheels
 source ./devel_env_setup.sh
+uv pip install 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
 # RHAIENG-5986: cap setuptools version in isolated sdist builds (pkg_resources removed in 82+)
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
@@ -56,7 +58,8 @@ printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
 # pylock.toml is the install input; pyproject.toml is copied for uv config only.
 # do not use --no-config — uv must discover pyproject.toml in this directory.
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
-UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml --build-constraint build_constraints.txt
+UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
+    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
 EOF
 
 ####################
@@ -97,11 +100,13 @@ EOF
 ### END upgrade first to avoid fixable vulnerabilities
 
 # Install useful OS packages
+COPY prefetch-input/repos/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-security-tools.repo
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-dnf install -y perl mesa-libGL skopeo
+dnf install -y perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8'
 dnf clean all
 rm -rf /var/cache/yum
+rm -f /etc/yum.repos.d/ubi9-security-tools.repo
 EOF
 
 # Other apps and tools installed as default user
@@ -114,7 +119,7 @@ RUN pip install --no-cache-dir -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
 # Install the oc client begin
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-curl --fail --location --show-error https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz \
+curl --fail --location --show-error https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/4.22.14/openshift-client-linux.tar.gz \
     -o /tmp/openshift-client-linux.tar.gz
 tar -xzvf /tmp/openshift-client-linux.tar.gz oc
 rm -f /tmp/openshift-client-linux.tar.gz
@@ -199,11 +204,19 @@ LABEL name="rhoai/odh-workbench-jupyter-trustyai-cpu-py312-rhel9" \
 
 USER 0
 
-# Install jre that is needed to run the trustyai library
+# TrustyAI needs Java; source-built Arrow libraries need libatomic at runtime.
+# s390x wheels link against the distro OpenBLAS installed in the builder stage.
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-INSTALL_PKGS="java-17-openjdk"
+INSTALL_PKGS="java-17-openjdk libatomic"
+if [[ $(uname -m) == "s390x" ]]; then
+    INSTALL_PKGS+=" openblas openblas-threads"
+fi
 dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS
+if [[ $(uname -m) == "s390x" ]]; then
+    ln -sf /usr/lib64/libopenblasp.so.0 /usr/lib64/libopenblas.so.0
+    ldconfig
+fi
 dnf -y clean all --enablerepo='*'
 EOF
 
@@ -226,6 +239,8 @@ RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
 set -Eeuxo pipefail
 if [[ $(uname -m) == "ppc64le" ]]; then
     UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --cache-dir /root/.cache/uv
+elif [[ $(uname -m) == "s390x" ]]; then
+    UV_LINK_MODE=copy uv pip install /wheelsdir/pyarrow-*.whl --cache-dir /root/.cache/uv
 fi
 EOF
 
@@ -236,8 +251,13 @@ echo "Installing softwares and packages"
 # supplies [tool.uv] extra-build-dependencies and must remain discoverable (no --no-config).
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
 printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
-# we can ensure wheels are consumed from the cache only by restricting internet access for uv install with '--offline' flag
-UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt
+if [[ $(uname -m) == "ppc64le" || $(uname -m) == "s390x" ]]; then
+    export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
+fi
+# Build dependencies belong in whl-cache, not the runtime image. Reuse its
+# cache and the installed local PyArrow wheel without bootstrapping LibCST.
+UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
+    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
 UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')

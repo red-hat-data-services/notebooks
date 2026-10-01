@@ -6,7 +6,7 @@ requires-python = "==3.11.*"
 dependencies = [
     # Base packages
     "wheel~=0.46.2",
-    "setuptools~=80.9.0",
+    "setuptools>=83.0.0",
 ]
 
 [tool.uv]

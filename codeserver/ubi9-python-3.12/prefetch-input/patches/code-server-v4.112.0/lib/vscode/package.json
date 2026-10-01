@@ -122,7 +122,7 @@
     "open": "^10.1.2",
     "playwright-core": "1.59.0-alpha-2026-02-20",
     "tas-client": "0.3.1",
-    "undici": "^7.24.0",
+    "undici": "7.29.1",
     "v8-inspect-profiler": "^0.1.1",
     "vscode-oniguruma": "1.7.0",
     "vscode-regexpp": "^3.1.0",
@@ -245,8 +245,10 @@
     "ip-address": "10.3.1",
     "brace-expansion": "2.1.4",
     "basic-ftp": "5.3.1",
-    "js-yaml": "4.3.0",
-    "path-to-regexp": "8.4.0"
+    "js-yaml": "4.3.2",
+    "path-to-regexp": "8.4.0",
+    "qs": "6.16.0",
+    "compression": "1.8.2"
   },
   "repository": {
     "type": "git",

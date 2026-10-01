@@ -62,6 +62,7 @@ spec:
     - linux/x86_64
     - linux-d160-m2xlarge/arm64
     - linux/ppc64le
+    - linux/s390x
   - name: image-expires-after
     value: 5d
   - name: enable-slack-failure-notification
@@ -77,6 +78,15 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+    - pipelineTaskName: fips-check
+      computeResources:
+        requests:
+          cpu: '3'
+          memory: 4Gi
+        limits:
+          cpu: '3'
+          memory: 4Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
