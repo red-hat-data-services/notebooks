@@ -20,8 +20,8 @@ metadata:
   namespace: rhoai-tenant
 spec:
   timeouts:
-    pipeline: 8h0m0s
-    tasks: "4h0m0s"
+    pipeline: 12h0m0s
+    tasks: "8h0m0s"
   params:
   - name: git-url
     value: '{{source_url}}'
@@ -214,6 +214,15 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+  - pipelineTaskName: build-images
+    stepSpecs:
+    - name: prepare-sboms
+      computeResources:
+        requests:
+          memory: 8Gi
+        limits:
+          memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
