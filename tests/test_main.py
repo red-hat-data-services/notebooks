@@ -257,7 +257,8 @@ def test_image_manifests_version_alignment(subtests: pytest_subtests.plugin.SubT
     # TODO(jdanek): review these, if any are unwarranted
     ignored_exceptions: tuple[tuple[str, tuple[str, ...]], ...] = (
         # ("package name", ("allowed version 1", "allowed version 2", ...))
-        ("Codeflare-SDK", ("0.30", "0.29")),
+        # llmcompressor stays on 0.34; other jupyter workbenches bump to 0.39 (CVE-2026-57516)
+        ("Codeflare-SDK", ("0.39", "0.34")),
         ("Scikit-learn", ("1.7", "1.6")),
         (
             "Numpy",
