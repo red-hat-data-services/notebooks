@@ -186,6 +186,8 @@ spec:
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server
       type: npm
     # patches/ overlay (codeserver/ubi9-python-3.12/prefetch-input/patches/) — Cachi2 prefetches registry-only lockfiles; keep in sync with patches that have package.json
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0
+      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/remote
@@ -194,11 +196,21 @@ spec:
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/emmet
       type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/microsoft-authentication
+      type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/notebook-renderers
+      type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/npm
+      type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/build
+      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/build/vite
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/test
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/mcp
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/microsoft-authentication
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/sanity
+      type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/test
       type: npm
     # Registry-only npm deps (ProdSec); @parcel/watcher, @emmetio/css-parser, @playwright/browser-chromium in custom-packages/package.json
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/custom-packages
