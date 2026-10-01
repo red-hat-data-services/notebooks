@@ -122,7 +122,7 @@
     "open": "^10.1.2",
     "playwright-core": "1.59.0-alpha-2026-02-20",
     "tas-client": "0.3.1",
-    "undici": "^7.24.0",
+    "undici": "7.29.1",
     "v8-inspect-profiler": "^0.1.1",
     "vscode-oniguruma": "1.7.0",
     "vscode-regexpp": "^3.1.0",
@@ -237,7 +237,14 @@
     "@vscode/l10n-dev@0.0.35": {
       "web-tree-sitter": "0.23.0"
     },
-    "es5-ext": "npm:@unes/es5-ext@0.10.64-1"
+    "es5-ext": "npm:@unes/es5-ext@0.10.64-1",
+    "undici@6": "6.28.1",
+    "undici@7": "$undici",
+    "js-yaml@3": "3.15.2",
+    "js-yaml@4": "4.3.2",
+    "fast-uri": "3.1.8",
+    "qs": "6.16.0",
+    "compression": "1.8.2"
   },
   "repository": {
     "type": "git",
