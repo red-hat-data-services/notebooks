@@ -22,7 +22,7 @@ dependencies = [
     "skl2onnx~=1.19.1",
     # Required for skl2onnx, as upgraded version is not compatible with protobuf
     "onnxconverter-common~=1.13.0",
-    "codeflare-sdk~=0.34.0",
+    "codeflare-sdk~=0.39.1",
     "feast~=0.63.0",
 
     # DB connectors
@@ -41,7 +41,7 @@ dependencies = [
 [tool.uv]
 
 override-dependencies = [
-    # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk==0.34.0 pin cryptography==46.0.3
+    # RHAIENG-5052: CVE-2026-39892 — force past codeflare-sdk cryptography pin
     "cryptography>=46.0.7",
     # RHOAIENG-59282 + RHOAIENG-54270: CVE-2026-23490 + CVE-2026-30922 pyasn1 DoS vulnerabilities
     "pyasn1>=0.6.4",
