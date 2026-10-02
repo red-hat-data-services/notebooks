@@ -45,7 +45,7 @@ dependencies = [
     "kubeflow-training==1.9.4",
 
     # DB connectors
-    "pymongo~=4.14.1",
+    "pymongo~=4.18.2",
     "psycopg~=3.2.10",
     "pyodbc~=5.2.0",
     "mysql-connector-python~=9.4.0",

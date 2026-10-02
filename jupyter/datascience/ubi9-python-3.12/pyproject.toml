@@ -22,7 +22,7 @@ dependencies = [
     "feast>=0.63.0",
 
     # DB connectors
-    "pymongo~=4.14.1",
+    "pymongo~=4.18.2",  # CVE-2026-88029, CVE-2026-96749
     "psycopg~=3.2.10",
     "pyodbc~=5.2.0",
     "mysql-connector-python~=9.4.0",
