@@ -12,6 +12,7 @@ in this directory so the submodule can be updated independently.
 
 | Path | Why |
 | ---- | --- |
+| `package.json` / `package-lock.json` | Root code-server npm CVE pins (`compression`, `js-yaml`, `qs`) |
 | `ci/dev/postinstall.sh` | Hermetic offline `npm ci`; GHA `--ignore-scripts` follow-up for ripgrep, spdlog, node-pty |
 | `ci/build/build-vscode.sh` | VS Code compile settings for hermetic build |
 | `custom-packages/` | Lockfiles for code-server custom npm packages |
