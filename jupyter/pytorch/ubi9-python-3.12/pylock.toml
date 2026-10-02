@@ -1933,10 +1933,10 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/71/46/17f022dd3e953bf
 
 [[packages]]
 name = "pyjwt"
-version = "2.13.0"
+version = "2.15.1"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/3b/81/58d0ac84e1ef3a3843791d6954d94c0b33d526c75eeb1efbce9d0a4c4077/pyjwt-2.13.0.tar.gz", upload-time = 2026-05-21T19:54:36Z, size = 107515, hashes = { sha256 = "41571c89ca91598c79e8ef18a2d07367d4810fbbd6f637794879baf1b7703423" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/a3/5e/ecf12fdb62546d64385c158514e9b2b671f7832108ef2ecd2020ce0af2d1/pyjwt-2.13.0-py3-none-any.whl", upload-time = 2026-05-21T19:54:35Z, size = 31274, hashes = { sha256 = "66adcc2aff09b3f1bbd95fc1e1577df8ac8723c978552fd43304c8a290ac5728" } }]
+sdist = { url = "https://files.pythonhosted.org/packages/43/ea/5194e52748b0da83d71e082d75496eaec6e58f419f5e184786ded517e6a9/pyjwt-2.15.1.tar.gz", upload-time = 2026-09-28T18:40:42Z, size = 121252, hashes = { sha256 = "4f259e80cdfb6b3fc18a7de51fd1ef9ec79652f25019bae68975ca2468a34df8" } }
+wheels = [{ url = "https://files.pythonhosted.org/packages/50/ca/44de4e75f8aadc457f0634be3b542815078ded46dca30efb960edeecad6e/pyjwt-2.15.1-py3-none-any.whl", upload-time = 2026-09-28T18:40:41Z, size = 33860, hashes = { sha256 = "42d59d631f7768a1028a64c7ff581a9bf7519804daf91fc5b6c56e30eec5e193" } }]
 
 [[packages]]
 name = "pylint"
@@ -2433,12 +2433,12 @@ wheels = [
 
 [[packages]]
 name = "tornado"
-version = "6.5.8"
+version = "6.5.10"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/10/d3/343e5bb989d6515b1646cf3d40135d73f3d5e45339bded401b56cdac24dd/tornado-6.5.8.tar.gz", upload-time = 2026-08-07T02:12:42Z, size = 520493, hashes = { sha256 = "9452e1b208a8bd771e2cb1f2ff564985b9b214bdebbe622793e1799e0a6bd23f" } }
+sdist = { url = "https://files.pythonhosted.org/packages/06/61/53d562a57b28c08eda40b258c0f975e360541943ad7c7bef897a40caafda/tornado-6.5.10.tar.gz", upload-time = 2026-09-15T13:47:48Z, size = 537910, hashes = { sha256 = "a6b1ccd08c04b4a06fb5aeb381be99de5ad1e5375c1785e31d78c880feb57687" } }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6e/de/f2e733f386b85962d1b1dc82cd63d169b5b4580062b35397eac9244a41fe/tornado-6.5.8-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", upload-time = 2026-08-07T02:12:31Z, size = 450707, hashes = { sha256 = "547d63f450d570c14fe0e8db2cfb14c9bbd1c2503b4a6612586267955aa47b58" } },
-    { url = "https://files.pythonhosted.org/packages/29/b5/93185859245ad3f00e62175f29607346788b696369347f0146e0421286bb/tornado-6.5.8-cp39-abi3-musllinux_1_2_x86_64.whl", upload-time = 2026-08-07T02:12:36Z, size = 450917, hashes = { sha256 = "7b94ff0e128fe0542f3bd331fb44d06260fc4ac16881545159f34ef08aad4195" } },
+    { url = "https://files.pythonhosted.org/packages/60/33/df6d7d04854a58619f8349a51e3edb138324130a7562b0bb21f115bb940f/tornado-6.5.10-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", upload-time = 2026-09-15T13:47:38Z, size = 467096, hashes = { sha256 = "bdf942448169e5336451d0494d7e3d81cfa726d5aa312affdc4682dd62a62f6d" } },
+    { url = "https://files.pythonhosted.org/packages/28/5e/b4facf94370dba006819c8d304376f8b9fbec6b935b5e51bf45823a9790b/tornado-6.5.10-cp39-abi3-musllinux_1_2_x86_64.whl", upload-time = 2026-09-15T13:47:43Z, size = 467308, hashes = { sha256 = "4bd192b959f9128fb99b8898148070ba4574c9589b78bce42d1851131fe85828" } },
 ]
 
 [[packages]]
