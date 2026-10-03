@@ -59,7 +59,8 @@ uv pip install \
     --no-config \
     --no-progress \
     "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
-rm -f "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
+"${BUILD_PYTHON}" -c 'from pathlib import Path; import sys; Path(sys.argv[1]).unlink()' \
+    "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
 
 download_and_verify \
     "${TORCHVISION_SOURCE_URL}" \
