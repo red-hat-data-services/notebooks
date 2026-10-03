@@ -278,9 +278,7 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         ("setuptools", ("==80.9.0", ">=83.0.0", "<82,>=80.9.0")),
         ("wheel", ("==0.46.2", "~=0.46.2")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
-        ("torch", ("==2.9.1", "==2.11.0+cu128", "==2.13.0")),
-        ("torchvision", ("==0.24.1+rhaiv.1", "==0.28.0")),
-        ("triton", ("==3.5.1", "==3.6.0")),
+        ("torch", ("==2.7.1+rocm6.3", "==2.11.0+cu128", "==2.13.0")),
         (
             "matplotlib",
             ("~=3.10.6",),
@@ -350,8 +348,8 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
 def test_files_that_should_be_same_are_same(subtests: pytest_subtests.plugin.SubTests):
     file_groups = {
         "ROCm de-vendor script": [
-            PROJECT_ROOT / "jupyter/rocm/pytorch/ubi9-python-3.12/de-vendor-torch.py",
-            PROJECT_ROOT / "runtimes/rocm-pytorch/ubi9-python-3.12/de-vendor-torch.py",
+            PROJECT_ROOT / "jupyter/rocm/pytorch/ubi9-python-3.12/de-vendor-torch.sh",
+            PROJECT_ROOT / "runtimes/rocm-pytorch/ubi9-python-3.12/de-vendor-torch.sh",
         ],
         "nginx/common.sh": [
             PROJECT_ROOT / "codeserver/ubi9-python-3.12/nginx/root/usr/share/container-scripts/nginx/common.sh",

@@ -84,6 +84,27 @@ EOF
 
 # Install the oc client end
 
+############################################
+# patched-torchvision-builder (not shipped) #
+############################################
+FROM rocm-base AS patched-torchvision-builder
+
+USER 0
+
+RUN /bin/bash <<'EOF'
+set -Eeuxo pipefail
+dnf install -y gcc gcc-c++ libjpeg-turbo-devel libpng-devel libwebp-devel ninja-build python3.12-devel
+dnf clean all
+rm -rf /var/cache/yum
+EOF
+
+USER 1001
+
+ARG TORCHVISION_BUILD_SCRIPT=scripts/build-patched-torchvision-wheel.sh
+COPY ${TORCHVISION_BUILD_SCRIPT} ./
+
+RUN ./build-patched-torchvision-wheel.sh /tmp/torchvision-wheel
+
 ########################
 # rocm-jupyter-minimal #
 ########################
@@ -151,7 +172,8 @@ ARG PYTORCH_SOURCE_CODE=jupyter/rocm/pytorch/ubi9-python-3.12
 
 WORKDIR /opt/app-root/bin
 
-COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ${PYTORCH_SOURCE_CODE}/de-vendor-torch.py ./
+COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ${PYTORCH_SOURCE_CODE}/de-vendor-torch.sh ./
+COPY --from=patched-torchvision-builder /tmp/torchvision-wheel /tmp/torchvision-wheel
 
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
@@ -159,6 +181,8 @@ echo "Installing softwares and packages"
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
+uv pip install --strict --no-deps --no-cache --no-config --no-progress --compile-bytecode /tmp/torchvision-wheel/*.whl
+rm -rf /tmp/torchvision-wheel
 # setup path for runtime configuration
 mkdir /opt/app-root/runtimes
 # Remove default Elyra runtime-images
@@ -172,8 +196,9 @@ jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 # Apply JupyterLab addons
 /opt/app-root/bin/utils/addons/apply.sh
 # De-vendor ROCm libs embedded in Pytorch (same layer as pip — shrinks commit peak)
-python3 ./de-vendor-torch.py
-rm ./de-vendor-torch.py
+./de-vendor-torch.sh
+rm ./de-vendor-torch.sh
+python -c 'import torch, torchvision; assert torch.__version__ == "2.7.1+rocm6.3"; assert torchvision.__version__ == "0.22.1+rhaiv.1"'
 EOF
 
 USER 0

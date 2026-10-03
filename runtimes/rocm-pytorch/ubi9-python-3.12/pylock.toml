@@ -1454,6 +1454,16 @@ sdist = { url = "https://files.pythonhosted.org/packages/6a/53/ed9d74092561d4b01
 wheels = [{ url = "https://files.pythonhosted.org/packages/0d/17/c5c6b53ddc18f297992099b3d9ec16c855c0ccc83263a21fe4d1c625ec6c/python_dotenv-1.2.3-py3-none-any.whl", upload-time = 2026-08-16T16:54:52Z, size = 22780, hashes = { sha256 = "904552145e8bfed22162c09dab1c2b9b54fefa7b23ba780f4f26ca0316b0f0d9" } }]
 
 [[packages]]
+name = "pytorch-triton-rocm"
+version = "3.3.1"
+marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
+wheels = [
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp312-cp312-linux_x86_64.whl", upload-time = 2025-06-03T22:26:30Z, hashes = { sha256 = "977423eee5c542a3f8aa4f527aec1688c4d485f207089cb595a8e638fcc3888a" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp313-cp313-linux_x86_64.whl", upload-time = 2025-06-03T22:26:34Z, hashes = { sha256 = "104d1087692ea24dbfdb178b7a245c59b04d2121540587e392e30a668cf98edd" } },
+    { url = "https://download-r2.pytorch.org/whl/pytorch_triton_rocm-3.3.1-cp313-cp313t-linux_x86_64.whl", upload-time = 2025-06-03T22:26:29Z, hashes = { sha256 = "dd521c3f3679a79081ebaa9a416d2090b0d3970a157e0bbe1e163dc75e8da4bf" } },
+]
+
+[[packages]]
 name = "pytz"
 version = "2026.3.post1"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
@@ -1715,20 +1725,13 @@ wheels = [{ url = "https://files.pythonhosted.org/packages/fb/12/5911ae3eeec4780
 
 [[packages]]
 name = "torch"
-version = "2.9.1"
+version = "2.7.1+rocm6.3"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/torch-2.9.1-14-cp312-cp312-linux_x86_64.whl", upload-time = 2026-03-13T12:23:10Z, size = 232932781, hashes = { sha256 = "c6b187493adf0046b2079c563f3ba651e681a7ebbd2c93c394ad4daec5c258bd" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/torch-2.9.1-15-cp312-cp312-linux_x86_64.whl", upload-time = 2026-03-14T14:49:46Z, size = 232932898, hashes = { sha256 = "bf755ae031196dc00d4a126b2f1f4c548ec021d7521b065978e664df1958b9d9" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/torch-2.9.1-16-cp312-cp312-linux_x86_64.whl", upload-time = 2026-04-09T07:57:42Z, size = 232907281, hashes = { sha256 = "ff47d6686af7721daca26e8a9e5833c92c9b27b90d06ac1582329f1c8f9066fd" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/torch-2.9.1-17-cp312-cp312-linux_x86_64.whl", upload-time = 2026-05-01T05:54:59Z, size = 441582673, hashes = { sha256 = "dc257de25b708309a82e5e995e9618f08834f515f90172b3302b7e9165789b33" } },
+    { url = "https://download-r2.pytorch.org/whl/rocm6.3/torch-2.7.1%2Brocm6.3-cp312-cp312-manylinux_2_28_x86_64.whl", upload-time = 2025-06-03T18:34:52Z, hashes = { sha256 = "b0c10342f64a34998ae8d5084aa1beae7e11defa46a4e05fe9aa6f09ffb0db37" } },
+    { url = "https://download-r2.pytorch.org/whl/rocm6.3/torch-2.7.1%2Brocm6.3-cp313-cp313-manylinux_2_28_x86_64.whl", upload-time = 2025-06-03T18:35:24Z, hashes = { sha256 = "1650ff47f4cd45e5ba222e943e6e0697eb5f1cff15045ffdafe4feb8c279cb93" } },
+    { url = "https://download-r2.pytorch.org/whl/rocm6.3/torch-2.7.1%2Brocm6.3-cp313-cp313t-manylinux_2_28_x86_64.whl", upload-time = 2025-06-03T18:35:32Z, hashes = { sha256 = "adfc55a2704c7b58a3475a409fe6ff619bbc4abbe28127fbcf12cc17e441fd1a" } },
 ]
-
-[[packages]]
-name = "torchvision"
-version = "0.24.1+rhaiv.1"
-marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/torchvision-0.24.1+rhaiv.1-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-09-21T23:21:19Z, size = 5331181, hashes = { sha256 = "f9292d146a3394dd2ec798b7c1bb71937e84817ea33c662954d55d16d1d719c9" } }]
 
 [[packages]]
 name = "tornado"
@@ -1753,12 +1756,6 @@ version = "5.14.3"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
 sdist = { url = "https://files.pythonhosted.org/packages/eb/79/72064e6a701c2183016abbbfedaba506d81e30e232a68c9f0d6f6fcd1574/traitlets-5.14.3.tar.gz", upload-time = 2024-04-19T11:11:49Z, size = 161621, hashes = { sha256 = "9ed0579d3502c94b4b3732ac120375cda96f923114522847de4b3bb98b96b6b7" } }
 wheels = [{ url = "https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl", upload-time = 2024-04-19T11:11:46Z, size = 85359, hashes = { sha256 = "b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f" } }]
-
-[[packages]]
-name = "triton"
-version = "3.5.1"
-marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/triton-3.5.1-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-03-13T12:23:10Z, size = 259026457, hashes = { sha256 = "eab4422d7ed3932e3eae8e3f1972b37ab73600f35338a729d8d57347cdd9c47c" } }]
 
 [[packages]]
 name = "typeguard"

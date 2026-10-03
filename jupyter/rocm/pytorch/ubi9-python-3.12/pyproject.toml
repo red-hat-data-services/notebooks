@@ -6,10 +6,10 @@ requires-python = "==3.12.*"
 dependencies = [
     # ROCm PyTorch packages
     "tensorboard~=2.20.0",
-    # Keep this binary stack aligned with the ROCm 6.4 AIPCC base image.
-    "torch==2.9.1",
-    "torchvision==0.24.1+rhaiv.1", # RHOAIENG-89639 / CVE-2026-65918
-    "triton==3.5.1",
+    "torch==2.7.1+rocm6.3",
+    # torchvision 0.22.1+rhaiv.1 is rebuilt in the image from the patched fork
+    # because no compatible ROCm 6.3 wheel is published. See RHOAIENG-89639.
+    "pytorch-triton-rocm~=3.3.1",
 
     # Datascience and useful extensions
     "boto3~=1.40.27",
@@ -56,14 +56,13 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-torch = { index = "aipcc-rocm" }
-torchvision = { index = "aipcc-rocm" }
-triton = { index = "aipcc-rocm" }
+torch = { index = "pytorch-rocm" }
+pytorch-triton-rocm = { index = "pytorch-rocm" }
 
 # Please keep in sync with rocm/ubi9-python-3.12/Dockerfile
 [[tool.uv.index]]
-name = "aipcc-rocm"
-url = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/rocm6.4-ubi9/simple/"
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm6.3"
 explicit = true
 
 [tool.uv]
