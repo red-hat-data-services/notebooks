@@ -40,6 +40,7 @@ uv pip install --strict --no-deps --no-cache --no-config --no-progress \
     'mpmath==1.3.0' \
     'networkx==3.6.1' \
     'numpy==2.3.5' \
+    'packaging==26.3' \
     'pillow==12.3.0' \
     'setuptools==80.9.0' \
     'sympy==1.14.0' \
@@ -60,11 +61,24 @@ tar -xzf "${BUILD_DIR}/torchvision-source.tar.gz" -C "${BUILD_DIR}"
 readonly SOURCE_DIR="${BUILD_DIR}/torchvision-${TORCHVISION_SOURCE_COMMIT}"
 readonly GIF_DECODER_SOURCE="${SOURCE_DIR}/torchvision/csrc/io/image/cpu/decode_gif.cpp"
 
-grep -Fq 'memcpy(out.data() + img.pos, source, num_bytes_to_read);' "${GIF_DECODER_SOURCE}"
-if grep -Fq 'memcpy(out.data() + img.pos, source, len);' "${GIF_DECODER_SOURCE}"; then
-    echo "vulnerable GIF decoder memcpy is still present" >&2
-    exit 1
-fi
+python3 - "${GIF_DECODER_SOURCE}" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+source = Path(sys.argv[1]).read_text()
+memcpy_length = re.search(
+    r"std::memcpy\(\s*buf,\s*reader_helper->encoded_data\s*"
+    r"\+\s*reader_helper->num_bytes_read,\s*(\w+)\s*\);",
+    source,
+)
+if memcpy_length is None:
+    raise SystemExit("GIF decoder memcpy was not found")
+if memcpy_length.group(1) != "num_bytes_to_read":
+    raise SystemExit(
+        f"vulnerable GIF decoder memcpy length is still present: {memcpy_length.group(1)}"
+    )
+PY
 
 # Only torchvision.image contains the vulnerable GIF decoder. Rebuild that
 # extension from the patched source, while retaining the official ROCm wheel's
@@ -80,7 +94,11 @@ old = """    extensions = [
         make_image_extension(),
         *make_video_decoders_extensions(),
     ]"""
-new = "    extensions = [make_image_extension()]"
+new = """    # make_C_extension() performs the ROCm hipification that creates the
+    # image/hip sources consumed by make_image_extension(). Keep that side
+    # effect while omitting the returned _C extension from this targeted build.
+    make_C_extension()
+    extensions = [make_image_extension()]"""
 if text.count(old) != 1:
     raise SystemExit("expected torchvision extension list was not found exactly once")
 setup.write_text(text.replace(old, new))
@@ -106,6 +124,26 @@ readonly NEW_DIST_INFO="${WHEEL_ROOT}/torchvision-${TORCHVISION_VERSION}.dist-in
 
 test -f "${SOURCE_DIR}/torchvision/image.so"
 test -d "${OLD_DIST_INFO}"
+
+python3 - "${SOURCE_DIR}/torchvision/image.so" <<'PY'
+import base64
+import sys
+
+import torch
+
+torch.ops.load_library(sys.argv[1])
+if not hasattr(torch.ops.image, "decode_gif"):
+    raise SystemExit("rebuilt image extension did not register decode_gif")
+
+gif = torch.tensor(
+    list(base64.b64decode("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")),
+    dtype=torch.uint8,
+)
+decoded = torch.ops.image.decode_gif(gif)
+if decoded.shape[-2:] != (1, 1):
+    raise SystemExit(f"rebuilt GIF decoder returned an unexpected shape: {decoded.shape}")
+PY
+
 install -m 0755 "${SOURCE_DIR}/torchvision/image.so" "${WHEEL_ROOT}/torchvision/image.so"
 mv "${OLD_DIST_INFO}" "${NEW_DIST_INFO}"
 
