@@ -151,7 +151,7 @@ ARG PYTORCH_SOURCE_CODE=jupyter/rocm/pytorch/ubi9-python-3.12
 
 WORKDIR /opt/app-root/bin
 
-COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ${PYTORCH_SOURCE_CODE}/de-vendor-torch.sh ./
+COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ${PYTORCH_SOURCE_CODE}/de-vendor-torch.py ./
 
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
@@ -172,8 +172,8 @@ jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 # Apply JupyterLab addons
 /opt/app-root/bin/utils/addons/apply.sh
 # De-vendor ROCm libs embedded in Pytorch (same layer as pip — shrinks commit peak)
-./de-vendor-torch.sh
-rm ./de-vendor-torch.sh
+python3 ./de-vendor-torch.py
+rm ./de-vendor-torch.py
 EOF
 
 USER 0

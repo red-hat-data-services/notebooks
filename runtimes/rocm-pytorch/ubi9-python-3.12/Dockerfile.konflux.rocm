@@ -82,7 +82,7 @@ COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ./
 # Copy Elyra dependencies for air-gapped enviroment
 COPY ${PYTORCH_SOURCE_CODE}/utils ./utils/
 # Copy utility script
-COPY ${PYTORCH_SOURCE_CODE}/de-vendor-torch.sh ./
+COPY ${PYTORCH_SOURCE_CODE}/de-vendor-torch.py ./
 
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
@@ -91,8 +91,8 @@ echo "Installing softwares and packages"
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
 # De-vendor ROCm libs embedded in Pytorch (same layer as pip — shrinks commit peak)
-./de-vendor-torch.sh
-rm ./de-vendor-torch.sh
+python3 ./de-vendor-torch.py
+rm ./de-vendor-torch.py
 EOF
 
 USER 0
