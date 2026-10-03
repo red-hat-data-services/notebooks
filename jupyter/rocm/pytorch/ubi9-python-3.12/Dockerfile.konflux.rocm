@@ -173,7 +173,9 @@ ARG PYTORCH_SOURCE_CODE=jupyter/rocm/pytorch/ubi9-python-3.12
 WORKDIR /opt/app-root/bin
 
 COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ${PYTORCH_SOURCE_CODE}/de-vendor-torch.sh ./
-COPY --from=patched-torchvision-builder /tmp/torchvision-wheel /tmp/torchvision-wheel
+# Keep the copied wheel directory removable by the non-root image user.
+RUN mkdir -p /tmp/torchvision-wheel
+COPY --from=patched-torchvision-builder --chown=1001:0 /tmp/torchvision-wheel/ /tmp/torchvision-wheel/
 
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
