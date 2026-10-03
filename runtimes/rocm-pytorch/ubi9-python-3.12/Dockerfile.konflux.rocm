@@ -100,7 +100,9 @@ WORKDIR /opt/app-root/bin
 
 # Install Python packages from requirements.txt
 COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ./
-COPY --from=patched-torchvision-builder /tmp/torchvision-wheel /tmp/torchvision-wheel
+# Keep the copied wheel directory removable by the non-root image user.
+RUN mkdir -p /tmp/torchvision-wheel
+COPY --from=patched-torchvision-builder --chown=1001:0 /tmp/torchvision-wheel/ /tmp/torchvision-wheel/
 # Copy Elyra dependencies for air-gapped enviroment
 COPY ${PYTORCH_SOURCE_CODE}/utils ./utils/
 # Copy utility script
