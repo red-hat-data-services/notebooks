@@ -16,9 +16,14 @@ readonly TORCHVISION_SOURCE_SHA256="572cf1348f37c83738b6ff98964a8e4f0f3594ecc4bb
 
 BUILD_DIR=$(mktemp -d /tmp/torchvision-build.XXXXXX)
 readonly BUILD_DIR
+# Keep the expanded Torch installation under BUILD_DIR so the EXIT trap removes
+# it before this builder step is committed and Torch is installed in the final image.
+readonly BUILD_VENV="${BUILD_DIR}/venv"
+readonly BUILD_PYTHON="${BUILD_VENV}/bin/python3"
 trap 'rm -rf "${BUILD_DIR}"' EXIT
 
 mkdir -p "${OUTPUT_DIR}"
+uv venv --python python3.12 --no-project --no-python-downloads --no-config "${BUILD_VENV}"
 
 download_and_verify() {
     local url=$1
@@ -32,7 +37,7 @@ download_and_verify() {
 # Install the exact Torch ABI and the Python build dependencies in this throwaway
 # builder stage. The final image still installs Torch from its generated lockfile.
 download_and_verify "${TORCH_WHEEL_URL}" "${TORCH_WHEEL_SHA256}" "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
-uv pip install --strict --no-deps --no-cache --no-config --no-progress \
+uv pip install --python "${BUILD_PYTHON}" --strict --no-deps --no-cache --no-config --no-progress \
     'filelock==3.32.4' \
     'fsspec==2026.7.0' \
     'jinja2==3.1.6' \
@@ -46,7 +51,15 @@ uv pip install --strict --no-deps --no-cache --no-config --no-progress \
     'sympy==1.14.0' \
     'typing-extensions==4.16.0' \
     'wheel==0.46.3'
-uv pip install --strict --no-deps --no-cache --no-config --no-progress "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
+uv pip install \
+    --python "${BUILD_PYTHON}" \
+    --strict \
+    --no-deps \
+    --no-cache \
+    --no-config \
+    --no-progress \
+    "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
+rm -f "${BUILD_DIR}/${TORCH_WHEEL_FILE}"
 
 download_and_verify \
     "${TORCHVISION_SOURCE_URL}" \
@@ -61,7 +74,7 @@ tar -xzf "${BUILD_DIR}/torchvision-source.tar.gz" -C "${BUILD_DIR}"
 readonly SOURCE_DIR="${BUILD_DIR}/torchvision-${TORCHVISION_SOURCE_COMMIT}"
 readonly GIF_DECODER_SOURCE="${SOURCE_DIR}/torchvision/csrc/io/image/cpu/decode_gif.cpp"
 
-python3 - "${GIF_DECODER_SOURCE}" <<'PY'
+"${BUILD_PYTHON}" - "${GIF_DECODER_SOURCE}" <<'PY'
 from pathlib import Path
 import re
 import sys
@@ -83,7 +96,7 @@ PY
 # Only torchvision.image contains the vulnerable GIF decoder. Rebuild that
 # extension from the patched source, while retaining the official ROCm wheel's
 # GPU-enabled _C extension and the rest of its tested binary payload.
-python3 - "${SOURCE_DIR}/setup.py" <<'PY'
+"${BUILD_PYTHON}" - "${SOURCE_DIR}/setup.py" <<'PY'
 from pathlib import Path
 import sys
 
@@ -114,10 +127,10 @@ PY
         TORCHVISION_USE_PNG=1 \
         TORCHVISION_USE_VIDEO_CODEC=0 \
         TORCHVISION_USE_WEBP=1 \
-        python3 setup.py build_ext --inplace
+        "${BUILD_PYTHON}" setup.py build_ext --inplace
 )
 
-python3 -m wheel unpack "${BUILD_DIR}/${TORCHVISION_WHEEL_FILE}" --dest "${BUILD_DIR}/unpacked"
+"${BUILD_PYTHON}" -m wheel unpack "${BUILD_DIR}/${TORCHVISION_WHEEL_FILE}" --dest "${BUILD_DIR}/unpacked"
 readonly WHEEL_ROOT="${BUILD_DIR}/unpacked/torchvision-0.22.1+rocm6.3"
 readonly OLD_DIST_INFO="${WHEEL_ROOT}/torchvision-0.22.1+rocm6.3.dist-info"
 readonly NEW_DIST_INFO="${WHEEL_ROOT}/torchvision-${TORCHVISION_VERSION}.dist-info"
@@ -125,7 +138,7 @@ readonly NEW_DIST_INFO="${WHEEL_ROOT}/torchvision-${TORCHVISION_VERSION}.dist-in
 test -f "${SOURCE_DIR}/torchvision/image.so"
 test -d "${OLD_DIST_INFO}"
 
-python3 - "${SOURCE_DIR}/torchvision/image.so" <<'PY'
+"${BUILD_PYTHON}" - "${SOURCE_DIR}/torchvision/image.so" <<'PY'
 import base64
 import sys
 
@@ -147,7 +160,7 @@ PY
 install -m 0755 "${SOURCE_DIR}/torchvision/image.so" "${WHEEL_ROOT}/torchvision/image.so"
 mv "${OLD_DIST_INFO}" "${NEW_DIST_INFO}"
 
-python3 - \
+"${BUILD_PYTHON}" - \
     "${NEW_DIST_INFO}/METADATA" \
     "${WHEEL_ROOT}/torchvision/version.py" \
     "${TORCHVISION_VERSION}" \
@@ -186,5 +199,5 @@ Base-Wheel-SHA256: ${TORCHVISION_WHEEL_SHA256}
 Torch-Version: ${TORCH_VERSION}
 EOF
 
-python3 -m wheel pack "${WHEEL_ROOT}" --dest-dir "${OUTPUT_DIR}"
+"${BUILD_PYTHON}" -m wheel pack "${WHEEL_ROOT}" --dest-dir "${OUTPUT_DIR}"
 test "$(find "${OUTPUT_DIR}" -maxdepth 1 -name 'torchvision-*.whl' | wc -l)" -eq 1
