@@ -1734,16 +1734,6 @@ wheels = [
 ]
 
 [[packages]]
-name = "torchvision"
-version = "0.22.1+rocm6.3"
-marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://download-r2.pytorch.org/whl/rocm6.3/torchvision-0.22.1%2Brocm6.3-cp312-cp312-manylinux_2_28_x86_64.whl", upload-time = 2025-06-03T18:37:32Z, hashes = { sha256 = "0dce205fb04d9eb2f6feb74faf17cba9180aff70a8c8ac084912ce41b2dc0ab7" } },
-    { url = "https://download-r2.pytorch.org/whl/rocm6.3/torchvision-0.22.1%2Brocm6.3-cp313-cp313-manylinux_2_28_x86_64.whl", upload-time = 2025-06-03T18:37:32Z, hashes = { sha256 = "565ace3680d37c7d39ec8da758333fa13fafb30317b6d4c3b389d46430f11a2b" } },
-    { url = "https://download-r2.pytorch.org/whl/rocm6.3/torchvision-0.22.1%2Brocm6.3-cp313-cp313t-manylinux_2_28_x86_64.whl", upload-time = 2025-06-03T18:37:32Z, hashes = { sha256 = "c377ae873066de8441fe9f7783b3ff88ced7996df7e3556ef32b95fd977fb351" } },
-]
-
-[[packages]]
 name = "tornado"
 version = "6.5.8"
 marker = "python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux'"

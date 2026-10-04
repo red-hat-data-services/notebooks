@@ -279,7 +279,6 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         ("wheel", ("==0.46.2", "~=0.46.2")),
         ("tensorboard", ("~=2.18.0", "~=2.20.0")),
         ("torch", ("==2.7.1+rocm6.3", "==2.11.0+cu128", "==2.13.0")),
-        ("torchvision", ("==0.22.1+rocm6.3", "==0.28.0")),
         (
             "matplotlib",
             ("~=3.10.6",),

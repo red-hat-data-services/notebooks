@@ -7,7 +7,8 @@ dependencies = [
     # ROCm PyTorch packages
     "tensorboard~=2.20.0",
     "torch==2.7.1+rocm6.3",
-    "torchvision==0.22.1+rocm6.3", # https://pytorch.org/get-started/previous-versions/#linux-and-windows-1
+    # torchvision 0.22.1+rhaiv.1 is rebuilt in the image from the patched fork
+    # because no compatible ROCm 6.3 wheel is published. See RHOAIENG-89635.
     "pytorch-triton-rocm~=3.3.1",
 
     # Datascience and useful extensions
@@ -58,7 +59,6 @@ dependencies = [
 
 [tool.uv.sources]
 torch = { index = "pytorch-rocm" }
-torchvision = { index = "pytorch-rocm" }
 pytorch-triton-rocm = { index = "pytorch-rocm" }
 
 # Please keep in sync with rocm/ubi9-python-3.12/Dockerfile

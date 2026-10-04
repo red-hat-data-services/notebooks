@@ -68,6 +68,27 @@ EOF
 
 # Install the oc client end
 
+############################################
+# patched-torchvision-builder (not shipped) #
+############################################
+FROM rocm-base AS patched-torchvision-builder
+
+USER 0
+
+RUN /bin/bash <<'EOF'
+set -Eeuxo pipefail
+dnf install -y gcc gcc-c++ libjpeg-turbo-devel libpng-devel libwebp-devel ninja-build python3.12-devel
+dnf clean all
+rm -rf /var/cache/yum
+EOF
+
+USER 1001
+
+ARG TORCHVISION_BUILD_SCRIPT=scripts/build-patched-torchvision-wheel.sh
+COPY ${TORCHVISION_BUILD_SCRIPT} ./
+
+RUN ./build-patched-torchvision-wheel.sh /tmp/torchvision-wheel
+
 ########################
 # rocm-runtime-pytorch #
 ########################
@@ -79,6 +100,9 @@ WORKDIR /opt/app-root/bin
 
 # Install Python packages from requirements.txt
 COPY ${PYTORCH_SOURCE_CODE}/pylock.toml ./
+# Keep the copied wheel directory removable by the non-root image user.
+RUN mkdir -p /tmp/torchvision-wheel
+COPY --from=patched-torchvision-builder --chown=1001:0 /tmp/torchvision-wheel/ /tmp/torchvision-wheel/
 # Copy Elyra dependencies for air-gapped enviroment
 COPY ${PYTORCH_SOURCE_CODE}/utils ./utils/
 # Copy utility script
@@ -90,9 +114,12 @@ echo "Installing softwares and packages"
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
+uv pip install --strict --no-deps --no-cache --no-config --no-progress --compile-bytecode /tmp/torchvision-wheel/*.whl
+rm -rf /tmp/torchvision-wheel
 # De-vendor ROCm libs embedded in Pytorch (same layer as pip — shrinks commit peak)
 ./de-vendor-torch.sh
 rm ./de-vendor-torch.sh
+python -c 'import torch, torchvision; assert torch.__version__ == "2.7.1+rocm6.3"; assert torchvision.__version__ == "0.22.1+rhaiv.1"'
 EOF
 
 USER 0
