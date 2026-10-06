@@ -564,8 +564,8 @@ tomlkit==0.15.0 ; python_full_version == '3.12.*' and implementation_name == 'cp
     --hash=sha256:5d3ad01cb06b7504ec2e29eebca3499f80b316de7779eddce571e1127e613688
 toolz==1.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6337690f61f68c808f77c2d4567d1aa6acb84481c2cab597a3ff52f10ff08dcd
-tornado==6.5.7 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:5405fa00266f962cd3c2c670b1abbe2279a22340970b3959bb6d488e429f9e63
+tornado==6.5.8 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:d557a2a92534afea3976245a1a08910d6a6eefaab6a63873430c5f7bb47caa6b
 tqdm==4.68.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d95aa097d5d1650867e0b0860a260810022e450f83cc8a644934590c4e666c96
 traitlets==5.15.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

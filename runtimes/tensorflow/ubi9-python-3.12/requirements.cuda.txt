@@ -468,9 +468,9 @@ toml==0.10.2 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
     --hash=sha256:ed778bfd6bfcd6ce1813fec832abe17ed00d42603f2a35f5413914701f7b88a1
 toolz==1.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a7386d7a93f540ccdff42891e8852d5b0542fafbe021082d34c18a6a761bb882
-tornado==6.5.7 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:2b900747823e275d118db485ab296f9e56326e3a989dcd08224ccbd5cbcb3777 \
-    --hash=sha256:c0776f64700aed3651384e1e45acb5f9304f0507141ee4d2c4d3c6b8fe9dcea9
+tornado==6.5.8 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:41f254a37732ac84264d82ee55cf7d1fec7888f91acd49a99387ca67a124e5ac \
+    --hash=sha256:93a1864b53f3ae84e449c48fda3f77bf12ec8f417c432326503e6aeea7f53c05
 tqdm==4.68.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a349b8bdf8293ae4cbc3bf0685e360d4e6730e991a900ea234a279d9c719e67e
 traitlets==5.15.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

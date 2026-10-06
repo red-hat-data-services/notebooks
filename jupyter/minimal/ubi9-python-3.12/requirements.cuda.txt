@@ -218,9 +218,9 @@ terminado==0.18.1 ; python_full_version == '3.12.*' and implementation_name == '
     --hash=sha256:401792bb2e87d2327378357b0ca3b2d6a770fc803a9e67bf90525acd3d88308e
 tinycss2==1.5.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:edcea7dc5d4fe4d04f721205133db78f239424a327ef39db7b08e105445c2641
-tornado==6.5.7 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1a6a053aa4ef42daffcfcd6e280f59c2aa6382af80fee0760076a769e31c29be \
-    --hash=sha256:df2ede3412ac6786c321a97dd22867985652136051ce0dd4fd0c17f6faa481e5
+tornado==6.5.8 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:23412a93154cc507433e865f9d62fa0eaa2a6165c8da9ff4afa2633eb852d7ab \
+    --hash=sha256:cfd30b028a5935394fbe8558c0a6e829a6738a84e2958754e7b6ce555250758d
 traitlets==5.15.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:20d2c70ecd7e66eb595c6e2f9f3cd585fdceaf8427064c1dffc6d4727df199cb
 typing-extensions==4.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

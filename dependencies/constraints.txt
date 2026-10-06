@@ -31,6 +31,8 @@ gitpython>=3.1.59
 
 # RHAIENG-6791: PYSEC-2026-2095+ aiohttp HTTP request smuggling / related vulns (3.5.1 prerelease)
 aiohttp>=3.14.1
+# RHOAIENG-95087: CVE-2026-91990 Tornado multipart parsing memory-amplification DoS
+tornado>=6.5.8
 # RHAIENG-6793: GHSA-537c-gmf6-5ccf cryptography
 cryptography>=48.0.1
 # RHAIENG-6814: GHSA-7gcm-g887-7qv7 / PYSEC-2026-1805 protobuf (images pin ==6.33.5 for AIPCC-13675 s390x)

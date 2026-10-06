@@ -662,11 +662,11 @@ tomlkit==0.15.0 ; python_full_version == '3.12.*' and implementation_name == 'cp
     --hash=sha256:84eba6d6ff15249d69e1a42c3dd1706e8a84251d8e84dbbccc9a5385598b536d
 toolz==1.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:36dddaff373acb5fb9894f1cdfb398c78f961031f1eaa2d1d8cf27bf62632155
-tornado==6.5.7 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:d30d8148346d500c60fafe09195ac2219e0b032498572188148fe1958e94e52f \
-    --hash=sha256:62e012e626444459d5a0e186868666178714e4e7c25d1fe90ca36ca73c2b9b6b \
-    --hash=sha256:1d87fec7c1a1fd66db084ee3e6db0c72ed409a36b17fe07603d8b86e4f34e826 \
-    --hash=sha256:2f9f0a322cdac996ed47f7489a1f993d90304f237f13946318ea731b383831e2
+tornado==6.5.8 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:893e1b9c881ee9c44a8b47d98cd0758ffcef552b7494ddd525ecbf797f548e0f \
+    --hash=sha256:9795e61b9a720d91a3aae89d3edce329ee58dfbe8c5dc0441786271abe327ee6 \
+    --hash=sha256:b6c5a7b98d287401b0a735270c106202e11310233d19b0c5e1fe08cead01b487 \
+    --hash=sha256:c53d3e6a42616e46a71506d7fdfb614d63d9bb03a1820b01843a124126d57141
 tqdm==4.68.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7c284248ba07342aa594e6607f4292d976f23b11c8390f7d0aea13fc8063bad2
 traitlets==5.15.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
