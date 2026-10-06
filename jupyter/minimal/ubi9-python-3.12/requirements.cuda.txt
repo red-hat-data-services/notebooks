@@ -104,8 +104,8 @@ jupyter-server-proxy==4.5.0 ; python_full_version == '3.12.*' and implementation
     --hash=sha256:462c2134f098782f421f3142ab87ba8679b092eb7d352899a81edc91132db49f
 jupyter-server-terminals==0.5.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:80e3635294d1c91146b8164f1eb75275f06842f1c8c4b4e6b0997a14b165f833
-jupyterlab==4.6.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:d2033dd6b77696eed2bff375ece81a3299e38340dfabe67130a9ff29e9e2b105
+jupyterlab==4.6.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:43eb9e18d7c7ee819304a748e424e40f50643e73eeaa5712835ebc0d9db27fe7
 jupyterlab-git==0.54.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:dfcee98702dcf581c74c0c883ad3081cf82fcb69a383a2a18e67ea85ece06d59
 jupyterlab-git-core==0.54.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

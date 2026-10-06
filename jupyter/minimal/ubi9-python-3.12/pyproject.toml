@@ -8,6 +8,8 @@ dependencies = [
     "micropipenv[toml]",
 
     "odh-notebooks-meta-jupyterlab-deps",
+    # CVE-2026-73417 is fixed in JupyterLab 4.6.2.
+    "jupyterlab>=4.6.2",
     # PDF export (nbconvert); RHAIENG-5765 / AIPCC-7795
     "pandoc-rhai",
 

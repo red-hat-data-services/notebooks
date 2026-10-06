@@ -6,12 +6,9 @@ requires-python = ">=3.12"
 
 [[packages]]
 name = "accelerate"
-version = "1.14.0"
+version = "1.15.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/accelerate-1.14.0-2-py3-none-any.whl", upload-time = 2026-06-15T00:51:45Z, size = 390949, hashes = { sha256 = "d39aacabf33ce9a0f9313e5d085752b1232db66a7dcdbd5a8cc0a64a86e8cd9d" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/accelerate-1.14.0-3-py3-none-any.whl", upload-time = 2026-09-22T16:46:01Z, size = 391885, hashes = { sha256 = "305a9beddbb92f470b51baa833272eee15fa116e1760b415c8e1cf157f98f1dc" } },
-]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/accelerate-1.15.0-2-py3-none-any.whl", upload-time = 2026-09-23T07:48:23Z, size = 396180, hashes = { sha256 = "a775688e6dfcddb92686d2c7d67efdc65e4531cbf7926905e799bb81e8783bd0" } }]
 
 [[packages]]
 name = "aiohappyeyeballs"
@@ -304,9 +301,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "datasets"
-version = "5.0.0"
+version = "5.0.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/datasets-5.0.0-2-py3-none-any.whl", upload-time = 2026-06-09T07:54:32Z, size = 556764, hashes = { sha256 = "0fbc08ef020b03a22d91ad38b3b22091a1e18c1335f2963d357ea540bfb032e7" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/datasets-5.0.1-2-py3-none-any.whl", upload-time = 2026-09-09T20:35:04Z, size = 560711, hashes = { sha256 = "05b604c9cecc05eb7f24ddaa88b13c65674be4e0eaa0db26a3b745b7535be415" } }]
 
 [[packages]]
 name = "debugpy"
@@ -452,9 +449,9 @@ wheels = [
 
 [[packages]]
 name = "fsspec"
-version = "2026.4.0"
+version = "2026.6.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/fsspec-2026.4.0-2-py3-none-any.whl", upload-time = 2026-06-08T11:29:42Z, size = 205153, hashes = { sha256 = "ef0c6ca507776eab560612d5785f243e2e3f6cfe42468aacdce3609353366b5b" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/fsspec-2026.6.0-2-py3-none-any.whl", upload-time = 2026-06-19T08:36:08Z, size = 205707, hashes = { sha256 = "9a76dd86f01d5e2034c8192684e131d070de32d4d9d76843821351819e6ee2ef" } }]
 
 [[packages]]
 name = "gitdb"

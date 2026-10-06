@@ -1,7 +1,6 @@
 --index-url https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5/cpu-ubi9/simple/
-accelerate==1.14.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:d39aacabf33ce9a0f9313e5d085752b1232db66a7dcdbd5a8cc0a64a86e8cd9d \
-    --hash=sha256:305a9beddbb92f470b51baa833272eee15fa116e1760b415c8e1cf157f98f1dc
+accelerate==1.15.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:a775688e6dfcddb92686d2c7d67efdc65e4531cbf7926905e799bb81e8783bd0
 aiohappyeyeballs==2.7.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:148c42ea64254eff51702e3643744a5d29e19f1cc7f1adcfb2289d7ac711ae80
 aiohttp==3.14.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -109,8 +108,8 @@ dask==2026.7.1 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:48622d866b2d26b82dfc43da5601a980dfb1703bc2cb375c958cb5a09040dfa1
 databricks-sdk==0.120.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c3eedd4d6f8d7240b84a575aceb35a085c2159d859d208bc33c14d3d6a3287e4
-datasets==5.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:0fbc08ef020b03a22d91ad38b3b22091a1e18c1335f2963d357ea540bfb032e7
+datasets==5.0.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:05b604c9cecc05eb7f24ddaa88b13c65674be4e0eaa0db26a3b745b7535be415
 debugpy==1.8.21 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:08dcc880903457dfabaaa1a398064a0ec91abe35676af459c0fc7e793cc13fb4 \
     --hash=sha256:f49687276b0d1083d9a68656798e8a2b6b42a5b9f6af57ba83c0587f509e1f91 \
@@ -161,8 +160,8 @@ frozenlist==1.8.0 ; python_full_version == '3.12.*' and implementation_name == '
     --hash=sha256:866c929c5c39e63efa1d48fffa6f38add29f7e97eca458963e1d078ab1d52a25 \
     --hash=sha256:053403b043ebba4431ecd530760be926f862f441280a20703e157b33a5b69e2f \
     --hash=sha256:824190e162bc775e7f6ded9bde5897738987c51548677c213d1ff728b10efe5b
-fsspec==2026.4.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ef0c6ca507776eab560612d5785f243e2e3f6cfe42468aacdce3609353366b5b
+fsspec==2026.6.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:9a76dd86f01d5e2034c8192684e131d070de32d4d9d76843821351819e6ee2ef
 gitdb==4.0.12 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9135486fef617df88c059c28e84e64658a662826b9b51752153d004a476cc546
 gitpython==3.1.62 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
