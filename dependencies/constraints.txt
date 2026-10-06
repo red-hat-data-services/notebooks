@@ -45,6 +45,3 @@ wheel>=0.46.2
 protobuf>=7.36.1
 
 # --- General floors ---
-
-# PR #3074 build compatibility: the 3.5 CPU index has no x86_64 wheel for 6.9.1.
-multidict<6.9.1
