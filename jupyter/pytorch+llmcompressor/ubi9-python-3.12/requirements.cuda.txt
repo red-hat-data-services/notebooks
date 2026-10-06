@@ -690,11 +690,9 @@ torchaudio==2.11.0 ; python_full_version == '3.12.*' and implementation_name == 
     --hash=sha256:17f4593cecc55634ba3d2bde446010b2c977a672fa019550fbbdeae23169e197 \
     --hash=sha256:e477432a20d910b19f33f01ee5521e1922706256e99114955e1b5dafeb7d6858 \
     --hash=sha256:1cdbef69f1d31b30e03d7d576c0c147da340f36295dca09f9f9ee81833c590ed
-torchvision==0.26.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f393485aaa729babab3b3702a5ee6d65081cf2f9cbc4a06692e1e8e519c85f86 \
-    --hash=sha256:d96f5f776a0f3e09d1313871b2f6d0b5d4a9fcdec88a1982a02e9c89d044618d \
-    --hash=sha256:f9b4bb1685a6eb53dc40fc285525324be0caea40528a688268fe55be2f3fbfd2 \
-    --hash=sha256:bad1ec4fd7b16bedbf17b7fa826d030e8488b3dfc3aa4c90ab59ed034d86297a
+torchvision==0.26.0+rhaiv.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:086fe77d224be005544d8674fff1a545fa4bfd30c9661ca1068db252cd1e8287 \
+    --hash=sha256:3dc4ba80f3ddd002b0a11099fe0f89e1c1c7038bd8cfb777770c3bd7925ffb97
 tornado==6.5.7 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1a6a053aa4ef42daffcfcd6e280f59c2aa6382af80fee0760076a769e31c29be \
     --hash=sha256:df2ede3412ac6786c321a97dd22867985652136051ce0dd4fd0c17f6faa481e5
