@@ -46,7 +46,7 @@ RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 ARCH=$(uname -m)
 echo "Detected architecture: $ARCH"
-PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8')
+PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' 'poppler >= 21.01.0-24.el9_8.1')
 if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then
     PACKAGES+=(gcc g++ make openssl-devel autoconf automake libtool cmake)
 fi
@@ -64,7 +64,7 @@ RUN chmod +x /tmp/install_libzmq_be.sh && /tmp/install_libzmq_be.sh "$(uname -m)
 USER 1001
 
 # Install micropipenv and uv to deploy packages from requirements.txt begin
-RUN pip install --no-cache-dir -U "micropipenv[toml]==1.9.0" "uv==0.8.12"
+RUN pip install --no-cache-dir -U "pip>=26.2.0" "micropipenv[toml]==1.9.0" "uv==0.8.12"
 # Install micropipenv and uv to deploy packages from requirements.txt end
 
 # Install the oc client begin
