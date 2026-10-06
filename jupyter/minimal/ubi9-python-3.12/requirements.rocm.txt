@@ -1,8 +1,8 @@
 --index-url https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5/rocm7.14-ubi9/simple/
 aiohappyeyeballs==2.7.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:55e8c295f20ff6d982b281bcc1566816510bcec7c0d5dbc8c777484cda515db8
-aiohttp==3.14.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:11c1727a03ee6e0cc5f443935dea6b55dc1f2b4215a5cd616268f00382270a6e
+aiohttp==3.14.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:b6ae0e1c16e7e816ea7c24f83ca1034fa55fb605e254026ec682984f188a146f
 aiosignal==1.4.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c2d697dd14fbac1d0c13d2001725f418fac81c1663f1996502fab59715b4142d
 anyio==4.14.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

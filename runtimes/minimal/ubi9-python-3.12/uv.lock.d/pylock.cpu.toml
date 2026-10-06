@@ -12,13 +12,13 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "aiohttp"
-version = "3.14.1"
+version = "3.14.3"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.1-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-06-11T00:23:29Z, size = 1677886, hashes = { sha256 = "f3c686257c0297a912e82e2582f6587b922f1e7b1e3ff0a2d3d3fb7093db545e" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.1-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-06-11T00:28:48Z, size = 1724306, hashes = { sha256 = "bd49302b6aa79db20905429d539a0a328adf440c0a75508892ae9700d6318857" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.1-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-06-11T00:39:02Z, size = 2078270, hashes = { sha256 = "dc7528950c7a168f8f70cfba05e112f4a857d658c9f0dfc854d6d4e9b17ecc23" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.1-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-06-11T00:22:59Z, size = 1697820, hashes = { sha256 = "c958019fc4a4a4536be8308b5efdebb7b31b51dbcf9cc651e16d782ec404d372" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.3-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-08-19T19:08:51Z, size = 1679968, hashes = { sha256 = "6301f6e7863cd0a7893c8cb629e1f1e9673bc5807e29f331b95499a359628113" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.3-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-08-14T21:52:16Z, size = 1727146, hashes = { sha256 = "2b3edde0b0404f61d8a54d224824afe396e2315f6fb448063d0139e5c151e9e4" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.3-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-08-14T21:50:19Z, size = 2067648, hashes = { sha256 = "c6ff96f50c667f18a9a7fcbb91449943658e37a04658acf44885d295ae2b158c" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/aiohttp-3.14.3-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-08-19T18:51:01Z, size = 1701198, hashes = { sha256 = "32c568a8f0b3d4f89f5ab9e355540627b00d48baf8116dde56e419661886b524" } },
 ]
 
 [[packages]]

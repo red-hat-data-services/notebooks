@@ -12,11 +12,11 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "aiohttp"
-version = "3.14.1"
+version = "3.14.3"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/aiohttp-3.14.1-8-cp312-cp312-linux_aarch64.whl", upload-time = 2026-06-11T00:24:37Z, size = 1677884, hashes = { sha256 = "aa1e84ddc95d9f7e48e8af1ac792b0fe40ba9dce3e4f896c65c6dbc50b529af0" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/aiohttp-3.14.1-8-cp312-cp312-linux_x86_64.whl", upload-time = 2026-06-11T00:24:18Z, size = 1697824, hashes = { sha256 = "15dcd04d5a0cad82b38488bb68b8fd74fcfcd92ef2c391cce09237b444e29f9e" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/aiohttp-3.14.3-8-cp312-cp312-linux_aarch64.whl", upload-time = 2026-08-14T21:40:50Z, size = 1679965, hashes = { sha256 = "b6724543676d72b42d645895d3d94a1aa590ff2a42ef347912678d34a30b90a8" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/aiohttp-3.14.3-8-cp312-cp312-linux_x86_64.whl", upload-time = 2026-08-14T21:45:29Z, size = 1701197, hashes = { sha256 = "b3fcb4a00656e90927cd86e29d8d3d2c6aecc70595750b63777e58e9fe40378a" } },
 ]
 
 [[packages]]

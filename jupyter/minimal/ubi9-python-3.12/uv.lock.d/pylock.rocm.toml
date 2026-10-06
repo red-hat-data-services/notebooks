@@ -12,9 +12,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "aiohttp"
-version = "3.14.1"
+version = "3.14.3"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/rocm7.14-ubi9/aiohttp-3.14.1-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-06-11T00:33:16Z, size = 1697823, hashes = { sha256 = "11c1727a03ee6e0cc5f443935dea6b55dc1f2b4215a5cd616268f00382270a6e" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/rocm7.14-ubi9/aiohttp-3.14.3-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-08-14T21:41:21Z, size = 1701199, hashes = { sha256 = "b6ae0e1c16e7e816ea7c24f83ca1034fa55fb605e254026ec682984f188a146f" } }]
 
 [[packages]]
 name = "aiosignal"

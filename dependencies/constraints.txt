@@ -29,8 +29,8 @@ trustyai>=0.6.4
 # RHAIENG-91786: CVE-2026-78676 GitPython config injection RCE
 gitpython>=3.1.59
 
-# RHAIENG-6791: PYSEC-2026-2095+ aiohttp HTTP request smuggling / related vulns (3.5.1 prerelease)
-aiohttp>=3.14.1
+# RHAIENG-6791 / RHOAIENG-90187 / RHOAIENG-90127: CVE-2026-69243 and CVE-2026-69244
+aiohttp>=3.14.3
 # RHOAIENG-95087: CVE-2026-91990 Tornado multipart parsing memory-amplification DoS
 tornado>=6.5.8
 # RHAIENG-6793: GHSA-537c-gmf6-5ccf cryptography
