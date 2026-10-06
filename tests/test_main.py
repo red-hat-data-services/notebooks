@@ -428,7 +428,6 @@ def test_image_manifests_version_alignment(
         (
             "Numpy",
             (
-                "2.1",  # for tensorflow rocm (numpy 2.1.x)
                 "2.4",  # older tags / llmcompressor
                 "2.5",  # this is our latest where possible
             ),

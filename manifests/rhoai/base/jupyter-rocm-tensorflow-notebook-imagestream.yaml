@@ -22,17 +22,17 @@ spec:
           [
             {"name": "ROCm", "version": "v7.14"},
             {"name": "Python", "version": "v3.12"},
-            {"name": "TensorFlow-ROCm", "version": "2.19"}
+            {"name": "TensorFlow-ROCm", "version": "2.20"}
           ]
         # language=json
         opendatahub.io/notebook-python-dependencies: |
           [
             {"name": "JupyterLab", "version": "4.5"},
-            {"name": "TensorFlow-ROCm", "version": "2.19"},
-            {"name": "Tensorboard", "version": "2.19"},
+            {"name": "TensorFlow-ROCm", "version": "2.20"},
+            {"name": "Tensorboard", "version": "2.20"},
             {"name": "Kafka-Python-ng", "version": "2.2"},
             {"name": "Matplotlib", "version": "3.11"},
-            {"name": "Numpy", "version": "2.1"},
+            {"name": "Numpy", "version": "2.5"},
             {"name": "Pandas", "version": "2.3"},
             {"name": "Scikit-learn", "version": "1.9"},
             {"name": "Scipy", "version": "1.18"},

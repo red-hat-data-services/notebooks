@@ -368,9 +368,9 @@ mpmath==1.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpyt
 msgpack==1.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
     --hash=sha256:1662b2183cc2e79df9b58ef985a4aa7cd44252916cb92a786ea4835f7d52baca \
     --hash=sha256:8fb4dbbb8ca7bfb3b6d356c3b251ff393bb2b045e01253de6c43f4c6f501fd95
-multidict==6.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:438b3e8f3277dcd86032142894f2fa443dd6e8e4c3ee082f52a8eb67881d69e6 \
-    --hash=sha256:b92c40fdc98ef36a195bad7c2e70a5c0b1953fbe602867b0d53fefc4b9547a54
+multidict==6.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:dc4a38e09e21cd3aa13e4d8be9a6aa66aa5643e4aebe0c756e0f293eed643871 \
+    --hash=sha256:1103e4863fba1113017bf4cff01f60a17ed22c6f787e27ee1ec7690e096c9b88
 multiprocess==0.70.16 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1e67bfee5ee2a0e7d1547dd85a40bab007ef1d325a1fa6b76ee6c64e25d577e6
 mypy==2.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

@@ -125,9 +125,9 @@ micropipenv==1.10.0 ; python_full_version == '3.12.*' and implementation_name ==
     --hash=sha256:ad7b0f2b9fe470211b62092456f47aa31c0ce7682cfcfcdb7151663db31e3854
 mistune==3.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1452947f339068a4b6fc6d8d789bd50dc9a7654cbdf6e983ce23a8bba46ed453
-multidict==6.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:438b3e8f3277dcd86032142894f2fa443dd6e8e4c3ee082f52a8eb67881d69e6 \
-    --hash=sha256:b92c40fdc98ef36a195bad7c2e70a5c0b1953fbe602867b0d53fefc4b9547a54
+multidict==6.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:dc4a38e09e21cd3aa13e4d8be9a6aa66aa5643e4aebe0c756e0f293eed643871 \
+    --hash=sha256:1103e4863fba1113017bf4cff01f60a17ed22c6f787e27ee1ec7690e096c9b88
 nbclient==0.11.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:24f860e5336bf7dbdee8053d74fc4bf764212abf828c3be476bc24e59d0a7a5d
 nbconvert==7.17.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
