@@ -77,11 +77,11 @@ RUN --mount=type=cache,target=/var/cache/dnf /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Building for architecture: ${TARGETARCH}"
 if [ "$TARGETARCH" = "s390x" ]; then
-    PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel)
+    PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' 'poppler >= 21.01.0-24.el9_8.1' gcc gcc-c++ make openssl-devel autoconf automake libtool cmake python3-devel pybind11-devel openblas-devel unixODBC-devel)
 elif [ "$TARGETARCH" = "ppc64le" ]; then
-    PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' gcc gcc-c++ make autoconf automake libtool cmake openssl-devel)
+    PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' 'poppler >= 21.01.0-24.el9_8.1' gcc gcc-c++ make autoconf automake libtool cmake openssl-devel)
 else
-    PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8')
+    PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' 'poppler >= 21.01.0-24.el9_8.1')
 fi
 echo "Installing: ${PACKAGES[*]}"
 dnf install -y "${PACKAGES[@]}"

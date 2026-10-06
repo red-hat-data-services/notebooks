@@ -45,7 +45,7 @@ COPY prefetch-input/repos/ubi9-security-tools.repo /etc/yum.repos.d/ubi9-securit
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 ARCH=$(uname -m)
-PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8')
+PACKAGES=(perl mesa-libGL 'skopeo >= 2:1.22.2-8.el9_8' 'poppler >= 21.01.0-24.el9_8.1')
 if [ "$ARCH" = "s390x" ] || [ "$ARCH" = "ppc64le" ]; then
     PACKAGES+=(gcc gcc-c++ make openssl-devel autoconf automake libtool cmake)
 fi
