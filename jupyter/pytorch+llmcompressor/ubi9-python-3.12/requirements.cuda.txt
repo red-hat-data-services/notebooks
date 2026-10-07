@@ -104,8 +104,8 @@ databricks-sdk==0.120.0 ; python_full_version == '3.12.*' and implementation_nam
     --hash=sha256:0037cb031f52c25754a99fbf51e7f646c1809de83b09808fdd363b0dc7b8f581
 dataproperty==1.1.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:bf93d524ff269986dc145935fc791a0800f862b680bdcf1abac45b753f32329e
-datasets==5.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:64e7e75f75fb2bbccc9812f571886625e031a2f5d8934743de6ba219908e5fa2
+datasets==5.0.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:04621689c2043c533c5746a0e739ec4385c1fc1b5b866eaf3df1317316664e9e
 debugpy==1.8.21 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3adb897699d22b0fd2482ea010db295e8e402222bc91c85320e7c4f560f9067e \
     --hash=sha256:5e147c075796d869ecf54e569238dc03622d74730846d9da11ad41dba25ff36c
