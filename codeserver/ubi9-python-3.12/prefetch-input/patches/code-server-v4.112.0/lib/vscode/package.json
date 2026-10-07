@@ -242,6 +242,7 @@
     "undici@7": "$undici",
     "js-yaml@3": "3.15.2",
     "js-yaml@4": "4.3.2",
+    "basic-ftp": "6.2.1",
     "fast-uri": "3.1.8",
     "qs": "6.16.0",
     "compression": "1.8.2"

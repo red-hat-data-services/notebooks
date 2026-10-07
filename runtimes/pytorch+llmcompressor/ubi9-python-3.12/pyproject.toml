@@ -64,4 +64,7 @@ override-dependencies = [
     # RHOAIENG-90514: Datasets 5.0.1 fixes CVE-2026-66007; speculators 0.6.0 metadata
     # caps Datasets at 5.0.0, so override that stale upper bound for this patch release.
     "datasets>=5.0.1",
+    # RHOAIENG-89931: Accelerate 1.15.0 fixes CVE-2026-69112; LLM Compressor
+    # metadata still caps Accelerate at 1.13.0, so override that stale bound.
+    "accelerate>=1.15.0",
 ]

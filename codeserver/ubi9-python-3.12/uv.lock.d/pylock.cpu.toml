@@ -1258,9 +1258,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "python-discovery"
-version = "1.4.4"
+version = "1.6.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/python_discovery-1.4.4-2-py3-none-any.whl", upload-time = 2026-07-12T01:21:12Z, size = 35948, hashes = { sha256 = "1e2bc061df77cba81024934274d3758d628d4a1d0ef22e719d9370cda1636f0d" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/python_discovery-1.6.1-2-py3-none-any.whl", upload-time = 2026-10-06T10:51:34Z, size = 40430, hashes = { sha256 = "acb779f3094b754f4994f788630f26cc265e07cbefad99fb67ae9db1ef78c841" } }]
 
 [[packages]]
 name = "python-dotenv"
@@ -1629,9 +1629,9 @@ wheels = [
 
 [[packages]]
 name = "virtualenv"
-version = "21.6.1"
+version = "21.7.13"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/virtualenv-21.6.1-2-py3-none-any.whl", upload-time = 2026-07-15T17:03:44Z, size = 5508077, hashes = { sha256 = "3d4a68700e7cf061205449da5439238c9632fe8157d94dc1ac47206a84a509f9" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/virtualenv-21.7.13-2-py3-none-any.whl", upload-time = 2026-10-06T10:51:34Z, size = 5330371, hashes = { sha256 = "c507b393a4f58276d2155a2aabed88368bc74717f5c7d4e6c0210e16922f7ebf" } }]
 
 [[packages]]
 name = "watchfiles"
