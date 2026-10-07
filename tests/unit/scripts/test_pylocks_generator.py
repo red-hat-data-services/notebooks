@@ -364,6 +364,7 @@ def test_resolve_pr_scoped_touched_codeserver(
 
 def test_global_lock_inputs_include_constraints_and_overrides() -> None:
     assert Path("dependencies/constraints.txt") in pg.GLOBAL_LOCK_INPUTS
+    assert Path("dependencies/constraints.cpu.txt") in pg.GLOBAL_LOCK_INPUTS
     assert Path("dependencies/overrides.txt") in pg.GLOBAL_LOCK_INPUTS
 
 
@@ -397,12 +398,16 @@ def test_run_lock_always_passes_constraints_and_overrides(
 
     assert success is True
     expected_constraints = os.path.relpath(pg.CONSTRAINTS_FILE, project_dir)
+    expected_cpu_constraints = os.path.relpath(pg.CPU_CONSTRAINTS_FILE, project_dir)
     expected_overrides = os.path.relpath(pg.OVERRIDES_FILE, project_dir)
     constraints_idx = captured_cmd.index("--constraints")
     overrides_idx = captured_cmd.index("--override")
     assert captured_cmd[constraints_idx + 1] == expected_constraints, (
         f"expected constraints path {expected_constraints!r}, got {captured_cmd[constraints_idx + 1]!r}"
     )
+    assert captured_cmd.count("--constraints") == 2
+    cpu_constraints_idx = max(i for i, arg in enumerate(captured_cmd) if arg == "--constraints")
+    assert captured_cmd[cpu_constraints_idx + 1] == expected_cpu_constraints
     assert captured_cmd[overrides_idx + 1] == expected_overrides, (
         f"expected overrides path {expected_overrides!r}, got {captured_cmd[overrides_idx + 1]!r}"
     )
@@ -410,7 +415,7 @@ def test_run_lock_always_passes_constraints_and_overrides(
 
 @pytest.mark.parametrize(
     "global_input",
-    ["dependencies/constraints.txt", "dependencies/overrides.txt"],
+    ["dependencies/constraints.txt", "dependencies/constraints.cpu.txt", "dependencies/overrides.txt"],
 )
 def test_resolve_pr_scoped_global_input_expands_to_all(
     global_input: str,

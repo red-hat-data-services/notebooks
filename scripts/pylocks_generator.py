@@ -84,6 +84,7 @@ from scripts.index_url_resolver import IndexResolutionError, ResolvedIndexConfig
 ROOT_DIR = Path(__file__).resolve().parent.parent
 UV = ROOT_DIR / "uv"
 CONSTRAINTS_FILE = ROOT_DIR / "dependencies" / "constraints.txt"
+CPU_CONSTRAINTS_FILE = ROOT_DIR / "dependencies" / "constraints.cpu.txt"
 OVERRIDES_FILE = ROOT_DIR / "dependencies" / "overrides.txt"
 PYLOCK_TO_REQUIREMENTS = ROOT_DIR / "scripts" / "lockfile-generators" / "helpers" / "pylock-to-requirements.py"
 PUBLIC_INDEX = "--default-index=https://pypi.org/simple"
@@ -91,6 +92,7 @@ MAIN_DIRS = ("jupyter", "runtimes", "codeserver")
 # Shared lock inputs: a PR touching any of these regenerates all image project locks.
 GLOBAL_LOCK_INPUTS: tuple[Path, ...] = (
     Path("dependencies/constraints.txt"),
+    Path("dependencies/constraints.cpu.txt"),
     Path("dependencies/overrides.txt"),
     Path("scripts/pylocks_generator.py"),
     Path("scripts/index_url_resolver.py"),
@@ -517,6 +519,9 @@ def run_lock(
     relative_constraints = os.path.relpath(CONSTRAINTS_FILE, project_dir)
     relative_overrides = os.path.relpath(OVERRIDES_FILE, project_dir)
     cmd.extend(["--constraints", relative_constraints, "--override", relative_overrides])
+    if mode == IndexMode.rh_index and flavor == "cpu":
+        relative_cpu_constraints = os.path.relpath(CPU_CONSTRAINTS_FILE, project_dir)
+        cmd.extend(["--constraints", relative_cpu_constraints])
 
     lock_path = project_dir / output
     exclude_newer = resolve_exclude_newer(

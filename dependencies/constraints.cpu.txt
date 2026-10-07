@@ -1,0 +1,2 @@
+# PR #3074 build compatibility: the RHOAI 3.5 CPU index has no x86_64 wheel for 6.9.1.
+multidict<6.9.1
