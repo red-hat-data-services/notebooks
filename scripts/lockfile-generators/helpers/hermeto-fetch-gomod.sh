@@ -11,7 +11,8 @@ set -euo pipefail
 # from the given source directory, and downloads modules into the output
 # directory. No separate lockfile is needed — go.sum pins dependencies.
 
-HERMETO_IMAGE="ghcr.io/hermetoproject/hermeto:0.46.2"
+# 0.57.0+ required for Go 1.26 (mongocli v2.0.9 go.mod); 0.46.2/0.51.0 max out at 1.25.
+HERMETO_IMAGE="ghcr.io/hermetoproject/hermeto:0.57.1"
 HERMETO_OUTPUT="./cachi2/output"
 
 PREFETCH_DIR=""
