@@ -61,4 +61,7 @@ override-dependencies = [
     # RHAIENG-6408: CVE-2026-59890 — torch 2.11.0 wheel metadata caps setuptools<82;
     # override until torch 2.13+ on AIPCC (pytorch#187262). Runtime qualification: test_image_entrypoint_starts.
     "setuptools>=83.0.0",
+    # RHOAIENG-90514: Datasets 5.0.1 fixes CVE-2026-66007; speculators 0.6.0 metadata
+    # caps Datasets at 5.0.0, so override that stale upper bound for this patch release.
+    "datasets>=5.0.1",
 ]

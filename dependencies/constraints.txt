@@ -5,6 +5,9 @@
 
 # --- CVE-motivated floors ---
 
+# RHOAIENG-90514: CVE-2026-66007 Hugging Face Datasets path traversal
+datasets>=5.0.1
+
 # RHOAIENG-89164: CVE-2026-54284, CVE-2026-59893, CVE-2026-71491 sqlparse CPU denial of service
 sqlparse>=0.6.0
 
