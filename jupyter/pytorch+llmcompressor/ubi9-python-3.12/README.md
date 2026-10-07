@@ -17,7 +17,7 @@ From the **repository root**:
 ```bash
 git submodule update --init --recursive prefetch-input/mongocli
 cd prefetch-input/mongocli
-git checkout mongocli/v2.0.4
+git checkout mongocli/v2.0.9
 cd ../..
 ```
 
