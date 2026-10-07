@@ -122,7 +122,7 @@ def main():
             ######################################################
             FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
 
-            ARG MONGOCLI_VERSION=2.0.4
+            ARG MONGOCLI_VERSION=2.0.9
 
             WORKDIR /tmp/
             RUN /bin/bash <<'EOF'
@@ -139,7 +139,7 @@ def main():
             ######################################################
             FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
 
-            ARG MONGOCLI_VERSION=2.0.4
+            ARG MONGOCLI_VERSION=2.0.9
 
             WORKDIR /tmp/
 
