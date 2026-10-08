@@ -77,6 +77,14 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        cpu: '3'
+        memory: 8Gi
+      limits:
+        cpu: '3'
+        memory: 8Gi
   - pipelineTaskName: build-images
     stepSpecs:
     - name: prepare-sboms
