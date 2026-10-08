@@ -76,8 +76,8 @@ databricks-sdk==0.102.0 ; python_full_version >= '3.12' and implementation_name 
     --hash=sha256:f96625f665974063dd9313bebe5970a1faa865e2de23a3c0a3708259fc3c814b
 dataproperty==1.1.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:89a501163d54c07a65d438e778affc9159950520d89762c4126227e3719c874a
-datasets==4.4.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:0d7657c9e583a49336aae16700ad6bcdbcd05c2cbda025e22274c1595f0200d1
+datasets==5.0.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:de7844ff4e39f11754c26e00de03da7eb41b481a124000c60bb1f83af1c6c40c
 debugpy==1.8.20 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:35aecf9d784e7ef6dad8d88e4de005982adbfe98ae438a1e236c6c27f8fc18ba \
     --hash=sha256:193e00231cf5ad411ac2be2609e3993ad19a428fefd3a9b921b9ff1cb1883cd0
@@ -481,14 +481,12 @@ torch==2.10.0 ; python_full_version >= '3.12' and implementation_name == 'cpytho
     --hash=sha256:f1d03e62cf565aa7f3080019d6fc50a6e7b419b4213939cfe043e82ae62a2a10 \
     --hash=sha256:fcffb0cab03a1f9a29dff55497d061133fe3f207bdc10dce43eb261e4a6f1257 \
     --hash=sha256:9da6307bde381b28e324796db783510f27db5c947c9f37c355a2cc5634304198
-torchvision==0.25.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:95887ac3bdca85dabf50c6bdb4a8ea5300617dde444764f0ded181f4192ae4b8 \
-    --hash=sha256:cbe480a8bdd0b48432de99920ab344580154f49af7beeebcab32db472c5a1121 \
-    --hash=sha256:e4ec296913b8eceec59a5ff167bce7012e57ca5004d65231ca449b78afb5e09d \
-    --hash=sha256:f3a6d545065452705c1411312cf81366098b06d069040d0b055dd3d73bf73cac
-tornado==6.5.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:fea56090c88ce165278058f9a431c49f129a2eaed5817547bcb9d63becda37e3 \
-    --hash=sha256:5b0f3371f487e8e35c146695925dec4657670e5b70817ca77df539a2d447144f
+torchvision==0.25.0+rhaiv.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a0071cbc7041a9599739ca4f1b9882ae08afa3c4a2e9cc26eab691ab2522c0f7 \
+    --hash=sha256:5edbdd40def7963dd45fe86aa85e60e824fa6ef87f2353c2c19676859e8986c7
+tornado==6.5.8 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:405735a3fba779748a2eebf7331dd16ca74a0c1e61ccdd618fbea66f75d6d98b \
+    --hash=sha256:c6eaa876fd49716cf9a0183193b9d767ac89a5e7de8db6e4cc8fc5048787e90b
 tqdm==4.67.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:56c2221a9d95c57e4800b9cba9915e923b86018fa21b1d211793024123b44f81
 traitlets==5.14.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

@@ -636,9 +636,9 @@ tomlkit==0.14.0 ; python_full_version >= '3.12' and implementation_name == 'cpyt
     --hash=sha256:023ad7ec623052d942ca4143ee7af20dd5f6955b63ea6725c905ac4517ba8511
 toolz==1.1.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f2e2efc9ec3a5733383b927d8a1be6e6a691cb9e9c0bf6ad9cbfb09fb1f7844c
-tornado==6.5.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:c0775112cc2ab1a7e944a6a661c06458a4679bcaebfb0a1bd84e2c1dd869a165 \
-    --hash=sha256:5342d0f38ea598a577533975f33267f962485bcea67828b7e277c22853005e13
+tornado==6.5.8 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f16a57237d83d745169f735e733fb53a42b199a5d8af02a716709d629ffffed4 \
+    --hash=sha256:3797bacc4b21c4333ce3803ad254af0f74d1691d987ccfbfa5b0c242db6ac407
 tqdm==4.67.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:69a08b628c4c3a7ef07a3042aab12c2b93440ddb0e5e5d6d015ccd64397a8336
 traitlets==5.14.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
