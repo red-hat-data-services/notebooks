@@ -461,8 +461,8 @@ pyparsing==3.3.2 ; python_full_version == '3.12.*' and implementation_name == 'c
     --hash=sha256:5af50c60b51bfaa0aab55dd9284e22a4857cf9d2244b4ecc7da1cb4a9a2b9564
 python-dateutil==2.9.0.post0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:48d0381d3876a6f959d2731ffddb508ea44e2f55212e48c3eea2c9b187c15712
-python-discovery==1.4.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1e2bc061df77cba81024934274d3758d628d4a1d0ef22e719d9370cda1636f0d
+python-discovery==1.6.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:acb779f3094b754f4994f788630f26cc265e07cbefad99fb67ae9db1ef78c841
 python-dotenv==1.2.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b380203de11ab7a5b422fa6f9f377fe1ae1e1daa8559474a0518b6ca10f7aec5
 python-json-logger==4.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -598,8 +598,8 @@ uvloop==0.22.1 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:254ff5e93df4be2515508ce370f8d92b2f03648fb20b6ba692f996a0886a0122 \
     --hash=sha256:5a8c98596cab2e7183608fa2ad2b4751d77255fc48caf8ce28633e75f14f3845 \
     --hash=sha256:c361c0859bc2ea896649d5b99c9662acdfc0c916749fd11925d96e781b4eea24
-virtualenv==21.6.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:3d4a68700e7cf061205449da5439238c9632fe8157d94dc1ac47206a84a509f9
+virtualenv==21.7.13 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:c507b393a4f58276d2155a2aabed88368bc74717f5c7d4e6c0210e16922f7ebf
 watchfiles==1.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ab6f89628ab931cceb95551921a4ea4ae9c47c3b93734c6e8976516f0b57809a \
     --hash=sha256:c7c1aae9f235803c3eaa8745cfe82b4b71b1093bed7202321d0f725fac009d77 \

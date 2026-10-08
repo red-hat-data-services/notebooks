@@ -12,9 +12,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "accelerate"
-version = "1.13.0"
+version = "1.15.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/accelerate-1.13.0-8-py3-none-any.whl", upload-time = 2026-06-08T11:29:56Z, size = 385443, hashes = { sha256 = "250d079ea7a9c921eb1486e81867157235592ce77541650866ed1d2c066974a8" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/accelerate-1.15.0-8-py3-none-any.whl", upload-time = 2026-09-23T07:57:10Z, size = 396181, hashes = { sha256 = "ec04cbc4b960da64995de99f1f071bf06327a0a0f5e2a2c8152566fcce04451d" } }]
 
 [[packages]]
 name = "aiohappyeyeballs"
@@ -395,9 +395,9 @@ wheels = [
 
 [[packages]]
 name = "fsspec"
-version = "2026.4.0"
+version = "2026.6.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/fsspec-2026.4.0-8-py3-none-any.whl", upload-time = 2026-06-08T11:29:56Z, size = 205155, hashes = { sha256 = "4b1eeaaad2e4070e96dc752e1785fb06c68a17aaa12f12ac0dd1e28b7b719e91" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/fsspec-2026.6.0-8-py3-none-any.whl", upload-time = 2026-06-19T08:35:01Z, size = 205706, hashes = { sha256 = "8c6c7cb3de4915db4cacc3048bd15bd62a2d7db6f9ded671a3662b29b66e18d6" } }]
 
 [[packages]]
 name = "gitdb"

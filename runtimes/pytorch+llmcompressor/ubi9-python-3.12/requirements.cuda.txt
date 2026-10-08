@@ -1,8 +1,8 @@
 --index-url https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5/cuda13.0-ubi9/simple/
 absl-py==2.5.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3cba4f54f7e84824b42985ced96d357823936a3467bfa95b3e523ab316638acb
-accelerate==1.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:250d079ea7a9c921eb1486e81867157235592ce77541650866ed1d2c066974a8
+accelerate==1.15.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:ec04cbc4b960da64995de99f1f071bf06327a0a0f5e2a2c8152566fcce04451d
 aiohappyeyeballs==2.7.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3b11ae7d57b5bc9ed36d34a911610403827b88e5b40cd0724f057f117be2b503
 aiohttp==3.14.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -130,8 +130,8 @@ fonttools==4.63.0 ; python_full_version == '3.12.*' and implementation_name == '
 frozenlist==1.8.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9ed9520455220353a2c730381b1e6cc541238bec1f0299118a979d65e062fba2 \
     --hash=sha256:ceb862033ce78d93ecf112ddb019f15f7c415428279056dd561e0f5df2f20ef5
-fsspec==2026.4.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:4b1eeaaad2e4070e96dc752e1785fb06c68a17aaa12f12ac0dd1e28b7b719e91
+fsspec==2026.6.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:8c6c7cb3de4915db4cacc3048bd15bd62a2d7db6f9ded671a3662b29b66e18d6
 gitdb==4.0.12 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:8a4ed6aa49f2679384ff58595c5d4eeaa8d45610c0f505b16475ec6f30869b05
 gitpython==3.1.62 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
