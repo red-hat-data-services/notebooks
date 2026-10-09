@@ -8,7 +8,9 @@ ARG BASE_IMAGE
 ######################################################
 FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
 
-ARG MONGOCLI_VERSION=2.0.4
+# 2.0.4 pins golang.org/x/crypto v0.37.0 (fixable critical/high/medium GHSAs).
+# 2.0.9 vendors v0.57.0, which includes the v0.52.0 fixes.
+ARG MONGOCLI_VERSION=2.0.9
 
 WORKDIR /tmp/
 RUN /bin/bash <<'EOF'
@@ -206,13 +208,29 @@ USER 0
 
 # TrustyAI needs Java; source-built Arrow libraries need libatomic at runtime.
 # s390x wheels link against the distro OpenBLAS installed in the builder stage.
+# java-17-openjdk recommends gtk3 and pipewire. Those weak dependencies pull
+# PipeWire (CVE-2026-5674) and Flatpak (CVE-2026-34078, CVE-2026-34079).
+# The notebook JVM does not use that desktop stack.
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 INSTALL_PKGS="java-17-openjdk libatomic"
 if [[ $(uname -m) == "s390x" ]]; then
     INSTALL_PKGS+=" openblas openblas-threads"
 fi
-dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS
+dnf install -y --setopt=tsflags=nodocs --setopt=install_weak_deps=0 $INSTALL_PKGS
+DESKTOP_PKGS=()
+while IFS= read -r name; do
+    [[ -n "$name" ]] && DESKTOP_PKGS+=("$name")
+done < <(rpm -qa --queryformat '%{NAME}\n' 'pipewire*' 'flatpak*' | sort -u || true)
+if ((${#DESKTOP_PKGS[@]})); then
+    dnf -y remove --setopt=install_weak_deps=0 "${DESKTOP_PKGS[@]}"
+fi
+rpm -q java-17-openjdk >/dev/null
+# CVE-2018-17828. TeX Live needs zziplib; take the RHSA build when the
+# enabled repositories publish 0.13.71-12.el9. The public UBI CDN does not.
+if rpm -q zziplib >/dev/null 2>&1 && dnf -q repoquery --available 'zziplib >= 0.13.71-12.el9' | grep -q zziplib; then
+    dnf -y upgrade --setopt=install_weak_deps=0 'zziplib >= 0.13.71-12.el9'
+fi
 if [[ $(uname -m) == "s390x" ]]; then
     ln -sf /usr/lib64/libopenblasp.so.0 /usr/lib64/libopenblas.so.0
     ldconfig
@@ -261,6 +279,76 @@ UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./py
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
 UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')
+# trustyai 0.6.4 shades jackson-databind 2.15.0 (GHSA-rmj7-2vxq-3g9f and later
+# 2.18.x advisories). Replace the shaded Jackson bits with the 2.18.11 line.
+python3 - <<'PY'
+import io
+import pathlib
+import urllib.request
+import zipfile
+
+VERSION = "2.18.11"
+COORDS = (
+    f"com/fasterxml/jackson/core/jackson-annotations/{VERSION}/jackson-annotations-{VERSION}.jar",
+    f"com/fasterxml/jackson/core/jackson-core/{VERSION}/jackson-core-{VERSION}.jar",
+    f"com/fasterxml/jackson/core/jackson-databind/{VERSION}/jackson-databind-{VERSION}.jar",
+    f"com/fasterxml/jackson/datatype/jackson-datatype-jsr310/{VERSION}/jackson-datatype-jsr310-{VERSION}.jar",
+)
+jar_path = next(pathlib.Path("/opt/app-root").rglob("explainability-arrow-999-SNAPSHOT.jar"))
+updated = jar_path.with_suffix(".jar.new")
+
+def old_jackson(name: str) -> bool:
+    prefixes = (
+        "com/fasterxml/jackson/annotation/",
+        "com/fasterxml/jackson/core/",
+        "com/fasterxml/jackson/databind/",
+        "com/fasterxml/jackson/datatype/",
+        "META-INF/maven/com.fasterxml.jackson.core/",
+        "META-INF/maven/com.fasterxml.jackson.datatype/",
+        "META-INF/services/com.fasterxml.jackson.",
+    )
+    if name.startswith(prefixes):
+        return True
+    return name.startswith("META-INF/versions/") and "/com/fasterxml/jackson/" in name
+
+def skip_new(name: str) -> bool:
+    if name.endswith("/") or name == "META-INF/MANIFEST.MF" or name.endswith("module-info.class"):
+        return True
+    if name.startswith(("META-INF/LICENSE", "META-INF/NOTICE", "META-INF/DEPENDENCIES", "META-INF/INDEX.LIST")):
+        return True
+    return name.endswith((".SF", ".RSA", ".DSA"))
+
+written: set[str] = set()
+with zipfile.ZipFile(jar_path) as source, zipfile.ZipFile(updated, "w") as dest:
+    for info in source.infolist():
+        if old_jackson(info.filename):
+            continue
+        dest.writestr(info, source.read(info.filename))
+        written.add(info.filename)
+    for coord in COORDS:
+        request = urllib.request.Request(
+            "https://repo1.maven.org/maven2/" + coord,
+            headers={"User-Agent": "odh-notebooks-trustyai-jackson-patch"},
+        )
+        payload = urllib.request.urlopen(request, timeout=120).read()
+        with zipfile.ZipFile(io.BytesIO(payload)) as incoming:
+            for info in incoming.infolist():
+                if skip_new(info.filename) or info.filename in written:
+                    continue
+                dest.writestr(info, incoming.read(info.filename))
+                written.add(info.filename)
+
+with zipfile.ZipFile(updated) as check:
+    bad = check.testzip()
+    if bad:
+        raise SystemExit(f"patched jar failed zip test: {bad}")
+    props = check.read(
+        "META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.properties"
+    ).decode()
+    if f"version={VERSION}" not in props:
+        raise SystemExit(props)
+updated.replace(jar_path)
+PY
 # change ownership to default user (all packages were installed as root and has root:root ownership
 chown -R 1001:0 /opt/app-root/
 EOF
