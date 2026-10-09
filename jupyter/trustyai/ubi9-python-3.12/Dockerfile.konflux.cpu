@@ -6,7 +6,7 @@ ARG BASE_IMAGE
 ######################################################
 # mongocli-builder (build stage only, not published) #
 ######################################################
-FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1789040808 AS mongocli-builder
+FROM registry.access.redhat.com/ubi9/go-toolset:1.26.7-1791479310 AS mongocli-builder
 
 # 2.0.4 pins golang.org/x/crypto v0.37.0 (fixable critical/high/medium GHSAs).
 # 2.0.9 vendors v0.57.0, which includes the v0.52.0 fixes.
