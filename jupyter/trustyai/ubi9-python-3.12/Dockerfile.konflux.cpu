@@ -145,7 +145,8 @@ COPY ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
 USER 0
 
 # Dependencies for PDF export begin
-RUN ./utils/install_pdf_deps.sh
+# pandoc-rhai is installed from pylock.toml after uv pip install.
+RUN SKIP_PANDOC_WHEEL=1 ./utils/install_pdf_deps.sh
 # Dependencies for PDF export end
 
 USER 1001
@@ -276,6 +277,7 @@ fi
 # cache and the installed local PyArrow wheel without bootstrapping LibCST.
 UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
     --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
+pandoc --version
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
 UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')

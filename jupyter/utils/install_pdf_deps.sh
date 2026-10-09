@@ -91,19 +91,22 @@ with tarfile.open("/tmp/tcolorbox-4.42.tar.gz", "r:gz") as tf:
 PY
 rm -f "${_tcolorbox_tgz}"
 
-# Unpack pandoc from the RHOAI wheel onto PATH.
-# Index: https://console.redhat.com/api/pypi/public-rhai/rhoai/3.5/cpu-ubi9/simple/pandoc-rhai/
-case "${_arch}" in
-    x86_64|aarch64|ppc64le|s390x) _pandoc_arch="${_arch}" ;;
-    *) echo "ERROR: unsupported arch for pandoc-rhai wheel: ${_arch}" >&2; exit 1 ;;
-esac
+# TrustyAI sets SKIP_PANDOC_WHEEL=1 and installs pandoc-rhai later from pylock.toml.
+# Other images still unpack the RHOAI wheel here.
+if [[ "${SKIP_PANDOC_WHEEL:-}" != "1" ]]; then
+    # Unpack pandoc from the RHOAI wheel onto PATH.
+    # Index: https://console.redhat.com/api/pypi/public-rhai/rhoai/3.5/cpu-ubi9/simple/pandoc-rhai/
+    case "${_arch}" in
+        x86_64|aarch64|ppc64le|s390x) _pandoc_arch="${_arch}" ;;
+        *) echo "ERROR: unsupported arch for pandoc-rhai wheel: ${_arch}" >&2; exit 1 ;;
+    esac
 
-_pandoc_whl=/tmp/pandoc_rhai.whl
-curl --fail --location --show-error \
-    -o "${_pandoc_whl}" \
-    "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
+    _pandoc_whl=/tmp/pandoc_rhai.whl
+    curl --fail --location --show-error \
+        -o "${_pandoc_whl}" \
+        "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
 
-python - <<'PY'
+    python - <<'PY'
 import pathlib
 import zipfile
 
@@ -116,13 +119,16 @@ with zipfile.ZipFile(whl) as zf:
     dest.write_bytes(zf.read(names[0]))
 dest.chmod(0o755)
 PY
-rm -f "${_pandoc_whl}"
+    rm -f "${_pandoc_whl}"
 
-pandoc --version
+    pandoc --version
+fi
 pdflatex --version
 
 texhash
 
 kpsewhich tcolorbox.sty
-command -v pandoc
+if [[ "${SKIP_PANDOC_WHEEL:-}" != "1" ]]; then
+    command -v pandoc
+fi
 command -v pdflatex
