@@ -67,4 +67,7 @@ override-dependencies = [
     "urllib3>=2.6.0",
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
+    # RHAI-4764: CVE-2026-104851 fsspec - datasets==4.4.1 (via llmcompressor meta)
+    # caps fsspec<=2025.10.0; force the RH-index fix (>=2026.6.0).
+    "fsspec>=2026.6.0",
 ]
