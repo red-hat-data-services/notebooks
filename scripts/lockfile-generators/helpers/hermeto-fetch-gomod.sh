@@ -14,6 +14,10 @@ set -euo pipefail
 # shellcheck source-path=SCRIPTDIR
 source "$(dirname "$0")/hermeto-common.sh"
 
+# 0.57.0+ required for Go 1.26 (mongocli v2.0.9 go.mod); 0.46.2/0.51.0 max out at 1.25.
+# hermeto-common.sh keeps 0.51.0 readonly for rpm/npm prefetch.
+GOMOD_HERMETO_IMAGE="ghcr.io/hermetoproject/hermeto:0.57.1@sha256:247207736e1943c6f4776c0af1df4443bbecc630e6c9bbe95d8affcf9c6dda7d"
+
 PREFETCH_DIR=""
 
 show_help() {
@@ -62,7 +66,7 @@ echo "--- Downloading Go modules via hermeto ---"
 podman run --rm \
   -v "$(pwd):/source:z" \
   -v "$HERMETO_STAGING:/output:z" \
-  "$HERMETO_IMAGE" \
+  "$GOMOD_HERMETO_IMAGE" \
   fetch-deps --source /source --output /output "$HERMETO_JSON"
 
 # Hermeto may run as root; fix ownership so the host user can use the files.
