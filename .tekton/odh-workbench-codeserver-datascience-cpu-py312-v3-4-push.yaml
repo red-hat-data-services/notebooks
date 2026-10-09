@@ -178,6 +178,10 @@ spec:
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/emmet
       type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/extension-editing
+      type: npm
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/markdown-language-features
+      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/microsoft-authentication
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/notebook-renderers
