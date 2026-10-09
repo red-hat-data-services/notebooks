@@ -623,14 +623,12 @@ torch==2.10.0 ; python_full_version >= '3.12' and implementation_name == 'cpytho
     --hash=sha256:05dd132c75dd2a97bbd7d5674772bda0a162df09bdd1dfd740a0092e7c8bcf0b \
     --hash=sha256:64d9b14fae356be3a11137e781c23bec135a8ed5a6194d96a6051e3531e128f2 \
     --hash=sha256:0a7718f10ff8612a340db531101c4f4a33e122c5192eb7d4e68d976c7cdad150
-torchvision==0.25.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:8cd0b417d21800182d8cc61b8b9b3096d2d18af9f9311431dd40efeab47c0569 \
-    --hash=sha256:f09023ce28c9f3fc55f914029a735703342bd1eac9204a8964629b6351b00ebf \
-    --hash=sha256:ce74fff124d6954348eb9df3f3430b74d3d68d127f747a94adb22e2a05964469 \
-    --hash=sha256:d3dd0e8af9e48ade98a6b7453fca3d6da9744e5e355111370c3078290e8ef96d
-tornado==6.5.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:c0775112cc2ab1a7e944a6a661c06458a4679bcaebfb0a1bd84e2c1dd869a165 \
-    --hash=sha256:5342d0f38ea598a577533975f33267f962485bcea67828b7e277c22853005e13
+torchvision==0.25.0+rhaiv.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:358002d9b92473b3dc359721313913a2ebe515d1c25867d01144c21895416abf \
+    --hash=sha256:9fac9183bed661b9b6d110fb631923a15cc952d257038d189bd1f90c444f3903
+tornado==6.5.8 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f16a57237d83d745169f735e733fb53a42b199a5d8af02a716709d629ffffed4 \
+    --hash=sha256:3797bacc4b21c4333ce3803ad254af0f74d1691d987ccfbfa5b0c242db6ac407
 tqdm==4.67.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:69a08b628c4c3a7ef07a3042aab12c2b93440ddb0e5e5d6d015ccd64397a8336
 traitlets==5.14.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

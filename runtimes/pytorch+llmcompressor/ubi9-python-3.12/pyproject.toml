@@ -51,4 +51,8 @@ override-dependencies = [
     "urllib3>=2.6.0",
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
+    # CVE-2026-66007: force datasets 5.0.1 (fix) past llmcompressor 0.10.0.3's declared
+    # datasets<=4.6.0 cap (upstream llmcompressor supports datasets<=5.0.1 from >=0.13.0,
+    # which is not yet mirrored on the rh-index).
+    "datasets==5.0.1",
 ]

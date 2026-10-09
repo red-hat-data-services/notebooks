@@ -97,8 +97,8 @@ cycler==0.12.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:84979e5992653f28df02c64dbc030dba0e8de063d95af2246757aba3c7999ffa
 databricks-sdk==0.102.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:818d97e2c1a63f0842898532e4bdcacfb3b3f04f5ac086b15e761c3a419d1fbd
-datasets==4.8.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:c45ca0742ae6daf064b0a91024c218d4d2625a41ec47670b9d32acd66d3b7aa1
+datasets==5.0.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:64f8f253075c89a31de6d4148038fdfbaa492cc89fba7787cdcc757196721496
 debugpy==1.8.20 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:13aaba9366613afba4bd84f935f00db2c288db60424529db195ec4a04bbddd6f \
     --hash=sha256:87f9f27c77fe2fb3f488c81c30c7c1cad6d967315170c05d8462f439fe855555 \
@@ -671,11 +671,11 @@ torch==2.10.0 ; implementation_name == 'cpython' and platform_machine != 'ppc64l
     --hash=sha256:637193f9ebd50de03274efbe243c5f073bb3f89e311a1a5aab4817c44f091462 \
     --hash=sha256:72245dc7da092de256960e744aeafa31ce46c7faa4d2f533bf8439b19b39709b \
     --hash=sha256:e4c5b250ac3cf86fe3e18327b210981d3a6dacb009ea2cdbbc529f56fbc41f4a
-tornado==6.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1a902b88db666a23eb3df3c8249ab13f459524f6bd7073df6a9b39c1f1b65ee5 \
-    --hash=sha256:357b777e0d9cc1cb1de849708e59cf79dfc95aeabce42b584ea818005b022d05 \
-    --hash=sha256:8c428693b160a32c34a96f954425005f966ce885ecad988134a032f0d3f32cc2 \
-    --hash=sha256:7c18fd68b9fad8ec2c8dc8ba52641155541478228413244031bfd743b8d965cb
+tornado==6.5.8 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:aa8fd3b7a39cc36a35070df2eaa1e067b7a9dc11aad874b07abeb30b1b79f77d \
+    --hash=sha256:d52af2b3ce76b8af271eddb97456afa6a5141c6cd3478de59e769106c1710528 \
+    --hash=sha256:74bbcc638249284ce6d3b847a27a055b310110ca976177fe5b1b18a67e55a826 \
+    --hash=sha256:bbf3e7d1e51b793b3e271464ce2ee8ccb82a4633ceec77368a995a5ad7f19939
 tqdm==4.67.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1d3926bb32f7a78caef9f43a4563410a764badb0693e981e8db6f29c4038c827
 traitlets==5.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
