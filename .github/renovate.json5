@@ -181,9 +181,9 @@
       enabled: false,
     },
     {
-      description: "RHDS supported release branches only (rhoai-2.25, rhoai-3.3, rhoai-3.4, rhoai-3.5)",
+      description: "RHDS supported release branches only (rhoai-2.25, rhoai-3.3, rhoai-3.4, rhoai-3.5, rhoai-3.6)",
       matchRepositories: ["red-hat-data-services/notebooks"],
-      matchBaseBranches: ["rhoai-2.25", "rhoai-3.3", "rhoai-3.4", "rhoai-3.5"],
+      matchBaseBranches: ["rhoai-2.25", "rhoai-3.3", "rhoai-3.4", "rhoai-3.5", "rhoai-3.6"],
       enabled: true,
     },
     {
@@ -212,13 +212,15 @@
       "separateMinorPatch": true,
     },
     {
-      // One PR per quay.io/aipcc image (cpu, cuda-*, …); registry.redhat.io/rhai
-      // uses the packageRule below.
-      "description": "Group konflux build-args by image (custom.regex / docker)",
+      // One PR for all quay.io/aipcc base images (cpu, cuda-*, rocm-*, …).
+      "description": "Group konflux build-args across AIPCC base images",
       "matchManagers": ["custom.regex"],
       "matchDatasources": ["docker"],
       "matchPackageNames": ["/^quay\\.io\\/aipcc\\//"],
-      "groupName": "konflux BASE_IMAGE {{{depNameSanitized}}}",
+      "groupName": "konflux BASE_IMAGES",
+      "groupSlug": "konflux-base-images",
+      "separateMajorMinor": false,
+      "separateMinorPatch": false,
       "pinDigests": true,
       "recreateWhen": "always",
       "semanticCommits": "enabled",
