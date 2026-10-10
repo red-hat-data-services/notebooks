@@ -238,6 +238,7 @@ def test_image_pyprojects(subtests: pytest_subtests.plugin.SubTests, manifests_d
                 "python_full_version": f"{python}.0",
                 "implementation_name": "cpython",
                 "sys_platform": "linux",
+                "platform_machine": "x86_64",
             }
             pylock_packages: dict[str, dict[str, Any]] = {}
             for p in pylock["packages"]:

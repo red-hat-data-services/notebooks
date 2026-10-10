@@ -51,6 +51,9 @@ ray>=2.56.0
 # RHAIENG-6820: GHSA-8rrh-rw8j-w5fx / PYSEC-2026-2047 wheel
 wheel>=0.46.2
 
+# RHOAIENG-94236 through RHOAIENG-94248: CVE-2026-88029 PyMongo GridFS query-operator injection
+pymongo>=4.18.2
+
 protobuf>=7.36.1
 
 # --- General floors ---

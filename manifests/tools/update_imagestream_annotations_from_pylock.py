@@ -374,6 +374,7 @@ def _load_pylock_packages(pylock_text: str, python_minor: str) -> dict[str, dict
         "python_version": python_minor,
         "implementation_name": "cpython",
         "sys_platform": "linux",
+        "platform_machine": "x86_64",
     }
     packages: dict[str, dict[str, Any]] = {}
     for p in doc.get("packages", []):
@@ -393,6 +394,7 @@ def _parse_requirements_txt_packages(text: str, python_minor: str) -> dict[str, 
         "python_version": python_minor,
         "implementation_name": "cpython",
         "sys_platform": "linux",
+        "platform_machine": "x86_64",
     }
     packages: dict[str, dict[str, Any]] = {}
     for raw_line in text.splitlines():
@@ -439,6 +441,7 @@ def _parse_pipfile_lock_packages(text: str, python_minor: str) -> dict[str, dict
         "python_version": python_minor,
         "implementation_name": "cpython",
         "sys_platform": "linux",
+        "platform_machine": "x86_64",
     }
     packages: dict[str, dict[str, Any]] = {}
     section = data.get("default")

@@ -343,8 +343,8 @@ pygments==2.20.0 ; python_full_version == '3.12.*' and implementation_name == 'c
     --hash=sha256:273be7eac0decc1ad718e6db8a0833787d1d94fd2539e50997ac1f41dc7a0c4e
 pyjwt==2.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:cee1ff958d8ead76ba20e258d58797385b88f3a4dde1ba834abae426caf52b7e
-pymongo==4.17.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:18907219f74533184836c0428b7c8dcd870031ae6a246c13c495efe94b699d6e
+pymongo==4.18.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:4b3ae650240931e0d76c477e0f10d7e71b5933661ad74e67a01aa5cf13e297fa
 pynacl==1.6.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
     --hash=sha256:184c182bbef26ba7a7ffaf0ec4fa23135f7489caf2c09e2e38c7789765c8cf16
 pyodbc==5.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
