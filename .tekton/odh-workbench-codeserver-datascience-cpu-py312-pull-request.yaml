@@ -224,6 +224,17 @@ spec:
       value: '{{ target_branch }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+    - pipelineTaskName: rpms-signature-scan
+      stepSpecs:
+      - name: rpms-signature-scan
+        computeResources:
+          requests:
+            cpu: 2600m
+            memory: 512Mi
+          limits:
+            cpu: 2600m
+            memory: 512Mi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:
