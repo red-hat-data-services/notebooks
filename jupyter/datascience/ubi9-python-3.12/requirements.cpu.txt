@@ -529,11 +529,11 @@ pyjwt==2.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpyt
     --hash=sha256:2d0ec124d9f710af8e14c3b2576bcef5a977e607ef38e97e9fbbc8efe47cfbf6
 pylint==4.0.6 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:57c1a1ce38ff622c5f65f53b9a0651b4a21d1e06ea8fe85fa7701c1171962b20
-pymongo==4.17.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:76df129a89277f8f07deeb104a17a2c7e9b5e5860f06ffb8fdbba5eb47155742 \
-    --hash=sha256:8a82ce44143bd31c772451dd925dce131200bb48dd0b49598646cf4dabc9dd48 \
-    --hash=sha256:08b1516cae9eb7d302f873da56c6a5468750637911377eba408d45da6ada997c \
-    --hash=sha256:bca5cd60e59379bc86e6e0d6a45564b7139f2e01c7be90a9562290f9c51bd8e9
+pymongo==4.18.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:4a8b15a9fccc265506ae1c5084abd5b4df504332bf7758b0fd045fec471f38b7 \
+    --hash=sha256:0db0fe5c8768545204e14c0c288259331eeff148cbecc7cbcbb6450162f99b64 \
+    --hash=sha256:20589aace3b129ddf971393285e3355c3757b48e3b4da057b351f1e0338d9ba4 \
+    --hash=sha256:e1341a56296c879f8cf41e2477a2eb8b9992e2bad931db9b6b66cc0cc1e3f787
 pynacl==1.6.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f26a09c515b45938f4994b73d5c79b9b7c821051c9a075be5fe1acd7c0164b2a \
     --hash=sha256:f598e35a047fb588b406f48e754b86a98a9fc2d8d0181cb18cad8aeefc8ca8aa \
