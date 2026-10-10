@@ -181,9 +181,9 @@
       enabled: false,
     },
     {
-      description: "RHDS supported release branches only (rhoai-2.25, rhoai-3.3, rhoai-3.4, rhoai-3.5)",
+      description: "RHDS supported release branches only (rhoai-2.25, rhoai-3.3, rhoai-3.4, rhoai-3.5, rhoai-3.6)",
       matchRepositories: ["red-hat-data-services/notebooks"],
-      matchBaseBranches: ["rhoai-2.25", "rhoai-3.3", "rhoai-3.4", "rhoai-3.5"],
+      matchBaseBranches: ["rhoai-2.25", "rhoai-3.3", "rhoai-3.4", "rhoai-3.5", "rhoai-3.6"],
       enabled: true,
     },
     {
