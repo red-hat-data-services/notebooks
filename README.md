@@ -191,6 +191,8 @@ system uv does not already match that exact version.
 
 For the full test catalog (types, markers, CI parity), see [docs/agents/testing.md](docs/agents/testing.md).
 
+Use `make test` as the fastest local validation for most changes.
+
 By completing configuration in the previous section, you can run tests using the following targets:
 
 ```bash
