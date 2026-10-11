@@ -46,14 +46,21 @@ COPY scripts/pylock_version.py ./pylock_version.py
 
 RUN --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
-pip install --no-cache-dir -U "pip>=26.2.0" "uv==0.8.12"
+pip install --no-cache-dir -U "pip>=26.2.0" "uv==0.12.0"
 # the devel script sets up shared IBM-architecture build dependencies and builds ppc64le custom wheels
 source ./devel_env_setup.sh
 uv pip install 'cython>=3.1,<3.3' 'libcst>=1.8.6' 'numpy~=1.26.4' scikit-build-core 'setuptools_scm[toml]>=8'
+# ml-dtypes pins setuptools~=80.9.0 in its build-system metadata, which conflicts
+# with the patched setuptools requirement. Build it without isolation, then cache
+# and install the resulting wheel before processing pylock.toml.
+uv pip install 'numpy~=2.0' 'setuptools>=83.0.0'
+python -m pip wheel --no-build-isolation --no-deps --no-binary ml-dtypes 'ml-dtypes==0.5.4' -w /wheelsdir
+uv pip install --no-deps /wheelsdir/ml_dtypes-*.whl
+uv pip install 'numpy~=1.26.4'
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
-# RHAIENG-5986: cap setuptools version in isolated sdist builds (pkg_resources removed in 82+)
+# Keep isolated sdist builds on the patched setuptools release.
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
-printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
+printf '%s\n' 'setuptools>=83.0.0' 'cython<3.3' > build_constraints.txt
 # [tool.uv] extra-build-dependencies in pyproject.toml supplies setuptools for pandas;
 # pylock.toml is the install input; pyproject.toml is copied for uv config only.
 # do not use --no-config — uv must discover pyproject.toml in this directory.
@@ -113,7 +120,7 @@ EOF
 USER 1001
 
 # Install micropipenv and uv to deploy packages from requirements.txt begin
-RUN pip install --no-cache-dir -U "pip>=26.2.0" "micropipenv[toml]==1.9.0" "uv==0.8.12"
+RUN pip install --no-cache-dir -U "pip>=26.2.0" "micropipenv[toml]==1.9.0" "uv==0.12.0"
 # Install micropipenv and uv to deploy packages from requirements.txt end
 
 # Install the oc client begin
@@ -169,6 +176,17 @@ USER root
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat
+dnf upgrade -y \
+    'flatpak >= 0:1.12.9-4.el9_8.1' \
+    'flatpak-session-helper >= 0:1.12.9-4.el9_8.1' \
+    'perl-XML-Parser >= 0:2.46-9.1.el9_7' \
+    'pipewire >= 0:1.4.11-1.el9_8.2' \
+    'pipewire-alsa >= 0:1.4.11-1.el9_8.2' \
+    'pipewire-jack-audio-connection-kit >= 0:1.4.11-1.el9_8.2' \
+    'pipewire-jack-audio-connection-kit-libs >= 0:1.4.11-1.el9_8.2' \
+    'pipewire-libs >= 0:1.4.11-1.el9_8.2' \
+    'pipewire-pulseaudio >= 0:1.4.11-1.el9_8.2' \
+    'zziplib >= 0:0.13.71-12.el9'
 dnf clean all
 rm -rf /var/cache/yum
 EOF
@@ -237,6 +255,7 @@ EOF
 RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
     --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
+UV_LINK_MODE=copy uv pip install --no-deps /wheelsdir/ml_dtypes-*.whl --cache-dir /root/.cache/uv
 if [[ $(uname -m) == "ppc64le" ]]; then
     UV_LINK_MODE=copy uv pip install /wheelsdir/*.whl accelerate --cache-dir /root/.cache/uv
 elif [[ $(uname -m) == "s390x" ]]; then
@@ -247,10 +266,10 @@ EOF
 RUN --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Installing softwares and packages"
-# RHAIENG-5986: pandas 1.5.3 needs setuptools/pkg_resources at build time; pyproject.toml
-# supplies [tool.uv] extra-build-dependencies and must remain discoverable (no --no-config).
+# pyproject.toml supplies [tool.uv] extra-build-dependencies and must remain
+# discoverable (no --no-config).
 # Cython 3.3 breaks pyarrow 20.0.0 source builds on ppc64le (nogil coercion errors).
-printf '%s\n' 'setuptools>=80.9.0,<82' 'cython<3.3' > build_constraints.txt
+printf '%s\n' 'setuptools>=83.0.0' 'cython<3.3' > build_constraints.txt
 if [[ $(uname -m) == "ppc64le" || $(uname -m) == "s390x" ]]; then
     export GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1
 fi
