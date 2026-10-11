@@ -45,7 +45,7 @@ dependencies = [
     "odh-elyra==5.0.3",
     "odh-jupyter-trash-cleanup==0.1.1",
 
-    "jupyterlab==4.6.3",
+    "jupyterlab==4.6.4",
     "jupyter-bokeh~=4.0.5",
     "jupyter-server~=2.21.0",
     "jupyter-server-proxy~=4.4.0",
@@ -85,7 +85,7 @@ override-dependencies = [
     # RHAIENG-6097+: llmcompressor caps pillow<=12.2.0
     "pillow>=12.3.0",
     # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.3 jupyterlab override)
-    "jupyterlab>=4.5.7",
+    "jupyterlab>=4.6.4",
     # RHAIENG-2458: elyra pins urllib3 below RHAIIS/CVE floor; constraints alone do not replace transitive caps
     "urllib3>=2.7.0",
     # RHOAIENG-53183: notebooks-only CVE (not in RHAIIS model-opt constraints.txt)
