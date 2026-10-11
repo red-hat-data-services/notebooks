@@ -36,7 +36,7 @@ dependencies = [
     "odh-elyra==5.0.3",
     "odh-jupyter-trash-cleanup==0.1.1",
 
-    "jupyterlab==4.6.3",
+    "jupyterlab==4.6.4",
     "jupyter-bokeh~=4.0.5",
     "jupyter-server~=2.21.0",
     "jupyter-server-proxy~=4.4.0",
@@ -59,7 +59,7 @@ override-dependencies = [
     "kubernetes>=35.0.0",
     "protobuf==7.36.1",
     # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.3 jupyterlab override)
-    "jupyterlab>=4.5.7",
+    "jupyterlab>=4.6.4",
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
     "cryptography>=46.0.7",
     # tf2onnx has pinned protobuf version, that causes conflict with other packages
