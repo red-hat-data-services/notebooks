@@ -54,7 +54,7 @@ dependencies = [
     "odh-elyra==5.0.3",
     "odh-jupyter-trash-cleanup==0.1.1",
 
-    "jupyterlab==4.6.3",
+    "jupyterlab==4.6.4",
     "jupyter-bokeh~=4.0.5", # Required by TrustyAI 0.6.4
     "jupyter-server~=2.21.0",
     "jupyter-server-proxy~=4.4.0",
@@ -68,7 +68,7 @@ dependencies = [
 
     # Base packages
     "wheel~=0.46.2",
-    "setuptools>=80.9.0,<82",
+    "setuptools>=83.0.0",
 ]
 
 [tool.uv]
@@ -81,17 +81,24 @@ environments = [
 # RHAIENG-5986: pandas 1.5.3 setup.py imports pkg_resources but does not declare
 # setuptools as a PEP 517 build dependency. uv reads this from pyproject.toml even
 # when installing locked requirements via `uv pip install --requirements=pylock.toml`.
-extra-build-dependencies = { pandas = ["setuptools>=80.9.0,<82", "wheel"], pyarrow = ["cython>=3.1,<3.3", "libcst>=1.8.6", "numpy~=1.26.4", "scikit-build-core", "setuptools_scm[toml]>=8"] }
+extra-build-dependencies = { pandas = ["setuptools>=83.0.0", "wheel"], pyarrow = ["cython>=3.1,<3.3", "libcst>=1.8.6", "numpy~=1.26.4", "scikit-build-core", "setuptools_scm[toml]>=8"] }
 override-dependencies = [
     "kubernetes>=35.0.0",
     "protobuf==7.36.1",
+    "setuptools>=83.0.0",
     # RHAIENG-5789/5895: jupyterlab CVE batch (odh-elyra 5.0.3 jupyterlab override)
-    "jupyterlab>=4.5.7",
+    "jupyterlab>=4.6.4",
     # RHAIENG-3211: CVE-2026-26007 cryptography Subgroup Attack
     "cryptography>=46.0.7",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
-    "urllib3>=2.7.0",
+    "urllib3>=2.8.0",
+    "fsspec>=2026.6.0",
+    "gitpython>=3.1.62",
+    "msgpack>=1.2.1",
+    "multidict>=6.9.1",
+    "oauthlib>=4.0.0",
+    "virtualenv>=21.7.13",
     # RHAIENG-3209: CVE-2026-25990  Pillow: Out-of-bounds Write
     # Upstream: https://github.com/vllm-project/llm-compressor/releases/tag/0.7.1.1
     "pillow>=12.3.0",
