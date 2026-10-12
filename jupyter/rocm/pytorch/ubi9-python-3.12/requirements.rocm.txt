@@ -136,8 +136,8 @@ frozendict==2.4.7 ; python_full_version >= '3.12' and implementation_name == 'cp
     --hash=sha256:afa94f2ab3db1a1ddd8410967eb2040763a277e92674f0829dc76a62d6f02528
 frozenlist==1.8.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ed44edb75900923f83031bde4f051c0264fe7e30589b76ede915d2cc34976539
-fsspec==2026.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:9697877b97d918c301a21fa0a0cab3cabd3134f964610d3334ec1b2cceb67ef2
+fsspec==2026.6.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1052f087e285b928c4b2253725ff7ba51a334cb4b4ad947fb1429c7dbb9bbe94
 gitdb==4.0.12 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:595192f8d0f0b53c0869245ed6263f4d072ab0c628201fbc7d62f66768891c38
 gitpython==3.1.62 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -298,12 +298,12 @@ mistune==3.3.3 ; python_full_version >= '3.12' and implementation_name == 'cpyth
     --hash=sha256:ee6c33bb7b46f737a180423aeae059ed374918047f57ed8022798fc1ff85f289
 ml-dtypes==0.5.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a999bd90e07262c7673f762396626883d48068245831d49934dbf2f4635a215e
-mlflow==3.10.1+rhaiv.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:914a4c9fa8173a9262b36d8f774f5e46ed384bb9c033acb95b44b510374fab59
-mlflow-skinny==3.10.1+rhaiv.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:7c666758cae77174a00dd8a2ce4466995458c48b2a167785f16766ce222de395
-mlflow-tracing==3.10.1+rhaiv.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f107ea0ca0b9de552e9317f1bc6613ec89b1a3153ad94bdada9f0c58d8cccca8
+mlflow==3.17.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:d7cfa1da13af8a535f86573f53a6d78636c03bf37ca30af1ae570948a4ea37e0
+mlflow-skinny==3.17.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:cc17b74c74533ae69da5247c17c1e6e987c531f105732fbc39d9a5d05d904e14
+mlflow-tracing==3.17.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:c48398a8576d6785f93b632685415538d3d78f18402a669f7c6240fbf163c406
 mmh3==5.2.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:12e3468a49fe53735d7600024bcb4862fcf241fbacdd18e894936d6fc9e40d35
 mock==5.2.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -572,8 +572,8 @@ torch==2.9.1 ; python_full_version >= '3.12' and implementation_name == 'cpython
     --hash=sha256:bf755ae031196dc00d4a126b2f1f4c548ec021d7521b065978e664df1958b9d9 \
     --hash=sha256:ff47d6686af7721daca26e8a9e5833c92c9b27b90d06ac1582329f1c8f9066fd \
     --hash=sha256:dc257de25b708309a82e5e995e9618f08834f515f90172b3302b7e9165789b33
-torchvision==0.24.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:3a9ae154804af65f375a55aa4a7b0f25af63358ed87358d303da2e4693a3f577
+torchvision==0.24.1+rhaiv.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f9292d146a3394dd2ec798b7c1bb71937e84817ea33c662954d55d16d1d719c9
 tornado==6.5.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:4a4fa3342ebf8f69a1f439f684fdc8984cadddc6f571fccd71768989d8ab27cb
 tqdm==4.67.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
