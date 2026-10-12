@@ -176,17 +176,6 @@ USER root
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat
-dnf upgrade -y \
-    'flatpak >= 0:1.12.9-4.el9_8.1' \
-    'flatpak-session-helper >= 0:1.12.9-4.el9_8.1' \
-    'perl-XML-Parser >= 0:2.46-9.1.el9_7' \
-    'pipewire >= 0:1.4.11-1.el9_8.2' \
-    'pipewire-alsa >= 0:1.4.11-1.el9_8.2' \
-    'pipewire-jack-audio-connection-kit >= 0:1.4.11-1.el9_8.2' \
-    'pipewire-jack-audio-connection-kit-libs >= 0:1.4.11-1.el9_8.2' \
-    'pipewire-libs >= 0:1.4.11-1.el9_8.2' \
-    'pipewire-pulseaudio >= 0:1.4.11-1.el9_8.2' \
-    'zziplib >= 0:0.13.71-12.el9'
 dnf clean all
 rm -rf /var/cache/yum
 EOF
@@ -234,6 +223,27 @@ dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS
 if [[ $(uname -m) == "s390x" ]]; then
     ln -sf /usr/lib64/libopenblasp.so.0 /usr/lib64/libopenblas.so.0
     ldconfig
+fi
+# java-17-openjdk pulls flatpak and pipewire. The build entitlement is locked
+# to 9.6, which does not ship the el9_8 fixes, so lift the lock for this install.
+prev_release="$(subscription-manager release --show | awk -F': ' '/^Release: / {print $2}')"
+subscription-manager release --set=9.8
+# --allowerasing replaces the 9.6 pipewire/flatpak stack and its matching
+# session manager. install_weak_deps=0 keeps the transaction to these packages.
+dnf install -y --refresh --allowerasing \
+    --setopt=install_weak_deps=0 --setopt=tsflags=nodocs \
+    'flatpak >= 1.12.9-4.el9_8.1' \
+    'flatpak-session-helper >= 1.12.9-4.el9_8.1' \
+    'pipewire >= 1.4.11-1.el9_8' \
+    'pipewire-alsa >= 1.4.11-1.el9_8' \
+    'pipewire-jack-audio-connection-kit >= 1.4.11-1.el9_8' \
+    'pipewire-jack-audio-connection-kit-libs >= 1.4.11-1.el9_8' \
+    'pipewire-libs >= 1.4.11-1.el9_8' \
+    'pipewire-pulseaudio >= 1.4.11-1.el9_8'
+if [[ -n "${prev_release}" ]]; then
+    subscription-manager release --set="${prev_release}"
+else
+    subscription-manager release --unset
 fi
 dnf -y clean all --enablerepo='*'
 EOF
