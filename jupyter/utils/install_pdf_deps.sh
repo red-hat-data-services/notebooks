@@ -64,7 +64,9 @@ dnf clean all
 # Current CTAN 6.x fails on RHEL 9 XeTeX (\NewStructureName / tikz 2023).
 # https://github.com/T-F-S/tcolorbox/releases/tag/v4.42
 _tcolorbox_tgz=/tmp/tcolorbox-4.42.tar.gz
+# GitHub occasionally returns 504 from the Konflux build network.
 curl --fail --location --show-error \
+    --retry 5 --retry-delay 2 --retry-connrefused \
     -o "${_tcolorbox_tgz}" \
     "https://github.com/T-F-S/tcolorbox/archive/refs/tags/v4.42.tar.gz"
 _texmf_local="$(kpsewhich -var-value TEXMFLOCAL)"
