@@ -83,7 +83,12 @@ override-dependencies = [
     #   mako 1.3.11       - GHSA-v92g-xgxw-vvmm path traversal in TemplateLookup.get_template()
     #   nbconvert 7.17.1  - GHSA-4c99-qj7h-p3vg attachment path traversal
     #   onnx 1.21.0       - save_external_data arbitrary file read/write
-    #   cryptography 49.0.0 - GHSA-jwv3-5hgf-82ww cert-chain path-building DoS
+    #   cryptography 49.0.0 - clears CVE-2026-69248 (wildcard DNS SAN name-constraint
+    #     bypass) and CVE-2026-69249 (cert-chain duplicate-intermediate DoS), both fixed
+    #     in 49.0.0. RESIDUAL: CVE-2026-69247 (PKCS#7 EnvelopedData Bleichenbacher oracle)
+    #     needs cryptography>=50.0.0, which is NOT YET mirrored on the rh-index cuda13.0
+    #     flavor (max there is 49.0.0) -- escalation to RH index maintainers. Low impact
+    #     for notebooks (requires an S/MIME service auto-decrypting untrusted EnvelopedData).
     "mako>=1.3.11",
     "nbconvert>=7.17.1",
     "onnx>=1.21.0",
