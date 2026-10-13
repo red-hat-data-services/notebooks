@@ -71,4 +71,7 @@ override-dependencies = [
     # datasets<=4.6.0 cap (upstream llmcompressor supports datasets<=5.0.1 from >=0.13.0,
     # which is not yet mirrored on the rh-index).
     "datasets==5.0.1",
+    # RHAI-4764: CVE-2026-104851 fsspec - datasets (via llmcompressor meta)
+    # caps fsspec<=2025.10.0; force the RH-index fix (>=2026.6.0).
+    "fsspec>=2026.6.0",
 ]

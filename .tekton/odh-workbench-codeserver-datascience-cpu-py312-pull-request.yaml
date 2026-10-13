@@ -224,6 +224,16 @@ spec:
         limits:
           cpu: '3'
           memory: 4Gi
+    - pipelineTaskName: rpms-signature-scan
+      stepSpecs:
+      - name: rpms-signature-scan
+        computeResources:
+          requests:
+            cpu: 2600m
+            memory: 512Mi
+          limits:
+            cpu: 2600m
+            memory: 512Mi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
   workspaces:

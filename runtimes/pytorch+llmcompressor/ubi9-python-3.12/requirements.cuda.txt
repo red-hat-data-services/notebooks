@@ -115,8 +115,8 @@ fonttools==4.62.1 ; python_full_version >= '3.12' and implementation_name == 'cp
 frozenlist==1.8.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:80213a3ab5822b8f76df1f2ef8a8535f03af5fb44b4a22310f9e42620ecc0f54 \
     --hash=sha256:b71b731a347aa0c546109592b2356252d115be2596ad790e1b33fcc69b8596f2
-fsspec==2025.10.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:49c8e555fb012f235522c67ab02f0badf6ed422dabbcdfb9dcb332cb3f8638e5
+fsspec==2026.6.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:12f0d9bff04866fe1befb43b3919ed5954cd9a10119f9d562db0946bec63c299
 gitdb==4.0.12 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3b52cdcc889333bf2b1057ef5e5e553f12f5fbd773151c4af5fd2ea00fa1b28a
 gitpython==3.1.62 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -203,9 +203,9 @@ locket==1.0.0 ; python_full_version >= '3.12' and implementation_name == 'cpytho
     --hash=sha256:524855c1fa81b10c6ada9e28faf4c6dc37aa18313d0fc61d9e822e7fceda316f
 loguru==0.7.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:565b2b42f9f0a2cc7d9a127e7e15a3eea5dbf13972db92d57e7d595cd77f5f33
-lxml==6.0.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:a29ed58427543d7883d37b94dbbf7304ee3b972c1a4441cc2b2049e110772884 \
-    --hash=sha256:2af18aea0c957e2be06d1fd237fe7081eb2859e3728f362f7fcb4591f6ee43be
+lxml==6.1.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1053113fe622be259c36fe06d4ed8493049227beb3be310373749410fccfc04f \
+    --hash=sha256:51fac788ea18548f1493e5bc3ddb06221df925c912b8faf6d3c12d5569f4e3b4
 mako==1.3.10 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:889803e02aff5c28b8973698a8c6849279d35b9d8a8853bfdd8fba0bde851d4e
 markdown==3.10.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -231,12 +231,12 @@ mistune==3.3.3 ; python_full_version >= '3.12' and implementation_name == 'cpyth
 ml-dtypes==0.5.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2fbeecdc60f8ec74ccbc072c82d5c6edb194d01a32a1902c12cb356517e572a1 \
     --hash=sha256:32a4e3708afc47301ed39c952ca0ffb9271d1ce64b7b8e254c0bb4be7e37b4f9
-mlflow==3.10.1+rhaiv.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:12867f1c05b8f112a86c96d945320eb1d7271cadc365c3e9df5e6a39e2f01cae
-mlflow-skinny==3.10.1+rhaiv.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:d3b51ce88a9d819591cd28b75cc3838066d1fbc10d2a5414975f506e0312d653
-mlflow-tracing==3.10.1+rhaiv.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:08b2496b8b68e09457e1000e0a4748ee517b66ba09ab8394ec74e01696a0db9d
+mlflow==3.17.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:75798fc8cad92b5260b3531b458ec99d499a83e5b7d3e90421f08f80c49b7f4b
+mlflow-skinny==3.17.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:7fa014028ef93b5fdf66599eab590cbce7eb93a2917a8dad7f6469b366e417c6
+mlflow-tracing==3.17.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:596f0a81666012290ad3beb09eb43ae98e2b89503ee852bc7de0b182ad68e1ad
 mmh3==5.2.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:07c56ecdd9b5b53ea4e91a02a30aa890cc5ddc630ce2a5daf889e23c097c36f7 \
     --hash=sha256:233e8c2359aa843df5b3fb7808f41b8d1d7db1d6fef7eb93890d0d38ac04b844
