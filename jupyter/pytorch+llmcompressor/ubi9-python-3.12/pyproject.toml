@@ -88,4 +88,8 @@ override-dependencies = [
     "nbconvert>=7.17.1",
     "onnx>=1.21.0",
     "cryptography>=49.0.0",
+    # boto3 is advertised in the imagestream annotations (tracked by
+    # test_pylock_downgrade); the datasets cascade drops it 1.42.89 -> 1.42.84.
+    # Not a CVE, but hold it at the baseline so the advertised version doesn't regress.
+    "boto3>=1.42.89",
 ]

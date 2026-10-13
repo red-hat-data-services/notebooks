@@ -58,10 +58,10 @@ blinker==1.9.0 ; python_full_version >= '3.12' and implementation_name == 'cpyth
     --hash=sha256:5ff23a8464fd7a59c93f1b7ef03dc948abd4a48ccc3b966695ace12136b46ddf
 bokeh==3.9.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7c5ea29ca3ea75a7f2d677461c1a19589501763ac5adc28c76faf4ae218aab10
-boto3==1.42.84 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:e02db36e72cf9c5a640f1dd4c3eaabfd91af242bdd9490ca7c2193f4d39784ab
-botocore==1.42.84 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f07205e5435b16904ed4b9a161470dd479177d4e1991f7b9f5689a80050d2b33
+boto3==1.42.89 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:957395a54f7a8f5a217bde4f8596795f8acb29ececeecc10c00cfa4088939f98
+botocore==1.42.89 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:5e08455718e6c70e70b1e9dcc0c6b7be432504b61a2ec272bc88a086091fd807
 cachetools==7.0.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:500990b0b298f99f9ead78ca607e9e2af5c6eb631807f39f4dcff86728ae28f9
 certifi==2026.2.25 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
