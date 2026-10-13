@@ -421,11 +421,15 @@ opentelemetry-semantic-conventions==0.65b0 ; python_full_version == '3.12.*' and
     --hash=sha256:c86476a49cb604effbb77baa7340f231023a5008ee4e45a3872ef620ceb613ca
 packaging==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:deb834ee2fe51e528b40cca13dd998c438ba0f0ba890d86c7ef1918afe4a9dbb
-pandas==2.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:448cb61682a3e28102675a13569439021a4cd9ef78d93f1d7d7c9a2a7938952a \
-    --hash=sha256:47e593b4c53c26f63e20f86284bc78b9e343aa38d7feac970afcc7378a8b191c \
-    --hash=sha256:592417e78fbaf4d2883974d4c497d8452d7170655ef1974558de83a80f663693 \
-    --hash=sha256:4022dee33a365dc25d470914b5fe17d02d362916fd88d6c34e3a4011aebb813e
+pandas==2.2.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:779f481d1b2536d0b996ab00290a8b4f63cfa963a3eee6899f52ee8e758db21f \
+    --hash=sha256:374b8b38ada3d578f3bb18bd88fc1b139a64fb1028a12adcd1a8b23ce455e826 \
+    --hash=sha256:eebc01c1342eb8d435c7ea352c6c875a2d97b40fabc9da450c4277e057e9faa0 \
+    --hash=sha256:c7de6af5e340a04e29ff41dd10b05882432a26a8d67049ae5fc6c5e1fefe234c \
+    --hash=sha256:e117e9c2455a0b0c9997d34ba1c68722208693f4384443aeeed54dc62535dd38 \
+    --hash=sha256:4ea9940ed384019d771164ef96c80dc3fcf914c067f4db99834d1be0195414f0 \
+    --hash=sha256:d652a19443d93ad7bd0c26a90b60d3312a96c3a6d5f43dc4e4e7e17b21d88f32 \
+    --hash=sha256:93041688b08044cbf717ae797ad5a6e5772116b4bd5d06926d7b6602c4890f28
 pandoc-rhai==3.9.0.2+rhaiv.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5d462b652bf0beb76435dc6e07dbb6583efbdfba15e8491a4071687ca18f5570 \
     --hash=sha256:52099276f67227cc89734c4aa296bbbba4c1e3cd48640845499a65933552635b \

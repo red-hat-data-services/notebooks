@@ -383,8 +383,9 @@ optree==0.19.1 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:ba4da3151150502a3668757cfec798c13a027593afe4f2a6826b8aeb2e3e8716
 packaging==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7079b80152e9f62c90775b5247618ba10877a235d12ee5348d6053fbd13105fb
-pandas==2.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:22f61dca84beed5b41f59cc67f39f13b283019f2492e2248361d2ead9de1cfbc
+pandas==2.2.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0a318743833c01d0e6fff513b1dbbe4dd790a57734d984a3da5757689692b166 \
+    --hash=sha256:5f4a2cfd9bc3c6ed25198390f8aaa0ce97f12a824cf9cd5c683441e1a49851a3
 pandoc-rhai==3.9.0.2+rhaiv.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:799bf47192d30b1f8abdebe52e7159d4e061e73f1cca84db3766eeb70af0df22
 pandocfilters==1.5.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

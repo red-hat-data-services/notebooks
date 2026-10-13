@@ -417,7 +417,7 @@ def test_image_manifests_version_alignment(subtests: pytest.Subtests, manifests_
         ("Feast", ("0.63", "0.65")),  # codeserver still on 0.63; others refreshed to 0.65
         ("Scikit-learn", ("1.7", "1.6")),
         ("Scipy", ("1.16", "1.17")),
-        ("Pandas", ("3.0", "2.3")),
+        ("Pandas", ("3.0", "2.2")),  # RHAIENG-7790: standard images pinned to 2.2.3; TrustyAI stays on 3.x
         ("PyMongo", ("4.16", "4.17")),
         (
             "Numpy",

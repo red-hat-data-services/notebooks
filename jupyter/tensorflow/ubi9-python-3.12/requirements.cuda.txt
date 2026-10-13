@@ -408,9 +408,11 @@ optree==0.19.1 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:1ed45902abc0acbde63fe5b8181bf4ffb0f48519a1568ebbe009e0ef6f9482e0
 packaging==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:4ff10c33baae07c17d38d7bf83d734762ae7e42000bb5957eaa2a7ecaa79cfaa
-pandas==2.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1f2a842fe7c61ad27f3d902342f895ef6796076820504aefe6c2788a7d119be2 \
-    --hash=sha256:0e986de1de580e015c24b089694d3dc7559f8bc63123dc66de4945f242f9b0e0
+pandas==2.2.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1927f911d8730ad8dd6742f874cc7cad9a05040822a64414e9bdba1073b0812f \
+    --hash=sha256:75654b427197bd472db849be6f0efda8d12ac481e226b48f7b9142564ad2b464 \
+    --hash=sha256:319d8ec889c3b6eafba0203c7c41d6ca6c562f0452edfabcc95cae96c1abbba8 \
+    --hash=sha256:79d5a271b716a0f716fcd58f326fbdad58dd4cc1ece7ffc7f231a58aaefa6ee5
 pandoc-rhai==3.9.0.2+rhaiv.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:38003fe8745508e83684f99424598b2901fb4ab7ba74889379003f33831cb8a0 \
     --hash=sha256:a5fa43cad0d6756207706577ba37f93aa2ec258976aa16118532508609cdeb61
