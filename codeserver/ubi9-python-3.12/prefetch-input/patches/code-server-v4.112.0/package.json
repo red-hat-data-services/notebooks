@@ -151,6 +151,7 @@
     "globalSetup": "<rootDir>/test/utils/globalUnitSetup.ts"
   },
   "overrides": {
+    "basic-ftp": "6.2.3",
     "compression": "1.8.2",
     "js-yaml": "4.3.2",
     "qs": "6.16.0"

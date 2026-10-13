@@ -47,6 +47,7 @@
     "kerberos@2.1.1": {
       "node-addon-api": "7.1.0"
     },
-    "undici": "7.29.1"
+    "undici": "7.29.1",
+    "zod": "4.6.7"
   }
 }

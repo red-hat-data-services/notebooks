@@ -12,11 +12,11 @@ in this directory so the submodule can be updated independently.
 
 | Path | Why |
 | ---- | --- |
-| `package.json` / `package-lock.json` | Root code-server npm CVE pins (`compression`, `js-yaml`, `qs`) |
+| `package.json` / `package-lock.json` | Root code-server npm CVE pins (`basic-ftp`, `compression`, `js-yaml`, `qs`) |
 | `ci/dev/postinstall.sh` | Hermetic offline `npm ci`; GHA `--ignore-scripts` follow-up for ripgrep, spdlog, node-pty |
 | `ci/build/build-vscode.sh` | VS Code compile settings for hermetic build |
 | `custom-packages/` | Lockfiles for code-server custom npm packages |
-| `lib/vscode/` (partial) | Pinned `package.json` / `package-lock.json`, build script patches (`gulpfile.reh.ts`, `extensions.ts`, `preinstall.ts`, …) |
+| `lib/vscode/` (partial) | Pinned `package.json` / `package-lock.json` (incl. `zod`/`undici`/`basic-ftp` CVE pins), build script patches (`gulpfile.reh.ts`, `extensions.ts`, `preinstall.ts`, …) |
 | `test/` | Test tree lockfiles included in npm prefetch |
 | `ripgrep/postinstall.js` | Install ripgrep from prefetched RH wheel instead of downloading |
 | `agent-browser/postinstall.js` | Offline agent-browser install |
