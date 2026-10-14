@@ -11,7 +11,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "pull_request"
       && target_branch == "rhoai-3.5"
-      && (".tekton/odh-pipeline-runtime-pytorch-rocm-py312-pull-request.yaml".pathChanged() || "runtimes/rocm-pytorch/ubi9-python-3.12/**".pathChanged() )
+      && (".tekton/odh-pipeline-runtime-pytorch-rocm-py312-pull-request.yaml".pathChanged() || "runtimes/rocm-pytorch/ubi9-python-3.12/**".pathChanged() || "prefetch-input/rhds/**".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-pytorch-rocm)"
     pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-pytorch, kfbuild-rocm, kfbuild-runtime-pytorch-rocm]"
     pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
