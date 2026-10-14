@@ -9,3 +9,6 @@ ray>=2.56.0
 
 # RHAI-7833 / RHAI-7992: urllib3 2.8.0 fixes CVE-2026-97687 and CVE-2026-97689
 urllib3 @ https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl
+
+# NLTK 3.10.3 fixes multiple CVEs; use the upstream wheel until the RHOAI CUDA indexes are updated.
+nltk @ https://files.pythonhosted.org/packages/b6/6d/ebd2af4640b12168fdf0cb74b6118df2f32a2f62ec7e0c06fbfd80706639/nltk-3.10.3-py3-none-any.whl
