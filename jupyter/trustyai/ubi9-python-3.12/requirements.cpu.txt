@@ -384,11 +384,14 @@ odh-elyra==4.3.2 ; implementation_name == 'cpython' and sys_platform == 'linux' 
     --hash=sha256:08c69e1787938b77aa68aa275f54157e5998ff70930509c0b9c3706c182ee7c6
 odh-jupyter-trash-cleanup==0.1.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:75fe6db294f11bb772aed7893688de48cc4e90b4789395fcfecfdf625ab86955
-onnx==1.20.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1ad34b74117084bb2e276c237743890568e08770d5cd5830db40e8c1d2d05e65 \
-    --hash=sha256:e10eeda2249bd3364ccf0182e9ebca6bbc4bc97eb0f2eed53847812f39afa072 \
-    --hash=sha256:a9732f815fda1639da7da2e944dbaca68c75a931c513db554b6ce2f175b2ead9 \
-    --hash=sha256:e3c55648d21692275147c704b358c8e575a61ccccb700bccea2d3064ab2ed316
+onnx==1.21.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:23ee197696af76d4eaff164ddc83c84c18b9edda53c0aa59ee4b0ffd3465aab7 \
+    --hash=sha256:235d9e6b8b91871f8286260f682890a99a716adb7916675e7a6284224d71f6ee \
+    --hash=sha256:bce29645d6d590997e1f0f1a9a8a916431346cc11d6496247bea0ca24fbb540e \
+    --hash=sha256:5af143da7801e7d705f21080e0c82a7dea97af72bf807d30c3c9e23db37b03ca \
+    --hash=sha256:638a981900d5b68677d059a3f3feb159ab1e826c2a9411804adc0a32fa7e5aa5 \
+    --hash=sha256:230f96e000e41780d9eb9c9f0a5c2741159a1453900a489dcdd8aec608aa4899 \
+    --hash=sha256:d8fae1f9fdf8acf9ef9a2f58392b90c00bb62f58f97910afcdfa539d3ac19e28
 onnxconverter-common==1.16.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:23dc1d4b118e5cb5ea245603afc9f17b67c855b5cb93fa2dc510154cb18f795c \
     --hash=sha256:a1984033698675d036c6656a5cbdccb61fcf73ba0800079557b25c5833909543
