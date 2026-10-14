@@ -61,6 +61,14 @@ override-dependencies = [
     "pandas>=3.0.1",
 ]
 
+constraint-dependencies = [
+    # CVE-2026-27489 (PYSEC-2026-2239): onnx path traversal via symlink (fixed in
+    # >=1.21.0). onnx is transitive here (via skl2onnx). Pinned per-image rather than
+    # globally because the two rocm-tensorflow images cap onnx<1.19.0; see the onnx
+    # NOTE in dependencies/cve-constraints.txt.
+    "onnx>=1.21.0",
+]
+
 [tool.uv.sources]
 odh-notebooks-meta-workbench-datascience-deps = { path = "../../../dependencies/odh-notebooks-meta-workbench-datascience-deps" }
 odh-notebooks-meta-db-connectors-deps = { path = "../../../dependencies/odh-notebooks-meta-db-connectors-deps" }

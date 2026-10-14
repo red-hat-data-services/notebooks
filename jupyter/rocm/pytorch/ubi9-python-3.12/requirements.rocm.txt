@@ -346,8 +346,8 @@ odh-elyra==4.3.2 ; python_full_version >= '3.12' and implementation_name == 'cpy
     --hash=sha256:c0948dac2b825b021517e4fa41667e9d08a9f6f93208ecd20fb52610bfb821ef
 odh-jupyter-trash-cleanup==0.1.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:20ceb80b4beb6f41e0ef4d095ebce3b18bdc7160c3e8520c71c40c8ee43845ec
-onnx==1.20.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:bcbaf21a1b2cc7a90a156f8ce69688e3efe3b486889bdfab1a37f663660c862d
+onnx==1.21.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a7b6056a360ab9eb29f0a2e2f4864f079d484294244139f08521d61c928af283
 onnx-ir==0.2.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6e3ccd5280f5cc962e66207fea848c0c21a1ede3cae1f965f8b76ffc0bd59f85
 onnxconverter-common==1.16.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

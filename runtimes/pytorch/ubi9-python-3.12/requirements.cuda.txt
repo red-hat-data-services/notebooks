@@ -263,9 +263,11 @@ numpy==2.4.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1e4c458ba65c8b14075f5c2f4b940210304aea91764ab5af9ef59140f638f2c5
 oauthlib==3.3.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b8ef8cecf2e419ef7de7dcd487cc3e345155a8ffeb564b9ef6b839e21b3544b7
-onnx==1.20.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:5fba6d906cb76cc890563ef395ffb8988dee2ab88013e5cbd45e4cc17cb96cbd \
-    --hash=sha256:a0b8b7d887b8438aa835dbacaec4e68af8595dcc400dc172681bc054898a58b2
+onnx==1.21.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:14f949023b5bdf80aac6587566e711ca97fb7d83218d8ce891001a6af828233d \
+    --hash=sha256:f3a180ecd7b7a1f34ecbfbd6a9112fd94d014622e36ed10b501af8fa91cb5fd3 \
+    --hash=sha256:0ab749a5b1c907f6cecc481e153923c9b4ab8e5b58c87186a55f627db6be4408 \
+    --hash=sha256:083dd480dfe93b529664f5a82014c4671f74413322c2d2a6d1a4a6500810bce6
 onnxconverter-common==1.16.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a2b32e06cb3e4ab0141ffcfd439f71676232e7344125b41a07098cf85cb2f15d \
     --hash=sha256:06911a20d3953335c24298db69722d361701c3ef5486db9734021a03e89d38fe
