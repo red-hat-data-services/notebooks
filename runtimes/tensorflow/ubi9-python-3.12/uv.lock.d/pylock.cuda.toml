@@ -837,11 +837,13 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "onnx"
-version = "1.20.0"
+version = "1.21.0"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/onnx-1.20.0-10-cp312-abi3-linux_aarch64.whl", upload-time = 2026-03-13T12:22:44Z, size = 17649122, hashes = { sha256 = "5fba6d906cb76cc890563ef395ffb8988dee2ab88013e5cbd45e4cc17cb96cbd" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/onnx-1.20.0-10-cp312-abi3-linux_x86_64.whl", upload-time = 2026-03-13T12:22:44Z, size = 17850752, hashes = { sha256 = "a0b8b7d887b8438aa835dbacaec4e68af8595dcc400dc172681bc054898a58b2" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/onnx-1.21.0-8-cp312-abi3-linux_aarch64.whl", upload-time = 2026-04-10T05:15:45Z, size = 17198093, hashes = { sha256 = "14f949023b5bdf80aac6587566e711ca97fb7d83218d8ce891001a6af828233d" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/onnx-1.21.0-8-cp312-abi3-linux_x86_64.whl", upload-time = 2026-04-10T10:07:50Z, size = 17314838, hashes = { sha256 = "f3a180ecd7b7a1f34ecbfbd6a9112fd94d014622e36ed10b501af8fa91cb5fd3" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/onnx-1.21.0-9-cp312-abi3-linux_aarch64.whl", upload-time = 2026-04-20T21:21:40Z, size = 17198137, hashes = { sha256 = "0ab749a5b1c907f6cecc481e153923c9b4ab8e5b58c87186a55f627db6be4408" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/onnx-1.21.0-9-cp312-abi3-linux_x86_64.whl", upload-time = 2026-04-20T21:46:21Z, size = 17314882, hashes = { sha256 = "083dd480dfe93b529664f5a82014c4671f74413322c2d2a6d1a4a6500810bce6" } },
 ]
 
 [[packages]]

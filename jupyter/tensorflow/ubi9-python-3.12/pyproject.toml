@@ -32,6 +32,14 @@ odh-notebooks-meta-jupyterlab-datascience-deps = { path = "../../../dependencies
 
 [tool.uv]
 
+constraint-dependencies = [
+    # CVE-2026-27489 (PYSEC-2026-2239): onnx path traversal via symlink (fixed in
+    # >=1.21.0). onnx is transitive here (via skl2onnx / onnxconverter-common / tf2onnx).
+    # Pinned per-image rather than globally -- the two rocm-tensorflow images cap
+    # onnx<1.19.0; see the onnx NOTE in dependencies/cve-constraints.txt.
+    "onnx>=1.21.0",
+]
+
 override-dependencies = [
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
     # appengine-python-standard which has an obnoxious urllib3<2 constraint

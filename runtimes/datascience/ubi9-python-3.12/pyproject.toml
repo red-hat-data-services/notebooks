@@ -21,6 +21,14 @@ dependencies = [
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
+constraint-dependencies = [
+    # CVE-2026-27489 (PYSEC-2026-2239): onnx path traversal via symlink (fixed in
+    # >=1.21.0). onnx is transitive here (via skl2onnx / onnxconverter-common / tf2onnx).
+    # Pinned per-image rather than globally -- the two rocm-tensorflow images cap
+    # onnx<1.19.0; see the onnx NOTE in dependencies/cve-constraints.txt.
+    "onnx>=1.21.0",
+]
+
 override-dependencies = [
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
