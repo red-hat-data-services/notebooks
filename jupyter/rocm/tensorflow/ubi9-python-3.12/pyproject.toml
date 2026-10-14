@@ -69,7 +69,7 @@ override-dependencies = [
     "keras>=3.14.0",
     # RHAIENG-2458: CVE-2025-66418 urllib3 decompression vulnerability
     # Upstream: https://github.com/elyra-ai/elyra/issues/3325
-    "urllib3>=2.7.0",
+    "urllib3>=2.8.0",
     # RHAIENG-3209: CVE-2026-25990  Pillow: Out-of-bounds Write
     # Upstream: https://github.com/vllm-project/llm-compressor/releases/tag/0.7.1.1
     "pillow>=12.3.0",
