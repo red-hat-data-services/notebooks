@@ -12,7 +12,7 @@
     "start-stdio": "echo 'Starting vscode-automation-mcp... For customization and troubleshooting, see ./test/mcp/README.md' && npm ci && npm run -s compile && node ./out/stdio.js"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.26.0",
+    "@modelcontextprotocol/sdk": "1.31.0",
     "minimist": "^1.2.8",
     "ncp": "^2.0.0",
     "node-fetch": "^2.6.7"
@@ -27,6 +27,8 @@
     "js-yaml": "4.3.2",
     "qs": "6.16.0",
     "undici": "7.29.1",
-    "zod": "4.6.7"
+    "zod": "4.6.7",
+    "proxy-addr": "2.0.8",
+    "brace-expansion": "2.1.6"
   }
 }
