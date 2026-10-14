@@ -25,7 +25,8 @@ dependencies = [
     #   - https://pypi.org/project/trustyai/
     #   - https://github.com/trustyai-explainability/trustyai-explainability-python/blob/main/requirements.txt
     "transformers",
-    "datasets",
+    # CVE-2026-66007: datasets path traversal, fixed >5.0.0 (no llmcompressor cap here).
+    "datasets>=5.0.1",
     "accelerate; platform_machine != 'ppc64le' and platform_machine != 's390x'",
     "trustyai",
 

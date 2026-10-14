@@ -47,11 +47,38 @@ environments = [
 ]
 override-dependencies = [
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
-    # appengine-python-standard which has an obnoxious urllib3<2 constraint
-    "urllib3>=2.6.0",
+    # appengine-python-standard which has an obnoxious urllib3<2 constraint.
+    # Floor raised 2.6.0 -> 2.7.0: the datasets==5.0.1 override below otherwise lets the
+    # resolver drop urllib3 to 2.6.3 (GHSA-mf9v-mfxr-j63j decompression bomb). 2.7.0 is
+    # the version already shipped on rhoai-3.4.
+    "urllib3>=2.7.0",
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
-    # RHAI-4764: CVE-2026-104851 fsspec - datasets==4.4.1 (via llmcompressor meta)
+    # CVE-2026-66007: force datasets 5.0.1 (fix) past llmcompressor 0.10.0.3's declared
+    # datasets<=4.6.0 cap (upstream llmcompressor supports datasets<=5.0.1 from >=0.13.0,
+    # which is not yet mirrored on the rh-index).
+    "datasets==5.0.1",
+    # RHAI-4764: CVE-2026-104851 fsspec - datasets (via llmcompressor meta)
     # caps fsspec<=2025.10.0; force the RH-index fix (>=2026.6.0).
     "fsspec>=2026.6.0",
+    # Anti-regression floors: the datasets==5.0.1 override above shifts the resolver and
+    # otherwise drags these security-relevant pins BELOW the versions already shipped on
+    # rhoai-3.4. Hold them at the patched versions:
+    #   mako 1.3.11       - GHSA-v92g-xgxw-vvmm path traversal in TemplateLookup.get_template()
+    #   nbconvert 7.17.1  - GHSA-4c99-qj7h-p3vg attachment path traversal
+    #   onnx 1.21.0       - save_external_data arbitrary file read/write
+    #   cryptography 49.0.0 - clears CVE-2026-69248 (wildcard DNS SAN name-constraint
+    #     bypass) and CVE-2026-69249 (cert-chain duplicate-intermediate DoS), both fixed
+    #     in 49.0.0. RESIDUAL: CVE-2026-69247 (PKCS#7 EnvelopedData Bleichenbacher oracle)
+    #     needs cryptography>=50.0.0, which is NOT YET mirrored on the rh-index cuda13.0
+    #     flavor (max there is 49.0.0) -- escalation to RH index maintainers. Low impact
+    #     for notebooks (requires an S/MIME service auto-decrypting untrusted EnvelopedData).
+    "mako>=1.3.11",
+    "nbconvert>=7.17.1",
+    "onnx>=1.21.0",
+    "cryptography>=49.0.0",
+    # boto3 is advertised in the imagestream annotations (tracked by
+    # test_pylock_downgrade); the datasets cascade drops it 1.42.89 -> 1.42.84.
+    # Not a CVE, but hold it at the baseline so the advertised version doesn't regress.
+    "boto3>=1.42.89",
 ]

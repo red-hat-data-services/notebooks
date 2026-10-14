@@ -1,10 +1,11 @@
 --index-url https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/
 aiohappyeyeballs==2.6.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6442a34736731d1009c65599056e8d934d058dd8219f79942aee607e1ec3a8da
-aiohttp==3.14.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:57a7468b5b1d8d1fb35fd1566a59852f1dfcf2dea8030baed3e76003ee545cae \
-    --hash=sha256:b4577b1f06f91af3906f10019fed2398b8234446639eb614ecf34673d60e3696 \
-    --hash=sha256:c939ca80421468600f737e69e7485df26594f587dae7c8495a0e8b71278f1a58
+aiohttp==3.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:8e35a7ea31e4d119f1c7a3dc83ce156df17fae12dd65c13ff96511661c40e852 \
+    --hash=sha256:97d89e3256393ec90af582abd48b66aa689740df12fe9f7d5f3b8ff214ec5100 \
+    --hash=sha256:ed2fc6b837601b5ce1d07d004da6186421666f61292c8ae413111a27d4f1bc1f \
+    --hash=sha256:ebc9e85da50e98cc571b339a5e3ccfc19d928729a5ac05bafbce880609a54585
 aiosignal==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0894850b54c871dd0365925589ad5dfa70e673059596187e7097e076ea571b1d
 alembic==1.18.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -452,11 +453,11 @@ toml==0.10.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a4187d1e9dde4b88c7a6eec11a6a70d0110d0858986563d330f209e7a8aa89f6
 toolz==1.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:006b8a8c63908cd9e35d5c0dcbd845285d319db023f43c7d7aa386598a3c505f
-tornado==6.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1a902b88db666a23eb3df3c8249ab13f459524f6bd7073df6a9b39c1f1b65ee5 \
-    --hash=sha256:357b777e0d9cc1cb1de849708e59cf79dfc95aeabce42b584ea818005b022d05 \
-    --hash=sha256:8c428693b160a32c34a96f954425005f966ce885ecad988134a032f0d3f32cc2 \
-    --hash=sha256:7c18fd68b9fad8ec2c8dc8ba52641155541478228413244031bfd743b8d965cb
+tornado==6.5.8 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:aa8fd3b7a39cc36a35070df2eaa1e067b7a9dc11aad874b07abeb30b1b79f77d \
+    --hash=sha256:d52af2b3ce76b8af271eddb97456afa6a5141c6cd3478de59e769106c1710528 \
+    --hash=sha256:74bbcc638249284ce6d3b847a27a055b310110ca976177fe5b1b18a67e55a826 \
+    --hash=sha256:bbf3e7d1e51b793b3e271464ce2ee8ccb82a4633ceec77368a995a5ad7f19939
 tqdm==4.67.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1d3926bb32f7a78caef9f43a4563410a764badb0693e981e8db6f29c4038c827
 traitlets==5.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \

@@ -174,11 +174,11 @@ tenacity==9.1.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d7a56fc6d3929e363f1771dfb795642c2358d05facbce0a088296e867aecf1e1
 tinycss2==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:afb3b0e2d74178d39d735827cb0bf5b1fd1e52d6c8410f02a120d07bb210bac2
-tornado==6.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1a902b88db666a23eb3df3c8249ab13f459524f6bd7073df6a9b39c1f1b65ee5 \
-    --hash=sha256:357b777e0d9cc1cb1de849708e59cf79dfc95aeabce42b584ea818005b022d05 \
-    --hash=sha256:8c428693b160a32c34a96f954425005f966ce885ecad988134a032f0d3f32cc2 \
-    --hash=sha256:7c18fd68b9fad8ec2c8dc8ba52641155541478228413244031bfd743b8d965cb
+tornado==6.5.8 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:aa8fd3b7a39cc36a35070df2eaa1e067b7a9dc11aad874b07abeb30b1b79f77d \
+    --hash=sha256:d52af2b3ce76b8af271eddb97456afa6a5141c6cd3478de59e769106c1710528 \
+    --hash=sha256:74bbcc638249284ce6d3b847a27a055b310110ca976177fe5b1b18a67e55a826 \
+    --hash=sha256:bbf3e7d1e51b793b3e271464ce2ee8ccb82a4633ceec77368a995a5ad7f19939
 tqdm==4.67.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1d3926bb32f7a78caef9f43a4563410a764badb0693e981e8db6f29c4038c827
 traitlets==5.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \

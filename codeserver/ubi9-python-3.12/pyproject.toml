@@ -50,6 +50,11 @@ environments = [
 override-dependencies = [
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
+    # Index gap: aiohttp 3.14.4 ships no s390x wheel on the RHOAI 3.4 index (only
+    # aarch64/ppc64le/x86_64), which breaks the hermetic s390x build. 3.14.3 is the
+    # newest with an s390x wheel and already satisfies the aiohttp>=3.14.3 CVE floor.
+    # Drop this cap once a 3.14.4+ s390x wheel is mirrored.
+    "aiohttp<3.14.4",
 ]
 
 [tool.uv.sources]

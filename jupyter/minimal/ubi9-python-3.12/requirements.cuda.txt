@@ -211,9 +211,9 @@ terminado==0.18.1 ; implementation_name == 'cpython' and sys_platform == 'linux'
     --hash=sha256:e40d9c5f17049f661cfd19bf49ffdff5a5df722b355ea175d877676babaf6882
 tinycss2==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:213a663d5b05d099e7e5756a03ffc06cd7355117706e1b4af00ab882ae575896
-tornado==6.5.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:fea56090c88ce165278058f9a431c49f129a2eaed5817547bcb9d63becda37e3 \
-    --hash=sha256:5b0f3371f487e8e35c146695925dec4657670e5b70817ca77df539a2d447144f
+tornado==6.5.8 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:405735a3fba779748a2eebf7331dd16ca74a0c1e61ccdd618fbea66f75d6d98b \
+    --hash=sha256:c6eaa876fd49716cf9a0183193b9d767ac89a5e7de8db6e4cc8fc5048787e90b
 traitlets==5.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a2d24fe1a2f07a56e455fa0ed03ac50b40727ea43e99f63938509cff3d535cca
 typing-extensions==4.15.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
