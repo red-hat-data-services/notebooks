@@ -11,8 +11,8 @@ datasets>=5.0.1
 # RHOAIENG-89164: CVE-2026-54284, CVE-2026-59893, CVE-2026-71491 sqlparse CPU denial of service
 sqlparse>=0.6.0
 
-# RHAIENG-5303: CVE-2026-44431 urllib3 information disclosure via cross-origin redirects
-urllib3>=2.7.0
+# RHAI-7833 / RHAI-7992: CVE-2026-97687, CVE-2026-97689 urllib3 TLS override and chunk parser DoS
+urllib3>=2.8.0
 # RHAIENG-2893: CVE-2026-0897 Keras denial of service via crafted HDF5 weight loading file
 keras>=3.13.1
 # RHAIENG-3210: CVE-2026-40192 Pillow FITS GZIP decompression bomb
