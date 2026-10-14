@@ -11,7 +11,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "pull_request"
       && target_branch == "rhoai-3.5"
-      && ( "runtimes/datascience/ubi9-python-3.12/**".pathChanged() || ".tekton/odh-pipeline-runtime-datascience-cpu-py312-pull-request.yaml".pathChanged() )
+      && ( "runtimes/datascience/ubi9-python-3.12/**".pathChanged() || ".tekton/odh-pipeline-runtime-datascience-cpu-py312-pull-request.yaml".pathChanged() || "prefetch-input/rhds/**".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-datascience)"
     pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-cpu, kfbuild-datascience, kfbuild-runtime-datascience-cpu]"
     pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"

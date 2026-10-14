@@ -11,7 +11,7 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: |
       event == "pull_request"
       && target_branch == "rhoai-3.5"
-      && (".tekton/odh-pipeline-runtime-tensorflow-cuda-py312-pull-request.yaml".pathChanged() || "runtimes/tensorflow/ubi9-python-3.12/**".pathChanged() || "cuda/**".pathChanged() )
+      && (".tekton/odh-pipeline-runtime-tensorflow-cuda-py312-pull-request.yaml".pathChanged() || "runtimes/tensorflow/ubi9-python-3.12/**".pathChanged() || "cuda/**".pathChanged() || "prefetch-input/rhds/**".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-tensorflow-cuda)"
     pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-runtime, kfbuild-tensorflow, kfbuild-cuda, kfbuild-runtime-tensorflow-cuda]"
     pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
