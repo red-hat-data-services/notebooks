@@ -634,8 +634,8 @@ ujson==5.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpyt
     --hash=sha256:4d60094ec7420dbbff7ea806768a7557d0deb014477e21f1c8dbaa4ffb6ff5ec
 uri-template==1.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d9e797afa3bd24976c46961da911ed141e660b52bdf4ce2da5e84ef20a0f763f
-urllib3 @ https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3
+urllib3 @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6/cpu-ubi9/urllib3-2.8.0-1-py3-none-any.whl ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:82ee533e8a49f8239e310d9926b4330470208f844e7a0fa6e1da2001185cc1b7
 uv==0.11.29 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7c52e67a5a96eb386e6d7c1f37af6c61d47a3ead5d36c0380960ea972a922da9 \
     --hash=sha256:858184c61d40a88fb7c091da6d4d927d53f113d9e3fa1bf076dbdca05b8dc825
