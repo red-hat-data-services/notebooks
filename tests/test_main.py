@@ -308,8 +308,7 @@ def test_image_pyprojects_version_alignment(subtests: pytest_subtests.plugin.Sub
         (
             "urllib3",
             (
-                "~=2.6.0",  # runtimes and most images
-                ">=2.7.0",  # RHAIIS 3.2.2 llmcompressor (jupyter override + runtime direct dep)
+                ">=2.8.0",  # CVE-2026-97687 / CVE-2026-97689 (RHAI-7937 / RHAI-7782)
             ),
         ),
         ("transformers", ("<5.0,>4.0", "~=4.55.0")),

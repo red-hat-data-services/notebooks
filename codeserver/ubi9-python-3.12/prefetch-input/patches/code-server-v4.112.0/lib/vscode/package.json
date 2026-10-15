@@ -243,7 +243,7 @@
     "ws@7": "7.5.11",
     "ws@8": "8.21.0",
     "ip-address": "10.3.1",
-    "brace-expansion": "2.1.4",
+    "brace-expansion": "2.1.6",
     "basic-ftp": "6.2.3",
     "js-yaml": "4.3.2",
     "path-to-regexp": "8.4.0",
@@ -251,7 +251,9 @@
     "compression": "1.8.2",
     "fast-uri": "3.1.7",
     "source-map-js": "1.2.2",
-    "zod": "4.6.7"
+    "zod": "4.6.7",
+    "proxy-addr": "2.0.8",
+    "@modelcontextprotocol/sdk": "1.31.0"
   },
   "repository": {
     "type": "git",

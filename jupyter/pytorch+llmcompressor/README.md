@@ -25,7 +25,7 @@ RHAIIS does **not** use uv-style `override-dependencies`. Fromager applies a sin
 
 | Override | Reason |
 |----------|--------|
-| `urllib3>=2.7.0` (jupyter only) | `odh-elyra` caps urllib3 below the RHAIIS floor ([RHAIENG-2458](https://redhat.atlassian.net/browse/RHAIENG-2458)) |
+| `urllib3>=2.8.0` (jupyter only) | `odh-elyra` caps urllib3 below the RHAIIS floor ([RHAIENG-2458](https://redhat.atlassian.net/browse/RHAIENG-2458)); also CVE-2026-97687 / CVE-2026-97689 |
 | `black>=26.3.1` (jupyter only) | Notebooks CVE fix; not in RHAIIS model-opt |
 | `pyarrow>=23.0.1,<24.0.0` (both) | `feast~=0.54.1` caps `pyarrow<=17`; RHAIIS requires `>=23` |
 
