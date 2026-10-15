@@ -62,6 +62,21 @@ def main():
         version = pkg["version"]
         marker = pkg.get("marker", "")  # e.g. "sys_platform == 'linux'"
 
+        archive = pkg.get("archive")
+        if isinstance(archive, dict) and (archive_url := (archive.get("url") or "").strip()):
+            # Direct URL (not on PyPI): PEP 508 "name @ URL" so prefetchers fetch this file.
+            hashes = [
+                f"--hash={algo}:{digest}"
+                for algo, digest in archive.get("hashes", {}).items()
+            ]
+            entry = f"{name} @ {archive_url}"
+            if marker:
+                entry += f" ; {marker}"
+            if hashes:
+                entry += " \\\n" + " \\\n".join(f"    {h}" for h in hashes)
+            lines.append(entry)
+            continue
+
         # Collect sha256 hashes from all wheel entries for this package.
         # Multi-arch packages (numpy, uv, cffi, etc.) have multiple wheels,
         # each with a different hash — all must be listed so pip accepts
