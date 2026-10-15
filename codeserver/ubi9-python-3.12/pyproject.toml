@@ -5,7 +5,7 @@
 #     individual deps like boto3, kafka-python-ng, numpy, pandas, plotly, scipy, scikit-learn)
 #   - Upgraded feast ~=0.59.0 (pinned for RHOAI 3.4 compatibility)
 #   - py-spy excluded via exclude-dependencies (FIPS / RHAIENG-58916)
-#   - Added urllib3>=2.7.0 override (CVE-2026-44431, CVE-2026-44432; CVE-2025-66418 in 2.6.0)
+#   - Added urllib3>=2.8.0 override (CVE-2026-97687, CVE-2026-97689)
 #   - protobuf>=6.33.5 override (AIPCC-13675 s390x + RHAIENG-6814 CVE floor)
 #   - Added local path source for the meta-package
 [project]

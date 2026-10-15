@@ -473,8 +473,8 @@ typing-inspection==0.4.2 ; python_full_version == '3.12.*' and implementation_na
     --hash=sha256:a1fd96319a3e441195307e1cf0317297b84f78a8d997f81bdb3d680afcc1880a
 tzdata==2026.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:642232221f93d26dc1b654b94524e98ab9dc6bc8fb4b909ff12cd17342a04721
-urllib3==2.7.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:48966e55822e3eb77891fc25d6f9aa8f70ae950ed232b391035dbda1b11a4f29
+urllib3 @ https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3
 uv==0.11.29 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5858dd5dda29767badd9d179e3c92c6779259cce5ad2755540f3e45ebe575ec5 \
     --hash=sha256:3a0946dc1e800f2cac37851d9d17cc45395d1da457cc65ad15d4cc6fe00b302c
