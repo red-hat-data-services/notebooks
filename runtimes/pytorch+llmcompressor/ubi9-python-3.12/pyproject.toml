@@ -46,6 +46,8 @@ environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
 override-dependencies = [
+    # NLTK 3.10.3 fixes multiple CVEs; use the upstream wheel until the RHOAI CUDA indexes are updated.
+    "nltk @ https://files.pythonhosted.org/packages/b6/6d/ebd2af4640b12168fdf0cb74b6118df2f32a2f62ec7e0c06fbfd80706639/nltk-3.10.3-py3-none-any.whl",
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
     # appengine-python-standard which has an obnoxious urllib3<2 constraint.
     # Floor raised 2.6.0 -> 2.7.0: the datasets==5.0.1 override below otherwise lets the
