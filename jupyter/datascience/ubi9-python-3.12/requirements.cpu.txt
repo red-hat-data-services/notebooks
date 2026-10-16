@@ -525,8 +525,8 @@ pygithub==2.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cp
     --hash=sha256:ed0f2989539d90fa300d881b45f21072f8be60b848b07446c6ac142edde61174
 pygments==2.20.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:14c06510dc5a2dbf9d83a85463d229907d0456e167a3752d361e6cd1cbfd1152
-pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6/cpu-ubi9/pyjwt-2.14.0-1-py3-none-any.whl ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:a9fefab8785ec448f89a4d8e998fc2e8c897ef451cb79d333396f7dc79d54abd
+pyjwt==2.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:2d0ec124d9f710af8e14c3b2576bcef5a977e607ef38e97e9fbbc8efe47cfbf6
 pylint==4.0.6 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:57c1a1ce38ff622c5f65f53b9a0651b4a21d1e06ea8fe85fa7701c1171962b20
 pymongo==4.18.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

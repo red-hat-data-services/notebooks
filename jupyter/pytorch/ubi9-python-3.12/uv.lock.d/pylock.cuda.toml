@@ -1412,9 +1412,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "pyjwt"
-version = "2.14.0"
+version = "2.13.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-archive = { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6/cpu-ubi9/pyjwt-2.14.0-1-py3-none-any.whl", hashes = { sha256 = "a9fefab8785ec448f89a4d8e998fc2e8c897ef451cb79d333396f7dc79d54abd" } }
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda13.0-ubi9/pyjwt-2.13.0-8-py3-none-any.whl", upload-time = 2026-06-08T11:29:56Z, size = 32895, hashes = { sha256 = "08d8896423ceb701df95c5bb8dff02192412877bcdde8f42ab8a23e9573ee182" } }]
 
 [[packages]]
 name = "pylint"

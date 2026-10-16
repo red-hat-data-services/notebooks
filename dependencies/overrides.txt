@@ -9,7 +9,3 @@ ray>=2.56.0
 
 # NLTK 3.10.3 fixes multiple CVEs; use the AIPCC CPU wheel until the RHOAI CUDA indexes are updated.
 nltk @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/nltk-3.10.3-2-py3-none-any.whl
-
-# RHAI-7544: CVE-2026-102267 PyJWT JWKS redirect trust boundary bypass
-# Use the AIPCC 3.6 CPU wheel until the RHOAI 3.5 indexes publish this release.
-pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6/cpu-ubi9/pyjwt-2.14.0-1-py3-none-any.whl

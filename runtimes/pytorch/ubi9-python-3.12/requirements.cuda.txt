@@ -358,8 +358,8 @@ pyflakes==3.4.0 ; python_full_version == '3.12.*' and implementation_name == 'cp
     --hash=sha256:85d8daf2fd58b6af70d2ae740e8a79ac632bed072c5ddee40367039e48592de4
 pygments==2.20.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:cb0d419a30787aa034d854acc56f827ce983eb97e6a64327199649ee47700417
-pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6/cpu-ubi9/pyjwt-2.14.0-1-py3-none-any.whl ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:a9fefab8785ec448f89a4d8e998fc2e8c897ef451cb79d333396f7dc79d54abd
+pyjwt==2.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:08d8896423ceb701df95c5bb8dff02192412877bcdde8f42ab8a23e9573ee182
 pymongo==4.18.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ca01d8f2e07ae5797c5482f1432f894723e8285cb4f7b9b8052ebbad15980fa0 \
     --hash=sha256:c58feb461740d98253e24bf19f2310874ba78227d0f40e8c5263fa81b377e935
