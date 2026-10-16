@@ -122,3 +122,23 @@ if __name__ == "__main__":
 
         finally:
             docker_utils.NotebookContainer(container).stop(timeout=0)
+
+    @allure.issue("RHOAIENG-100889")
+    @allure.description("Pillow imports without EPEL libimagequant or libraqm, including PNG encode and ImageFont.")
+    def test_pillow_import(self, jupyterlab_trustyai_image: conftest.Image) -> None:
+        container = WorkbenchContainer(image=jupyterlab_trustyai_image.name, user=4321, group_add=[0])
+        probe = (
+            "import io; "
+            "from PIL import Image, ImageFont; "
+            "buf = io.BytesIO(); "
+            "Image.new('RGB', (1, 1), 'red').save(buf, format='PNG'); "
+            "assert buf.getvalue().startswith(bytes([137, 80, 78, 71])); "
+            "ImageFont.load_default()"
+        )
+        try:
+            container.start(wait_for_readiness=False)
+            exit_code, output = container.exec(["python", "-c", probe])
+            output_str = output.decode()
+            assert exit_code == 0, f"Pillow import failed with exit code {exit_code}. Output:\n{output_str}"
+        finally:
+            docker_utils.NotebookContainer(container).stop(timeout=0)
