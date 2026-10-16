@@ -452,8 +452,8 @@ pydantic-core==2.46.4 ; python_full_version == '3.12.*' and implementation_name 
     --hash=sha256:38235509e8f37596cc39453972c1a9b200287d92a98eb2a7c92d9708a98eec49
 pygments==2.20.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:14c06510dc5a2dbf9d83a85463d229907d0456e167a3752d361e6cd1cbfd1152
-pyjwt==2.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:2d0ec124d9f710af8e14c3b2576bcef5a977e607ef38e97e9fbbc8efe47cfbf6
+pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.6/cpu-ubi9/pyjwt-2.14.0-1-py3-none-any.whl ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a9fefab8785ec448f89a4d8e998fc2e8c897ef451cb79d333396f7dc79d54abd
 pynacl==1.6.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
     --hash=sha256:f26a09c515b45938f4994b73d5c79b9b7c821051c9a075be5fe1acd7c0164b2a \
     --hash=sha256:d8e19c2a89333751742b048a73908383e6fe4ecf4a9e2b847b646e0ff4652b07

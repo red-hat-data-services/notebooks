@@ -54,6 +54,9 @@ wheel>=0.46.2
 # RHAI-2717: CVE-2026-96749 PyMongo BSON integer overflow out-of-bounds write
 pymongo>=4.18.2
 
+# RHAI-7544: CVE-2026-102267 PyJWT JWKS redirect trust boundary bypass
+pyjwt>=2.14.0
+
 protobuf>=7.36.1
 
 # --- General floors ---
