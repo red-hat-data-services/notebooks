@@ -65,8 +65,10 @@ printf '%s\n' 'setuptools>=83.0.0' 'cython<3.3' > build_constraints.txt
 # pylock.toml is the install input; pyproject.toml is copied for uv config only.
 # do not use --no-config — uv must discover pyproject.toml in this directory.
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
-UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
-    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
+UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --reinstall-package pillow --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
+    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)" \
+    --config-settings-package="pillow:imagequant=disable" \
+    --config-settings-package="pillow:raqm=disable"
 EOF
 
 ####################
@@ -273,7 +275,8 @@ elif [[ $(uname -m) == "s390x" ]]; then
 fi
 EOF
 
-RUN --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
+RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,ro \
+    --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Installing softwares and packages"
 # pyproject.toml supplies [tool.uv] extra-build-dependencies and must remain
@@ -285,8 +288,15 @@ if [[ $(uname -m) == "ppc64le" || $(uname -m) == "s390x" ]]; then
 fi
 # Build dependencies belong in whl-cache, not the runtime image. Reuse its
 # cache and the installed local PyArrow wheel without bootstrapping LibCST.
+# Pillow has no ppc64le/s390x wheel in the lock, so this build must not link
+# EPEL libimagequant or libraqm. Those libraries are absent from the runtime image.
 UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
-    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)"
+    --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)" \
+    --config-settings-package="pillow:imagequant=disable" \
+    --config-settings-package="pillow:raqm=disable"
+if [[ $(uname -m) == "ppc64le" ]]; then
+    UV_LINK_MODE=copy uv pip install --no-deps --reinstall --cache-dir /root/.cache/uv /wheelsdir/pillow-*.whl
+fi
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
 UV_LINK_MODE=copy uv pip install --no-cache git+https://github.com/microsoft/debugpy.git@v$(grep -A1 '\"debugpy\"' ./pylock.toml | grep -Eo '\b[0-9\.]+\b')

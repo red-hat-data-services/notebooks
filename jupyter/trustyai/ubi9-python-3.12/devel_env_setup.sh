@@ -27,7 +27,7 @@ if [[ "${ARCH}" == "ppc64le" || "${ARCH}" == "s390x" ]]; then
     dnf install -y gcc gcc-c++ gcc-gfortran make cmake ninja-build \
         autoconf automake libtool pkg-config \
         python3.12-devel python3-devel pybind11-devel openssl-devel \
-        fribidi-devel lcms2-devel libimagequant-devel patchelf libraqm-devel \
+        fribidi-devel lcms2-devel patchelf \
         openjpeg2-devel tcl-devel tk-devel unixODBC-devel \
         zlib-devel libjpeg-devel libtiff-devel freetype-devel libwebp-devel \
         git tar wget unzip
@@ -130,13 +130,17 @@ if [[ "${ARCH}" == "ppc64le" ]]; then
     bash "${CURDIR}/build_pyarrow.sh" "${TMP}/arrow" "${WHEELS_DIR}"
     compgen -G "${WHEELS_DIR}/pyarrow-${PYARROW_VERSION}-*.whl" > /dev/null
 
-    # Pillow (use auditwheel repaired wheel to avoid pulling runtime libs from EPEL)
+    # imagequant and raqm are EPEL-only. The runtime image does not ship
+    # libimagequant.so.0 or libraqm.so.0, and a later pylock install can replace
+    # this wheel, so the build itself must not link them.
     cd "${CURDIR}"
     PILLOW_VERSION=$(python3 ./pylock_version.py pillow --platform ppc64le)
     cd "${TMP}"
     git clone --recursive https://github.com/python-pillow/Pillow.git -b "${PILLOW_VERSION}"
     cd Pillow
-    uv build --wheel --out-dir /pillowwheel
+    uv build --wheel --out-dir /pillowwheel \
+        --config-setting imagequant=disable \
+        --config-setting raqm=disable
     : ================= Fix Pillow Wheel ====================
     cd /pillowwheel
     uv pip install auditwheel
