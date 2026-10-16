@@ -12,7 +12,7 @@ metadata:
     pipelinesascode.tekton.dev/on-target-branch: '[{{target_branch}}]'
   labels:
     appstudio.openshift.io/application: automation
-    appstudio.openshift.io/component: pull-request-pipelines-odh-workbench-jupyter-universal-cpu-py312
+    appstudio.openshift.io/component: pr-pipelines-odh-wb-jupyter-universal-cpu-py312
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-universal-cpu-py312-on-pull-request-{{pull_request_number}}
   namespace: rhoai-tenant
@@ -26,6 +26,8 @@ spec:
     value: quay.io/rhoai/pull-request-pipelines:odh-workbench-jupyter-universal-cpu-py312-{{revision}}
   - name: dockerfile
     value: Dockerfile.konflux.cpu
+  - name: build-args-file
+    value: jupyter/universal/ubi9-python-3.12/build-args/konflux.cpu.conf
   - name: path-context
     value: jupyter/universal/ubi9-python-3.12
   - name: image-expires-after
