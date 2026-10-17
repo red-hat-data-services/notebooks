@@ -107,6 +107,9 @@ packages:
   - fribidi-devel
   - lcms2-devel
   - openjpeg2-devel
+  # The s390x Pillow wheel needs these runtime libraries.
+  - lcms2
+  - openjpeg2
   - mesa-libGL
 
   # Dev libraries
