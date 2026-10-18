@@ -102,6 +102,7 @@ esac
 
 _pandoc_whl=/tmp/pandoc_rhai.whl
 curl --fail --location --show-error \
+    --retry 5 --retry-delay 2 --retry-connrefused \
     -o "${_pandoc_whl}" \
     "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
 
