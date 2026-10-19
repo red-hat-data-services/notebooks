@@ -100,6 +100,9 @@ case "${_arch}" in
     *) echo "ERROR: unsupported arch for pandoc-rhai wheel: ${_arch}" >&2; exit 1 ;;
 esac
 
+dnf install -y bind-utils
+dig "packages.redhat.com"
+
 _pandoc_whl=/tmp/pandoc_rhai.whl
 curl --fail --location --show-error \
     --connect-timeout 120 --speed-limit 1024 --speed-time 300 \

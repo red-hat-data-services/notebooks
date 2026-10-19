@@ -72,6 +72,14 @@ spec:
       value: pipelines/multi-arch-container-build.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-trustyai-cpu-py312-v2-25
+
+    # temporary workaround for the dns issue - to be removed soon
+    podTemplate:
+      hostAliases:
+        - ip: "2.19.176.20"      # replace with a current edge IP from the dig above
+          hostnames:
+            - "packages.redhat.com"
+
   workspaces:
   - name: git-auth
     secret:
