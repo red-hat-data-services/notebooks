@@ -79,6 +79,12 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunSpecs:
+    - pipelineTaskName: build-images
+      podTemplate:
+        hostAliases:
+          - ip: "2.19.176.20"
+            hostnames:
+              - "packages.redhat.com"
     - pipelineTaskName: fips-check
       computeResources:
         requests:
