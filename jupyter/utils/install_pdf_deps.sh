@@ -105,7 +105,7 @@ curl --fail --location --show-error \
     --connect-timeout 120 --speed-limit 1024 --speed-time 300 \
     --retry 5 --retry-delay 2 --retry-connrefused \
     -o "${_pandoc_whl}" \
-    "https://cdn.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
+    "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
 
 python - <<'PY'
 import pathlib
