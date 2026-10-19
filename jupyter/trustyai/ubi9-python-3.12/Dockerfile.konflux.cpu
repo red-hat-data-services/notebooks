@@ -177,7 +177,12 @@ USER root
 # Install useful OS packages
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-dnf install -y jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat
+PACKAGES=(jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat)
+# The s390x Pillow wheel links against these system libraries.
+if [[ "$(uname -m)" == "s390x" ]]; then
+    PACKAGES+=(lcms2 openjpeg2)
+fi
+dnf install -y "${PACKAGES[@]}"
 dnf clean all
 rm -rf /var/cache/yum
 EOF
@@ -217,7 +222,7 @@ USER 0
 # s390x wheels link against the distro OpenBLAS installed in the builder stage.
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
-INSTALL_PKGS="java-17-openjdk libatomic"
+INSTALL_PKGS="java-17-openjdk libatomic unixODBC-devel"
 if [[ $(uname -m) == "s390x" ]]; then
     INSTALL_PKGS+=" openblas openblas-threads"
 fi
@@ -258,13 +263,14 @@ COPY ${TRUSTYAI_SOURCE_CODE}/pyproject.toml ./
 RUN --mount=type=cache,from=whl-cache,source=/root/OpenBLAS/,target=/OpenBlas/,rw /bin/bash <<'EOF'
 set -Eeuxo pipefail
 if [[ $(uname -m) == "ppc64le" ]]; then
-    PREFIX=/usr/ make install -C /OpenBlas
+    make -C /OpenBlas install PREFIX=/usr OPENBLAS_LIBRARY_DIR=/usr/lib64
+    ldconfig
 fi
 EOF
 
 # Install packages and cleanup
 # install packages as USER 0 (this will allow us to consume uv cache)
-RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,rw \
+RUN --mount=type=bind,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,ro \
     --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
 UV_LINK_MODE=copy uv pip install --no-deps /wheelsdir/ml_dtypes-*.whl --cache-dir /root/.cache/uv
@@ -275,7 +281,7 @@ elif [[ $(uname -m) == "s390x" ]]; then
 fi
 EOF
 
-RUN --mount=type=cache,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,ro \
+RUN --mount=type=bind,from=whl-cache,source=/wheelsdir/,target=/wheelsdir/,ro \
     --mount=type=cache,target=/root/.cache/uv /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Installing softwares and packages"
@@ -294,8 +300,10 @@ UV_LINK_MODE=copy uv pip install --cache-dir /root/.cache/uv --requirements=./py
     --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)" \
     --config-settings-package="pillow:imagequant=disable" \
     --config-settings-package="pillow:raqm=disable"
+# Re-apply the auditwheel-repaired wheels so bundled libs (e.g. pillow.libs) are used.
 if [[ $(uname -m) == "ppc64le" ]]; then
-    UV_LINK_MODE=copy uv pip install --no-deps --reinstall --cache-dir /root/.cache/uv /wheelsdir/pillow-*.whl
+    pip install --no-deps --force-reinstall /wheelsdir/*.whl
+    test -d "$(python -c 'import PIL, pathlib; p = pathlib.Path(PIL.__file__).parent.parent; print(p / "pillow.libs" if (p / "pillow.libs").exists() else p / "Pillow.libs")')"
 fi
 # Note: debugpy wheel availabe on pypi (in uv cache) is none-any but bundles amd64.so files
 #       Build debugpy from source instead
