@@ -79,12 +79,6 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunSpecs:
-    - pipelineTaskName: build-images
-      podTemplate:
-        hostAliases:
-          - ip: "2.19.176.20"
-            hostnames:
-              - "packages.redhat.com"
     - pipelineTaskName: fips-check
       computeResources:
         requests:
@@ -105,13 +99,6 @@ spec:
             memory: 512Mi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pull-request-pipelines
-
-    # temporary workaround for the dns issue - to be removed soon
-    podTemplate:
-      hostAliases:
-        - ip: "2.19.176.20"      # replace with a current edge IP from the dig above
-          hostnames:
-            - "packages.redhat.com"
 
   workspaces:
   - name: git-auth
