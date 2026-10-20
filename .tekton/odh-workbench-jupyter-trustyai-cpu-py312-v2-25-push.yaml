@@ -72,7 +72,6 @@ spec:
       value: pipelines/multi-arch-container-build.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-trustyai-cpu-py312-v2-25
-
   workspaces:
   - name: git-auth
     secret:

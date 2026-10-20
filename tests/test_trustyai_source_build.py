@@ -21,7 +21,10 @@ def test_pillow_source_build_does_not_link_epel_only_libraries() -> None:
     assert "pillow:raqm=disable" in dockerfile
     assert "--reinstall-package pillow" in dockerfile
     runtime = dockerfile.split("FROM ${BASE_IMAGE} AS cpu-base", maxsplit=1)[1]
-    assert "/wheelsdir/pillow-*.whl" in runtime
+    # After pylock, ppc64le reinstalls the auditwheel-repaired wheels (Pillow
+    # among them) and checks that the bundled pillow.libs directory is present.
+    assert "pip install --no-deps --force-reinstall /wheelsdir/*.whl" in runtime
+    assert 'p / "pillow.libs"' in runtime
 
 
 def test_runtime_consumes_wheels_without_bootstrapping_arrow_build_dependencies() -> None:
