@@ -242,13 +242,13 @@ arches:
     name: efi-srpm-macros
     evr: 6-4.el9
     sourcerpm: efi-rpm-macros-6-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/aarch64/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.2.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/aarch64/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.3.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 14714
-    checksum: sha256:9fa83444f3dcc5a0e59220b864b39aa2eaccf084cf3190e03ba15cf03da3102a
+    size: 14873
+    checksum: sha256:1639502a970d4c49a7f3f8e56009f49a3476644d21719472c83b50d05784178e
     name: emacs-filesystem
-    evr: 1:27.2-18.el9_8.2
-    sourcerpm: emacs-27.2-18.el9_8.2.src.rpm
+    evr: 1:27.2-18.el9_8.3
+    sourcerpm: emacs-27.2-18.el9_8.3.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/aarch64/appstream/os/Packages/e/exempi-2.6.0-0.2.20211007gite23c213.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 504212
@@ -4617,13 +4617,13 @@ arches:
     name: bluez-libs
     evr: 5.87+1.git30db66dc971b-1.el9_8
     sourcerpm: bluez-5.87+1.git30db66dc971b-1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/aarch64/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/aarch64/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9_8.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 57133
-    checksum: sha256:f7a620cd76e963e54bf41112434221fed2779ab97ab73c5df70ba6522aaedfb3
+    size: 66134
+    checksum: sha256:0c446962e2a4e4f3bfd1277ba7a58e9179cda58b910b7bc1bce207f3322ca7f0
     name: bubblewrap
-    evr: 0.6.3-1.el9
-    sourcerpm: bubblewrap-0.6.3-1.el9.src.rpm
+    evr: 0.6.3-1.el9_8.1
+    sourcerpm: bubblewrap-0.6.3-1.el9_8.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/aarch64/baseos/os/Packages/b/bzip2-libs-1.0.8-11.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 47655
@@ -6266,13 +6266,13 @@ arches:
     name: efi-srpm-macros
     evr: 6-4.el9
     sourcerpm: efi-rpm-macros-6-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/ppc64le/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.2.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/ppc64le/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.3.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 14714
-    checksum: sha256:9fa83444f3dcc5a0e59220b864b39aa2eaccf084cf3190e03ba15cf03da3102a
+    size: 14873
+    checksum: sha256:1639502a970d4c49a7f3f8e56009f49a3476644d21719472c83b50d05784178e
     name: emacs-filesystem
-    evr: 1:27.2-18.el9_8.2
-    sourcerpm: emacs-27.2-18.el9_8.2.src.rpm
+    evr: 1:27.2-18.el9_8.3
+    sourcerpm: emacs-27.2-18.el9_8.3.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/ppc64le/appstream/os/Packages/e/exempi-2.6.0-0.2.20211007gite23c213.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 564375
@@ -10641,13 +10641,13 @@ arches:
     name: bluez-libs
     evr: 5.87+1.git30db66dc971b-1.el9_8
     sourcerpm: bluez-5.87+1.git30db66dc971b-1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/ppc64le/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/ppc64le/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9_8.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 59922
-    checksum: sha256:773b45bae9e2baea80207fd27e922a247c2e6e23b68333c1abde6c67bab23346
+    size: 69287
+    checksum: sha256:430ab7f003442a7cac9d35da98521d5e9ea14a0903439564859d6245b431b2d4
     name: bubblewrap
-    evr: 0.6.3-1.el9
-    sourcerpm: bubblewrap-0.6.3-1.el9.src.rpm
+    evr: 0.6.3-1.el9_8.1
+    sourcerpm: bubblewrap-0.6.3-1.el9_8.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/ppc64le/baseos/os/Packages/b/bzip2-libs-1.0.8-11.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 51183
@@ -12304,13 +12304,13 @@ arches:
     name: efi-srpm-macros
     evr: 6-4.el9
     sourcerpm: efi-rpm-macros-6-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/s390x/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.2.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/s390x/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.3.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 14714
-    checksum: sha256:9fa83444f3dcc5a0e59220b864b39aa2eaccf084cf3190e03ba15cf03da3102a
+    size: 14873
+    checksum: sha256:1639502a970d4c49a7f3f8e56009f49a3476644d21719472c83b50d05784178e
     name: emacs-filesystem
-    evr: 1:27.2-18.el9_8.2
-    sourcerpm: emacs-27.2-18.el9_8.2.src.rpm
+    evr: 1:27.2-18.el9_8.3
+    sourcerpm: emacs-27.2-18.el9_8.3.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/s390x/appstream/os/Packages/e/exempi-2.6.0-0.2.20211007gite23c213.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 499688
@@ -16707,13 +16707,13 @@ arches:
     name: bluez-libs
     evr: 5.87+1.git30db66dc971b-1.el9_8
     sourcerpm: bluez-5.87+1.git30db66dc971b-1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/s390x/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/s390x/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9_8.1.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 57199
-    checksum: sha256:5e017f8f35b724fa00f3239499fae6a163428b0179b7b5c61403ec1c0d80fdcd
+    size: 66933
+    checksum: sha256:5cf44cc2ea43c4d48c5e339b766d932b5493bb890652667a9ca1747b58584c30
     name: bubblewrap
-    evr: 0.6.3-1.el9
-    sourcerpm: bubblewrap-0.6.3-1.el9.src.rpm
+    evr: 0.6.3-1.el9_8.1
+    sourcerpm: bubblewrap-0.6.3-1.el9_8.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/s390x/baseos/os/Packages/b/bzip2-libs-1.0.8-11.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 47690
@@ -18328,13 +18328,13 @@ arches:
     name: efi-srpm-macros
     evr: 6-4.el9
     sourcerpm: efi-rpm-macros-6-4.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/x86_64/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.2.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/x86_64/appstream/os/Packages/e/emacs-filesystem-27.2-18.el9_8.3.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 14714
-    checksum: sha256:9fa83444f3dcc5a0e59220b864b39aa2eaccf084cf3190e03ba15cf03da3102a
+    size: 14873
+    checksum: sha256:1639502a970d4c49a7f3f8e56009f49a3476644d21719472c83b50d05784178e
     name: emacs-filesystem
-    evr: 1:27.2-18.el9_8.2
-    sourcerpm: emacs-27.2-18.el9_8.2.src.rpm
+    evr: 1:27.2-18.el9_8.3
+    sourcerpm: emacs-27.2-18.el9_8.3.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/x86_64/appstream/os/Packages/e/exempi-2.6.0-0.2.20211007gite23c213.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 540431
@@ -22696,13 +22696,13 @@ arches:
     name: bluez-libs
     evr: 5.87+1.git30db66dc971b-1.el9_8
     sourcerpm: bluez-5.87+1.git30db66dc971b-1.el9_8.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/x86_64/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.8/x86_64/baseos/os/Packages/b/bubblewrap-0.6.3-1.el9_8.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 58418
-    checksum: sha256:d59ae91a098bb0d80f2408f11c5e64c33719cc84ed29a11ae1a4eb023495a3d9
+    size: 67258
+    checksum: sha256:5bbae4ffd3b724db488ce5b26d74f74d7215d2787aa022a859e322c9045ff661
     name: bubblewrap
-    evr: 0.6.3-1.el9
-    sourcerpm: bubblewrap-0.6.3-1.el9.src.rpm
+    evr: 0.6.3-1.el9_8.1
+    sourcerpm: bubblewrap-0.6.3-1.el9_8.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.8/x86_64/baseos/os/Packages/b/bzip2-libs-1.0.8-11.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 46333
