@@ -11363,10 +11363,10 @@ arches:
     sourcerpm: qhull-7.2.1-11.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/repodata/823861c63647fdfe67aec86c50992f335186dbf2c69c97744721150081073e28-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/repodata/aae36c66a1ee78b6971f3c3854943b802bfec2738f5030e15694b0d2f4faf765-modules.yaml.gz
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 8526
-    checksum: sha256:823861c63647fdfe67aec86c50992f335186dbf2c69c97744721150081073e28
+    checksum: sha256:aae36c66a1ee78b6971f3c3854943b802bfec2738f5030e15694b0d2f4faf765
   - url: https://mirror.stream.centos.org/9-stream/AppStream/s390x/os/repodata/684943aca741d02f473bd71a52f6f31e886b2d1a4b7e0791bf7e61a138b76841-modules.yaml.xz
     repoid: appstream
     size: 17728
