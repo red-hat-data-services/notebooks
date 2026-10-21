@@ -9,6 +9,24 @@ import pytest
 BUILD_SCRIPT = Path(__file__).resolve().parents[1] / "jupyter/trustyai/ubi9-python-3.12/build_pyarrow.sh"
 
 
+def test_pillow_source_build_does_not_link_epel_only_libraries() -> None:
+    """ppc64le/s390x Pillow must not DT_NEEDED libimagequant.so.0 or libraqm.so.0."""
+    script = BUILD_SCRIPT.with_name("devel_env_setup.sh").read_text()
+    dockerfile = BUILD_SCRIPT.with_name("Dockerfile.konflux.cpu").read_text()
+    assert "libimagequant-devel" not in script
+    assert "libraqm-devel" not in script
+    assert "--config-setting imagequant=disable" in script
+    assert "--config-setting raqm=disable" in script
+    assert "pillow:imagequant=disable" in dockerfile
+    assert "pillow:raqm=disable" in dockerfile
+    assert "--reinstall-package pillow" in dockerfile
+    runtime = dockerfile.split("FROM ${BASE_IMAGE} AS cpu-base", maxsplit=1)[1]
+    # After pylock, ppc64le reinstalls the auditwheel-repaired wheels (Pillow
+    # among them) and checks that the bundled pillow.libs directory is present.
+    assert "pip install --no-deps --force-reinstall /wheelsdir/*.whl" in runtime
+    assert 'p / "pillow.libs"' in runtime
+
+
 def test_runtime_consumes_wheels_without_bootstrapping_arrow_build_dependencies() -> None:
     dockerfile = BUILD_SCRIPT.with_name("Dockerfile.konflux.cpu").read_text()
     builder, runtime = dockerfile.split("FROM ${BASE_IMAGE} AS cpu-base", maxsplit=1)

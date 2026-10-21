@@ -111,9 +111,13 @@ USER 1001
 
 COPY ${MINIMAL_SOURCE_CODE}/pylock.toml ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
 
-# Install Python dependencies from requirements.txt file
+# Install Python dependencies from requirements.txt file.
+# Root is required to pin packages.redhat.com in this same RUN; buildah
+# replaces /etc/hosts at the start of every step.
+USER 0
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
+./utils/pin_packages_redhat_com.sh
 echo "Installing softwares and packages"
 # This may have to download and compile some dependencies, and as we don't lock requirements from `build-system.requires`,
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
@@ -130,6 +134,8 @@ fix-permissions /opt/app-root -P
 # Apply JupyterLab addons
 /opt/app-root/bin/utils/addons/apply.sh
 EOF
+
+USER 1001
 
 WORKDIR /opt/app-root/src
 
