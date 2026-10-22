@@ -229,6 +229,8 @@
     "yaserver": "^0.4.0"
   },
   "overrides": {
+    "markdown-it": "14.3.3",
+    "@modelcontextprotocol/sdk": "1.32.0",
     "zod": "4.6.6",
     "node-gyp-build": "4.8.1",
     "kerberos@2.1.1": {
