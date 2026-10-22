@@ -32,6 +32,11 @@ constraint-dependencies = [
 override-dependencies = [
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
+    # CVE-2026-57516 / RHOAIENG-82680: Ray RCE via unsafe deserialization in the
+    # WebDataset reader, fixed in ray 2.56.0. ray 2.56.0 is already mirrored on all
+    # RHOAI 3.4 index flavors, but codeflare-sdk 0.36.0 (index max) pins
+    # ray[data,default]==2.53.0 exactly, so the pin is overridden.
+    "ray[data,default]==2.56.0",
 ]
 
 [tool.uv.sources]

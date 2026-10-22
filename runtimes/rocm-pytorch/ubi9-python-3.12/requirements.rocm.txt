@@ -325,10 +325,14 @@ pycparser==3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6000230deb4d69ac13f50308d4bd6aa1ee1dac1ef2b825ef4666cc9e9e06d563
 pycryptodome==3.23.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:927a09dc66c404ba834009be7d79a5c7f0c3a1b38e963656cbfff3d407be735e
-pydantic==2.12.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+pydantic==2.12.5 ; python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:fb0de9bc28de04fe69deeaacf59a84463bcd487588bc3707c37c9dcfa38edfcb
-pydantic-core==2.41.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+pydantic==2.13.1 ; python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:61ddf857a213a6ce8c449e073bd4dafbb7316909c6eb9bad4b25e8e723a6aa78
+pydantic-core==2.41.5 ; python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:29e0cdc3882fe59d4c29ae524d393211bdd9db9743e89379b4a3746cae9e4094
+pydantic-core==2.46.1 ; python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:2cb62301f677abfc40ffd0388d4028f899daf63bdcdeeaed3e0903198df2c301
 pygments==2.20.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0dd1006a280bdf91488aea47899cbf170560ba7772de374d101dd86cfbfb9e71
 pyjwt==2.13.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -353,8 +357,8 @@ pyyaml==6.0.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:8d88eaa1b89b0d6c71cd02cc64d5f70f7b6a6145c23fae4cb25558a05f13d338
 pyzmq==27.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:596bfdb57a4bb75f4a5f83fe0f00f72c315ee6e1fd5f895d271cbbc07000110c
-ray==2.53.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:14f46363e9b4cf0c1c8b4d8623ec337c5bd408377831b5e5b50067930137bbca
+ray==2.56.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:78ef34a71383c1fcf335e531e0e590867857fce9069f06ed351be6ce7a58fc50
 referencing==0.37.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c7f06b7ab118d2072270365903e4f569fa3d3736deb86eec950774d8720880d7
 requests==2.33.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
