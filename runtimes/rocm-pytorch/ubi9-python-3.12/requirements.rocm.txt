@@ -331,8 +331,8 @@ pydantic-core==2.46.1 ; implementation_name == 'cpython' and sys_platform == 'li
     --hash=sha256:2cb62301f677abfc40ffd0388d4028f899daf63bdcdeeaed3e0903198df2c301
 pygments==2.20.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0dd1006a280bdf91488aea47899cbf170560ba7772de374d101dd86cfbfb9e71
-pyjwt==2.13.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:54fba8e16c765ba7fd63e19830cd889d769c69bd2ec116329f7fdd91cdb24c07
+pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:63cdf2df97cc8adf03bab99b3fa29d1df2d307ad216c6a5cdf509b322fd693e9
 pymongo==4.16.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b2711cf7bc7b416df4a232932609b708925b41134414fd79f8ca7488873e744b
 pynacl==1.6.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \

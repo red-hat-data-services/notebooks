@@ -389,8 +389,8 @@ pydantic-core==2.46.1 ; python_full_version >= '3.12' and implementation_name ==
     --hash=sha256:b5565ce46259010b8f0a00d777e2dc4f7a7b570ff7c4c93af9b2dbb8246a7dd0
 pygments==2.20.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b24941db8a952d67e0f8878037a1c50ebd7b4e1534ae5b7709c552822c52d22e
-pyjwt==2.13.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ccb523d233b0c22dfe29ce686c852b5d673c41c628ef2c2167969a7fbc67bd75
+pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:63cdf2df97cc8adf03bab99b3fa29d1df2d307ad216c6a5cdf509b322fd693e9
 pymongo==4.16.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:57fe9b5de800445ba9eddf9c1dad8587d6433ff975eba2d1e7a3658bb5c848cd \
     --hash=sha256:f977d1cb05000d047f85f965a1aadb236bb997f0768a799e6f004da4fd022b40

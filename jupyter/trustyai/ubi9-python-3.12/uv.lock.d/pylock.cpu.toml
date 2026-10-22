@@ -1418,9 +1418,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "pyjwt"
-version = "2.13.0"
+version = "2.14.0"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.13.0-2-py3-none-any.whl", upload-time = 2026-06-12T14:16:31Z, size = 42117, hashes = { sha256 = "43798d73ce4c0a7221087b220935ade361955eeada0b3b4f8622f9b53916ea1c" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl", upload-time = 2026-10-07T17:24:26Z, size = 33784, hashes = { sha256 = "63cdf2df97cc8adf03bab99b3fa29d1df2d307ad216c6a5cdf509b322fd693e9" } }]
 
 [[packages]]
 name = "pymongo"

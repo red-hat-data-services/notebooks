@@ -38,6 +38,9 @@ constraint-dependencies = [
 ]
 
 override-dependencies = [
+    # RHAI-3676: CVE-2026-102273 PyJWT token forgery via public JWK containers as HMAC secrets.
+    # Use the AIPCC CPU wheel until the RHOAI CUDA indexes publish 2.14.0.
+    "pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl",
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
     # appengine-python-standard which has an obnoxious urllib3<2 constraint
     "urllib3>=2.6.0",
