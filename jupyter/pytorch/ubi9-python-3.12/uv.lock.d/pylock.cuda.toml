@@ -1407,29 +1407,14 @@ wheels = [
 
 [[packages]]
 name = "pydantic"
-version = "2.12.5"
-marker = "python_full_version >= '3.12' and python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/pydantic-2.12.5-8-py3-none-any.whl", upload-time = 2026-03-13T12:22:44Z, size = 464522, hashes = { sha256 = "5605a41acc4e59f0300e7c421c3e92fe38b9d189f29047853bb9a30d6508379a" } }]
-
-[[packages]]
-name = "pydantic"
 version = "2.13.1"
-marker = "python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
+marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/pydantic-2.13.1-8-py3-none-any.whl", upload-time = 2026-04-15T17:00:09Z, size = 472858, hashes = { sha256 = "44294649be062e22aac563f199a0a0dbbc4e7c8a25b69740be0afccc493e2441" } }]
 
 [[packages]]
 name = "pydantic-core"
-version = "2.41.5"
-marker = "python_full_version >= '3.12' and python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/pydantic_core-2.41.5-8-cp312-cp312-linux_aarch64.whl", upload-time = 2026-03-13T12:22:44Z, size = 1970351, hashes = { sha256 = "f18602ad105a5b4cf92f9a5a27b3d4e6bb9d90601406c9c1d6375b6b633174c1" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/pydantic_core-2.41.5-8-cp312-cp312-linux_x86_64.whl", upload-time = 2026-03-13T12:22:44Z, size = 2159949, hashes = { sha256 = "a5fac903e11068ef1fe40b07de65c1abf9ce0a803dcbce6ec718eaceea3a0617" } },
-]
-
-[[packages]]
-name = "pydantic-core"
 version = "2.46.1"
-marker = "python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
+marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/pydantic_core-2.46.1-8-cp312-cp312-linux_aarch64.whl", upload-time = 2026-04-15T17:00:09Z, size = 1951386, hashes = { sha256 = "53ee78031c1f098b988e64d8bf87c06e25f89973983dc5130676629b28edad8a" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/pydantic_core-2.46.1-8-cp312-cp312-linux_x86_64.whl", upload-time = 2026-04-15T17:17:26Z, size = 2133353, hashes = { sha256 = "b5565ce46259010b8f0a00d777e2dc4f7a7b570ff7c4c93af9b2dbb8246a7dd0" } },

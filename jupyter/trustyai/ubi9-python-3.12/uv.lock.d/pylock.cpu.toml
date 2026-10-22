@@ -1389,32 +1389,20 @@ wheels = [
 
 [[packages]]
 name = "pydantic"
-version = "2.12.5"
-marker = "python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic-2.12.5-2-py3-none-any.whl", upload-time = 2026-03-13T12:22:02Z, size = 464523, hashes = { sha256 = "d2702548c09eee4c25a61749330438903901576d32bbf7aa2ce8f6667ee97ae1" } }]
-
-[[packages]]
-name = "pydantic"
-version = "2.13.4"
-marker = "python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic-2.13.4-2-py3-none-any.whl", upload-time = 2026-06-12T14:16:31Z, size = 646777, hashes = { sha256 = "e1b259527fef99f7bf6e635a826c53b98390f0b7725b77e69648374171adfd57" } }]
+version = "2.13.1"
+marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic-2.13.1-2-py3-none-any.whl", upload-time = 2026-04-15T15:32:21Z, size = 472857, hashes = { sha256 = "6eab392063f50f266f91bd61d6946ef3e0181c65240f46b91d527b1246097394" } }]
 
 [[packages]]
 name = "pydantic-core"
-version = "2.41.5"
-marker = "python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
+version = "2.46.1"
+marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.41.5-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-03-13T12:22:02Z, size = 1970351, hashes = { sha256 = "b7aa6bdc0f74754a52ba530fbd84d73da6e0ef61e954ddc2cccdb73f3a8a5217" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.41.5-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-03-13T12:22:02Z, size = 2187911, hashes = { sha256 = "4ebc1cb5d4115e15647443fc7135a0e2b829f401baa05c781077d7b3a5702dba" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.41.5-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-03-13T12:22:02Z, size = 2949435, hashes = { sha256 = "c8f2dac40e8d5b18f92c6bcd1820a0834c99cca4bb4b5b469b1c59a2f3eb099e" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.41.5-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-03-13T12:22:02Z, size = 2159947, hashes = { sha256 = "58224aa20706107ee7c03a10531224f0e5c6527f86f7ce6813d60c689bdb05f0" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.46.1-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-04-15T15:32:21Z, size = 1951391, hashes = { sha256 = "f7a3fa79699060131a7b63c29711198953ed1f96a78b7ee7da9d5ab9e5276863" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.46.1-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-04-15T15:51:35Z, size = 2140922, hashes = { sha256 = "495489168116040771201ccd085eee6cce4651449deb6d7302b7940019f286a5" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.46.1-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-04-15T16:32:06Z, size = 2905100, hashes = { sha256 = "19ce848cbe71b07b582949078d6bea413a77b454b5105be6b2e4a34ffb6860a9" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.46.1-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-04-15T15:31:40Z, size = 2133354, hashes = { sha256 = "1c2f8b60e6b8e3443816fb14260499707757e8ab68af11b0a4ebe67ce1839ce2" } },
 ]
-
-[[packages]]
-name = "pydantic-core"
-version = "2.46.4"
-marker = "python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pydantic_core-2.46.4-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-06-12T14:16:31Z, size = 2786754, hashes = { sha256 = "1042f6ab33767890c2cca98684651e1aac620fe2d267d1ef8055da4d023ae372" } }]
 
 [[packages]]
 name = "pygithub"

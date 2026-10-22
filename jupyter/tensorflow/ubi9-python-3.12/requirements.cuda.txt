@@ -493,14 +493,9 @@ pycparser==3.0 ; python_full_version >= '3.12' and implementation_name == 'cpyth
 pycryptodome==3.23.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:4632c9f9a95cb55e64fef1573609a31acced7097f32cbbc82b9f056289eed81a \
     --hash=sha256:03d24d68bf36ab5b46e70ea8489d17e09343f30b56bc9e5ff3dd0e48d35137d5
-pydantic==2.12.5 ; python_full_version >= '3.12' and python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:5605a41acc4e59f0300e7c421c3e92fe38b9d189f29047853bb9a30d6508379a
-pydantic==2.13.1 ; python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
+pydantic==2.13.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:44294649be062e22aac563f199a0a0dbbc4e7c8a25b69740be0afccc493e2441
-pydantic-core==2.41.5 ; python_full_version >= '3.12' and python_full_version < '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f18602ad105a5b4cf92f9a5a27b3d4e6bb9d90601406c9c1d6375b6b633174c1 \
-    --hash=sha256:a5fac903e11068ef1fe40b07de65c1abf9ce0a803dcbce6ec718eaceea3a0617
-pydantic-core==2.46.1 ; python_full_version >= '3.14' and implementation_name == 'cpython' and sys_platform == 'linux' \
+pydantic-core==2.46.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:53ee78031c1f098b988e64d8bf87c06e25f89973983dc5130676629b28edad8a \
     --hash=sha256:b5565ce46259010b8f0a00d777e2dc4f7a7b570ff7c4c93af9b2dbb8246a7dd0
 pydocstyle==6.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
