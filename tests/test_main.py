@@ -418,7 +418,7 @@ def test_image_manifests_version_alignment(
         # ("package name", ("allowed version 1", "allowed version 2", ...))
         ("JupyterLab", ("4.5", "4.6")),
         ("Matplotlib", ("3.10", "3.11")),
-        ("MLflow", ("3.13", "3.14")),
+        ("MLflow", ("3.13", "3.14", "3.15")),
         ("Kfp", ("2.15", "2.16")),
         ("Feast", ("0.63", "0.64")),
         ("Scikit-learn", ("1.7", "1.6")),
