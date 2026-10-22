@@ -235,12 +235,8 @@ COPY ${DATASCIENCE_SOURCE_CODE}/pylock.toml ./
 # Copy Elyra setup to utils so that it's sourced at startup
 COPY ${DATASCIENCE_SOURCE_CODE}/setup-elyra.sh ${DATASCIENCE_SOURCE_CODE}/utils ./utils/
 
-# Root is required to pin packages.redhat.com in this same RUN; buildah
-# replaces /etc/hosts at the start of every step.
-USER 0
 RUN --mount=type=cache,target=/root/.cache/pip /bin/bash <<'EOF'
 set -Eeuxo pipefail
-./utils/pin_packages_redhat_com.sh
 echo "Installing software and packages"
 # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
 echo "meson<1.11" > build_constraints.txt
@@ -277,7 +273,5 @@ jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 chmod -R g+w /opt/app-root/lib/python3.12/site-packages
 fix-permissions /opt/app-root -P
 EOF
-
-USER 1001:0
 
 WORKDIR /opt/app-root/src

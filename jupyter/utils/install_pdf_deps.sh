@@ -101,27 +101,9 @@ case "${_arch}" in
 esac
 
 _pandoc_whl=/tmp/pandoc_rhai.whl
-_pandoc_url="https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
-
-# Konflux s390x and ppc64le builders resolve packages.redhat.com to the internal
-# ROSA ELB (10.29.80.0/24). That address answers on x86_64 builders, and the TCP
-# handshake times out from s390x/ppc. Pod hostAliases are not visible inside this
-# buildah RUN. Public DoH returns the Akamai edge instead.
-_curl_pandoc() {
-    curl --fail --location --show-error \
-        --connect-timeout 30 --speed-limit 1024 --speed-time 300 \
-        --retry 5 --retry-delay 2 --retry-connrefused \
-        --ipv4 \
-        "$@" \
-        -o "${_pandoc_whl}" \
-        "${_pandoc_url}"
-}
-
-if ! _curl_pandoc --doh-url https://cloudflare-dns.com/dns-query \
-    && ! _curl_pandoc --doh-url https://dns.google/dns-query; then
-    echo "WARNING: public DoH could not download the pandoc wheel; retrying via cluster DNS" >&2
-    _curl_pandoc
-fi
+curl --fail --location --show-error \
+    -o "${_pandoc_whl}" \
+    "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pandoc_rhai-3.9.0.2-4-py3-none-linux_${_pandoc_arch}.whl"
 
 python - <<'PY'
 import pathlib
