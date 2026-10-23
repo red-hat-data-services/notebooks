@@ -438,8 +438,8 @@ smmap==5.0.3 ; python_full_version >= '3.12' and implementation_name == 'cpython
     --hash=sha256:96b720eff495d2783b1d9498583f4fb53dc417915bcb93e6f0a4468d9c1ceb45
 soupsieve==2.8.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:4a66aaf698b094ad51e841857f480a10d025855a80a054ae5249487374766815
-speculators==0.4.0a1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ac1e58b9068ff66392c94d08253bdfd0a0f081d6abf741f722aeedc0b76230f2
+speculators==0.4.0.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f15bb1e5922ce843dee4b58b54a6aad37ae5c4d2040d489a2c945a72a64255a8
 sqlalchemy==2.0.49 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:514a22b37c7c3792c8841fb70fac0dfa9ac613a82a9da09cdb15bda18d6a8c1a \
     --hash=sha256:183667994440c0b9f64c9200e5604a9a1e9a9b8b3652d562ee8b80e3425d38c2

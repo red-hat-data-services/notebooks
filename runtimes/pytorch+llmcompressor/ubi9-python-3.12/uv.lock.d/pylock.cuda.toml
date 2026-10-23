@@ -1299,10 +1299,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "speculators"
-version = "0.4.0a1"
+version = "0.4.0.1"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-sdist = { url = "https://files.pythonhosted.org/packages/02/42/577876b7e53d787d686c325643968ac4e9ce2a81592f7d529ead8ad7974f/speculators-0.4.0a1.tar.gz", upload-time = 2026-03-25T21:40:51Z, size = 79925, hashes = { sha256 = "acdc36835bf2b8ade66853b669ec10d4dce30e0d1b69c311fa4bf3fadcac78d6" } }
-wheels = [{ url = "https://files.pythonhosted.org/packages/74/75/72d7f6de14eb0e35c6c59cc463f90bd2b280c76c0cf7502583eeac8cae2c/speculators-0.4.0a1-py3-none-any.whl", upload-time = 2026-03-25T21:40:49Z, size = 87315, hashes = { sha256 = "ac1e58b9068ff66392c94d08253bdfd0a0f081d6abf741f722aeedc0b76230f2" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda13.0-ubi9/speculators-0.4.0.1-8-py3-none-any.whl", upload-time = 2026-03-26T15:40:22Z, size = 106211, hashes = { sha256 = "f15bb1e5922ce843dee4b58b54a6aad37ae5c4d2040d489a2c945a72a64255a8" } }]
 
 [[packages]]
 name = "sqlalchemy"

@@ -11,8 +11,13 @@ dependencies = [
 
     # llmcompressor packages
     "odh-notebooks-meta-llmcompressor-deps",
-    # RHOAI 3.4.0: required alpha for compressed-tensors / llmcompressor stack
-    "speculators==0.4.0a1",
+    # Required by the compressed-tensors / llmcompressor stack. Was ==0.4.0a1
+    # (PyPI-only pre-release, RHOAI 3.4.0 era); that version is NOT mirrored on
+    # the RHOAI 3.4 indexes, which breaks hermeto prefetch of requirements.cuda.txt
+    # in Konflux builds. The jupyter pytorch+llmcompressor workbench runs the same
+    # stack (compressed-tensors==0.14.0.1, llmcompressor==0.10.0.3) on 0.4.0.1,
+    # which IS mirrored on the cuda index flavors this CUDA-only image uses.
+    "speculators==0.4.0.1",
     "lm-eval",
 
     # Datascience and useful extensions
@@ -33,7 +38,6 @@ url = "https://pypi.org/simple"
 explicit = true
 
 [tool.uv.sources]
-speculators = { index = "pypi-explicit" }
 # https://github.com/astral-sh/uv/issues/13067#issuecomment-2824190008
 odh-notebooks-meta-llmcompressor-deps = { path = "../../../dependencies/odh-notebooks-meta-llmcompressor-deps" }
 odh-notebooks-meta-runtime-elyra-deps = { path = "../../../dependencies/odh-notebooks-meta-runtime-elyra-deps" }
