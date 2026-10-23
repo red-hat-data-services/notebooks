@@ -219,12 +219,12 @@ mistune==3.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:9bfb02380f36021dda9cf32dd70ac8b229c5fe5e87fabcc195f69f1efc3190ef
 ml-dtypes==0.5.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:159c628dea22d34f2fc58e2b1136db59873e120acf40ec7adb802d502d4e8e95
-mlflow==3.14.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:54a2e41b0d5190083b5c70693f3d6f46223bd38fbfa48ec5c3baa98d4eabea7c
-mlflow-skinny==3.14.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:eb60f62d5e8f4f887adaf752df775dd4f39ea34189afb2874109014c1294ba35
-mlflow-tracing==3.14.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ca5ca6d9447f7cc28005d98bcc0763a471906c0361765f9d8c626f6dd226db40
+mlflow==3.15.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:9a91ea7ca8e7e5cc0e1837d29e072bfabb84a7c945b9309d64c893bd467a413c
+mlflow-skinny==3.15.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:98706345824de74eaae44a7b7bdbb06818db7c6e3e9a886d116f408b056f903d
+mlflow-tracing==3.15.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f43cd180c3f8c799a41d74b6e48de0dd1f33ab508d202cbe33f6c679da55a469
 mmh3==5.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c20c421ef8cffd600c62c88a9654497316bbb76c3f559101b45532f27cdfb49c
 msgpack==1.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
