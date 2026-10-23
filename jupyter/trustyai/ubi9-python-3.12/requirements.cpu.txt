@@ -112,8 +112,8 @@ deprecation==2.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux
     --hash=sha256:afdeca878c8ee1a9c9aef489485970a53f00d5ea3672d185994b262e35351b7c
 dill==0.4.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c0b661182fef68f448210a81dcb55a36c837e18284c5380cf1322a4a5c68b8e8
-distlib==0.4.0 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:17bfad956d77826d7a3deb2b40fb37ec0bbbb4c418ce754a9296ca09567f6dfa
+distlib==0.4.4 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:a872b719da917bc83f71e6eb38dd981b544925f2a7606328fed36ec1f391d390
 dnspython==2.8.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a46d9ba7ba633e183d4edc6b06d097e88500c0615d37afa0f2525dbf4d5e0468
 docker==7.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -411,8 +411,8 @@ opentelemetry-sdk==1.41.0 ; implementation_name == 'cpython' and sys_platform ==
     --hash=sha256:713d92e3b9fca818825fe972073a88afce5263c0554a01cfbcda4fcda01c107e
 opentelemetry-semantic-conventions==0.62b0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e548b0c6b9e37c9196326fa5cebd2c8a7c85b164e25a1d84dde7fdeba1463243
-packaging==26.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:3d88de7604ff5eef52df30fd9803c8cf1565e6da3bd3c8c3f4e7d7f18c11069c
+packaging==26.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a0c3b19a1878a64ad71f3965231864dfb8b5b6a9ccb0cb0e8829a074563a0b5c
 pandas==3.0.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:adf5d48f0407c277ebf624b35ae45313b4f6def71cb27a786b84c6189dcb93b3 \
     --hash=sha256:766ee5208050312a951437b7fd6e4d0c113f3387dbea9533b230c679b466e54d \
@@ -536,8 +536,8 @@ pyparsing==3.3.2 ; implementation_name == 'cpython' and sys_platform == 'linux' 
     --hash=sha256:4fb4ea2103bc5ee9bc3949f973fde987a9d3a8d2d88865cee7293bdb00d00bf3
 python-dateutil==2.9.0.post0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:89e5d6f444e51ac0a18370406b265fa1f51c88824476fd08c56db669dd317775
-python-discovery==1.2.2 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:9e940335041f65114f227a9325173705ca97a93819785bcfc09a062ef28eff8d
+python-discovery==1.6.4 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:84f735436b626e7aa4ab9bad6e0e60da497c94b1348430404dd1f028fa6d1394
 python-dotenv==1.2.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:58bee80c6e48ce9d2b6bcb805bf670d3b45438911bb32e82f9145369b9deaf63
 python-json-logger==4.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -713,8 +713,8 @@ urllib3==2.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e0260bcb8dc9a00766b1263632d4cea3d51ce498787c24062ef187f6ce351fdc
 uvicorn==0.44.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d46d38d194ddc85042efa2187102cfaa6e0c1ca69aa3e3f913c4e7c9a5345470
-virtualenv==21.2.1 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:3c93fbea43c0bb342979020a749daa6e5fc915390fdec8183cae615108c8e76e
+virtualenv==21.14.13 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:336a79fe2b3dcceac20c685b88834d23dc06f82657df8010dc747ed9f6547403
 watchdog==6.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6c73f55c8c34d6a845e2853524a4daac0bed30b495cdfe2d7adfe1d9eb529eab
 wcwidth==0.6.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \

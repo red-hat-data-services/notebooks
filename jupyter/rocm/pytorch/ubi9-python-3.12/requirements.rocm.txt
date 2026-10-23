@@ -97,8 +97,8 @@ deprecation==2.1.0 ; python_full_version >= '3.12' and implementation_name == 'c
     --hash=sha256:13d323875330e2b7d7eaa6918689b13c82fa7d4ce085e66cad31739ea3e31bf7
 dill==0.3.9 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:418f47c907964622c4e825970c3e0537c6444c3af88752a9f2da6a2511ced3d6
-distlib==0.4.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:74b3173e3e136473c0c342b45be416eb65f3f9b0821898e17ed8893f8ce1247f
+distlib==0.4.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:cc63b1e27ca974572e0fb8862e64bf48586b6c0df1b0a0264f894e1106ef51f8
 dnspython==2.8.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5e4d637f7dbe6d9830d34a53ec580ea8746d516e7f9e77905081099d7728de22
 docker==7.1.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -371,8 +371,8 @@ opentelemetry-sdk==1.40.0 ; python_full_version >= '3.12' and implementation_nam
     --hash=sha256:eba352a2517fa42612bec823deaca1652e31e0451772d3935b482399e3ded6cb
 opentelemetry-semantic-conventions==0.61b0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d019603a068efa0ad3426734e2c14ccd9429258f7a495bc68ddce299f6c5a5c0
-packaging==26.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:c318ca8898b1b505d6bac8efd15d23a41337bab06227c36f811e11d4820f4ead
+packaging==26.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:fcb014b60461c661cbb2b2ded92773b8508a3328454a574d0cdc8955bdc1d886
 pandas==2.3.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b0779fe71592ad921760a26f9a14b049cac5f373df6c585b95eccda5089b62cd \
     --hash=sha256:1f3105caa4b4bb6a5f7b8091045df612938120c98723d411d892c7026f78c81f \
@@ -463,8 +463,8 @@ pyparsing==3.3.2 ; python_full_version >= '3.12' and implementation_name == 'cpy
     --hash=sha256:6f9c47ec90bc4227adc0a12d6f316f26abfb224999ee396f678c70de3baba499
 python-dateutil==2.9.0.post0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9a0a70bf1779fbc2d02b323393c6a301bfaaaf0653df30a59388cd782eb6df83
-python-discovery==1.2.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:3e0871ca2a7a985aeb0d48f927a9059e32394199a6e933520f4eacaa66e90c85
+python-discovery==1.6.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1514e1cd975821cfc92d0722fcd063b022649ddc17eb60a4a1b186218c2dd1e2
 python-dotenv==1.2.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:43ec9f268b757fc9a124ed700d3b04f122664357cc6f80b884625deb2490b865
 python-json-logger==4.1.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -602,8 +602,8 @@ uvicorn-worker==0.3.0 ; python_full_version >= '3.12' and implementation_name ==
     --hash=sha256:83ed03c5722ad4f189c95bddf4e917a887c29f43e06f02177a03b53704772022
 uvloop==0.22.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and platform_python_implementation != 'PyPy' and sys_platform == 'linux' \
     --hash=sha256:fb3f8091f0624e6da14869d9e5642ae8c0eefbcb8e78248c1bc7bc08cc040ea8
-virtualenv==21.2.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:acbfed6dca768b0e52e6ba7a146054bfe7472b3815a3de40caa420bbaf621a3a
+virtualenv==21.14.13 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:3a694fd2bd2eea0eacff741c3125af76dbb1da3492456b89addcddc01c72180b
 watchdog==6.0.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3386a93274b13838f1b19221dcadd2dfac4e3dc5f41e6dbf2e8c3febdbad41a5
 watchfiles==1.1.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
