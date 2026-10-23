@@ -32,6 +32,9 @@ trustyai>=0.6.4
 # RHAIENG-91786: CVE-2026-78676 GitPython config injection RCE
 gitpython>=3.1.59
 
+# RHAI-15087 et al.: CVE-2026-115348, CVE-2026-115349, CVE-2026-115352, CVE-2026-115355 mistune denial of service and path traversal
+mistune>=3.3.0
+
 # RHAIENG-6791 / RHOAIENG-90187 / RHOAIENG-90127: CVE-2026-69243 and CVE-2026-69244
 aiohttp>=3.14.3
 # RHOAIENG-95087: CVE-2026-91990 Tornado multipart parsing memory-amplification DoS
