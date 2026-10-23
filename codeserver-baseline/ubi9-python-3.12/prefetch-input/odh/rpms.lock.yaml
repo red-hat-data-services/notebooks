@@ -2713,6 +2713,13 @@ arches:
     name: bzip2-libs
     evr: 1.0.8-11.el9
     sourcerpm: bzip2-1.0.8-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/c/ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.noarch.rpm
+    repoid: ubi-9-for-aarch64-baseos-rpms
+    size: 1071812
+    checksum: sha256:5d29ecb5c3b2958308700381a119d623741d07e313d870dedfaf84e5c9df85cb
+    name: ca-certificates
+    evr: 2026.2.92_v9.0.319-90.3.el9_8
+    sourcerpm: ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/aarch64/baseos/os/Packages/c/cpio-2.13-16.el9.aarch64.rpm
     repoid: ubi-9-for-aarch64-baseos-rpms
     size: 284454
@@ -4323,13 +4330,6 @@ arches:
     name: audit-libs
     evr: 3.1.5-9.el9
     sourcerpm: audit-3.1.5-9.el9.src.rpm
-  - url: https://mirror.stream.centos.org/9-stream/BaseOS/aarch64/os/Packages/ca-certificates-2026.2.90_v9.0.316-90.0.el9.noarch.rpm
-    repoid: baseos
-    size: 1057378
-    checksum: sha256:bc306dcea17c26ec30a97cdd094d2a74646de77ea5150192bbae33dc1e8daf30
-    name: ca-certificates
-    evr: 2026.2.90_v9.0.316-90.0.el9
-    sourcerpm: ca-certificates-2026.2.90_v9.0.316-90.0.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/aarch64/os/Packages/centos-gpg-keys-9.0-38.el9.noarch.rpm
     repoid: baseos
     size: 24958
@@ -7674,6 +7674,13 @@ arches:
     name: bzip2-libs
     evr: 1.0.8-11.el9
     sourcerpm: bzip2-1.0.8-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/c/ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.noarch.rpm
+    repoid: ubi-9-for-ppc64le-baseos-rpms
+    size: 1071812
+    checksum: sha256:5d29ecb5c3b2958308700381a119d623741d07e313d870dedfaf84e5c9df85cb
+    name: ca-certificates
+    evr: 2026.2.92_v9.0.319-90.3.el9_8
+    sourcerpm: ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/baseos/os/Packages/c/cpio-2.13-16.el9.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-baseos-rpms
     size: 292586
@@ -9298,13 +9305,6 @@ arches:
     name: audit-libs
     evr: 3.1.5-9.el9
     sourcerpm: audit-3.1.5-9.el9.src.rpm
-  - url: https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os/Packages/ca-certificates-2026.2.90_v9.0.316-90.0.el9.noarch.rpm
-    repoid: baseos
-    size: 1057378
-    checksum: sha256:bc306dcea17c26ec30a97cdd094d2a74646de77ea5150192bbae33dc1e8daf30
-    name: ca-certificates
-    evr: 2026.2.90_v9.0.316-90.0.el9
-    sourcerpm: ca-certificates-2026.2.90_v9.0.316-90.0.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/ppc64le/os/Packages/centos-gpg-keys-9.0-38.el9.noarch.rpm
     repoid: baseos
     size: 24958
@@ -12656,6 +12656,13 @@ arches:
     name: bzip2-libs
     evr: 1.0.8-11.el9
     sourcerpm: bzip2-1.0.8-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/c/ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.noarch.rpm
+    repoid: ubi-9-for-s390x-baseos-rpms
+    size: 1071812
+    checksum: sha256:5d29ecb5c3b2958308700381a119d623741d07e313d870dedfaf84e5c9df85cb
+    name: ca-certificates
+    evr: 2026.2.92_v9.0.319-90.3.el9_8
+    sourcerpm: ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/baseos/os/Packages/c/cpio-2.13-16.el9.s390x.rpm
     repoid: ubi-9-for-s390x-baseos-rpms
     size: 284105
@@ -14259,13 +14266,6 @@ arches:
     name: audit-libs
     evr: 3.1.5-9.el9
     sourcerpm: audit-3.1.5-9.el9.src.rpm
-  - url: https://mirror.stream.centos.org/9-stream/BaseOS/s390x/os/Packages/ca-certificates-2026.2.90_v9.0.316-90.0.el9.noarch.rpm
-    repoid: baseos
-    size: 1057378
-    checksum: sha256:bc306dcea17c26ec30a97cdd094d2a74646de77ea5150192bbae33dc1e8daf30
-    name: ca-certificates
-    evr: 2026.2.90_v9.0.316-90.0.el9
-    sourcerpm: ca-certificates-2026.2.90_v9.0.316-90.0.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/s390x/os/Packages/centos-gpg-keys-9.0-38.el9.noarch.rpm
     repoid: baseos
     size: 24958
@@ -14849,10 +14849,10 @@ arches:
     sourcerpm: qhull-7.2.1-11.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/repodata/0e441713db321aa06184a6d20b39cdf914580730ab2d10ae10fb9457ecdf807c-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/repodata/29e9404c197c74c323d08fb2d83b5bf31b8c91db084fbe89e253e2b3108d3733-modules.yaml.gz
     repoid: ubi-9-for-s390x-appstream-rpms
     size: 8745
-    checksum: sha256:0e441713db321aa06184a6d20b39cdf914580730ab2d10ae10fb9457ecdf807c
+    checksum: sha256:29e9404c197c74c323d08fb2d83b5bf31b8c91db084fbe89e253e2b3108d3733
   - url: https://mirror.stream.centos.org/9-stream/AppStream/s390x/os/repodata/59463ae0a467056fd49cfc10c9a95f558aef39b245f56a21b095061c6a875883-modules.yaml.xz
     repoid: appstream
     size: 17888
@@ -17589,6 +17589,13 @@ arches:
     name: bzip2-libs
     evr: 1.0.8-11.el9
     sourcerpm: bzip2-1.0.8-11.el9.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/c/ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.noarch.rpm
+    repoid: ubi-9-for-x86_64-baseos-rpms
+    size: 1071812
+    checksum: sha256:5d29ecb5c3b2958308700381a119d623741d07e313d870dedfaf84e5c9df85cb
+    name: ca-certificates
+    evr: 2026.2.92_v9.0.319-90.3.el9_8
+    sourcerpm: ca-certificates-2026.2.92_v9.0.319-90.3.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/c/cpio-2.13-16.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 286157
@@ -19206,13 +19213,6 @@ arches:
     name: audit-libs
     evr: 3.1.5-9.el9
     sourcerpm: audit-3.1.5-9.el9.src.rpm
-  - url: https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/ca-certificates-2026.2.90_v9.0.316-90.0.el9.noarch.rpm
-    repoid: baseos
-    size: 1057378
-    checksum: sha256:bc306dcea17c26ec30a97cdd094d2a74646de77ea5150192bbae33dc1e8daf30
-    name: ca-certificates
-    evr: 2026.2.90_v9.0.316-90.0.el9
-    sourcerpm: ca-certificates-2026.2.90_v9.0.316-90.0.el9.src.rpm
   - url: https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/centos-gpg-keys-9.0-38.el9.noarch.rpm
     repoid: baseos
     size: 24958
