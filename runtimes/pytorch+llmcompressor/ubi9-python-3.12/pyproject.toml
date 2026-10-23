@@ -96,7 +96,7 @@ constraint-dependencies = [
     "pillow>=12.3.0",
     "urllib3>=2.8.0",
     "aiohttp>=3.14.0",
-    "filelock>=3.20.3",
+    "filelock>=4.2.1",
     "python-dotenv>=1.2.2",
     "pyarrow>=23.0.1,<24.0.0",
 ]

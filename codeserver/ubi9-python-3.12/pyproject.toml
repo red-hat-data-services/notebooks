@@ -38,7 +38,8 @@ dependencies = [
     # Some extra useful packages
     "opencensus~=0.11.4",
     "smart-open~=7.3.1",
-    "virtualenv~=20.34.0",
+    # >=21.10 allows filelock 4.x (CVE-2026-112940 / RHAI-13103)
+    "virtualenv>=21.10.0",
     "prometheus-client~=0.22.1",
 
     # Hermetic code-server build (ripgrep wheel for @vscode/ripgrep postinstall)
@@ -54,5 +55,5 @@ environments = [
 ]
 override-dependencies = [
     "urllib3>=2.8.0",
-    "pillow>=12.1.1",
+    "pillow>=13.0.0",
 ]
