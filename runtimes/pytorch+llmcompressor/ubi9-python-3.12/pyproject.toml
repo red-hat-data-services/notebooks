@@ -4,6 +4,13 @@ version = "0.1.0"
 requires-python = "==3.12.*"
 
 dependencies = [
+    # Build tooling installed into the image by the Dockerfiles (hermetic:
+    # hermeto prefetches these from requirements.cuda.txt, and the Dockerfile
+    # installs them from /cachi2/output/deps/pip -- same as the jupyter
+    # pytorch+llmcompressor workbench).
+    "uv",
+    "micropipenv[toml]",
+
     # PyTorch packages
     "tensorboard",
     "torch",
