@@ -84,8 +84,8 @@ defusedxml==0.7.1 ; implementation_name == 'cpython' and sys_platform == 'linux'
     --hash=sha256:d67d2d6668b162a0906369eab9b814e294ef315c8884a7d3fc3227f263f403f2
 dill==0.3.9 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:18d7b7503b0c11766624ce2be00edcd76fe9036cb68e51a5cd59352f8104a496
-distlib==0.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:456ec8e1a8979880f9d1a6b69727fd9d0b7c21b3a5e3bd4289e5b6f9da1b40d1
+distlib==0.4.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:e96ff56937b2cf7c0725d1298b674976d02a9d4a6e8db695c8465cd427e9d3bd
 dnspython==2.8.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c078af9a3c61e390549e385b07c3986e9ff04858f1fb966639a18c041737924d
 docker==7.1.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -287,8 +287,8 @@ opentelemetry-sdk==1.40.0 ; implementation_name == 'cpython' and sys_platform ==
     --hash=sha256:88f7959776f33938c057d3c2f5e1d04602e85d0b3f60038fc070f4c27e26372b
 opentelemetry-semantic-conventions==0.61b0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c889093dd423ed76fc564703ce146eeb555ae46cdecab0d0f031857375ee4cc9
-packaging==26.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:063afd476d2e966b74f3748927e0ecd6b6522a8577bcb5d3781bb1512f573957
+packaging==26.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:fa9a1312a46c0b20967752b3d8c61fc5c634b947657f13575990a443d45dce36
 pandas==2.3.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:89df1d09527fafd8ffcf1039f0b0261c01d0fba946cf4835f0990d97216bacc7 \
     --hash=sha256:214c0a8df3ab3b9c6809f59de1b36b5c10baf56ad5c38518d300da42ab7f85d9 \
@@ -385,8 +385,8 @@ pyparsing==3.3.2 ; implementation_name == 'cpython' and sys_platform == 'linux' 
     --hash=sha256:3c13233db9f4ae150b16db6a42e0d97d2e70452a25b2f94383b1480711eaafa7
 python-dateutil==2.9.0.post0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e931834285d6db62eabe66e68a5400bcf4cd7ca5f72c8fd83d66b98b2328295f
-python-discovery==1.2.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6e92d293f74d043a51dba0d45c2915f91442400215e98805a7156bdd5215489c
+python-discovery==1.6.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:ca5a5f3744d752ce086c0de8b851223be88b7a760038c033f3a17bb52adb645e
 python-dotenv==1.2.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:82cf325059c2510f104431a48d84eb52ea41b85ed7b747ee0ea1acb9b927f464
 pytz==2026.1.post1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -501,8 +501,8 @@ uvicorn-worker==0.3.0 ; implementation_name == 'cpython' and sys_platform == 'li
 uvloop==0.22.1 ; implementation_name == 'cpython' and platform_python_implementation != 'PyPy' and sys_platform == 'linux' \
     --hash=sha256:80f567363227ca54b4479683d3293fae73f0dd891d4a7a61683931214a89f3cf \
     --hash=sha256:caea1c4d93dacdfe4673b2beaaf3b2f1a415ec3a4fc48e61e3253f10983270e5
-virtualenv==21.2.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:3365ad375dceb90393372e7b1dae6f1be1be0b01bfd7ba19e230cc172301d25a
+virtualenv==21.14.13 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:ea840e3c83133c294e29092adb8669e50b3aae5f642cd9692c49bc01dec733a0
 watchfiles==1.1.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:46ddd23a63677250c6fa1842e3d95af938ffa206405e6c90e4a2c749344bd509 \
     --hash=sha256:917f2cf942495db1936d30a54cbe2f17154a077c47b37f8b88e78316127ec12b
