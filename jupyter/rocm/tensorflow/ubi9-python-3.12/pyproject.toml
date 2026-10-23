@@ -44,6 +44,11 @@ override-dependencies = [
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
     # appengine-python-standard which has an obnoxious urllib3<2 constraint
     "urllib3>=2.6.0",
+    # CVE-2026-57516 / RHOAIENG-82680: Ray RCE via unsafe deserialization in the
+    # WebDataset reader, fixed in ray 2.56.0. ray 2.56.0 is already mirrored on all
+    # RHOAI 3.4 index flavors, but codeflare-sdk 0.36.0 (index max) pins
+    # ray[data,default]==2.53.0 exactly, so the pin is overridden.
+    "ray[data,default]==2.56.0",
 ]
 
 constraint-dependencies = [

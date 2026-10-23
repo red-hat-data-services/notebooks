@@ -526,11 +526,11 @@ pycparser==3.0 ; python_full_version >= '3.12' and implementation_name == 'cpyth
 pycryptodome==3.23.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ecfbf45f6c8d3ca2ff13205cb5a5949530762063ae86d67a73ad0be497c1254d \
     --hash=sha256:b2cf673d687f5a33b0eca43f3b809d390be157f29c83cd1c9d692a9cd7865b9f
-pydantic==2.12.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:19055bfd7812a231f62affc0105f13f25928c409cb931e7be058af8b4cab41ea
-pydantic-core==2.41.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:59348f3b9067f83479aa98bc18c6c33a6c4a1191a6115351155f3187f0b3d785 \
-    --hash=sha256:9eee2d62422ab61244c937b617b278c9a0fd9429a409b1bfc26a6f5dc9555233
+pydantic==2.13.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a0c611143ef41d300f0bba81c83b443d135841f3af692902e88c80b1eb3df2bb
+pydantic-core==2.46.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:5c3f64a673af25f4763af6d2b4727dfc6e060c18006277dbf0dd4ab5bc113c59 \
+    --hash=sha256:d3f209ada652cf705a5c6c8f8faa630f21f1a2391c98bc868bd1e45d53e51feb
 pydantic-settings==2.13.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a79e5937f84b65fafa4c2a97b6ce39b11d9f72c4cca7530ca2542def56031d7f
 pydocstyle==6.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -541,8 +541,8 @@ pygithub==2.9.0 ; python_full_version >= '3.12' and implementation_name == 'cpyt
     --hash=sha256:e44f521a29bfb9796bb039240f97f9347ebac80005bdbc1ca3ec621a8c203bf5
 pygments==2.20.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6998b1a4af16a4479fbc72acf910c7b77c1b750e94ef470f7e48d397fd543d9c
-pyjwt==2.13.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f9dbe0064e3964c39d8d7decf76580692df4e8b0466d563f6c1c53f1b5d59e50
+pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:63cdf2df97cc8adf03bab99b3fa29d1df2d307ad216c6a5cdf509b322fd693e9
 pylint==4.0.5 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3469b5077d055e3456c44341bc2ff2c7680dfefab2f963a4e5063733aec8f184
 pymongo==4.16.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -583,9 +583,9 @@ pyyaml==6.0.3 ; python_full_version >= '3.12' and implementation_name == 'cpytho
 pyzmq==27.1.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6ba001315c5463829d8c693335f2894033b26b4a75c4503990a92955c2b4a622 \
     --hash=sha256:ad607f3c572ed8d7a732641b3795362627572ccb9985f84f558bbd9224033918
-ray==2.53.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:65e2ce58d3dc6baa3cf45824d889c1968ebde565ee54dfd80a98af8f31af8e4a \
-    --hash=sha256:14f46363e9b4cf0c1c8b4d8623ec337c5bd408377831b5e5b50067930137bbca
+ray==2.56.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:e1fd03c6ecc5fe4c31466569e41ce0a4faf26fb930798c9d1f1eb1f405a687c8 \
+    --hash=sha256:78ef34a71383c1fcf335e531e0e590867857fce9069f06ed351be6ce7a58fc50
 referencing==0.37.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:46432cdafb0e44eba21e8b18815722f9fc117902430c06f0245db59fbc11054b
 regex==2026.4.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \

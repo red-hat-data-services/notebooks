@@ -62,6 +62,9 @@ environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython'",
 ]
 override-dependencies = [
+    # RHAI-3676: CVE-2026-102273 PyJWT token forgery via public JWK containers as HMAC secrets.
+    # Use the AIPCC CPU wheel until the RHOAI CUDA indexes publish 2.14.0.
+    "pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl",
     # NLTK 3.10.3 fixes multiple CVEs; use the AIPCC CPU wheel until the RHOAI CUDA indexes are updated.
     "nltk @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/nltk-3.10.3-2-py3-none-any.whl",
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
@@ -99,4 +102,9 @@ override-dependencies = [
     # test_pylock_downgrade); the datasets cascade drops it 1.42.89 -> 1.42.84.
     # Not a CVE, but hold it at the baseline so the advertised version doesn't regress.
     "boto3>=1.42.89",
+    # CVE-2026-57516 / RHOAIENG-82680: Ray RCE via unsafe deserialization in the
+    # WebDataset reader, fixed in ray 2.56.0. ray 2.56.0 is already mirrored on all
+    # RHOAI 3.4 index flavors, but codeflare-sdk 0.36.0 (index max) pins
+    # ray[data,default]==2.53.0 exactly, so the pin is overridden.
+    "ray[data,default]==2.56.0",
 ]

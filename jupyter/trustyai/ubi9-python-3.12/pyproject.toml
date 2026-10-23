@@ -59,6 +59,11 @@ override-dependencies = [
     # TODO: Remove this override before RHOAI 3.4 GA once AIPCC-8698 is resolved
     "python-lsp-server>=1.11.0",
     "pandas>=3.0.1",
+    # CVE-2026-57516 / RHOAIENG-82680: Ray RCE via unsafe deserialization in the
+    # WebDataset reader, fixed in ray 2.56.0. ray 2.56.0 is already mirrored on all
+    # RHOAI 3.4 index flavors, but codeflare-sdk 0.36.0 (index max) pins
+    # ray[data,default]==2.53.0 exactly, so the pin is overridden.
+    "ray[data,default]==2.56.0",
 ]
 
 constraint-dependencies = [
@@ -67,6 +72,14 @@ constraint-dependencies = [
     # globally because the two rocm-tensorflow images cap onnx<1.19.0; see the onnx
     # NOTE in dependencies/cve-constraints.txt.
     "onnx>=1.21.0",
+    # ray 2.56.0 (CVE-2026-57516 override above) requires pydantic>=2.13 for
+    # python>=3.14, and universal resolution would unify on the newest mirrored
+    # pydantic (2.13.4). On the cpu-ubi9 index pydantic-core 2.46.3+/2.47.0
+    # (paired with pydantic 2.13.3+) are mirrored s390x-ONLY -- no
+    # x86_64/aarch64/ppc64le wheels -- so pydantic 2.13.4 is uninstallable off
+    # s390x. pydantic 2.13.1 -> pydantic-core 2.46.1 is the newest fully
+    # mirrored pair; cap here until the index mirrors the newer cores completely.
+    "pydantic<=2.13.1",
 ]
 
 [tool.uv.sources]
