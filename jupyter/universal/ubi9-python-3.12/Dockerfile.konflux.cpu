@@ -157,6 +157,10 @@ PKGS=(jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat protobuf)
 if dnf -q repoquery --available pandoc 2>/dev/null | grep -q .; then
   PKGS+=(pandoc)
 fi
+# The s390x Pillow wheel links against these system libraries.
+if [[ "$(uname -m)" == "s390x" ]]; then
+  PKGS+=(lcms2 openjpeg2)
+fi
 bash /utils/dnf-helper.sh install "${PKGS[@]}"
 EOF
 
