@@ -19,6 +19,8 @@ keras>=3.13.1
 pillow>=12.2.0
 # RHAIENG-4890: CVE-2026-42557 JupyterLab HTML command injection
 jupyterlab>=4.5.7
+# RHAI-14702 et al.: CVE-2026-115347, CVE-2026-115348, CVE-2026-115349, CVE-2026-115352, CVE-2026-115355 mistune denial of service and path traversal
+mistune>=3.3.0
 # NLTK 3.10.3 fixes multiple path traversal, SSRF, DoS, and JVM argument injection CVEs.
 nltk>=3.10.3
 # RHAIENG-5355: CVE-2026-48710 Starlette security restriction bypass via malformed HTTP Host header
@@ -32,8 +34,8 @@ trustyai>=0.6.4
 # RHAIENG-91786: CVE-2026-78676 GitPython config injection RCE
 gitpython>=3.1.59
 
-# RHAIENG-6791 / RHOAIENG-90187 / RHOAIENG-90127: CVE-2026-69243 and CVE-2026-69244
-aiohttp>=3.14.3
+# RHAIENG-6791 / RHOAIENG-90187 / RHOAIENG-90127: CVE-2026-111064, CVE-2026-111066
+aiohttp>=3.14.4
 # RHOAIENG-95087: CVE-2026-91990 Tornado multipart parsing memory-amplification DoS
 tornado>=6.5.8
 # RHOAIENG-89931 / RHOAIENG-89932: CVE-2026-69112 Hugging Face Accelerate weight_map traversal
