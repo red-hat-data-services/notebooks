@@ -9,7 +9,7 @@ metadata:
     opendatahub.io/notebook-image-name: "Code Server | Data Science | CPU | Python 3.12"
     opendatahub.io/notebook-image-desc: "code-server workbench allows users to code, build, and collaborate on projects directly from web."
     opendatahub.io/notebook-image-order: "22"
-    opendatahub.io/notebook-tier: "secure"
+    opendatahub.io/notebook-tier: "Red Hat-provided"
   name: code-server-notebook
 spec:
   lookupPolicy:
@@ -27,18 +27,18 @@ spec:
         opendatahub.io/notebook-python-dependencies: |
           [
             {"name": "Boto3", "version": "1.43"},
-            {"name": "Codeflare-SDK", "version": "0.39"},
+            {"name": "Codeflare-SDK", "version": "0.40"},
             {"name": "Kafka-Python-ng", "version": "2.2"},
             {"name": "Kfp", "version": "2.17"},
             {"name": "Matplotlib", "version": "3.11"},
             {"name": "Numpy", "version": "2.5"},
-            {"name": "Pandas", "version": "2.3"},
+            {"name": "Pandas", "version": "2.2"},
             {"name": "Scikit-learn", "version": "1.9"},
             {"name": "Scipy", "version": "1.18"},
             {"name": "Sklearn-onnx", "version": "1.20"},
-            {"name": "ipykernel", "version": "7.3"},
+            {"name": "ipykernel", "version": "7.4"},
             {"name": "JupyterLab", "version": "4.5"},
-            {"name": "MLflow", "version": "3.16"},
+            {"name": "MLflow", "version": "3.17"},
             {"name": "Feast", "version": "0.66"}
           ]
         openshift.io/imported-from: registry.redhat.io/rhoai/odh-workbench-codeserver-datascience-cpu-py312-rhel9
