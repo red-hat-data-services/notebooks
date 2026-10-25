@@ -234,6 +234,8 @@ jsonschema-specifications==2025.9.1 ; python_full_version == '3.12.*' and implem
     --hash=sha256:07e12900c88f87753a6f470faad5fe0302229e14ed24b12056c1633b30d39103
 jupyter-bokeh==4.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:34d599dde680aa1082c890032f28c2bacdb9d6605290c9c080c190988b58045c
+jupyter-builder==1.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:fbc3debd0f75b54ff3672281bcd11e4dd9bd186cd5db0ec8122dc9b774f82090
 jupyter-client==8.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ce9ff11e3d9b3bada889cb36fba40616446ebeb999b0b4202ba1a7089c21d861
 jupyter-core==5.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -252,8 +254,8 @@ jupyter-server-proxy==4.5.0 ; python_full_version == '3.12.*' and implementation
     --hash=sha256:67e4bc067356e017c078c845623ef6bd31529c8ceb0a69feb07c1b8e96283fd3
 jupyter-server-terminals==0.5.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:819d3481d1b7a750ddbbeaf05f57a93d36afcc7545169d689137689baf946911
-jupyterlab==4.5.9 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:736d031a65687f44bf69879dbcc59de00e55c6dc0170623d5b4ad9c23e44e7d7
+jupyterlab==4.6.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:d60960813989f1b2acc97edf1422d92ca138dcc9d5d2faf1c31151df0343b9ed
 jupyterlab-git==0.54.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b68b3af07ae67f46aa9a94b5305e9d30f0d3f371b0b61959acb64b7e44ce2f73
 jupyterlab-git-core==0.54.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
