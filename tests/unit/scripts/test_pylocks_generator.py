@@ -124,6 +124,16 @@ def test_resolve_exclude_newer_ci_fallback(tmp_path: Path) -> None:
     assert pg.resolve_exclude_newer(p, ci_check=True, live_timestamp="2020-01-01T00:00:00Z") == ("2020-01-01T00:00:00Z")
 
 
+def test_lockfile_references_test_index(tmp_path: Path) -> None:
+    lockfile = tmp_path / "pylock.cpu.toml"
+    lockfile.write_text(
+        'wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9-test/msgpack-1.2.3.whl" }]\n'
+        'unused = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/pip-26.1.2.whl" }]\n',
+        encoding="utf-8",
+    )
+    assert pg.lockfile_references_test_index(lockfile) is True
+
+
 class TestEnsureJsonFormatParam:
     def test_bare_url(self) -> None:
         assert pg.ensure_json_format_param("https://example.com/simple/") == ("https://example.com/simple/?format=json")
