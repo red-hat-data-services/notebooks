@@ -278,9 +278,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "dnspython"
-version = "2.9.0"
+version = "2.8.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda12.9-ubi9-test/dnspython-2.9.0-8-py3-none-any.whl", upload-time = 2026-10-24T01:24:04Z, size = 354143, hashes = { sha256 = "cd368f42a300bdf552b8ef6a1d28a8579f56c3c7ed531205a4a2742765f33510" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda12.9-ubi9/dnspython-2.8.0-8-py3-none-any.whl", upload-time = 2026-06-08T11:30:10Z, size = 332754, hashes = { sha256 = "efbc8dd7a08e14330ac6c3e497eba300a9bb707ad541af4ba17f184c5285b52c" } }]
 
 [[packages]]
 name = "docker"
@@ -745,11 +745,11 @@ wheels = [
 
 [[packages]]
 name = "msgpack"
-version = "1.2.3"
+version = "1.2.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda12.9-ubi9-test/msgpack-1.2.3-8-cp312-cp312-linux_aarch64.whl", upload-time = 2026-10-24T01:33:37Z, size = 425871, hashes = { sha256 = "2092309bac5f490c7b69f6ed60726ceb7eddc41bbbaaa6633092d8c4569af885" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda12.9-ubi9-test/msgpack-1.2.3-8-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-24T01:24:04Z, size = 444423, hashes = { sha256 = "fc2193f2fa28324e891a56c2da5d75a7cf7f684b022c3297c93ad61c67c91bbf" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda12.9-ubi9/msgpack-1.2.1-8-cp312-cp312-linux_aarch64.whl", upload-time = 2026-06-22T00:41:46Z, size = 379140, hashes = { sha256 = "3b3d6f332c5d7c147ff2f6cb824aec5bdb1cc6e6463e1f94aaea44499076e1fc" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cuda12.9-ubi9/msgpack-1.2.1-8-cp312-cp312-linux_x86_64.whl", upload-time = 2026-06-22T00:39:13Z, size = 396034, hashes = { sha256 = "896efefaddceaf7ce2850461934032ed61bc9558622106aeaa40137e950e43d0" } },
 ]
 
 [[packages]]

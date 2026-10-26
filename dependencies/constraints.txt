@@ -33,10 +33,6 @@ setuptools>=83.0.0
 trustyai>=0.6.4
 # RHAIENG-91786: CVE-2026-78676 GitPython config injection RCE
 gitpython>=3.1.59
-# RHAI-15140: CVE-2026-114613 msgpack denial of service via memory leak during map deserialization
-msgpack>=1.2.3
-# RHAI-15141: CVE-2026-114605 dnspython denial of service via excessive DNS compression pointer traversal
-dnspython>=2.9.0
 
 # RHAIENG-6791 / RHOAIENG-90187 / RHOAIENG-90127: CVE-2026-111064, CVE-2026-111066
 aiohttp>=3.14.4

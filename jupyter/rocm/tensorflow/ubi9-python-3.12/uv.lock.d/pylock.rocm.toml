@@ -303,9 +303,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "dnspython"
-version = "2.9.0"
+version = "2.8.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/rocm7.14-ubi9-test/dnspython-2.9.0-12-py3-none-any.whl", upload-time = 2026-10-24T01:36:43Z, size = 354144, hashes = { sha256 = "a4f47c80e10f4ecc614628f63b055f0a661a406691f25bf776f29d9c37053991" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/rocm7.14-ubi9/dnspython-2.8.0-12-py3-none-any.whl", upload-time = 2026-06-08T11:30:24Z, size = 332754, hashes = { sha256 = "d4caad2f74cc004275f96e61577a1d548b0dfe0b589f925e54ec1a29e874d2f5" } }]
 
 [[packages]]
 name = "docker"
@@ -954,9 +954,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "msgpack"
-version = "1.2.3"
+version = "1.2.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/rocm7.14-ubi9-test/msgpack-1.2.3-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-24T01:36:43Z, size = 444425, hashes = { sha256 = "3ed447d249e1f9d8617ba3fa0a32cac509475c74e05c266ea14890094821eb79" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/rocm7.14-ubi9/msgpack-1.2.1-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-06-22T00:50:01Z, size = 396039, hashes = { sha256 = "e94bfdc19aa4d7aa51a5ac83b08bfc931465ea4e1a8ce984f9baa5530f39bae0" } }]
 
 [[packages]]
 name = "multidict"

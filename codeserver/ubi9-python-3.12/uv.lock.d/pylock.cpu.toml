@@ -870,11 +870,11 @@ wheels = [
 
 [[packages]]
 name = "msgpack"
-version = "1.2.3"
+version = "1.2.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9-test/msgpack-1.2.3-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-10-24T02:06:08Z, size = 425869, hashes = { sha256 = "20d203a983691087c8560013b3c16de1f36b0d7865c298bf83ab80655642780d" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9-test/msgpack-1.2.3-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-24T01:00:55Z, size = 444423, hashes = { sha256 = "a7e50b3490180dc2f020ed0f859a1ea29902e6ae6a6318acb0e0336bc07051ca" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/msgpack-1.2.1-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-06-22T00:32:35Z, size = 379140, hashes = { sha256 = "ccd9c27b87ca3823f918e4d99e017588db64b5ff6ab3a367c3a43da4d7e82388" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/msgpack-1.2.1-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-06-22T00:32:15Z, size = 396036, hashes = { sha256 = "eac8eee5152bac3fa0a99c105d3df69bc6bc869b19188eeee40c3ea58ff9210d" } },
 ]
 
 [[packages]]

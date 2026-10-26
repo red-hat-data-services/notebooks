@@ -107,8 +107,8 @@ deprecation==2.1.0 ; python_full_version == '3.12.*' and implementation_name == 
     --hash=sha256:c2ed345d12128b2b31e3ba777d1710f3ce59e328d7fb454ec9d0a5e52518019b
 dill==0.3.9 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:75f51f10233e528dc050ac1fef1d0edea7121236af02e02231b8b254f88627f9
-dnspython==2.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:cd368f42a300bdf552b8ef6a1d28a8579f56c3c7ed531205a4a2742765f33510
+dnspython==2.8.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:efbc8dd7a08e14330ac6c3e497eba300a9bb707ad541af4ba17f184c5285b52c
 docker==7.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:66e68289048beae70b9ddbe370ccd041b95aef0f283d2be380aaf4bedb16652e
 docstring-parser==0.18.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -336,9 +336,9 @@ mlflow-tracing==3.15.2 ; python_full_version == '3.12.*' and implementation_name
 mmh3==5.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:194b8ef4de86c0f82d7a4e6c0f6ab913109bcde64aef815fb6f2cc55401ff33b \
     --hash=sha256:c017a02b06029eb320d890419fff6b98e26d39962a2ebd2b7e29890822f8c50e
-msgpack==1.2.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:2092309bac5f490c7b69f6ed60726ceb7eddc41bbbaaa6633092d8c4569af885 \
-    --hash=sha256:fc2193f2fa28324e891a56c2da5d75a7cf7f684b022c3297c93ad61c67c91bbf
+msgpack==1.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:3b3d6f332c5d7c147ff2f6cb824aec5bdb1cc6e6463e1f94aaea44499076e1fc \
+    --hash=sha256:896efefaddceaf7ce2850461934032ed61bc9558622106aeaa40137e950e43d0
 multidict==6.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:fb414a65edf56d16d471f18685be76b4a9b4122c279435cd2d22fac102703238 \
     --hash=sha256:738ae9c8d229fc0c3a6f1adf5182f164eea4ebb02b5a2d975243722f7d7690b1
