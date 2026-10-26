@@ -366,7 +366,6 @@ def ensure_json_format_param(url: str) -> str:
 
 
 _EXCLUDE_NEWER_HEADER_RE = re.compile(r"--exclude-newer(?:=|\s+)(\S+)")
-_WHEEL_URL_RE = re.compile(r'url = "([^"]+)"')
 
 
 def utc_now_iso() -> str:
@@ -459,20 +458,6 @@ def lock_extra_index_flags_from_env() -> list[str]:
             seen.add(url)
             flags.append(f"--index={ensure_json_format_param(url)}")
     return flags
-
-
-def lockfile_references_test_index(lock_path: Path) -> bool:
-    """Return whether an existing lockfile references Red Hat test-index wheels."""
-    if not lock_path.is_file():
-        return False
-
-    for match in _WHEEL_URL_RE.finditer(lock_path.read_text(encoding="utf-8")):
-        parsed = urlparse(match.group(1))
-        index_path = parsed.path.rsplit("/", 1)[0]
-        if "/api/pulp-content/" in index_path and index_path.endswith("-test"):
-            return True
-
-    return False
 
 
 def run_lock(
@@ -688,14 +673,6 @@ def process_directory(
                     log.warning(f"No {pylock_path} found, skipping {flavor}.")
                     dir_success = False
                     continue
-                if not generate_requirements_txt(tdir, flavor, log):
-                    dir_success = False
-                continue
-            pylock_path = tdir / "uv.lock.d" / f"pylock.{flavor}.toml"
-            if ci_check and lockfile_references_test_index(pylock_path):
-                log.warning(
-                    f"Skipping {flavor} lock re-resolution in CI; {pylock_path} references pending test-index wheels."
-                )
                 if not generate_requirements_txt(tdir, flavor, log):
                     dir_success = False
                 continue
