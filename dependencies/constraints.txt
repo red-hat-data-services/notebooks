@@ -17,8 +17,8 @@ urllib3>=2.7.0
 keras>=3.13.1
 # RHAIENG-3210: CVE-2026-40192 Pillow FITS GZIP decompression bomb
 pillow>=12.2.0
-# RHAIENG-4890: CVE-2026-42557 JupyterLab HTML command injection
-jupyterlab>=4.5.7
+# RHAIENG-4890 / RHAI-10831 et al.: CVE-2026-42557 and CVE-2026-73415, CVE-2026-73417, CVE-2026-73627
+jupyterlab>=4.6.2
 # RHAI-14702 et al.: CVE-2026-115347, CVE-2026-115348, CVE-2026-115349, CVE-2026-115352, CVE-2026-115355 mistune denial of service and path traversal
 mistune>=3.3.0
 # NLTK 3.10.3 fixes multiple path traversal, SSRF, DoS, and JVM argument injection CVEs.
