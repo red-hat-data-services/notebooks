@@ -1,0 +1,273 @@
+---
+# Renew RHDS RPM lock files on downstream release branches.
+name: RHDS RPM Lock Files Renewal Action
+
+permissions: {}  # least-privilege; grant per-job below
+
+on:  # yamllint disable-line rule:truthy
+  schedule:
+    - cron: "30 1 * * *"  # Daily RHDS RPM lockfile update (1:30am UTC)
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Release branch to update'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'rhoai-2.25'
+          - 'rhoai-3.3'
+          - 'rhoai-3.4'
+          - 'rhoai-3.5'
+      use_cache:
+        description: 'Use GHCR layer cache (Uncheck to rebuild from scratch)'
+        required: false
+        default: true
+        type: boolean
+
+concurrency:
+  group: rhds-rpm-lockfile-renewal-${{ github.event.inputs.branch || 'all' }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-26.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Build branch matrix
+        id: matrix
+        env:
+          BRANCH: ${{ github.event.inputs.branch || 'all' }}
+        run: |
+          set -euo pipefail
+          case "${BRANCH}" in
+            all)
+              matrix='{"include":[{"branch":"rhoai-2.25","needs_subscription":false},{"branch":"rhoai-3.3","needs_subscription":false},{"branch":"rhoai-3.4","needs_subscription":true},{"branch":"rhoai-3.5","needs_subscription":true}]}'
+              ;;
+            rhoai-2.25|rhoai-3.3)
+              matrix="{\"include\":[{\"branch\":\"${BRANCH}\",\"needs_subscription\":false}]}"
+              ;;
+            rhoai-3.4|rhoai-3.5)
+              matrix="{\"include\":[{\"branch\":\"${BRANCH}\",\"needs_subscription\":true}]}"
+              ;;
+            *)
+              echo "BRANCH must be one of: all, rhoai-2.25, rhoai-3.3, rhoai-3.4, rhoai-3.5" >&2
+              exit 1
+              ;;
+          esac
+          echo "matrix=${matrix}" >> "${GITHUB_OUTPUT}"
+
+  renew:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      packages: write
+    env:
+      BRANCH: ${{ matrix.branch }}
+      VARIANT: rhds
+      TMPDIR: /var/tmp
+      CI: "true"
+      USE_CACHE: ${{ github.event.inputs.use_cache != 'false' && 'true' || 'false' }}
+
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ matrix.branch }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Setup uv and Python
+        uses: ./.github/actions/setup-uv
+
+      - name: Prepare Podman temp directory
+        run: mkdir -p "$TMPDIR"
+
+      - name: Install git-crypt
+        if: matrix.needs_subscription
+        uses: ./.github/actions/apt-install
+        with:
+          packages: git-crypt
+
+      - name: Unlock RHDS registry secrets
+        if: matrix.needs_subscription
+        env:
+          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GIT_CRYPT_KEY" ]]; then
+            echo "RHDS release branches require GIT_CRYPT_KEY." >&2
+            exit 1
+          fi
+          key_file="$(mktemp "${RUNNER_TEMP}/git-crypt-key.XXXXXX")"
+          trap 'rm -f "${key_file}"' EXIT
+          printf '%s' "$GIT_CRYPT_KEY" | base64 --decode > "$key_file"
+          git-crypt unlock "$key_file"
+
+      - name: Configure RHDS registry authentication
+        if: matrix.needs_subscription
+        run: |
+          set -euo pipefail
+          mkdir -p "${HOME}/.config/containers"
+          cp ci/secrets/pull-secret.json "${HOME}/.config/containers/auth.json"
+
+      - name: Mask subscription credentials
+        if: matrix.needs_subscription
+        env:
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+        run: |
+          if [[ -z "$SUBSCRIPTION_ACTIVATION_KEY" || -z "$SUBSCRIPTION_ORG" ]]; then
+            echo "Subscription-backed RHDS branches require subscription secrets." >&2
+            exit 1
+          fi
+          echo "::add-mask::${SUBSCRIPTION_ACTIVATION_KEY}"
+          echo "::add-mask::${SUBSCRIPTION_ORG}"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6  # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Podman
+        uses: ./.github/actions/install-podman-action
+        with:
+          platform: linux/amd64
+
+      - name: Compute container build cache args
+        id: cache
+        env:
+          CACHE: ghcr.io/${{ github.repository }}/rpm-lockfile-build-cache-rhds-${{ matrix.branch }}
+          USE_CACHE: ${{ env.USE_CACHE }}
+        run: |
+          cache="${CACHE,,}"
+          if [[ "$USE_CACHE" == "true" ]]; then
+            echo "CONTAINER_BUILD_CACHE_ARGS=--cache-from ${cache}" >> "$GITHUB_OUTPUT"
+          else
+            echo "CONTAINER_BUILD_CACHE_ARGS=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate RHDS lockfiles
+        env:
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ matrix.needs_subscription && secrets.SUBSCRIPTION_ACTIVATION_KEY || '' }}
+          SUBSCRIPTION_ORG: ${{ matrix.needs_subscription && secrets.SUBSCRIPTION_ORG || '' }}
+          CONTAINER_BUILD_CACHE_ARGS: ${{ steps.cache.outputs.CONTAINER_BUILD_CACHE_ARGS }}
+        run: |
+          set -euo pipefail
+          if [[ "$USE_CACHE" == "false" ]]; then
+            podman rmi -f localhost/notebook-rpm-lockfile:latest 2>/dev/null || true
+          fi
+
+          mapfile -t rpm_inputs < <(
+            find . -type f -path "*/prefetch-input/rhds/rpms.in.yaml" | sort
+          )
+          if [[ "${#rpm_inputs[@]}" -eq 0 ]]; then
+            echo "No RHDS RPM lockfile inputs found on ${BRANCH}." >&2
+            exit 1
+          fi
+
+          for rpm_input in "${rpm_inputs[@]}"; do
+            echo "Generating ${rpm_input}"
+            ./scripts/lockfile-generators/create-rpm-lockfile.sh --rpm-input "$rpm_input"
+          done
+
+      - name: Commit RHDS lockfile changes
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          mapfile -t lockfiles < <(
+            find . -type f -path "*/prefetch-input/rhds/rpms.lock.yaml" | sort
+          )
+          for lockfile in "${lockfiles[@]}"; do
+            git add "$lockfile"
+          done
+
+          if git diff --cached --quiet; then
+            echo "changed=0" >> "$GITHUB_ENV"
+          else
+            git commit -m "Update RHDS rpms.lock.yaml lock files"
+            echo "changed=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Validate manifests
+        if: env.changed != '0'
+        run: env -u VARIANT make test
+
+      - name: Push renewal branch
+        if: env.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          remote_url="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          renewal_branch="rhds-rpm-lockfile-renewal-${BRANCH//\//-}"
+          git push --force "$remote_url" "HEAD:refs/heads/${renewal_branch}"
+
+      - name: Create or update pull request
+        if: env.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          renewal_branch="rhds-rpm-lockfile-renewal-${BRANCH//\//-}"
+          gh label create "automated-rpms-lockfile-update" \
+            --description "Auto-created RPM lockfile update PR" \
+            --color "0E8A16" \
+            2>/dev/null || true
+
+          existing_pr_url="$(gh pr list --head "$renewal_branch" --state open --limit 1 --json url --jq '.[0].url // empty')"
+          if [[ -n "$existing_pr_url" ]]; then
+            PR_URL="$existing_pr_url"
+          else
+            PR_URL="$(gh pr create \
+              --title "GHA: ${BRANCH} - Update RHDS RPM lock files" \
+              --head "$renewal_branch" \
+              --body "$(cat <<EOF
+          Automated regeneration of RHDS \`rpms.lock.yaml\` from \`rpms.in.yaml\` for **${BRANCH}**.
+
+          Updated paths are discovered automatically under \`*/prefetch-input/rhds/rpms.lock.yaml\`.
+
+          Tide will merge this PR automatically after all reported checks are green.
+          EOF
+          )" \
+              --label "automated-rpms-lockfile-update" \
+              --base "$BRANCH")"
+          fi
+          echo "PR_URL=${PR_URL}" >> "$GITHUB_ENV"
+
+      - name: Approve renewal PR
+        if: env.PR_URL != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review "${PR_URL}" \
+            --approve \
+            --body "Auto-approved after RHDS RPM renewal workflow validation."
+
+      - name: Add Tide merge labels
+        if: env.PR_URL != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          pr_number="${PR_URL##*/}"
+          gh api --method POST \
+            "repos/${{ github.repository }}/issues/${pr_number}/labels" \
+            -f 'labels[]=lgtm' \
+            -f 'labels[]=approved' \
+            --silent
