@@ -2,7 +2,8 @@
 # Daily dispatcher for downstream RHDS RPM lockfile renewal.
 name: RHDS RPM Lock Files Renewal Dispatcher
 
-permissions: {}
+permissions:
+  actions: read
 
 on:  # yamllint disable-line rule:truthy
   schedule:
