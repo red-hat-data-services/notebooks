@@ -263,8 +263,9 @@ COPY ${CODESERVER_SOURCE_CODE}/prefetch-input/patches/strip-apply-seccomp.sh /tm
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 bash /tmp/strip-apply-seccomp.sh /usr/lib/code-server
-# RHAIENG-7770: @microsoft/mxc-sdk is unused on Linux and bundles a Rust binary
-# that uses non-attested crypto.
+# @microsoft/mxc-sdk is only used for Windows terminal sandboxing; this Linux
+# image never imports it. It bundles Rust binaries that fail the Konflux FIPS
+# check (non-attested crypto).
 rm -rf /usr/lib/code-server/lib/vscode/node_modules/@microsoft/mxc-sdk
 rm -f /tmp/strip-apply-seccomp.sh
 EOF
