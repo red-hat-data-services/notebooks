@@ -1,0 +1,162 @@
+---
+# Renew RHDS RPM lock files on the downstream rhoai-2.25 release branch.
+name: RHDS RPM Lock Files Renewal Action (rhoai-2.25)
+
+permissions: {}  # least-privilege; grant per-job below
+
+on:  # yamllint disable-line rule:truthy
+  workflow_call:
+  workflow_dispatch:
+
+concurrency:
+  group: rhds-rpm-lockfile-renewal-rhoai-2.25
+  cancel-in-progress: false
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      BRANCH: rhoai-2.25
+      VARIANT: rhds
+      TMPDIR: /var/tmp
+      CI: "true"
+
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: rhoai-2.25
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Setup uv and Python
+        uses: ./.github/actions/setup-uv
+
+      - name: Prepare Podman temp directory
+        run: mkdir -p "$TMPDIR"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6  # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Podman
+        uses: ./.github/actions/install-podman-action
+        with:
+          platform: linux/amd64
+
+      - name: Compute container build cache args
+        id: cache
+        env:
+          CACHE: ghcr.io/${{ github.repository }}/rpm-lockfile-build-cache-rhds-rhoai-2.25
+        run: |
+          cache="${CACHE,,}"
+          echo "CONTAINER_BUILD_CACHE_ARGS=--cache-from ${cache}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate RHDS lockfiles
+        env:
+          CONTAINER_BUILD_CACHE_ARGS: ${{ steps.cache.outputs.CONTAINER_BUILD_CACHE_ARGS }}
+        run: |
+          set -euo pipefail
+          mapfile -t rpm_inputs < <(
+            find . -type f -path "*/prefetch-input/rhds/rpms.in.yaml" | sort
+          )
+          if [[ "${#rpm_inputs[@]}" -eq 0 ]]; then
+            echo "No RHDS RPM lockfile inputs found on ${BRANCH}." >&2
+            exit 1
+          fi
+
+          for rpm_input in "${rpm_inputs[@]}"; do
+            echo "Generating ${rpm_input}"
+            ./scripts/lockfile-generators/create-rpm-lockfile.sh --rpm-input "$rpm_input"
+          done
+
+      - name: Commit RHDS lockfile changes
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          mapfile -t lockfiles < <(
+            find . -type f -path "*/prefetch-input/rhds/rpms.lock.yaml" | sort
+          )
+          for lockfile in "${lockfiles[@]}"; do
+            git add "$lockfile"
+          done
+
+          if git diff --cached --quiet; then
+            echo "changed=0" >> "$GITHUB_ENV"
+          else
+            git commit -m "Update RHDS rpms.lock.yaml lock files"
+            echo "changed=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Validate manifests
+        if: env.changed != '0'
+        run: env -u VARIANT make test
+
+      - name: Push renewal branch
+        if: env.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          remote_url="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          renewal_branch="rhds-rpm-lockfile-renewal-rhoai-2-25"
+          git push --force "$remote_url" "HEAD:refs/heads/${renewal_branch}"
+
+      - name: Create or update pull request
+        if: env.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          renewal_branch="rhds-rpm-lockfile-renewal-rhoai-2-25"
+          gh label create "automated-rpms-lockfile-update" \
+            --description "Auto-created RPM lockfile update PR" \
+            --color "0E8A16" \
+            2>/dev/null || true
+
+          existing_pr_url="$(gh pr list --head "$renewal_branch" --state open --limit 1 --json url --jq '.[0].url // empty')"
+          if [[ -n "$existing_pr_url" ]]; then
+            PR_URL="$existing_pr_url"
+          else
+            PR_URL="$(gh pr create \
+              --title "GHA: rhoai-2.25 - Update RHDS RPM lock files" \
+              --head "$renewal_branch" \
+              --body "Automated regeneration of RHDS \`rpms.lock.yaml\` from \`rpms.in.yaml\` for **rhoai-2.25**." \
+              --label "automated-rpms-lockfile-update" \
+              --base "rhoai-2.25")"
+          fi
+          echo "PR_URL=${PR_URL}" >> "$GITHUB_ENV"
+
+      - name: Approve renewal PR
+        if: env.PR_URL != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review "${PR_URL}" \
+            --approve \
+            --body "Auto-approved after RHDS RPM renewal workflow validation."
+
+      - name: Add Tide merge labels
+        if: env.PR_URL != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          pr_number="${PR_URL##*/}"
+          gh api --method POST \
+            "repos/${{ github.repository }}/issues/${pr_number}/labels" \
+            -f 'labels[]=lgtm' \
+            -f 'labels[]=approved' \
+            --silent
