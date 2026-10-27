@@ -193,6 +193,8 @@ spec:
     # Registry-only npm deps (ProdSec); @parcel/watcher, @emmetio/css-parser, @playwright/browser-chromium in custom-packages/package.json
     - path: codeserver-minimal/ubi9-python-3.12/prefetch-input/patches/code-server-v4.122.1/custom-packages
       type: npm
+  - name: dev-package-managers
+    value: 'true'
   - name: build-image-index
     value: true
   - name: build-platforms
@@ -219,6 +221,14 @@ spec:
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
   taskRunSpecs:
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        cpu: '4'
+        memory: 8Gi
+      limits:
+        cpu: '4'
+        memory: 8Gi
   - pipelineTaskName: rpms-signature-scan
     computeResources:
       requests:
