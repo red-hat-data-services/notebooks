@@ -80,15 +80,13 @@ spec:
       value: pipeline/multi-arch-container-build.yaml
   taskRunSpecs:
   - pipelineTaskName: rpms-signature-scan
-    stepSpecs:
-    - name: rpms-signature-scan
-      computeResources:
-        requests:
-          cpu: 2600m
-          memory: 512Mi
-        limits:
-          cpu: 2600m
-          memory: 512Mi
+    computeResources:
+      requests:
+        cpu: '4'
+        memory: 8Gi
+      limits:
+        cpu: '4'
+        memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-universal-cpu-py312-c9s-ci
   workspaces:
