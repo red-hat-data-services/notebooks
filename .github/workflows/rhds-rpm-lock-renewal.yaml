@@ -1,6 +1,6 @@
 ---
-# Renew RHDS RPM lock files on downstream release branches.
-name: RHDS RPM Lock Files Renewal Action
+# Renew RHDS RPM lock files on the downstream rhoai-2.25 release branch.
+name: RHDS RPM Lock Files Renewal Action (rhoai-2.25)
 
 permissions: {}  # least-privilege; grant per-job below
 
@@ -12,14 +12,10 @@ on:  # yamllint disable-line rule:truthy
       branch:
         description: 'Release branch to update'
         required: false
-        default: 'all'
+        default: 'rhoai-2.25'
         type: choice
         options:
-          - 'all'
           - 'rhoai-2.25'
-          - 'rhoai-3.3'
-          - 'rhoai-3.4'
-          - 'rhoai-3.5'
       use_cache:
         description: 'Use GHCR layer cache (Uncheck to rebuild from scratch)'
         required: false
@@ -44,17 +40,11 @@ jobs:
         run: |
           set -euo pipefail
           case "${BRANCH}" in
-            all)
-              matrix='{"include":[{"branch":"rhoai-2.25","needs_subscription":false},{"branch":"rhoai-3.3","needs_subscription":false},{"branch":"rhoai-3.4","needs_subscription":true},{"branch":"rhoai-3.5","needs_subscription":true}]}'
-              ;;
-            rhoai-2.25|rhoai-3.3)
+            rhoai-2.25)
               matrix="{\"include\":[{\"branch\":\"${BRANCH}\",\"needs_subscription\":false}]}"
               ;;
-            rhoai-3.4|rhoai-3.5)
-              matrix="{\"include\":[{\"branch\":\"${BRANCH}\",\"needs_subscription\":true}]}"
-              ;;
             *)
-              echo "BRANCH must be one of: all, rhoai-2.25, rhoai-3.3, rhoai-3.4, rhoai-3.5" >&2
+              echo "BRANCH must be one of: rhoai-2.25" >&2
               exit 1
               ;;
           esac
