@@ -218,6 +218,17 @@ spec:
       value: '{{ cel: pac.target_branch.matches("^rhoai-\\d+\\.\\d+(-ea\\.\\d+)?$") ? pac.target_branch : "main" }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+  - pipelineTaskName: rpms-signature-scan
+    stepSpecs:
+    - name: rpms-signature-scan
+      computeResources:
+        requests:
+          cpu: 2600m
+          memory: 512Mi
+        limits:
+          cpu: 2600m
+          memory: 512Mi
   taskRunTemplate:
     serviceAccountName: build-pipeline-pr-pipelines-odh-workbench-codeserver-minimal-cpu-py312
   workspaces:
