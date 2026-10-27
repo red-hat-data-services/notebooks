@@ -12,3 +12,11 @@ separator: "  # "
 ignore_actions:
   - name: opendatahub-io/disconnected-readiness-scorer/.github/workflows/disconnected-readiness-check.yml
     ref: v1
+  - name: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml
+    ref: rhoai-2.25
+  - name: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml
+    ref: rhoai-3.3
+  - name: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml
+    ref: rhoai-3.4
+  - name: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml
+    ref: rhoai-3.5
