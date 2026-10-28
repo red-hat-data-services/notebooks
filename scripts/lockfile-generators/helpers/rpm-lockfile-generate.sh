@@ -59,42 +59,23 @@ if [[ ! -f "$EPEL_KEY" ]]; then
 fi
 
 pushd "/workspace/$PREFETCH_INPUT_DIR" >/dev/null
-    USE_SUBSCRIPTION_REPOS=false
     if command -v subscription-manager &>/dev/null; then
-        overall_status=$(subscription-manager status 2>/dev/null | grep "Overall Status" | awk -F': ' '{print $2}' | xargs || true)
+        overall_status=$(subscription-manager status 2>/dev/null | grep "Overall Status" | awk -F': ' '{print $2}' || true)
         echo "System Registration Status: ${overall_status:-unknown}"
 
-        if [[ "$overall_status" == "Current" ]]; then
-            USE_SUBSCRIPTION_REPOS=true
-        fi
-    fi
-
-    if [[ "$USE_SUBSCRIPTION_REPOS" == true ]]; then
         # RHOAI/AIPCC runtime images use RHEL 9.6 EUS repos (baseos/appstream/CRB).
+        # Restrict the activation key's large repo set to only what this lockfile needs.
         basearch=$(rpm --eval '%{_arch}')
-        rhel_version="${RHEL_VERSION:-9.6}"
-        if [[ "$rhel_version" == "9.6" ]]; then
-            echo "Enabling RHEL 9.6 EUS repos (match AIPCC/RHOAI base images)..."
-            for repo in \
-                "rhel-9-for-${basearch}-baseos-eus-rpms" \
-                "rhel-9-for-${basearch}-appstream-eus-rpms" \
-                "codeready-builder-for-rhel-9-${basearch}-eus-rpms"; do
-                subscription-manager repos --enable="$repo" 2>/dev/null || true
-            done
-        else
-            echo "Enabling RHEL ${rhel_version} repos..."
-            for repo in \
-                "rhel-9-for-${basearch}-baseos-rpms" \
-                "rhel-9-for-${basearch}-appstream-rpms" \
-                "codeready-builder-for-rhel-9-${basearch}-rpms"; do
-                subscription-manager repos --enable="$repo" 2>/dev/null || true
-            done
-        fi
-
-        # Layered-product repos for openshift-clients and texlive-tcolorbox (also set in
-        # Dockerfile.rpm-lockfile at image build time; re-enable here for cached images).
-        dnf config-manager --set-enabled "rhocp-4.16-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
-        dnf config-manager --set-enabled "rhelai-3.3-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+        echo "Restricting yum repos to EUS + required layered products..."
+        subscription-manager repos --disable="*" >/dev/null || true
+        for repo in \
+            "rhel-9-for-${basearch}-baseos-eus-rpms" \
+            "rhel-9-for-${basearch}-appstream-eus-rpms" \
+            "codeready-builder-for-rhel-9-${basearch}-eus-rpms" \
+            "rhocp-4.16-for-rhel-9-${basearch}-rpms" \
+            "rhelai-3.3-for-rhel-9-${basearch}-rpms"; do
+            subscription-manager repos --enable="$repo" 2>/dev/null || true
+        done
 
         # subscription-manager generates redhat.repo with literal x86_64
         # in URLs (e.g. .../9.6/x86_64/appstream/os). For multi-arch
@@ -108,8 +89,6 @@ pushd "/workspace/$PREFETCH_INPUT_DIR" >/dev/null
 
         # Some RHEL layered-product repos return 403 for non-x86_64 arches
         export RPM_LOCKFILE_SKIP_UNAVAILABLE=1
-    else
-        echo "Using repo files from rpms.in.yaml (e.g. ubi.repo, centos.repo)."
     fi
 
     RPM_LOCKFILE_SKIP_UNAVAILABLE="${RPM_LOCKFILE_SKIP_UNAVAILABLE:-0}" \

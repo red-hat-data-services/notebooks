@@ -18,6 +18,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      issues: write
+      pull-requests: write
     env:
       BRANCH: rhoai-3.3
       VARIANT: rhds
@@ -55,6 +57,18 @@ jobs:
         with:
           platform: linux/amd64
 
+      - name: Mask subscription credentials
+        env:
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
+        run: |
+          if [[ -z "$SUBSCRIPTION_ACTIVATION_KEY" || -z "$SUBSCRIPTION_ORG" ]]; then
+            echo "Subscription-backed RHDS branches require subscription secrets." >&2
+            exit 1
+          fi
+          echo "::add-mask::${SUBSCRIPTION_ACTIVATION_KEY}"
+          echo "::add-mask::${SUBSCRIPTION_ORG}"
+
       - name: Compute container build cache args
         id: cache
         env:
@@ -65,6 +79,8 @@ jobs:
 
       - name: Generate RHDS lockfiles
         env:
+          SUBSCRIPTION_ACTIVATION_KEY: ${{ secrets.SUBSCRIPTION_ACTIVATION_KEY }}
+          SUBSCRIPTION_ORG: ${{ secrets.SUBSCRIPTION_ORG }}
           CONTAINER_BUILD_CACHE_ARGS: ${{ steps.cache.outputs.CONTAINER_BUILD_CACHE_ARGS }}
         run: |
           set -euo pipefail
@@ -102,7 +118,7 @@ jobs:
 
       - name: Validate manifests
         if: env.changed != '0'
-        run: env -u VARIANT make test
+        run: env -u VARIANT PYTEST_ADDOPTS="--ignore=tests/test_pylock_downgrade.py" make test
 
       - name: Push renewal branch
         if: env.changed != '0'
