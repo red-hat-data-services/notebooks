@@ -167,7 +167,8 @@ graphql-relay==3.2.0 ; python_full_version == '3.12.*' and implementation_name =
 greenlet==3.5.6 ; (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'AMD64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'WIN32' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'amd64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'win32' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'x86_64' and sys_platform == 'linux') \
     --hash=sha256:3657b2e76e0b4390e1f3d187ead7012172138af8ff6ca12af474509153c5f69f
 grpcio==1.82.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:dd7c2e7b25b5e2e6748862714123314fbbce4e92c59f039467100ca6cddf87e7
+    --hash=sha256:dd7c2e7b25b5e2e6748862714123314fbbce4e92c59f039467100ca6cddf87e7 \
+    --hash=sha256:eb34e6cc0c3b9c316f6a0410c34c35f2c2bb43ac2ce9cfe5e92b6a51eebc7017
 gunicorn==26.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:24f34cc43d83b2f840fd040685f2937a09ca3b353a8e98490140a44837b2f10d
 h11==0.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -317,8 +318,8 @@ mlflow-tracing==3.15.2 ; python_full_version == '3.12.*' and implementation_name
     --hash=sha256:f43cd180c3f8c799a41d74b6e48de0dd1f33ab508d202cbe33f6c679da55a469
 mmh3==5.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c20c421ef8cffd600c62c88a9654497316bbb76c3f559101b45532f27cdfb49c
-msgpack==1.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:e94bfdc19aa4d7aa51a5ac83b08bfc931465ea4e1a8ce984f9baa5530f39bae0
+msgpack==1.2.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:3ed447d249e1f9d8617ba3fa0a32cac509475c74e05c266ea14890094821eb79
 multidict==6.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6e7df9c42a381612bae752906cd603251962c0d6474b74f2ba5f70297d88d969
 mypy==2.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -400,7 +401,8 @@ pillow==12.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:81e2a9014294c067d7411021b805b3affde5c33a1076dfb46840546b06d59e50 \
     --hash=sha256:d98b99b9392297ea0fa8e3ea33ee172b592ec8b6bbbffab8ffebd9aa65fd826e
 pip==26.1.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:bfb6b2d4036e58f21df180f5a6e8f6b42b7f120087feb143d7ebac8f74e2ab96
+    --hash=sha256:bfb6b2d4036e58f21df180f5a6e8f6b42b7f120087feb143d7ebac8f74e2ab96 \
+    --hash=sha256:12c73f1fa2aff7d9d3b6b78587af5eb377c1dd65cbd8b5c734aca86c879bcd8d
 platformdirs==4.10.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:32687e95f5df3e6cbca5216382b3a2575a2853c7676effbb07a3e9e5042971b3
 plotly==6.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

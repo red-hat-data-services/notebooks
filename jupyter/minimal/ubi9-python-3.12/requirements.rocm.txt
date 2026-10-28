@@ -147,7 +147,8 @@ parso==0.8.7 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
 pexpect==4.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:02daccbbdcac7ea1054bd3003a1adfa6ea1c2490c76774265d0dfcafb3fcd214
 pip==26.1.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:bfb6b2d4036e58f21df180f5a6e8f6b42b7f120087feb143d7ebac8f74e2ab96
+    --hash=sha256:bfb6b2d4036e58f21df180f5a6e8f6b42b7f120087feb143d7ebac8f74e2ab96 \
+    --hash=sha256:12c73f1fa2aff7d9d3b6b78587af5eb377c1dd65cbd8b5c734aca86c879bcd8d
 platformdirs==4.10.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:32687e95f5df3e6cbca5216382b3a2575a2853c7676effbb07a3e9e5042971b3
 prometheus-client==0.25.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

@@ -156,6 +156,7 @@ parso==0.8.7 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
 pexpect==4.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:55001df4feba79732c3991e624c90f57a7ac1a13437cab45523828fdc8a92ce4
 pip==26.1.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:d7e893890c4e8130b331916cebca5d66d4553e1784fc5ecfe9b3a98189fe9344 \
     --hash=sha256:18c84e5e67fedb50de7eb829b1c8417cd5462b1ff51dba298da72a5fc97c2894
 platformdirs==4.10.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:49f18d9d7398229d48991eedaf10fd683dfe66e9de98e26e43bc2289b390a184
