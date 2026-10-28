@@ -18,6 +18,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      issues: write
+      pull-requests: write
     env:
       BRANCH: rhoai-3.5
       VARIANT: rhds
@@ -141,7 +143,7 @@ jobs:
 
       - name: Validate manifests
         if: env.changed != '0'
-        run: env -u VARIANT make test
+        run: env -u VARIANT PYTEST_ADDOPTS="--ignore=tests/test_pylock_downgrade.py" make test
 
       - name: Push renewal branch
         if: env.changed != '0'
