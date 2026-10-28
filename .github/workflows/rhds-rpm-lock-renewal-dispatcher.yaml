@@ -15,18 +15,52 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  main:
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+      issues: write
+      pull-requests: write
+    uses: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml@main
+    secrets: inherit
+
   rhoai-2-25:
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+      issues: write
+      pull-requests: write
     uses: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml@rhoai-2.25
     secrets: inherit
 
   rhoai-3-3:
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+      issues: write
+      pull-requests: write
     uses: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml@rhoai-3.3
     secrets: inherit
 
   rhoai-3-4:
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+      issues: write
+      pull-requests: write
     uses: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml@rhoai-3.4
     secrets: inherit
 
   rhoai-3-5:
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+      issues: write
+      pull-requests: write
     uses: red-hat-data-services/notebooks/.github/workflows/rhds-rpm-lock-renewal.yaml@rhoai-3.5
     secrets: inherit
