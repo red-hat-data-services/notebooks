@@ -245,8 +245,8 @@ jupyterlab-widgets==3.0.16 ; python_full_version == '3.12.*' and implementation_
     --hash=sha256:7e492a4a9ed801b864b73cf33f825607ca27c3c3b46d6da0eecb69fcca308cde
 kafka-python-ng==2.2.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0e8c3756f2c60b3dc7ab817960fe98146df3d9ca3e23efd6bed6eaa5a06b3395
-kfp==2.16.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6c5d4ed22749aa9cc4b2ff850e563272be9bb8ea9f6d26b8a3c5308bce0555eb
+kfp==2.17.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:440ba61a951702b8d8d962c5c830e03bdf436ba0ae9ee44414cfa31cdbff8c0e
 kfp-pipeline-spec==2.17.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:39605f781aa48527ddb59c84f37240135970c117305d44131d76fd68ccb448e4
 kfp-server-api==2.17.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

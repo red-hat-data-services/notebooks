@@ -698,9 +698,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "kfp"
-version = "2.16.1"
+version = "2.17.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/kfp-2.16.1-2-py3-none-any.whl", upload-time = 2026-06-08T11:29:42Z, size = 423443, hashes = { sha256 = "6c5d4ed22749aa9cc4b2ff850e563272be9bb8ea9f6d26b8a3c5308bce0555eb" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ubi9/kfp-2.17.0-2-py3-none-any.whl", upload-time = 2026-07-13T01:42:26Z, size = 479781, hashes = { sha256 = "440ba61a951702b8d8d962c5c830e03bdf436ba0ae9ee44414cfa31cdbff8c0e" } }]
 
 [[packages]]
 name = "kfp-pipeline-spec"

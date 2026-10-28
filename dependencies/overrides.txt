@@ -12,3 +12,6 @@ nltk @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.5/cpu-ub
 
 # RHAI-10831 et al.: force the indexed JupyterLab security fix while odh-elyra 5.0.3 still pins ~=4.5.0.
 jupyterlab>=4.6.2
+
+# RHAIENG-5303: kfp 2.17.0 pins urllib3==2.7.0; force the CVE fix while retaining the baseline kfp version.
+urllib3>=2.8.0
