@@ -497,7 +497,7 @@ jobs:
           upload-junit: ${{ true }}
           report-artifact-name: "${{ inputs.target }}_${{ steps.calculated_vars.outputs.BUILD_TYPE }}_${{ steps.calculated_vars.outputs.SANITIZED_PLATFORM }}_playwright-report"
           junit-artifact-file: "${{ inputs.target }}_${{ steps.calculated_vars.outputs.BUILD_TYPE }}_${{ steps.calculated_vars.outputs.SANITIZED_PLATFORM }}_playwright-junit.xml"
-          grep-pattern: ${{ contains(inputs.target, 'che-code') && '@checode' || '@codeserver' }}
+          grep-pattern: '@codeserver'
 
       - name: Run JupyterLab Playwright tests
         if: ${{ !cancelled() && steps.rhoai_build.outputs.skip != 'true' && contains(inputs.target, 'jupyter') && !contains(inputs.target, 'runtime') && steps.make-target.outcome == 'success' && steps.browser-tests-image.outcome == 'success' }}
