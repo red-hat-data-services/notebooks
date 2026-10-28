@@ -18,6 +18,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      issues: write
+      pull-requests: write
     env:
       BRANCH: rhoai-2.25
       VARIANT: rhds
