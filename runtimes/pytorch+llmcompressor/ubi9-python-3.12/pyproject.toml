@@ -54,8 +54,9 @@ override-dependencies = [
     "urllib3>=2.7.0",
     # AIPCC-13675: avoid protobuf 6.33.6+ UPB segfault on s390x; RHAIENG-6814 needs >=6.33.5
     "protobuf>=6.33.5",
-    # RHOAIENG-58615: CVE-2026-40192 Pillow FITS GZIP decompression bomb
-    "pillow>=12.2.0",
+    # RHAI-11328 et al.: Pillow 13.0.0 fixes CVE-2026-112391 and related flaws;
+    # LLM Compressor 0.12.0 metadata still caps Pillow at 12.2.0.
+    "pillow>=13.0.0",
     # RHAIENG-5267: requests==2.32 dep conflict with chardet
     "requests>=2.33.1",
     # RHAIENG-6408: CVE-2026-59890 — torch 2.11.0 wheel metadata caps setuptools<82;
