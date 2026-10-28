@@ -31,13 +31,10 @@ RUN if [ -n "$ACTIVATION_KEY" ] && [ -n "$ORG" ]; then \
         # export INJECT_RHEL_VERSION="--releasever=\"${RHEL_VERSION}\" "; \
     fi
 
-# To install modulemd-tools (createrepo_c) for Development only, not for Production
-COPY helpers/rhsm-pulp.repo /etc/yum.repos.d/rhsm-pulp.repo
-
 # Don't run upgrade, it upgrades from 9.6 to 9.7 which is not desired here
 # Add --releasever when RHEL_VERSION is set (e.g. for RHEL/UBI) to pin repo release
 RUN releasever_opt=; [ -n "$RHEL_VERSION" ] && releasever_opt="--releasever=${RHEL_VERSION}"; \
-    dnf $releasever_opt install -y python3 python3-pip python3-dnf skopeo rpm git modulemd-tools patch && \
+    dnf $releasever_opt install -y python3 python3-pip python3-dnf skopeo rpm git patch && \
     dnf clean all
 
 # --index-url: override the base image's pip.conf which may point to a restricted
