@@ -47,6 +47,8 @@ packages:
   - libxcrypt-compat
   # PyArrow (RHOAI wheels) links libprotobuf.so.25; install C++ runtime (not protobuf-c).
   - protobuf
+  # PyArrow (RHOAI wheels) links libthrift-0.15.0.so.
+  - thrift
 
   - compat-openssl11
   - openshift-clients

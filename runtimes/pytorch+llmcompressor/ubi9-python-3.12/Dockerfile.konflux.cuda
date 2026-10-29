@@ -22,7 +22,11 @@ COPY prefetch-input/odh/rpms.lock.yaml /dev/null
 COPY prefetch-input/rhds/rpms.lock.yaml /dev/null
 
 RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
-    bash /utils/dnf-helper.sh install perl mesa-libGL skopeo compat-openssl11 openshift-clients libxcrypt-compat
+    bash /utils/dnf-helper.sh install perl mesa-libGL skopeo compat-openssl11 openshift-clients libxcrypt-compat thrift
+RUN thrift_lib="$(rpm -ql thrift | grep -E '/libthrift-[^/]+\.so$' | head -n 1)" && \
+    test -n "${thrift_lib}" && \
+    ln -s "$(basename "${thrift_lib}")" /usr/lib64/libthrift-0.15.0.so && \
+    ldconfig
 
 
 USER 1001
