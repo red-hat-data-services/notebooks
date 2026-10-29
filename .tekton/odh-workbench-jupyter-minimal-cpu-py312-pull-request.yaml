@@ -116,6 +116,10 @@ spec:
       limits:
         cpu: '3'
         memory: 8Gi
+  - pipelineTaskName: rpms-signature-scan
+    computeResources:
+      limits:
+        memory: 8Gi
   - pipelineTaskName: ecosystem-cert-preflight-checks
     computeResources:
       requests:
