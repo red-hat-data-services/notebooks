@@ -4477,13 +4477,13 @@ arches:
     name: wireplumber-libs
     evr: 0.4.14-1.el9
     sourcerpm: wireplumber-0.4.14-1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 43823
-    checksum: sha256:54d3a1fe5dc644b47e48d2eb1c0de7ed018287398ef7d9f4e50af916926a5ee6
+    size: 40944
+    checksum: sha256:b0d451edba7ff9fd15980c77a6f54ba8b6ba2c8c108496d4c451367dcd33ab9d
     name: xdg-dbus-proxy
-    evr: 0.1.3-1.el9
-    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9.src.rpm
+    evr: 0.1.3-1.el9_6.1
+    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/x/xdg-desktop-portal-1.12.6-1.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 375435
@@ -10487,13 +10487,13 @@ arches:
     name: wireplumber-libs
     evr: 0.4.14-1.el9
     sourcerpm: wireplumber-0.4.14-1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 46997
-    checksum: sha256:3e5bcf5abdc315862b82d39179042214bae142a3cf9fe8fb94b32d0deefb11a1
+    size: 44082
+    checksum: sha256:24e522e9d708b9c2bd24356911a675afe5593c8a9030a57247d4e3716280a67e
     name: xdg-dbus-proxy
-    evr: 0.1.3-1.el9
-    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9.src.rpm
+    evr: 0.1.3-1.el9_6.1
+    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/x/xdg-desktop-portal-1.12.6-1.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 395552
@@ -16539,13 +16539,13 @@ arches:
     name: wireplumber-libs
     evr: 0.4.14-1.el9
     sourcerpm: wireplumber-0.4.14-1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 43818
-    checksum: sha256:bc8c80fedd7476336fe4a052f42671c457a217c16f817ab99e28ba22d93fc911
+    size: 41202
+    checksum: sha256:64a2d868a20ca9b40805e3960e09a974c58881d9ddefab653bf1447b4fa17b0a
     name: xdg-dbus-proxy
-    evr: 0.1.3-1.el9
-    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9.src.rpm
+    evr: 0.1.3-1.el9_6.1
+    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/x/xdg-desktop-portal-1.12.6-1.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 372038
@@ -22514,13 +22514,13 @@ arches:
     name: wireplumber-libs
     evr: 0.4.14-1.el9
     sourcerpm: wireplumber-0.4.14-1.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/x/xdg-dbus-proxy-0.1.3-1.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 45030
-    checksum: sha256:32487ca48df82f9bcdde7daf5dd05feaa1b5e366906e12a8067c0aacaa1b75dc
+    size: 42346
+    checksum: sha256:c0f7df71f6d00031d46da570e6bfeb0e2680f6e4c533c178c3b62cc19ed97828
     name: xdg-dbus-proxy
-    evr: 0.1.3-1.el9
-    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9.src.rpm
+    evr: 0.1.3-1.el9_6.1
+    sourcerpm: xdg-dbus-proxy-0.1.3-1.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/x/xdg-desktop-portal-1.12.6-1.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 398716

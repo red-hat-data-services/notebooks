@@ -4899,10 +4899,10 @@ arches:
     sourcerpm: qhull-7.2.1-11.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/repodata/8a388eb44cde8106248b6075c302be609790f12db972266113e9a63588f92409-modules.yaml.gz
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/repodata/1e4f58f8ba5a78ab86ac15de10a89b39027b2a30a9276dfd8cd18010c26f94e0-modules.yaml.gz
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 47850
-    checksum: sha256:8a388eb44cde8106248b6075c302be609790f12db972266113e9a63588f92409
+    checksum: sha256:1e4f58f8ba5a78ab86ac15de10a89b39027b2a30a9276dfd8cd18010c26f94e0
 - arch: ppc64le
   packages:
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.ppc64le.rpm
@@ -9835,10 +9835,10 @@ arches:
     sourcerpm: qhull-7.2.1-11.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/repodata/e71f5ca103e758b082d1d72896fb29647926bcbb5219964b48df962a67851906-modules.yaml.gz
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/repodata/e1082e64bc194e47db04acc2ce557eb8bfdf46c497b24634368e86f02bf18895-modules.yaml.gz
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 44294
-    checksum: sha256:e71f5ca103e758b082d1d72896fb29647926bcbb5219964b48df962a67851906
+    checksum: sha256:e1082e64bc194e47db04acc2ce557eb8bfdf46c497b24634368e86f02bf18895
 - arch: s390x
   packages:
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.s390x.rpm
@@ -14743,10 +14743,10 @@ arches:
     sourcerpm: qhull-7.2.1-11.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/repodata/ae667448b6409ccfbe6862f649121284a6ee4a159110382b2a19710a029980f8-modules.yaml.gz
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/repodata/89e4746a4472446a509958470d1c5c5374d12d6cca9d9db14e21ec7ea03c29a7-modules.yaml.gz
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 46816
-    checksum: sha256:ae667448b6409ccfbe6862f649121284a6ee4a159110382b2a19710a029980f8
+    checksum: sha256:89e4746a4472446a509958470d1c5c5374d12d6cca9d9db14e21ec7ea03c29a7
 - arch: x86_64
   packages:
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhelai/3.5/os/Packages/l/libsndfile-1.2.2-6.el9ai.x86_64.rpm
@@ -19686,7 +19686,7 @@ arches:
     sourcerpm: qhull-7.2.1-11.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/repodata/74ea96c89ae6352b160bb4c75a4f988352846f7770d041e1b2e07b0cee39640b-modules.yaml.gz
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/repodata/176df14ea6f859e30b241890a5e4e3f3e1fa431be3f50503c97a031e138078cc-modules.yaml.gz
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 46071
-    checksum: sha256:74ea96c89ae6352b160bb4c75a4f988352846f7770d041e1b2e07b0cee39640b
+    checksum: sha256:176df14ea6f859e30b241890a5e4e3f3e1fa431be3f50503c97a031e138078cc
