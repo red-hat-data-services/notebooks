@@ -62,11 +62,19 @@ pushd "/workspace/$PREFETCH_INPUT_DIR" >/dev/null
         overall_status=$(subscription-manager status 2>/dev/null | grep "Overall Status" | awk -F': ' '{print $2}' || true)
         echo "System Registration Status: $overall_status"
 
-        # CRB is disabled by default in RHEL subscriptions but needed for
-        # -devel packages (openblas-devel, pybind11-devel, ninja-build, etc.)
-        echo "Enabling codeready-builder (CRB) repo..."
+        # RHOAI/AIPCC runtime images use RHEL 9.6 EUS repos (baseos/appstream/CRB).
+        # Restrict the activation key's large repo set to only what this lockfile needs.
         basearch=$(rpm --eval '%{_arch}')
-        subscription-manager repos --enable="codeready-builder-for-rhel-9-${basearch}-rpms" 2>/dev/null || true
+        echo "Restricting yum repos to EUS + required layered products..."
+        subscription-manager repos --disable="*" >/dev/null || true
+        for repo in \
+            "rhel-9-for-${basearch}-baseos-eus-rpms" \
+            "rhel-9-for-${basearch}-appstream-eus-rpms" \
+            "codeready-builder-for-rhel-9-${basearch}-eus-rpms" \
+            "rhocp-4.22-for-rhel-9-${basearch}-rpms" \
+            "rhelai-3.3-for-rhel-9-${basearch}-rpms"; do
+            subscription-manager repos --enable="$repo" 2>/dev/null || true
+        done
 
         # subscription-manager generates redhat.repo with literal x86_64
         # in URLs (e.g. .../9.6/x86_64/appstream/os). For multi-arch

@@ -517,6 +517,7 @@ wrapt==2.1.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
 yarl==1.25.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c781f7923b80b15739aa7c0ab403fc05f28f9fb3f5797b0cfa6789f0d3d627ff \
     --hash=sha256:84f298b66a4e786e89ca18a8644ec2f7d9919fef7cbd30d9eeb0f7c72aa6d492 \
+    --hash=sha256:a133ddf185187db08f23d0157128c8fbfd744a940e9b58af6bc599ce061e85e2 \
     --hash=sha256:5d707c78ccedcac5ba9732e4f0a58c42e5e1780c70a7ea6dd71889c3a9eb6edf
 zipp==3.23.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1196d09c3ee32c691230fbd104eed9d626d93d964fd47f250e8b649ae90a5779
