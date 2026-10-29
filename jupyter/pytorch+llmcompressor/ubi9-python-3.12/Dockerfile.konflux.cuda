@@ -118,7 +118,11 @@ COPY prefetch-input/rhds/rpms.lock.yaml /dev/null
 
 # Install useful OS packages
 RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
-    bash /utils/dnf-helper.sh install jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat protobuf
+    bash /utils/dnf-helper.sh install jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat protobuf thrift
+RUN thrift_lib="$(rpm -ql thrift | grep -E '/libthrift-[^/]+\.so$' | head -n 1)" && \
+    test -n "${thrift_lib}" && \
+    ln -s "$(basename "${thrift_lib}")" /usr/lib64/libthrift-0.15.0.so && \
+    ldconfig
 
 # Copy dynamically-linked mongocli built in earlier build stage
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/mongocli
