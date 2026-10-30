@@ -1217,13 +1217,13 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "pillow"
-version = "12.3.0"
+version = "13.0.0"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-12.3.0-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-07-14T19:26:50Z, size = 1372893, hashes = { sha256 = "a0ae23976c3a950d107fe1412f595be73c5d2de8071d26298a1f623bae5a58a1" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-12.3.0-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-07-14T19:36:17Z, size = 1436786, hashes = { sha256 = "02487f9b1900a101a6c2d743172bb916baa4c2b574a676f09751423d55d47496" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-12.3.0-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-07-14T20:24:52Z, size = 1635762, hashes = { sha256 = "c59cfb8d5dfeb4409f42c9a90b25c8f4b213434756c4f64c377fe51a34e53245" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-12.3.0-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-07-14T19:29:11Z, size = 1402264, hashes = { sha256 = "8dc435092a6842d8483be410e080e5c1eccd7aa991f30787cd9601eedcccf260" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-13.0.0-2-cp312-cp312-linux_aarch64.whl", upload-time = 2026-10-20T22:50:30Z, size = 1394150, hashes = { sha256 = "5cd28e40a6774d00ca9eedbc3367deb5bba81f776d3feca88f9d15a78f166675" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-13.0.0-2-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-10-20T19:55:59Z, size = 1458403, hashes = { sha256 = "97a140c212159df145e96dd5695ac37ab685c171d4e69213448148a4d52ed169" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-13.0.0-2-cp312-cp312-linux_s390x.whl", upload-time = 2026-10-20T19:16:37Z, size = 1657471, hashes = { sha256 = "ea631f4bf04696ed6e07f9127cda528354e3e36aef5a95e132ad9a7b5ff7e8eb" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pillow-13.0.0-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-20T22:11:12Z, size = 1421717, hashes = { sha256 = "64db2d39eee6e20e1168fb85be078f1ad4a9e5c8da6b795462d1933b7d86b1a9" } },
 ]
 
 [[packages]]
