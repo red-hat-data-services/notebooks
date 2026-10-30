@@ -1178,9 +1178,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "pillow"
-version = "12.3.0"
+version = "13.0.0"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/pillow-12.3.0-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-07-14T21:13:22Z, size = 1402264, hashes = { sha256 = "45bdc2d8bb911093d8d50b004a5f8aa9792c8b3627408ec136f81b29b9503671" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/pillow-13.0.0-12-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-20T22:25:02Z, size = 1421718, hashes = { sha256 = "d84c9234dce1c4d29cb7e7c3a16fd867581f52ab26f73001f716ba10e96aed1a" } }]
 
 [[packages]]
 name = "platformdirs"

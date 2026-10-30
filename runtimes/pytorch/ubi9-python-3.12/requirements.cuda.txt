@@ -310,9 +310,9 @@ pathspec==1.0.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1e705eed84eae9f75b6d653406cdc4f9b1e5cce89e4244f0ff18b17ae58805e6
 pexpect==4.9.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:aef8ff71f2ba78f0e90f98da3b6b230a363b8217ad3896173e46e5a0f4a8d49c
-pillow==12.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:4eeda898c5e2606f04eb743e6e9804ababb27c8f4fb2f36931e8de573a644e7b \
-    --hash=sha256:9c559c19c83f1d522637df78adefd7906c628879a3bf0e4ffa3d6ec96404f2b1
+pillow==13.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:596978a4d0b3c187875bffd84828ab408121d1025361de46fe8adffabd0082aa \
+    --hash=sha256:7c19059cc2b46a50ec2a10e7432f6537192554fe9b24b2424780d262bf318f4b
 platformdirs==4.9.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7b7b84b5133ccfca6ed9d50436f9f35e40d95513fd0b317a526d16f6cfb19ecf
 plotly==6.6.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \

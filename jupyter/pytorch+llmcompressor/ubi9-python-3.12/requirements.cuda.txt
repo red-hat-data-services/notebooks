@@ -463,9 +463,9 @@ pathvalidate==3.3.1 ; python_full_version >= '3.12' and implementation_name == '
     --hash=sha256:6845e0cf9051b31d455a449acda5983114ce2c7085b81337e102c6517b71795d
 pexpect==4.9.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:8b376d8ae1d099528b1b0958be10c4489d636dc5e310b7f38c0fbc5d2f66e335
-pillow==12.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f7ef03f091c2c533b8ede53162f112660aa014261a358d40d1012c3b431d98e9 \
-    --hash=sha256:d88a9aee5bf8df0addff99df7130e8535fb0f3f99b99531155851b01602d6d9b
+pillow==13.0.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f1ba51d657ae26e1341e3f9b769e56700c2ccdd95d24bb5cb5011c14fcf70f98 \
+    --hash=sha256:84b08a0264f49481cd5e5eeb3fd16c09e97692139aed14dd02bf312d60457d1c
 pip==26.1.2 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2c7b46fa008517d9d20287c14d2f21659a82bbb2bb51899207be38980c6e3a4f
 platformdirs==4.9.4 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
