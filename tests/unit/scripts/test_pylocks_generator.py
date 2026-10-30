@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -107,6 +108,34 @@ def test_resolve_exclude_newer_ci_fallback(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     assert pg.resolve_exclude_newer(p, ci_check=True, live_timestamp="2020-01-01T00:00:00Z") == ("2020-01-01T00:00:00Z")
+
+
+def test_restore_missing_wheels(tmp_path: Path) -> None:
+    previous = """[[packages]]
+name = "yarl"
+version = "1.25.1"
+wheels = [
+    { url = "https://example.com/yarl-x86_64.whl", upload-time = 2026-10-07T22:50:44Z, size = 106209, hashes = { sha256 = "5d707c78" } },
+    { url = "https://example.com/yarl-s390x.whl", upload-time = 2026-10-23T16:22:42Z, size = 132180, hashes = { sha256 = "a133ddf1" } },
+]
+"""
+    current = """[[packages]]
+name = "yarl"
+version = "1.25.1"
+wheels = [
+    { url = "https://example.com/yarl-x86_64.whl", upload-time = 2026-10-07T22:50:44Z, size = 106209, hashes = { sha256 = "5d707c78" } },
+]
+"""
+    lock_path = tmp_path / "pylock.restore.toml"
+    lock_path.write_text(current, encoding="utf-8")
+
+    pg._restore_missing_wheels(lock_path, previous)
+
+    restored = tomllib.loads(lock_path.read_text(encoding="utf-8"))
+    assert [wheel["url"] for wheel in restored["packages"][0]["wheels"]] == [
+        "https://example.com/yarl-x86_64.whl",
+        "https://example.com/yarl-s390x.whl",
+    ]
 
 
 class TestEnsureJsonFormatParam:

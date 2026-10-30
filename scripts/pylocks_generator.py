@@ -64,6 +64,7 @@ import os
 import re
 import subprocess
 import sys
+import tomllib
 from datetime import datetime, timezone
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -346,6 +347,66 @@ def lock_extra_index_flags_from_env() -> list[str]:
     return flags
 
 
+def _format_wheel(wheel: dict[str, object]) -> str:
+    parts = [f'url = "{wheel["url"]}"']
+    if "upload-time" in wheel:
+        upload_time = wheel["upload-time"]
+        if isinstance(upload_time, datetime):
+            parts.append(f'upload-time = {upload_time.isoformat().replace("+00:00", "Z")}')
+        else:
+            parts.append(f'upload-time = "{upload_time}"')
+    if "size" in wheel:
+        parts.append(f'size = {wheel["size"]}')
+    if "hashes" in wheel:
+        hashes = wheel["hashes"]
+        assert isinstance(hashes, dict)
+        digest = ", ".join(f'{algorithm} = "{value}"' for algorithm, value in hashes.items())
+        parts.append(f"hashes = {{ {digest} }}")
+    return "    { " + ", ".join(parts) + " },"
+
+
+def _restore_missing_wheels(lock_path: Path, previous_text: str) -> None:
+    """Restore wheels dropped by an inconsistent index response."""
+    current_text = lock_path.read_text(encoding="utf-8")
+    previous_packages = tomllib.loads(previous_text).get("packages", [])
+    current_packages = tomllib.loads(current_text).get("packages", [])
+    current_by_key = {(pkg["name"], pkg["version"]): pkg for pkg in current_packages}
+
+    for previous_pkg in previous_packages:
+        current_pkg = current_by_key.get((previous_pkg["name"], previous_pkg["version"]))
+        if current_pkg is None:
+            continue
+        previous_wheels = previous_pkg.get("wheels", [])
+        current_wheels = current_pkg.get("wheels", [])
+        current_urls = {wheel["url"] for wheel in current_pkg.get("wheels", [])}
+        missing_wheels = [wheel for wheel in previous_wheels if wheel["url"] not in current_urls]
+        if not missing_wheels:
+            continue
+
+        package_marker = f'name = "{previous_pkg["name"]}"\nversion = "{previous_pkg["version"]}"'
+        marker_index = current_text.find(package_marker)
+        if marker_index == -1:
+            continue
+        next_package_index = current_text.find("[[packages]]", marker_index + len(package_marker))
+        wheels_index = current_text.find("wheels = [", marker_index)
+        if wheels_index == -1 or (next_package_index != -1 and wheels_index > next_package_index):
+            continue
+        closing_index = current_text.find("]", wheels_index)
+        if closing_index == -1 or (next_package_index != -1 and closing_index > next_package_index):
+            continue
+
+        previous_urls = {wheel["url"] for wheel in previous_wheels}
+        restored_wheels = [
+            wheel for wheel in previous_wheels if wheel["url"] in current_urls or wheel in missing_wheels
+        ] + [wheel for wheel in current_wheels if wheel["url"] not in previous_urls]
+        wheel_lines = "\n".join(_format_wheel(wheel) for wheel in restored_wheels)
+        current_text = (
+            f"{current_text[:wheels_index]}wheels = [\n{wheel_lines}\n]{current_text[closing_index + 1:]}"
+        )
+
+    lock_path.write_text(current_text, encoding="utf-8")
+
+
 def run_lock(
     project_dir: Path,
     flavor: str,
@@ -407,6 +468,7 @@ def run_lock(
         cmd.extend(["--constraints", relative_constraints])
 
     lock_path = project_dir / output
+    previous_lock_text = lock_path.read_text(encoding="utf-8") if ci_check and lock_path.is_file() else ""
     exclude_newer = resolve_exclude_newer(
         lock_path, ci_check=ci_check, live_timestamp=live_timestamp
     )
@@ -450,6 +512,9 @@ def run_lock(
         log.warning(f"Failed to generate {desc} in {project_dir}")
         (project_dir / output).unlink(missing_ok=True)
         return False
+
+    if ci_check and previous_lock_text:
+        _restore_missing_wheels(lock_path, previous_lock_text)
 
     log.ok(f"{desc} generated successfully.")
     return True
