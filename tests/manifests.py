@@ -26,6 +26,7 @@ JUPYTER_MINIMAL_NOTEBOOK_ID = "minimal"
 JUPYTER_BASELINE_NOTEBOOK_ID = "baseline"
 JUPYTER_DATASCIENCE_NOTEBOOK_ID = "datascience"
 JUPYTER_TRUSTYAI_NOTEBOOK_ID = "trustyai"
+JUPYTER_UNIVERSAL_NOTEBOOK_ID = "universal"
 JUPYTER_PYTORCH_NOTEBOOK_ID = "pytorch"
 JUPYTER_TENSORFLOW_NOTEBOOK_ID = "tensorflow"
 
@@ -88,7 +89,7 @@ def extract_metadata_from_path(directory: Path) -> NotebookMetadata:
     # 2. Find the notebook's characteristic path components
     path_parts = directory.parts
     # Find the root component ('jupyter', 'runtimes', etc.) to anchor the search
-    for root_candidate in ("codeserver-baseline", "jupyter", "codeserver", "runtimes"):
+    for root_candidate in ("codeserver-baseline", "codeserver-minimal", "jupyter", "codeserver", "runtimes"):
         try:
             start_index = path_parts.index(root_candidate)
             break
@@ -181,8 +182,12 @@ def get_source_of_truth_filepath(
             if accelerator_flavor == "cuda":
                 filename = f"jupyter-{scope}-gpu-{file_suffix}"
 
-        elif scope in (JUPYTER_DATASCIENCE_NOTEBOOK_ID, JUPYTER_TRUSTYAI_NOTEBOOK_ID):
-            # Logic for datascience and trustyai
+        elif scope in (
+            JUPYTER_DATASCIENCE_NOTEBOOK_ID,
+            JUPYTER_TRUSTYAI_NOTEBOOK_ID,
+            JUPYTER_UNIVERSAL_NOTEBOOK_ID,
+        ):
+            # Logic for datascience, trustyai, and universal
             filename = f"jupyter-{scope}-{file_suffix}"
 
         elif scope == JUPYTER_BASELINE_NOTEBOOK_ID:
@@ -197,7 +202,9 @@ def get_source_of_truth_filepath(
                 filename = f"jupyter-{scope}-{file_suffix}"
 
     elif CODESERVER_NOTEBOOK_ID in notebook_id or notebook_id == "codeserver-baseline":
-        if notebook_id == "codeserver-baseline" or scope == JUPYTER_BASELINE_NOTEBOOK_ID:
+        if notebook_id == "codeserver-minimal":
+            filename = f"code-server-minimal-{file_suffix}"
+        elif notebook_id == "codeserver-baseline" or scope == JUPYTER_BASELINE_NOTEBOOK_ID:
             filename = f"code-server-baseline-{file_suffix}"
         else:
             filename = f"code-server-{file_suffix}"
@@ -351,6 +358,9 @@ class TestManifests:
             "jupyter-trustyai-ubi9-python-3.12": MANIFESTS_ODH_DIR
             / "base"
             / "jupyter-trustyai-notebook-imagestream.yaml",
+            "jupyter-universal-ubi9-python-3.12": MANIFESTS_ODH_DIR
+            / "base"
+            / "jupyter-universal-notebook-imagestream.yaml",
             "codeserver-ubi9-python-3.12": MANIFESTS_ODH_DIR / "base" / "code-server-notebook-imagestream.yaml",
             "codeserver-baseline-c9s-python-3.12": MANIFESTS_ODH_DIR
             / "base"

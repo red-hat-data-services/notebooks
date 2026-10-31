@@ -2,7 +2,7 @@
 name: Semgrep TLS Rules
 on:  # yamllint disable-line rule:truthy
   pull_request:
-    branches: [main, master, dev, odh, incubating, stable, stable-2.x]
+    branches: [main, master, dev, odh, incubation, stable, stable-2.x]
 
 permissions:
   contents: read
@@ -11,7 +11,7 @@ jobs:
   semgrep-tls:
     runs-on: ubuntu-latest
     container:
-      image: semgrep/semgrep@sha256:cab19964e6c93019934252a9cd591d9b27df1e5b5d1734b26f4069ae51c295f8  # 1.168.0
+      image: semgrep/semgrep@sha256:c8f333ab0ad103d2bcd3b55cbeabcfc556bfeaa7446ba18594a4320f3807ffc9  # 1.168.0
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 

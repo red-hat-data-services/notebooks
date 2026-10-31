@@ -1,6 +1,6 @@
 ARG TARGETARCH
 
-FROM quay.io/centos/centos:stream9@sha256:cfee9f59eb4d66295690829cebb75c6c97ca199c8929f8f933d88745280cbab4 AS buildscripts
+FROM quay.io/centos/centos:stream9@sha256:6f8045fc4f552544d8a401d61848bafc8d06ca7c11897c5b54a2c37fc419a20a AS buildscripts
 COPY base-images/utils/aipcc.sh /mnt/aipcc.sh
 COPY base-images/utils/fix-permissions /mnt/usr/bin/
 
@@ -9,7 +9,7 @@ COPY base-images/utils/fix-permissions /mnt/usr/bin/
 ####################
 # ROCm packages, repos, env vars, and SDK are provided by the midstream image.
 # Source: https://github.com/opendatahub-io/base-containers (rocm/7.14/)
-FROM quay.io/opendatahub/odh-midstream-rocm-base-7-14:1.20260917.0@sha256:486cdaed011fa761368af6c1413a4895fcd4e72a39b6d187969515c7c6e2f5fb AS base
+FROM quay.io/opendatahub/odh-midstream-rocm-base-7-14:1.20261026.3@sha256:ae26c3ce326ae464d68d6de42e106cbeea5b8b8d178c47b72ccbacdd78051c6f AS base
 
 USER 0
 ARG TARGETARCH
