@@ -131,7 +131,15 @@ COPY prefetch-input/odh/rpms.lock.yaml /dev/null
 COPY prefetch-input/rhds/rpms.lock.yaml /dev/null
 
 RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
-    bash /utils/dnf-helper.sh install jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat protobuf
+    /bin/bash <<'EOF'
+set -Eeuxo pipefail
+PACKAGES=(jq unixODBC postgresql git-lfs libsndfile libxcrypt-compat protobuf)
+# The s390x Pillow wheel links against these system libraries.
+if [[ "$(uname -m)" == "s390x" ]]; then
+    PACKAGES+=(lcms2 openjpeg2)
+fi
+bash /utils/dnf-helper.sh install "${PACKAGES[@]}"
+EOF
 
 COPY --from=mongocli-builder /tmp/mongocli /opt/app-root/bin/
 

@@ -245,6 +245,10 @@ PACKAGES=(
     # nss_wrapper: required by generate_container_user (LD_PRELOAD=libnss_wrapper.so)
     nss_wrapper
 )
+# The s390x Pillow wheel links against these system libraries.
+if [[ "$(uname -m)" == "s390x" ]]; then
+    PACKAGES+=(lcms2 openjpeg2)
+fi
 dnf install -y "${PACKAGES[@]}"
 dnf clean all
 rm -rf /var/cache/dnf

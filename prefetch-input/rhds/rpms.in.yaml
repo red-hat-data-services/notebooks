@@ -45,6 +45,9 @@ packages:
   - git-lfs
   - libsndfile
   - libxcrypt-compat
+  # The s390x Pillow wheel needs these runtime libraries.
+  - lcms2
+  - openjpeg2
   # PyArrow (RHOAI wheels) links libprotobuf.so.25; install C++ runtime (not protobuf-c).
   - protobuf
 
