@@ -10,5 +10,5 @@ on:  # yamllint disable-line rule:truthy
 jobs:
   post-codefreeze-gate:
     if: github.event.action != 'labeled' || github.event.label.name == 'run-gatekeeper'
-    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@ef98d1208bacfd42ffb1435c02f6301a85c1fd68  # main
+    uses: red-hat-data-services/devops-shared-resources/.github/workflows/post-codefreeze-gate-logic.yml@a8d782faf8a4fd7f873590487f6ff203b136f6ef  # main
     secrets: inherit
