@@ -57,8 +57,9 @@ botocore==1.43.50 ; python_full_version == '3.12.*' and implementation_name == '
     --hash=sha256:a202e00c75172a292d6cd3f5d217b7c27333c496ef854ead607ea6b3d7b6bb2d
 cachetools==7.1.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2c532448490746cb5330504ca9b4e301367de61e7352e630c8d0ccffba800f3a
-certifi==2026.6.17 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:36a32caf926900a4f112e18621636a19ce6474c5b2aeb148588147d2633ec530
+certifi==2026.10.19 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:3aad93ed5a2e5467cbe9c3f8879f96949d85dc5964aed70f2ce24edcf6b833f8 \
+    --hash=sha256:a47d0355ba4428a265002bd50960230cae2b0f61cc49c93c0617f5778df1d304
 cffi==2.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b703edbff5360a21fef99111c05dca5d40fba6fbc8c2b6367a9f2caee76cb952 \
     --hash=sha256:5ec366c2be9b0caedc5686fff68f0fb70af4338a30bf8ab2b56aa639b4586e32 \

@@ -75,6 +75,9 @@ wheel>=0.46.2
 # RHAI-2717: CVE-2026-96749 PyMongo BSON integer overflow out-of-bounds write
 pymongo>=4.18.2
 
+# RHAI-18544 et al.: eMudhra root certificate distrust fix in certifi 2026.10.19
+certifi>=2026.10.19
+
 # RHAI-8029 / RHOAIENG-90006 et al.: CVE-2026-81726, CVE-2026-109956, and related NLTK path traversal fixes
 nltk>=3.10.4
 

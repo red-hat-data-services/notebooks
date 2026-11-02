@@ -26,8 +26,9 @@ beautifulsoup4==4.15.0 ; python_full_version == '3.12.*' and implementation_name
     --hash=sha256:aaae3d67fbd038a04abb6b82e84418394e5dba17f2b9ae78aa582c5e4e39fcc1
 bleach==6.4.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:406a3e08a1a587584b5d31d4c0f55657a6701d3436a9966e6466258981c52cb7
-certifi==2026.6.17 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:966309c383d85845509ef0f2d53a18c8ed5f585eb2bd1bc75f011d255b8d1328
+certifi==2026.10.19 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:c50ebb46a28d8dd7613ef30aebb2167c984f361cc434942d7da7d947ea7a0f05 \
+    --hash=sha256:91a2cbcf67ded3b531d9f1b07909f0ba7b9fdf93fb783ee66b95fdc4e802783f
 cffi==2.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:710dc52cfe40fdeb1a1104d3273e4b29df708f13044a8f16427420d07a53e6a4
 charset-normalizer==3.4.9 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
