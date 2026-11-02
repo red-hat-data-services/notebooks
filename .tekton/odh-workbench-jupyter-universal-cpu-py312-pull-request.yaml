@@ -7,15 +7,14 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-jupyter-universal)"
+    pipelinesascode.tekton.dev/on-comment: '^/build-konflux'
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
       event == "pull_request"
-      && ! ("manifests/rhoai/base/params-latest.env".pathChanged())
-      && (".tekton/odh-workbench-jupyter-universal-cpu-py312-pull-request.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/universal/ubi9-python-3.12/**".pathChanged() || "jupyter/universal/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged() || "prefetch-input/mongocli/**".pathChanged() || "prefetch-input/rhds/**".pathChanged())
+      && (files.all.exists(p, ! p.matches('^\\.tekton/')) || ".tekton/odh-workbench-jupyter-universal-cpu-py312-pull-request.yaml".pathChanged())
   labels:
-    appstudio.openshift.io/application: automation
-    appstudio.openshift.io/component: pr-pipelines-odh-wb-jupyter-universal-cpu-py312
+    appstudio.openshift.io/application: rhoai-v3-6
+    appstudio.openshift.io/component: odh-workbench-jupyter-universal-cpu-py312-v3-6
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-universal-cpu-py312-on-pull-request-{{pull_request_number}}
   namespace: rhoai-tenant
@@ -26,7 +25,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/rhoai/pull-request-pipelines:odh-workbench-jupyter-universal-cpu-py312-{{revision}}
+    value: quay.io/rhoai/odh-workbench-jupyter-universal-cpu-py312-rhel9:on-pr-{{pull_request_number}}
   - name: dockerfile
     value: jupyter/universal/ubi9-python-3.12/Dockerfile.konflux.cpu
   - name: build-args-file
@@ -34,7 +33,7 @@ spec:
   - name: path-context
     value: .
   - name: image-expires-after
-    value: 5d
+    value: 30d
   - name: enable-slack-failure-notification
     value: "false"
   - name: rhel-subscription-activation-key
@@ -117,18 +116,8 @@ spec:
       limits:
         cpu: '3'
         memory: 8Gi
-  - pipelineTaskName: rpms-signature-scan
-    stepSpecs:
-    - name: rpms-signature-scan
-      computeResources:
-        requests:
-          cpu: 2600m
-          memory: 512Mi
-        limits:
-          cpu: 2600m
-          memory: 512Mi
   taskRunTemplate:
-    serviceAccountName: build-pipeline-pull-request-pipelines
+    serviceAccountName: build-pipeline-odh-workbench-jupyter-universal-cpu-py312-v3-6
     podTemplate:
       imagePullSecrets:
       - name: redhat-appstudio-staginguser-pull-secret
