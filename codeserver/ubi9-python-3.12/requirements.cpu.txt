@@ -145,9 +145,9 @@ boto3==1.40.76 ; (python_full_version == '3.12.*' and platform_machine == 'aarch
 botocore==1.40.76 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
     --hash=sha256:fe425d386e48ac64c81cbb4a7181688d813df2e2b4c78b95ebe833c9e868c6f4 \
     --hash=sha256:2b16024d68b29b973005adfb5039adfe9099ebe772d40a90ca89f2e165c495dc
-certifi==2026.7.22 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
-    --hash=sha256:62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775 \
-    --hash=sha256:741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55
+certifi==2026.10.23 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
+    --hash=sha256:e9b54de76e530bb6cf0ccd036787103acb58fd42ba930ea8bf948ddbaa2f61d1 \
+    --hash=sha256:a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd
 cffi==2.1.1 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
     --hash=sha256:68e62fe11f30d5ca8289242866f0a5291402d8529ca2178ab8afc5c9694ae890 \
     --hash=sha256:4a7c934f7360e8cd64fe9efadcbd10c7c6364f531e432b9a4bf5ccbc9e0e8b50 \
@@ -847,9 +847,9 @@ narwhals==2.25.0 ; (python_full_version == '3.12.*' and platform_machine == 'aar
 nbclient==0.11.0 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
     --hash=sha256:ef7fa0d59d6e1d41103933d8a445a18d5de860ca6b613b87b8574accdb3c2895 \
     --hash=sha256:04a134a5b087f2c5887f228aca155db50169b8cd9334dee6942c8e927e56081a
-nbconvert==7.17.1 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
-    --hash=sha256:aa85c087b435e7bf1ffd03319f658e285f2b89eccab33bc1ba7025495ab3e7c8 \
-    --hash=sha256:34d0d0a7e73ce3cbab6c5aae8f4f468797280b01fd8bd2ca746da8569eddd7d2
+nbconvert==7.17.2 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
+    --hash=sha256:6a143c11c00bf831604da4b1be4347d36ea52367057eb920135d69bc2862fed2 \
+    --hash=sha256:344a218e8595117ce37396ed025d994f146d076226ebac59255a2fa085ab24d8
 nbformat==5.11.1 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 's390x' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') \
     --hash=sha256:cc6698fa75f4fab8755ead786317815f13a6fee3b53311c0abb1a8b51d52f7ec \
     --hash=sha256:32d4521c68c6e7d5b29c76defaeed9f42ea733142b9b19f88277ce10390b9c4d
