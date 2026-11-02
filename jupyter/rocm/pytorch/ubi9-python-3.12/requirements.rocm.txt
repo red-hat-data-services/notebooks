@@ -339,8 +339,8 @@ notebook-shim==0.2.4 ; python_full_version == '3.12.*' and implementation_name =
     --hash=sha256:8f409731de86cd95c56257001188d4f50e23fe0bbd7605975faf4b7e2bd51843
 numpy==2.5.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c0a2172694af06c4ee8b0e27488f335a877587eeaf3ed8c194a7d6766d6beb99
-oauthlib==3.3.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:f8d360ab44c905eebdf85a2d5c3b8e64273368f1f73bd8889172ab3bf64209ea
+oauthlib==4.0.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:394a62a19e067fa307ce7e40b0cccf6e437eac56bb275fa040780beb752600ca
 odh-elyra==5.0.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c0018eb3ff71940a0321c6cf911be95e4b5d47890b190274fc755eab7ba5cbd9
 odh-jupyter-trash-cleanup==0.1.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -418,8 +418,8 @@ pure-eval==0.2.3 ; python_full_version == '3.12.*' and implementation_name == 'c
     --hash=sha256:4585f553e7e40991fe95dd0e0ccb3323ce937c58e1ed140b5680e2c991966a1a
 pyarrow==24.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3d13efd25871da7f91d0dd60d94a0e767bbda36db1f35e2199ba4c37a922a2c3
-pyasn1==0.6.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ce47172893aa33a61afc730174bee20501a94ff0f2c1cf5f8030813f87814712
+pyasn1==0.6.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:e84891e780be131089963c9baca5952d975f6574f19f7a0b2b9ac7afeb528295
 pyasn1-modules==0.4.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0850aba1fe0efa45d64ec409ae4dcb8ceed94b8ebd0ac5bbe073d05f678c00f1
 pycodestyle==2.12.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

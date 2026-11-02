@@ -78,6 +78,12 @@ pymongo>=4.18.2
 # RHAI-18544 et al.: eMudhra root certificate distrust fix in certifi 2026.10.19
 certifi>=2026.10.19
 
+# RHAI-17265 et al.: CVE-2026-118669 oauthlib device-code validation fix
+oauthlib>=4.0.1
+
+# RHAI-17992 et al.: CVE-2026-119194-119197 pyasn1 linear-time decoding fixes
+pyasn1>=0.6.5
+
 # RHAI-18427: eMudhra root certificate distrust fix in botocore 1.43.117
 boto3>=1.43.117
 botocore>=1.43.117

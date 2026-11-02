@@ -296,8 +296,8 @@ numpy==2.5.1 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
     --hash=sha256:398208907bae47249bf42e9ec9777b0843f16ff00b184a787df82f6e9d34e2ff \
     --hash=sha256:3ac2e92457dccce781b28fef191628bca87e4faf42d32bdc9a27b9e5591ad4a9 \
     --hash=sha256:721559a7de55779c32c6affe4f08b147bffd8ea53e633f5b0a3d0282e099d053
-oauthlib==3.3.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:c6fbab4f1a77a539f01175e2ea74b9552806bd0a849c70e744fda4ab801031c0
+oauthlib==4.0.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:34b43745c5ea92dfc2e35bee015080ed1d16d4249b5d84d025d2b6949c531458
 onnx==1.22.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:40cc7000fc8bdc23a17d5dc120e9703012c5bf58522c388d80fea7095f294b99 \
     --hash=sha256:40487b662c07b175cf44b9bc729a43d54623ad605149234d28f1c0f190ca51d1 \
@@ -385,8 +385,8 @@ pyarrow==24.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cp
     --hash=sha256:b323063464147acd9c53d34c98fcbfb9135c340190cdef7f0c524e9a23ba5169 \
     --hash=sha256:0de90c6c3bbb4f1e635e32bfc8e49d6605b540b0fb2ff6f4c7bfa0ebd58a630f \
     --hash=sha256:831c9000667e0712c2a91d980b0b5b928e8535d62d8fe3ff75f1541f0e8c19c2
-pyasn1==0.6.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:aa4baf3e3b2b894b21127fc4769773650d15543dec5a3756daaa19c0f3763b7f
+pyasn1==0.6.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:fdaff1dbf2cf5bb53eace764b0eef67f0a0e8a9b18aa1bf8503ad25199575e6f
 pyasn1-modules==0.4.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:6b1010138365a6fc22f4efd32edd504ec3f538e1ac3d1947ba9f7821ef15ef6c
 pycodestyle==2.14.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
