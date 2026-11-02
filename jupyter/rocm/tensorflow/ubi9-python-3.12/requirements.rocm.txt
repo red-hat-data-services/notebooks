@@ -54,10 +54,10 @@ blinker==1.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:8606f605b1d82c786f9dbd50be0b56675fb4034678fc03490ffcff5a63717d07
 bokeh==3.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9787a6a8c605ab0037426ac20615393e89bf66c156c0f8fd0ff28bcfe00e3ac3
-boto3==1.43.50 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:dcd2dee9e69975dc654b061fa17d5a98c20ddcf0f9ad9e369284632b2ec05009
-botocore==1.43.50 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6fa0e1d26bdd15ec589948340661cabe5a4d541632554f783c0fb8c75eb7087f
+boto3==1.43.122 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a0a31f362466b8819b5dcd7fb63ba686dac4fa44d8947795aed327e0bfe2763a
+botocore==1.43.122 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0f38ad23588f3ac28c2e7e283318786608b25f7643db74b669197dad4fe2a09b
 cachetools==7.1.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:36474802af735331eecf6e5eaf838f994bdd4c7fcc4eb8fd6796aa26372a0893
 certifi==2026.10.19 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -400,9 +400,8 @@ pexpect==4.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:02daccbbdcac7ea1054bd3003a1adfa6ea1c2490c76774265d0dfcafb3fcd214
 pillow==13.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:056933297897e184c7e7ff6da89cfa579a36b5357e103769fbbf3bcc65cf2749
-pip==26.1.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:bfb6b2d4036e58f21df180f5a6e8f6b42b7f120087feb143d7ebac8f74e2ab96 \
-    --hash=sha256:12c73f1fa2aff7d9d3b6b78587af5eb377c1dd65cbd8b5c734aca86c879bcd8d
+pip==26.2.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:ce16a0fcf8720bafa390d653155fd614314913c0f774989eded9234914fae7c0
 platformdirs==4.10.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:32687e95f5df3e6cbca5216382b3a2575a2853c7676effbb07a3e9e5042971b3
 plotly==6.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

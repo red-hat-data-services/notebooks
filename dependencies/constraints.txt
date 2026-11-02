@@ -78,6 +78,13 @@ pymongo>=4.18.2
 # RHAI-18544 et al.: eMudhra root certificate distrust fix in certifi 2026.10.19
 certifi>=2026.10.19
 
+# RHAI-18427: eMudhra root certificate distrust fix in botocore 1.43.117
+boto3>=1.43.117
+botocore>=1.43.117
+
+# eMudhra certificate compromise mitigation in pip 26.2.2
+pip>=26.2.2
+
 # RHAI-8029 / RHOAIENG-90006 et al.: CVE-2026-81726, CVE-2026-109956, and related NLTK path traversal fixes
 nltk>=3.10.4
 
