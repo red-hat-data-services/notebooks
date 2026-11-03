@@ -717,9 +717,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "jupyterlab"
-version = "4.6.2"
+version = "4.6.4"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/jupyterlab-4.6.2-12-py3-none-any.whl", upload-time = 2026-08-19T12:58:30Z, size = 17167738, hashes = { sha256 = "9d08579681aa4266553f0cb07f59bae05a27dbdd37d2904db2c74a907e184bb5" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/jupyterlab-4.6.4-12-py3-none-any.whl", upload-time = 2026-10-22T22:41:25Z, size = 17172631, hashes = { sha256 = "f4a01c55ecf674043c840c4cd21072d8f2696d30345438e56335ac72d9303e82" } }]
 
 [[packages]]
 name = "jupyterlab-git"

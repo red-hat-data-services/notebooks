@@ -97,8 +97,8 @@ jupyter-server-proxy==4.5.0 ; implementation_name == 'cpython' and sys_platform 
     --hash=sha256:d95e9e60b927832f746e9fcd361e213eedc6dafab2d2e059a22b5d8ac4aed5b2
 jupyter-server-terminals==0.5.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:467999cb28fe48f192395c44c260925250ebbeb840b117bfddbcf1a4b3b4013c
-jupyterlab==4.6.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:9d08579681aa4266553f0cb07f59bae05a27dbdd37d2904db2c74a907e184bb5
+jupyterlab==4.6.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f4a01c55ecf674043c840c4cd21072d8f2696d30345438e56335ac72d9303e82
 jupyterlab-git==0.52.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:48eec68fab9614201b2dc914f00c34f7d470a68c35715dc07a9c32e2f1aaaa9d
 jupyterlab-pygments==0.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
