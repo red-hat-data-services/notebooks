@@ -5087,13 +5087,13 @@ arches:
     name: jbigkit-libs
     evr: 2.1-23.el9
     sourcerpm: jbigkit-2.1-23.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-687.64.1.el9_8.ppc64le.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-headers-5.14.0-687.65.1.el9_8.ppc64le.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
-    size: 2983341
-    checksum: sha256:ab49d354e08e3616e69262385b4382753766e60b5153a338abeffa2a6e74d5b5
+    size: 2983605
+    checksum: sha256:bd6e68eaf9e8c78a4b703c4126ba49431fab20dd0c00f2b635ee7e3202e33266
     name: kernel-headers
-    evr: 5.14.0-687.64.1.el9_8
-    sourcerpm: kernel-5.14.0-687.64.1.el9_8.src.rpm
+    evr: 5.14.0-687.65.1.el9_8
+    sourcerpm: kernel-5.14.0-687.65.1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/Packages/k/kernel-srpm-macros-1.0-14.el9.noarch.rpm
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 14098
@@ -9079,10 +9079,10 @@ arches:
     sourcerpm: pybind11-2.10.4-2.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/repodata/96e8665d84e027d892393c89ec2f3e1c34493d9d5a33324b2bcb0a8ce07bb1a8-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/ppc64le/appstream/os/repodata/2b1fc4c54b207254aa9a22f60684920ec89836cf5491658df065b3a212117412-modules.yaml.gz
     repoid: ubi-9-for-ppc64le-appstream-rpms
     size: 8898
-    checksum: sha256:96e8665d84e027d892393c89ec2f3e1c34493d9d5a33324b2bcb0a8ce07bb1a8
+    checksum: sha256:2b1fc4c54b207254aa9a22f60684920ec89836cf5491658df065b3a212117412
 - arch: s390x
   packages:
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/s390x/appstream/os/Packages/a/annobin-12.98-2.el9.s390x.rpm
@@ -13636,27 +13636,27 @@ arches:
     name: automake
     evr: 1.16.2-8.el9
     sourcerpm: automake-1.16.2-8.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/bind-libs-9.16.23-40.el9_8.12.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/bind-libs-9.16.23-40.el9_8.13.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 1312035
-    checksum: sha256:ac8f84f91c0b0be6fd2c2648989b5cd5f901cd13ac626c9d13fc0a7fc1e90c13
+    size: 1312591
+    checksum: sha256:3ebe0007b1a409b3d5d8a28ffdbcdd466f37377588ce56ca11d23f12b2ebfe7f
     name: bind-libs
-    evr: 32:9.16.23-40.el9_8.12
-    sourcerpm: bind-9.16.23-40.el9_8.12.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/bind-license-9.16.23-40.el9_8.12.noarch.rpm
+    evr: 32:9.16.23-40.el9_8.13
+    sourcerpm: bind-9.16.23-40.el9_8.13.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/bind-license-9.16.23-40.el9_8.13.noarch.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 19973
-    checksum: sha256:3e0ef34bc8a94b9af93e156bfe93eafb831573a8571618d383fde5aa479fcd7c
+    size: 20380
+    checksum: sha256:56c2896bb38ec6599c2876b528f29ae011678fde18d8bc326f64d37570c3f995
     name: bind-license
-    evr: 32:9.16.23-40.el9_8.12
-    sourcerpm: bind-9.16.23-40.el9_8.12.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/bind-utils-9.16.23-40.el9_8.12.x86_64.rpm
+    evr: 32:9.16.23-40.el9_8.13
+    sourcerpm: bind-9.16.23-40.el9_8.13.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/bind-utils-9.16.23-40.el9_8.13.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 219294
-    checksum: sha256:395d0643c86dc9c076c4860d7a1263847b4dd7b29df979c779357c80af9dfa16
+    size: 219106
+    checksum: sha256:3c185b02e883423c0a5ed8e764ae4f76043d1c3c3be9e3750a25e0098fbcba90
     name: bind-utils
-    evr: 32:9.16.23-40.el9_8.12
-    sourcerpm: bind-9.16.23-40.el9_8.12.src.rpm
+    evr: 32:9.16.23-40.el9_8.13
+    sourcerpm: bind-9.16.23-40.el9_8.13.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/b/boost-regex-1.75.0-13.el9_7.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 281854
@@ -18174,7 +18174,7 @@ arches:
     sourcerpm: pybind11-2.10.4-2.el9.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/repodata/68b8c5903363e13fbdc94f46261676897dbf0ff0634f4de67ef03c4ed4ff52b7-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/repodata/0bd670aca32e3cca4437d994296e7e9df5ee76af28a694c79a99e3173295eb61-modules.yaml.gz
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 8328
-    checksum: sha256:68b8c5903363e13fbdc94f46261676897dbf0ff0634f4de67ef03c4ed4ff52b7
+    checksum: sha256:0bd670aca32e3cca4437d994296e7e9df5ee76af28a694c79a99e3173295eb61
