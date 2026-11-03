@@ -1197,9 +1197,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "nltk"
-version = "3.10.3"
+version = "3.10.4"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-archive = { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/nltk-3.10.3-2-py3-none-any.whl", hashes = { sha256 = "7f530b9ae42f7e87ab24b4a151d4ccbdce6475f68d0237f3455365cbb620d631" } }
+archive = { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/nltk-3.10.4-2-py3-none-any.whl", hashes = { sha256 = "351b5c65564b3e530127e6afa76c07d699a218b9e4907ddfe92e8d75af9805c0" } }
 
 [[packages]]
 name = "notebook-shim"
