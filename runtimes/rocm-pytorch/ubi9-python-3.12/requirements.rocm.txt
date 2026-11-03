@@ -283,8 +283,8 @@ pathspec==1.0.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:214dcd022fdc22b0cfa2119ddbe15dbcf8b7d9232476695c42007bc3d6b02933
 pexpect==4.9.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2d18e628366829bbb08c6d1ccf5982cd79b1e579cd4ba12fa49f40f5f48b45fb
-pillow==12.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:45bdc2d8bb911093d8d50b004a5f8aa9792c8b3627408ec136f81b29b9503671
+pillow==13.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:d84c9234dce1c4d29cb7e7c3a16fd867581f52ab26f73001f716ba10e96aed1a
 platformdirs==4.9.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:9a85adaa956767af38a2aaa0c12a5de81c88505d8578ab5d408bb66868593b1e
 plotly==6.6.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \

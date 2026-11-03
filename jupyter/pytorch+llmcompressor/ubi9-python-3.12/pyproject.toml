@@ -82,6 +82,11 @@ override-dependencies = [
     # RHAI-4764: CVE-2026-104851 fsspec - datasets (via llmcompressor meta)
     # caps fsspec<=2025.10.0; force the RH-index fix (>=2026.6.0).
     "fsspec>=2026.6.0",
+    # RHAI-11447+ (222 siblings): force pillow 13.0.0 past llmcompressor 0.10.0.3's
+    # declared pillow<13.0.0 cap (23 CVEs fixed in 13.0.0; upstream llmcompressor
+    # relaxes the cap from >=0.13.0, which is not mirrored on the rh-index).
+    # Matches the global floor in dependencies/cve-constraints.txt.
+    "pillow>=13.0.0",
     # Anti-regression floors: the datasets==5.0.1 override above shifts the resolver and
     # otherwise drags these security-relevant pins BELOW the versions already shipped on
     # rhoai-3.4. Hold them at the patched versions:
