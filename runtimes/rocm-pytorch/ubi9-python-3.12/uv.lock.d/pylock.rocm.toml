@@ -339,9 +339,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "gitpython"
-version = "3.1.62"
+version = "3.2.1"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/gitpython-3.1.62-12-py3-none-any.whl", upload-time = 2026-09-15T21:17:08Z, size = 223671, hashes = { sha256 = "3128b7c2ab56dcde4ef449e4b4add1d17c2b55dac9ccb26ce52625445685d766" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/rocm6.4-ubi9/gitpython-3.2.1-12-py3-none-any.whl", upload-time = 2026-10-22T12:43:05Z, size = 232466, hashes = { sha256 = "dfbae7d2a0792d6b81fbed4fbcbdf4bad0e272175bfb872fc2b014d3f61175d9" } }]
 
 [[packages]]
 name = "google-api-core"

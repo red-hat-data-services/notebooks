@@ -119,8 +119,8 @@ fsspec==2026.6.0 ; python_full_version >= '3.12' and implementation_name == 'cpy
     --hash=sha256:12f0d9bff04866fe1befb43b3919ed5954cd9a10119f9d562db0946bec63c299
 gitdb==4.0.12 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3b52cdcc889333bf2b1057ef5e5e553f12f5fbd773151c4af5fd2ea00fa1b28a
-gitpython==3.1.62 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:4ce109fcee0855b25da7690e673a347fe68933f5cee181973b3cca911c2ada8f
+gitpython==3.2.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:5f5eeb361b3ae930b78044e0b1dafdddaf47f948d990f8b2bf6891cc933b62ca
 google-auth==2.49.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:27395a0c89774d1f5e11dcdbb6b7443e4378edfa2e7b0b6b6a992f4d0912a678
 graphene==3.4.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
