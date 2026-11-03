@@ -7,7 +7,7 @@ into cachi2/output/deps/pip/ for hermetic offline builds.
 Architecture:
   Phase 1: Parse requirements.txt for (name, version, hashes, marker)
   Phase 2: Skip packages whose markers exclude the target arch
-  Phase 3: Resolve URLs from index (10 parallel HTTP requests)
+  Phase 3: Resolve URLs from index, with pylock.toml URL fallback
   Phase 4: Filter: skip sdists (AIPCC), keep target-arch + pure-python wheels
   Phase 5: Download (10 parallel wget)
 
@@ -28,6 +28,7 @@ import os
 import re
 import subprocess
 import sys
+import tomllib
 import urllib.request
 from pathlib import Path, PurePosixPath
 from urllib.parse import urljoin
@@ -95,6 +96,31 @@ def detect_index_url(req_path: Path) -> str | None:
         if m:
             return m.group(1)
     return None
+
+
+def load_pylock_urls(req_path: Path) -> dict[tuple[str, str], list[tuple[str, str, str]]]:
+    flavor = req_path.stem.removeprefix("requirements.")
+    pylock_path = req_path.parent / "uv.lock.d" / f"pylock.{flavor}.toml"
+    if not pylock_path.is_file():
+        return {}
+
+    with pylock_path.open("rb") as pylock_file:
+        pylock = tomllib.load(pylock_file)
+
+    urls: dict[tuple[str, str], list[tuple[str, str, str]]] = {}
+    for package in pylock.get("packages", []):
+        name = package.get("name", "")
+        version = package.get("version", "")
+        normalized_name = re.sub(r"[-_.]+", "-", name).lower()
+        entries = urls.setdefault((normalized_name, version), [])
+        for wheel in package.get("wheels", []):
+            url = wheel.get("url")
+            sha256 = wheel.get("hashes", {}).get("sha256")
+            if not url or not sha256:
+                continue
+            filename = PurePosixPath(url.split("?", 1)[0]).name
+            entries.append((url, filename, sha256))
+    return urls
 
 
 def parse_requirements(req_path: Path) -> list[tuple[str, str, set[str], str]]:
@@ -249,11 +275,20 @@ def fetch_pypi_urls(name: str, version: str, wanted_hashes: set[str]) -> list[tu
 
 def resolve_one(args: tuple) -> list[tuple[str, str, str]]:
     """Resolve URLs for one package. Called in parallel."""
-    name, version, wanted_hashes, index_url, use_simple = args
+    name, version, wanted_hashes, index_url, use_simple, pylock_fallback = args
     if use_simple:
-        return fetch_simple_index_urls(index_url, name, version, wanted_hashes)
+        resolved = fetch_simple_index_urls(index_url, name, version, wanted_hashes)
     else:
-        return fetch_pypi_urls(name, version, wanted_hashes)
+        resolved = fetch_pypi_urls(name, version, wanted_hashes)
+
+    resolved_hashes = {sha for _url, _filename, sha in resolved}
+    fallback = [
+        entry for entry in pylock_fallback
+        if entry[2] in wanted_hashes and entry[2] not in resolved_hashes
+    ]
+    if fallback:
+        print(f"  NOTE: using pylock URL for {name}=={version} ({len(fallback)} file(s))")
+    return resolved + fallback
 
 
 def _wget_error_detail(result: subprocess.CompletedProcess[str] | subprocess.CalledProcessError) -> str:
@@ -326,6 +361,7 @@ def main():
 
     packages = parse_requirements(req_path)
     print(f"Parsed {len(packages)} packages from requirements.txt")
+    pylock_urls = load_pylock_urls(req_path)
 
     # Phase 2: skip packages excluded by marker
     skipped_marker = []
@@ -334,7 +370,9 @@ def main():
         if should_skip_for_marker(marker, arch, python_version):
             skipped_marker.append(f"{name}=={version}")
         else:
-            to_resolve.append((name, version, hashes, index_url, use_simple))
+            normalized_name = re.sub(r"[-_.]+", "-", name).lower()
+            fallback = pylock_urls.get((normalized_name, version), [])
+            to_resolve.append((name, version, hashes, index_url, use_simple, fallback))
 
     if skipped_marker:
         print(f"\nSkipped by marker (platform_machine != '{arch}'): {len(skipped_marker)}")
