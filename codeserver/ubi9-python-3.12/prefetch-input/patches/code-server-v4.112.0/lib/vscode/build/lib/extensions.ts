@@ -6,7 +6,7 @@
 import es from 'event-stream';
 import fs from 'fs';
 import cp from 'child_process';
-import glob from 'glob';
+import { sync as glob } from 'glob';
 import gulp from 'gulp';
 import path from 'path';
 import crypto from 'crypto';
@@ -386,7 +386,7 @@ export function packageAllLocalExtensionsStream(forWeb: boolean, disableMangle: 
 function doPackageLocalExtensionsStream(forWeb: boolean, disableMangle: boolean, native: boolean): Stream {
 	const nativeExtensionsSet = new Set(nativeExtensions);
 	const localExtensionsDescriptions = (
-		(glob.sync('extensions/*/package.json') as string[])
+		(glob('extensions/*/package.json') as string[])
 			.map(manifestPath => {
 				const absoluteManifestPath = path.join(root, manifestPath);
 				const extensionPath = path.dirname(path.join(root, manifestPath));

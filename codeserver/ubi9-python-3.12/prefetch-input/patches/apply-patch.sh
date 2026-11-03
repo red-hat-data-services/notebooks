@@ -96,6 +96,54 @@ if [[ "$ARCH" == "amd64" || "$ARCH" == "arm64" || "$ARCH" == "ppc64le" || "$ARCH
         echo "WARNING: ripgrep postinstall not found at ${RIPGREP_PATCHED}"
     fi
 
+    # [VSCE] @vscode/vsce 3.6.1 was compiled against minimatch's legacy default
+    # export. minimatch 11 exports the matcher as a named export, so patch the
+    # cached tarball to use the named export while keeping the CVE fix hermetic.
+    VSCE_TGZ=$(find /cachi2/output/deps/npm -name "vscode-vsce-3.6.1.tgz" -type f 2>/dev/null | head -1)
+    if [[ -n "${VSCE_TGZ}" ]]; then
+        echo "Patching @vscode/vsce: use minimatch named export"
+        vsce_tmpdir=$(mktemp -d)
+        tar xzf "${VSCE_TGZ}" -C "${vsce_tmpdir}"
+        perl -pi -e 's/minimatch_1\.default/minimatch_1.minimatch/g' \
+            "${vsce_tmpdir}/package/out/package.js"
+        tar czf "${VSCE_TGZ}" -C "${vsce_tmpdir}" package
+        rm -rf "${vsce_tmpdir}"
+        jq 'del(.packages["node_modules/@vscode/vsce"].integrity)' \
+            lib/vscode/build/package-lock.json > /tmp/lock-vsce.json \
+            && mv /tmp/lock-vsce.json lib/vscode/build/package-lock.json
+    else
+        echo "WARNING: @vscode/vsce tarball not found in /cachi2/output/deps/npm/"
+    fi
+
+    # [GLOB] glob 7 expects minimatch 3's private _glob property on parsed
+    # patterns. minimatch 11 exposes the same source as pattern, so patch
+    # every cached glob 7 tarball to accept both APIs hermetically.
+    while IFS= read -r GLOB_TGZ; do
+        echo "Patching glob 7: support minimatch 11 pattern objects (${GLOB_TGZ})"
+        glob_tmpdir=$(mktemp -d)
+        tar xzf "${GLOB_TGZ}" -C "${glob_tmpdir}"
+        perl -pi -e 's/pn\._glob/(pn.pattern ?? pn._glob)/g' \
+            "${glob_tmpdir}/package/glob.js" "${glob_tmpdir}/package/sync.js"
+        tar czf "${GLOB_TGZ}" -C "${glob_tmpdir}" package
+        rm -rf "${glob_tmpdir}"
+    done < <(find /cachi2/output/deps/npm -name "glob-7.*.tgz" -type f 2>/dev/null)
+
+    # Strip integrity for every glob 7 lockfile entry backed by a modified tarball.
+    while IFS= read -r GLOB_LOCK; do
+        jq '
+            .packages |= (
+                to_entries | map(
+                    if (.value.resolved // "" | contains("glob-7.")) then
+                        .value |= del(.integrity)
+                    else
+                        .
+                    end
+                ) | from_entries
+            )
+        ' "${GLOB_LOCK}" > /tmp/lock-glob.json \
+            && mv /tmp/lock-glob.json "${GLOB_LOCK}"
+    done < <(find . -name package-lock.json -type f 2>/dev/null)
+
     # [AGENT-BROWSER] Overwrite agent-browser postinstall in the cached npm tarball.
     # The npm tarball bundles native binaries for linux-x64/arm64 only; ppc64le/s390x
     # are missing. Upstream postinstall then downloads from GitHub releases (not npm),

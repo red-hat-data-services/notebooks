@@ -24,7 +24,7 @@ import gunzip from 'gulp-gunzip';
 import { untar } from './lib/util.ts';
 import File from 'vinyl';
 import * as fs from 'fs';
-import glob from 'glob';
+import { glob, sync } from 'glob';
 import { promisify } from 'util';
 import rceditCallback from 'rcedit';
 import { compileBuildWithManglingTask } from './gulpfile.compile.ts';
@@ -285,7 +285,7 @@ function packageTask(type: string, platform: string, arch: string, sourceFolderN
 				}
 			}
 		};
-		const localWorkspaceExtensions = glob.sync('extensions/*/package.json')
+		const localWorkspaceExtensions = sync('extensions/*/package.json')
 			.filter((extensionPath) => {
 				if (type === 'reh-web') {
 					return true; // web: ship all extensions for now
