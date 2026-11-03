@@ -412,8 +412,8 @@ numpy==2.4.6 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
     --hash=sha256:070ce1e05c3664bc1982747a989da5d34691ecce0c1353681788f795b4df826e
 nvidia-ml-py==13.610.43 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:da36fd2ae5c19b84510a1d1839ec265833547f526ea604618c426e6ebae513b4
-oauthlib==3.3.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:4c7c3548c5491d97a104c74b1b6b1dcba95968b1ff097fd8e5e3c328194041e2
+oauthlib==4.0.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:b2e1f09094b586227c2b381b924ca5b7bd8f276139b8492b0b666a22f2f6403b
 odh-elyra==5.0.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:1e8d15e9825c825c9a47329c5bb0c67f6ababbd88b706e1db9702001bb559db3
 odh-jupyter-trash-cleanup==0.1.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -507,9 +507,11 @@ py-cpuinfo==9.0.0 ; python_full_version == '3.12.*' and implementation_name == '
     --hash=sha256:00d62a1f2565a46035e525515a677c1aaa37903d29b62dfe49c70428c0df262d
 pyarrow==25.0.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e40aee661feb8ae0c52e3784f3f206352c1753e0df099a3ad34495d1a4e57707 \
-    --hash=sha256:6688ea260f8ddd00da34cc7750c979ab8222c7a6f88dda6f79ac9b00a6376b56
-pyasn1==0.6.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:116eb421e66303e9d70a6722adf031773d164ca348315273635c095570314f38
+    --hash=sha256:6688ea260f8ddd00da34cc7750c979ab8222c7a6f88dda6f79ac9b00a6376b56 \
+    --hash=sha256:0903c23f2fb091ed067576e9f9952d3352a5eb30ce7c26914c440fd150fb473d \
+    --hash=sha256:0147dfb68e3d41bcd32ad97376f1f3ee46a34d78877cfb3e72cc2791c5ff83ff
+pyasn1==0.6.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:c3a5c9cbed1517a41905f7ed5168b7df1bf50e2bd28e4fb4b6922a0a72a89094
 pyasn1-modules==0.4.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b06788408d988f2f2a027877ba1e78e94c82260d7dfb86cbdb5a2778bcd72188
 pycodestyle==2.12.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
