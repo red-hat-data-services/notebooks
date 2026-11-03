@@ -300,8 +300,8 @@ pillow==13.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:97a140c212159df145e96dd5695ac37ab685c171d4e69213448148a4d52ed169 \
     --hash=sha256:ea631f4bf04696ed6e07f9127cda528354e3e36aef5a95e132ad9a7b5ff7e8eb \
     --hash=sha256:64db2d39eee6e20e1168fb85be078f1ad4a9e5c8da6b795462d1933b7d86b1a9
-pip==26.1.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:25601b2e4c9967e70cfd53b362b909cc01facb76389cdc96d98b7153972c12c1
+pip==26.2.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:cc478a67ea2e4c31f7c60083e493ab9211e372b6c00f32425ae74eca59fb3056
 platformdirs==4.9.6 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:52fd82200d1f288d04873722b914d30221ae588fcdfd96e563b931f828b9bcde
 plotly==6.7.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \

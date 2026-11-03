@@ -191,7 +191,9 @@ greenlet==3.4.0 ; (implementation_name == 'cpython' and platform_machine == 'AMD
     --hash=sha256:7609a1094ed19fe2842b9f7446920ff248c228b8d3c57e2612f2ebcf34e4fdf6
 grpcio==1.80.0 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
     --hash=sha256:52c678447eb080faf6e8c7cba69badae94edf8314942d53082560c65d2423192 \
-    --hash=sha256:9344525580dd86c53ddf1d103a3efa7f7ed137e6dfb4b995e639c8eeb60fc0de
+    --hash=sha256:9344525580dd86c53ddf1d103a3efa7f7ed137e6dfb4b995e639c8eeb60fc0de \
+    --hash=sha256:e6332a47658b34cd9ba7b7e7ec5e376bc9e2b9beba40b4e38eb6164aa570c743 \
+    --hash=sha256:965e9b3771fa82fab21ad60b3491de5d61b6ed04fe54ac97691d0314f2bd465b
 gunicorn==25.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e0818bab9c2897af07f84a08dbb1900c2417e507369b1f03fd0d1cce989bd8a9
 h11==0.16.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -462,8 +464,8 @@ pillow==13.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:97a140c212159df145e96dd5695ac37ab685c171d4e69213448148a4d52ed169 \
     --hash=sha256:ea631f4bf04696ed6e07f9127cda528354e3e36aef5a95e132ad9a7b5ff7e8eb \
     --hash=sha256:64db2d39eee6e20e1168fb85be078f1ad4a9e5c8da6b795462d1933b7d86b1a9
-pip==26.1.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:25601b2e4c9967e70cfd53b362b909cc01facb76389cdc96d98b7153972c12c1
+pip==26.2.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:cc478a67ea2e4c31f7c60083e493ab9211e372b6c00f32425ae74eca59fb3056
 platformdirs==4.9.6 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:52fd82200d1f288d04873722b914d30221ae588fcdfd96e563b931f828b9bcde
 plotly==6.7.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
