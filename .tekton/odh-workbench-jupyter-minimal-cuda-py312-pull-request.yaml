@@ -11,7 +11,10 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
       event == "pull_request"
-      && ! ("manifests/rhoai/base/params-latest.env".pathChanged())
+      && (
+        (source_branch == "main" && target_branch == "stable")
+        || !("manifests/rhoai/base/params-latest.env".pathChanged())
+      )
       && (".tekton/odh-workbench-jupyter-minimal-cuda-py312-pull-request.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged() || "cuda/**".pathChanged())
   labels:
     appstudio.openshift.io/application: rhoai-v3-6
