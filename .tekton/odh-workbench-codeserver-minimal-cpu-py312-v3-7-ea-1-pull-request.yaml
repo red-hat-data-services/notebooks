@@ -229,6 +229,14 @@ spec:
           memory: 8Gi
         limits:
           memory: 8Gi
+  - pipelineTaskName: rpms-signature-scan
+    computeResources:
+      requests:
+        cpu: '4'
+        memory: 8Gi
+      limits:
+        cpu: '4'
+        memory: 8Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-codeserver-minimal-cpu-py312-v3-7-ea-1
   workspaces:
