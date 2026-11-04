@@ -46,7 +46,8 @@ override-dependencies = [
     "pyjwt @ https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/pyjwt-2.14.0-2-py3-none-any.whl",
     # RHAIENG-2458: CVE-2025-66418 urllib3 - override needed because odh-elyra pulls in
     # appengine-python-standard which has an obnoxious urllib3<2 constraint
-    "urllib3>=2.6.0",
+    # RHAI-7888+: CVE-2026-97687, CVE-2026-97689 both fixed in 2.8.0 (36 siblings)
+    "urllib3>=2.8.0",
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
     # CVE-2026-57516 / RHOAIENG-82680: Ray RCE via unsafe deserialization in the

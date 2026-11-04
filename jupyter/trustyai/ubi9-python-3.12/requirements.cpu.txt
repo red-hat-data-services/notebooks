@@ -709,8 +709,8 @@ ujson==5.13.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3853da03c5225b1c2eec45612eb3c12ffb94aa82735c5d716b015c0b915fae6d
 uri-template==1.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0e40f1b3adfb5facdff4d85320ba95bcae7ecd6ffb8adc7224adbb5514a7cb69
-urllib3==2.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:e0260bcb8dc9a00766b1263632d4cea3d51ce498787c24062ef187f6ce351fdc
+urllib3==2.8.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:f8c24c836496998a6c9b2d4579d7d6cf5bb066377a646fe022c6252e2411150a
 uvicorn==0.44.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d46d38d194ddc85042efa2187102cfaa6e0c1ca69aa3e3f913c4e7c9a5345470
 virtualenv==21.14.13 ; implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \

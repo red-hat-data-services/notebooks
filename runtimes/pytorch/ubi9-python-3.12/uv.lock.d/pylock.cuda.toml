@@ -1441,9 +1441,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "urllib3"
-version = "2.6.3"
+version = "2.8.0"
 marker = "implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/urllib3-2.6.3-8-py3-none-any.whl", upload-time = 2026-03-13T12:22:44Z, size = 132529, hashes = { sha256 = "2da4b0962c7dd53cc97e7166208cf1f4272cddc59be890b689aaf7da91f8a869" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda12.9-ubi9/urllib3-2.8.0-8-py3-none-any.whl", upload-time = 2026-10-15T16:45:45Z, size = 136751, hashes = { sha256 = "1dd576edf374a9fa572b4a1c42c3ee6038f17a3b0f6a2a027a55fa62e0974389" } }]
 
 [[packages]]
 name = "uvicorn"

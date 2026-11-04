@@ -655,8 +655,8 @@ ujson==5.13.0 ; python_full_version >= '3.12' and implementation_name == 'cpytho
     --hash=sha256:d6a5e30ad23b87bbff57a14ace489c7cf1932956374725c2201b86f6476be6de
 uri-template==1.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f83fd0b66689d4d7be2f04a4d90522cd58fb34122d3b68e7dcc99cf01e3eae6e
-urllib3==2.6.3 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:2da4b0962c7dd53cc97e7166208cf1f4272cddc59be890b689aaf7da91f8a869
+urllib3==2.8.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:1dd576edf374a9fa572b4a1c42c3ee6038f17a3b0f6a2a027a55fa62e0974389
 uvicorn==0.34.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a3b731f5a4be238e4c0f2caddc22e2b072f99a189f8f56a5461a166a7284b325
 uvicorn-worker==0.3.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
