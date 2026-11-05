@@ -257,7 +257,7 @@ def test_image_pyprojects(subtests: pytest_subtests.plugin.SubTests, manifests_d
                         # Verify the subproject package is correctly excluded from pylock.toml
                         assert requirement.name not in pylock_packages, (
                             f"Subproject meta-package {requirement.name} found in pylock.toml. "
-                            f"It should be excluded via --no-emit-package in scripts/pylocks_generator.sh"
+                            "It should be excluded by scripts/pylocks_generator.py after resolution"
                         )
                         continue
 
@@ -850,7 +850,7 @@ def is_subproject_metapackage(package_name: str) -> bool:
     """Check if a package name is a subproject meta-package that should be excluded from pylock.toml.
 
     Subproject meta-packages are dependency-only packages (package = false) that group common dependencies.
-    They are excluded from lock files via --no-emit-package in scripts/pylocks_generator.sh.
+    They are excluded from lock files by scripts/pylocks_generator.py after resolution.
     """
     return package_name.startswith("odh-notebooks-meta-") and package_name.endswith("-deps")
 

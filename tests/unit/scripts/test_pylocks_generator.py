@@ -223,6 +223,7 @@ def test_run_lock_logs_index_url(tmp_path: Path, monkeypatch: pytest.MonkeyPatch
         return completed
 
     monkeypatch.setattr(pg.subprocess, "run", fake_run)
+    monkeypatch.setattr(pg, "remove_excluded_lock_packages", lambda _lock_path: None)
 
     success = pg.run_lock(
         project_dir,
@@ -238,6 +239,34 @@ def test_run_lock_logs_index_url(tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 
     assert success is True
     assert any("Lock INDEX_URL: https://example.invalid/simple/?format=json" in line for line in log._lines)
+
+
+def test_remove_excluded_lock_packages_filters_meta_packages(tmp_path: Path) -> None:
+    lock_path = tmp_path / "pylock.toml"
+    lock_path.write_text(
+        "\n".join(
+            [
+                "# header",
+                "",
+                "[[packages]]",
+                'name = "odh-notebooks-meta-workbench-datascience-deps"',
+                'version = "0.1.0"',
+                "",
+                "[[packages]]",
+                'name = "mlflow"',
+                'version = "3.17.2"',
+                "",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    pg.remove_excluded_lock_packages(lock_path)
+
+    assert lock_path.read_text(encoding="utf-8") == (
+        "# header\n\n[[packages]]\nname = \"mlflow\"\nversion = \"3.17.2\"\n\n"
+    )
 
 
 def test_generate_requirements_txt_falls_back_to_pylock_header_when_index_resolution_fails(
@@ -383,6 +412,7 @@ def test_run_lock_always_passes_constraints_and_overrides(
         return pg.subprocess.CompletedProcess(args=cmd, returncode=0, stdout="", stderr="")
 
     monkeypatch.setattr(pg.subprocess, "run", fake_run)
+    monkeypatch.setattr(pg, "remove_excluded_lock_packages", lambda _lock_path: None)
 
     success = pg.run_lock(
         project_dir,
