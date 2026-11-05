@@ -2182,9 +2182,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoa
 
 [[packages]]
 name = "urllib3"
-version = "2.7.0"
+version = "2.8.0"
 marker = "python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda13.0-ubi9/urllib3-2.7.0-8-py3-none-any.whl", upload-time = 2026-05-25T14:39:54Z, size = 132119, hashes = { sha256 = "0c723e58c6fe99b8fde0bf661635d5ae72a6a766a6539309dcb182b193b9119c" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cuda13.0-ubi9/urllib3-2.8.0-8-py3-none-any.whl", upload-time = 2026-10-15T15:34:56Z, size = 136752, hashes = { sha256 = "e5056e9afe4d26e9edbbd58b77b3e41d8c94c2955e22f99aa6d073b117348afa" } }]
 
 [[packages]]
 name = "uv"

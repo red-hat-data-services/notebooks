@@ -67,7 +67,9 @@ override-dependencies = [
     # Floor raised 2.6.0 -> 2.7.0: the datasets==5.0.1 override below otherwise lets the
     # resolver drop urllib3 to 2.6.3 (GHSA-mf9v-mfxr-j63j decompression bomb). 2.7.0 is
     # the version already shipped on rhoai-3.4.
-    "urllib3>=2.7.0",
+    # Floor raised 2.7.0 -> 2.8.0: RHAI-7888+ CVE-2026-97687 / CVE-2026-97689, both
+    # fixed in 2.8.0.
+    "urllib3>=2.8.0",
     # AIPCC-13675: protobuf 6.33.6+ UPB C extension segfaults on s390x
     "protobuf==6.31.1",
     # CVE-2026-66007: force datasets 5.0.1 (fix) past llmcompressor 0.10.0.3's declared

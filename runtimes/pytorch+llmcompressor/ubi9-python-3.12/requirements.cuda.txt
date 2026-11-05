@@ -521,8 +521,8 @@ typing-inspection==0.4.2 ; python_full_version >= '3.12' and implementation_name
     --hash=sha256:2cc4050a877d28bd16874b46c398231c2a3604ade11d9a92655d7c7b9478ca49
 tzdata==2026.1 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:80bfbd7f4a68cfe74cce3e6e13334d9a8c9070c9daeefc0f28e17b0788c74d28
-urllib3==2.7.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:0c723e58c6fe99b8fde0bf661635d5ae72a6a766a6539309dcb182b193b9119c
+urllib3==2.8.0 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:e5056e9afe4d26e9edbbd58b77b3e41d8c94c2955e22f99aa6d073b117348afa
 uv==0.11.6 ; python_full_version >= '3.12' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c64e7068a50fbfff7acc3697b16d96cc04f17f6841bd47afcb9653793b9d2c92 \
     --hash=sha256:52169f6c6d8384e5ad0db9a2c4c07f254736caf68fd3836cd4e91fd09d19796b

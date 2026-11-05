@@ -434,8 +434,8 @@ typing-inspection==0.4.2 ; implementation_name == 'cpython' and sys_platform == 
     --hash=sha256:ea5ab3215bab8e8048c1cc243d39a3eacebede51842ee8a412f1330e313125f2
 tzdata==2026.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d8a6fb27672332d2870062e9f71eec95cfec7f36e8303c4b2224ba7971de39fa
-urllib3==2.6.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6ac038501e1f2f1046dd6e6cdbe2a6f24a2b9672c9a627682bb8202d6723236d
+urllib3==2.8.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:2097e7eff8fb0dfc35301e7a3b9fff989af16ee0a0d2a18d5b8922b2fb219752
 uvicorn==0.34.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:227b4e42a9a2cdf646b17d4b5c9020acaf23989aaed756fbb780f8fe8de94388
 uvicorn-worker==0.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
