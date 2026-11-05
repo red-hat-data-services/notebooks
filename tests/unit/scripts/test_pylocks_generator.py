@@ -244,28 +244,24 @@ def test_run_lock_logs_index_url(tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 def test_remove_excluded_lock_packages_filters_meta_packages(tmp_path: Path) -> None:
     lock_path = tmp_path / "pylock.toml"
     lock_path.write_text(
-        "\n".join(
-            [
-                "# header",
-                "",
-                "[[packages]]",
-                'name = "odh-notebooks-meta-workbench-datascience-deps"',
-                'version = "0.1.0"',
-                "",
-                "[[packages]]",
-                'name = "mlflow"',
-                'version = "3.17.2"',
-                "",
-            ]
-        )
-        + "\n",
+        """# header
+
+[[packages]]
+name = "odh-notebooks-meta-workbench-datascience-deps"
+version = "0.1.0"
+
+[[packages]]
+name = "mlflow"
+version = "3.17.2"
+
+""",
         encoding="utf-8",
     )
 
     pg.remove_excluded_lock_packages(lock_path)
 
     assert lock_path.read_text(encoding="utf-8") == (
-        "# header\n\n[[packages]]\nname = \"mlflow\"\nversion = \"3.17.2\"\n\n"
+        '# header\n\n[[packages]]\nname = "mlflow"\nversion = "3.17.2"\n\n'
     )
 
 
