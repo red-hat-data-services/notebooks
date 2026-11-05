@@ -55,6 +55,8 @@ Reproducible CI checks (PYLOCKS_CI_CHECK):
   ``upload-time``) instead of HTML.  This works around AIPCC-12921: Pulp's
   content negotiation ignores Accept header quality values and returns HTML
   whenever ``text/html`` appears, which uv always includes as a fallback.
+  Compilation also uses ``--no-cache`` so newly published AIPCC wheels are
+  visible immediately instead of being hidden by stale local Simple API cache.
 
 Notes:
   - If the script fails for a directory, it lists the failed directories at the end.
@@ -99,7 +101,7 @@ GLOBAL_LOCK_INPUTS: tuple[Path, ...] = (
 )
 UV_MIN_VERSION = (0, 4, 0)
 
-NO_EMIT_PACKAGES = (
+EXCLUDED_LOCK_PACKAGES = (
     "odh-notebooks-meta-db-connectors-deps",
     "odh-notebooks-meta-jupyterlab-datascience-deps",
     "odh-notebooks-meta-jupyterlab-deps",
@@ -506,11 +508,9 @@ def run_lock(
         f"--python-version={python_version}",
         "--universal",
         "--no-annotate",
+        "--no-cache",
         "--quiet",
     ]
-
-    for pkg in NO_EMIT_PACKAGES:
-        cmd.extend(["--no-emit-package", pkg])
 
     if upgrade:
         cmd.append("--upgrade")
@@ -574,8 +574,37 @@ def run_lock(
         (project_dir / output).unlink(missing_ok=True)
         return False
 
+    if mode == IndexMode.rh_index:
+        remove_excluded_lock_packages(project_dir / output)
+
     log.ok(f"{desc} generated successfully.")
     return True
+
+
+def remove_excluded_lock_packages(lock_path: Path) -> None:
+    """Remove dependency-only meta-packages after uv resolves their dependencies.
+
+    uv 0.12.0 can fail to resolve newly published transitive wheels when multiple
+    ``--no-emit-package`` options are used together.  Resolving the full graph and
+    filtering these known meta-packages afterward preserves the existing lock
+    format without hitting that resolver bug.
+    """
+    text = lock_path.read_text(encoding="utf-8")
+    header, *package_blocks = text.split("\n[[packages]]\n")
+    if not package_blocks:
+        return
+
+    name_pattern = re.compile(r'^name = "([^"]+)"$', re.MULTILINE)
+    kept_blocks = [
+        block
+        for block in package_blocks
+        if (match := name_pattern.search(block)) is None
+        or match.group(1) not in EXCLUDED_LOCK_PACKAGES
+    ]
+    lock_path.write_text(
+        header + "".join(f"\n[[packages]]\n{block}" for block in kept_blocks),
+        encoding="utf-8",
+    )
 
 
 def generate_requirements_txt(
