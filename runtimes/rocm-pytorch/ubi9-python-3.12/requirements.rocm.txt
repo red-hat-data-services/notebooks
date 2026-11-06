@@ -3,8 +3,8 @@ absl-py==2.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:27392fbda337bd3e9f7a1a0405c9b22d314238bbbbb6e910f4208dcd4750740e
 aiohappyeyeballs==2.6.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:a80202be86e008deac1f890d385d721617c4e26feeb21c4469a37596e123ff2f
-aiohttp==3.14.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:a8f6121fb9b92cdb08a0ab5d0d6302c1801318178f6b9d09d9599d9b6362065f
+aiohttp==3.14.4 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:78146f8cedac9f42092e2a08d53611b8a4505e4f89f948615ba2209f582e3de7
 aiohttp-cors==0.8.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f5ecebcaa53dac556c98b24fe9ca8d6ad466c6db3ba699683bf233543ee13b20
 aiosignal==1.4.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -462,9 +462,7 @@ widgetsnbextension==4.0.15 ; implementation_name == 'cpython' and sys_platform =
     --hash=sha256:35d55352599f5163171c2040046c9dd3473009a32f85bfe9f731dfdf954dc3ba
 wrapt==2.1.2 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:97e7c7ccdfe00a23f3b631a47a98a810124e11cacf1cc9bb3ffcb4dd942fe023
-yarl==1.23.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1240fc36ab655611db2fa570fcd28d9f1a730c25caff06205f0a008733b9698a \
-    --hash=sha256:b47711ee24a58c958d2c0c7ec1ddd19950c62ba6a094383f5c87d5821868453d \
-    --hash=sha256:2fb7e69f7b035a3768cbb59321283a5ac58b55ac911f60ea99b043c8cf3762c9
+yarl==1.25.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:bb97b7e0939b5a3c68821b4b1b65977362383479a0cd04931f25b40740da9443
 zipp==3.23.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2002d6edf90b77013e0e19350ab371af361f7e69e030cf6230eda44987da4239
