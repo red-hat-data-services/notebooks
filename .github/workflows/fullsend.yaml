@@ -18,7 +18,7 @@
 # stage jobs with -agent- suffix. Roles operate independently (#2452).
 name: fullsend
 
-on:
+"on":
   issues:
     types: [opened, edited, labeled]
   issue_comment:
