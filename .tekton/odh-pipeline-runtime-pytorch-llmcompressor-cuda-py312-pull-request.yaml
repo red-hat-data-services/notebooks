@@ -106,6 +106,16 @@ spec:
       limits:
         cpu: '16'
         memory: 32Gi
+  - pipelineTaskName: rpms-signature-scan
+    stepSpecs:
+    - name: rpms-signature-scan
+      computeResources:
+        requests:
+          cpu: "500m"
+          memory: "1Gi"
+        limits:
+          cpu: "500m"
+          memory: "1Gi"
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-v3-7-ea-1
   workspaces:
