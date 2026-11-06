@@ -15,10 +15,10 @@ metadata:
         (source_branch == "main" && target_branch == "stable")
         || !("manifests/rhoai/base/params-latest.env".pathChanged())
       )
-      && (".tekton/odh-workbench-jupyter-trustyai-cpu-py312-pull-request.yaml".pathChanged() || "jupyter/trustyai/ubi9-python-3.12/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.6.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() || "prefetch-input/rhds/**".pathChanged() || "prefetch-input/mongocli/**".pathChanged())
+      && (".tekton/odh-workbench-jupyter-trustyai-cpu-py312-pull-request.yaml".pathChanged() || "jupyter/trustyai/ubi9-python-3.12/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.7.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() || "prefetch-input/rhds/**".pathChanged() || "prefetch-input/mongocli/**".pathChanged())
   labels:
-    appstudio.openshift.io/application: rhoai-v3-6
-    appstudio.openshift.io/component: odh-workbench-jupyter-trustyai-cpu-py312-v3-6
+    appstudio.openshift.io/application: rhoai-v3-7-ea-1
+    appstudio.openshift.io/component: odh-workbench-jupyter-trustyai-cpu-py312-v3-7-ea-1
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-trustyai-cpu-py312-on-pull-request-10247
   namespace: rhoai-tenant
@@ -70,7 +70,7 @@ spec:
         arch: "x86_64,aarch64,ppc64le,s390x"
       requirements_files: [requirements.cpu.txt]
   - name: rhoai-version
-    value: "3.6.0"
+    value: "3.7.0-ea.1"
   - name: build-source-image
     value: true
   pipelineRef:
@@ -139,7 +139,7 @@ spec:
         cpu: '3'
         memory: 8Gi
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-trustyai-cpu-py312-v3-6
+    serviceAccountName: build-pipeline-odh-workbench-jupyter-trustyai-cpu-py312-v3-7-ea-1
   workspaces:
   - name: git-auth
     secret:

@@ -13,8 +13,8 @@ metadata:
       event == "pull_request"
       && (files.all.exists(p, ! p.matches('^\\.tekton/')) || ".tekton/odh-workbench-jupyter-universal-cpu-py312-pull-request.yaml".pathChanged())
   labels:
-    appstudio.openshift.io/application: rhoai-v3-6
-    appstudio.openshift.io/component: odh-workbench-jupyter-universal-cpu-py312-v3-6
+    appstudio.openshift.io/application: rhoai-v3-7-ea-1
+    appstudio.openshift.io/component: odh-workbench-jupyter-universal-cpu-py312-v3-7-ea-1
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-universal-cpu-py312-on-pull-request-{{pull_request_number}}
   namespace: rhoai-tenant
@@ -56,7 +56,7 @@ spec:
     - linux/ppc64le
     - linux/s390x
   - name: rhoai-version
-    value: "3.6.0"
+    value: "3.7.0-ea.1"
   - name: build-source-image
     value: true
   - name: hermetic
@@ -117,7 +117,7 @@ spec:
         cpu: '3'
         memory: 8Gi
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-universal-cpu-py312-v3-6
+    serviceAccountName: build-pipeline-odh-workbench-jupyter-universal-cpu-py312-v3-7-ea-1
     podTemplate:
       imagePullSecrets:
       - name: redhat-appstudio-staginguser-pull-secret
