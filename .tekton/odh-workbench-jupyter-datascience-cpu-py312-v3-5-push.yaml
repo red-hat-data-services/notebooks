@@ -128,11 +128,11 @@ spec:
     - name: rpms-signature-scan
       computeResources:
         requests:
-          cpu: 2600m
-          memory: 512Mi
+          cpu: 500m
+          memory: 1Gi
         limits:
-          cpu: 2600m
-          memory: 512Mi
+          cpu: 500m
+          memory: 1Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-odh-workbench-jupyter-datascience-cpu-py312-v3-5
   workspaces:
