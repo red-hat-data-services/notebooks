@@ -164,3 +164,56 @@ class TestEnsureJsonFormatParam:
         result = pg.ensure_json_format_param(url)
         assert result == url + "?format=json"
         assert pg.ensure_json_format_param(result) == result
+
+
+def test_image_project_dir_for_repo_file_jupyter(repo_root: Path) -> None:
+    project = repo_root / "jupyter" / "minimal" / "ubi9-python-3.12"
+    assert pg.image_project_dir_for_repo_file("jupyter/minimal/ubi9-python-3.12/pyproject.toml") == project
+
+
+def test_image_project_dir_for_repo_file_codeserver(repo_root: Path) -> None:
+    project = repo_root / "codeserver" / "ubi9-python-3.12"
+    assert pg.image_project_dir_for_repo_file("codeserver/ubi9-python-3.12/uv.lock.d/pylock.cpu.toml") == project
+
+
+def test_is_lock_chain_file(subtests: pytest.Subtests) -> None:
+    cases = [
+        (Path("pyproject.toml"), True),
+        (Path("uv.lock.d/pylock.cpu.toml"), True),
+        (Path("requirements.cpu.txt"), True),
+        (Path("README.md"), False),
+    ]
+    for path, expected in cases:
+        with subtests.test(path=str(path)):
+            assert pg._is_lock_chain_file(path) is expected
+
+
+def test_resolve_pr_scoped_touched_requirements(
+    repo_root: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        pg,
+        "_list_changed_files",
+        lambda _base, _to="HEAD": ["jupyter/minimal/ubi9-python-3.12/requirements.cuda.txt"],
+    )
+    expected = repo_root / "jupyter" / "minimal" / "ubi9-python-3.12"
+    assert pg.resolve_pr_scoped_target_dirs("base", pg.LogBuffer()) == [expected]
+
+
+def test_resolve_pr_scoped_skips_unrelated(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(pg, "_list_changed_files", lambda _base, _to="HEAD": ["README.md"])
+    assert pg.resolve_pr_scoped_target_dirs("base", pg.LogBuffer()) == []
+
+
+def test_resolve_pr_scoped_global_input_expands_to_all(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        pg,
+        "_list_changed_files",
+        lambda _base, _to="HEAD": ["dependencies/cve-constraints.txt"],
+    )
+    scoped = pg.resolve_pr_scoped_target_dirs("base", pg.LogBuffer())
+    all_dirs = pg.discover_all_image_project_dirs()
+    assert scoped == all_dirs
