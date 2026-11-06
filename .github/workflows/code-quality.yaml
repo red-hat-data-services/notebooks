@@ -21,10 +21,28 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Fetch base and head refs for lock scoping
+        if: github.event_name == 'pull_request'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          git fetch --no-tags origin "pull/${PR_NUMBER}/head:${HEAD_REF}"
+          git fetch --no-tags origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+
       - name: Setup uv and Python
         uses: ./.github/actions/setup-uv
 
-      - name: Rerun all code generators we have
+      - name: Rerun all code generators we have (pr)
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: bash ci/generate_code.sh --pr-base "origin/${BASE_REF}" --pr-to-ref "${HEAD_REF}"
+
+      - name: Rerun all code generators we have (push)
+        if: github.event_name != 'pull_request'
         run: bash ci/generate_code.sh
 
       - name: Check there aren't any modified files present
