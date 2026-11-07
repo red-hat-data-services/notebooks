@@ -300,10 +300,11 @@ def test_get_index_flags_uses_konflux_conf(
     build_args = project_dir / "build-args"
     build_args.mkdir(parents=True)
     (build_args / "konflux.cpu.conf").write_text(
-        "BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0-ea.2-1778762488\nPYLOCK_FLAVOR=cpu\nPRODUCT=rhoai\n",
+        "BASE_IMAGE=quay.io/aipcc/base-images/cpu-torch2.13-el9.8:1791476146\n"
+        "PYLOCK_FLAVOR=cpu\nPRODUCT=rhoai\nRELEASE=3.6\n",
         encoding="utf-8",
     )
-    label_url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9/simple/"
+    label_url = "https://packages.redhat.com/api/pypi/public-rhai/cpu-torch2.13-el9.8/simple/"
     monkeypatch.setattr(
         resolver,
         "inspect_base_image_index_url",
@@ -318,7 +319,7 @@ def test_get_index_flags_uses_konflux_conf(
     flags = pg.get_index_flags(project_dir, "cpu", pg.LogBuffer())
 
     assert flags == [
-        "--default-index=https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9/simple/?format=json",
+        "--default-index=https://packages.redhat.com/api/pypi/public-rhai/cpu-torch2.13-el9.8/simple/?format=json",
     ]
 
 
@@ -330,10 +331,11 @@ def test_get_index_flags_falls_back_to_test_index(
     build_args = project_dir / "build-args"
     build_args.mkdir(parents=True)
     (build_args / "konflux.cpu.conf").write_text(
-        "BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0-ea.2-1778762488\nPYLOCK_FLAVOR=cpu\nPRODUCT=rhoai\n",
+        "BASE_IMAGE=quay.io/aipcc/base-images/cpu-torch2.13-el9.8:1791476146\n"
+        "PYLOCK_FLAVOR=cpu\nPRODUCT=rhoai\nRELEASE=3.6\n",
         encoding="utf-8",
     )
-    label_url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9/simple/"
+    label_url = "https://packages.redhat.com/api/pypi/public-rhai/cpu-torch2.13-el9.8/simple/"
     monkeypatch.setattr(
         resolver,
         "inspect_base_image_index_url",
@@ -342,19 +344,20 @@ def test_get_index_flags_falls_back_to_test_index(
     monkeypatch.setattr(
         resolver,
         "index_url_exists",
-        lambda url: url.endswith("/cpu-ubi9-test/simple/"),
+        lambda url: url.endswith("/cpu-torch2.13-el9.8-test/simple/"),
     )
 
     flags = pg.get_index_flags(project_dir, "cpu", pg.LogBuffer())
 
     assert flags == [
-        "--default-index=https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9-test/simple/?format=json",
+        "--default-index=https://packages.redhat.com/api/pypi/public-rhai/cpu-torch2.13-el9.8-test/simple/?format=json",
     ]
 
 
 def test_run_lock_logs_index_url(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     project_dir = tmp_path / "project"
     project_dir.mkdir()
+    (project_dir / "pyproject.toml").write_text('[project]\nname = "test"\nversion = "0.1.0"\n', encoding="utf-8")
 
     log = pg.LogBuffer()
     completed = pg.subprocess.CompletedProcess(args=["uv"], returncode=0, stdout="", stderr="")
@@ -452,6 +455,7 @@ def _run_lock_with_fake_subprocess(
     backoff sleep is neutralized so the test runs instantly.
     """
     project_dir.mkdir(parents=True, exist_ok=True)
+    (project_dir / "pyproject.toml").write_text('[project]\nname = "test"\nversion = "0.1.0"\n', encoding="utf-8")
     monkeypatch.setattr("time.sleep", lambda _s: None)
     calls = {"n": 0}
 
@@ -510,6 +514,7 @@ def test_run_lock_times_out_and_exhausts_retries(tmp_path: Path, monkeypatch: py
     """A persistent subprocess timeout is transient: retried until the budget is exhausted."""
     project_dir = tmp_path / "p"
     project_dir.mkdir()
+    (project_dir / "pyproject.toml").write_text('[project]\nname = "test"\nversion = "0.1.0"\n', encoding="utf-8")
     monkeypatch.setattr("time.sleep", lambda _s: None)
     calls = {"n": 0}
 
@@ -614,6 +619,24 @@ def test_effective_index_mode_honors_explicit_mode(tmp_path: Path) -> None:
     assert pg.effective_index_mode(project_dir, pg.IndexMode.public_index) == pg.IndexMode.public_index, (
         "explicit public-index must win even when uv.lock.d/ exists"
     )
+
+
+def test_jupyter_universal_is_not_hybrid_public_rh_project() -> None:
+    project_dir = pg.ROOT_DIR / "jupyter" / "universal" / "ubi9-python-3.12"
+    assert not pg.is_hybrid_public_rh_project(project_dir), (
+        "universal uses RH-index for both ODH and RHOAI (not hybrid public+RH)"
+    )
+
+
+def test_hybrid_rh_output_flavor_reads_konflux_pylock_flavor(tmp_path: Path) -> None:
+    project_dir = tmp_path / "jupyter" / "example-hybrid" / "ubi9-python-3.12"
+    conf_dir = project_dir / "build-args"
+    conf_dir.mkdir(parents=True)
+    (conf_dir / "konflux.cpu.conf").write_text(
+        "BASE_IMAGE=quay.io/example/cpu\nPYLOCK_FLAVOR=rhoai\nPRODUCT=rhoai\n",
+        encoding="utf-8",
+    )
+    assert pg.hybrid_rh_output_flavor(project_dir, "cpu") == "rhoai"
 
 
 def _public_index_project(tmp_path: Path) -> Path:
@@ -1114,6 +1137,196 @@ dependencies = ["uv"]
 
     assert generated is None, "no constraints file should be generated when the source dir is missing"
     assert not (baseline_dir / ".aipcc-alignment.constraints.txt").exists(), "no leftover constraints file expected"
+
+
+def _write_baseline_pyproject(directory: Path, name: str, dependencies: list[str]) -> None:
+    deps = ",\n  ".join(f'"{dep}"' for dep in dependencies)
+    directory.mkdir(parents=True, exist_ok=True)
+    (directory / "pyproject.toml").write_text(
+        f"""
+[project]
+name = "{name}"
+version = "0.1.0"
+dependencies = [
+  {deps}
+]
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_realign_baseline_aipcc_locks_relocks_only_processed_targets(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    baseline_rel = Path("jupyter/baseline/ubi9-python-3.12")
+    source_rel = Path("jupyter/datascience/ubi9-python-3.12")
+    skipped_rel = Path("codeserver-baseline/ubi9-python-3.12")
+    baseline_dir = tmp_path / baseline_rel
+    source_dir = tmp_path / source_rel
+    skipped_dir = tmp_path / skipped_rel
+    codeserver_source = tmp_path / "codeserver" / "ubi9-python-3.12"
+    _write_baseline_pyproject(baseline_dir, "baseline-test", ["setuptools", "uv"])
+    _write_baseline_pyproject(skipped_dir, "codeserver-baseline-test", ["setuptools"])
+    source_dir.mkdir(parents=True)
+    codeserver_source.mkdir(parents=True)
+    (source_dir / "requirements.cpu.txt").write_text(
+        "setuptools==84.2.1\nuv==0.13.5\n",
+        encoding="utf-8",
+    )
+    (codeserver_source / "requirements.cpu.txt").write_text(
+        "setuptools==1.0.0\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(pg, "ROOT_DIR", tmp_path)
+    monkeypatch.setattr(
+        pg,
+        "BASELINE_AIPCC_ALIGNMENT_PAIRS",
+        {baseline_rel: source_rel, skipped_rel: Path("codeserver/ubi9-python-3.12")},
+    )
+    calls: list[tuple[Path, str, list[str], pg.IndexMode, str, Path | None]] = []
+
+    def fake_run_lock(
+        project_dir: Path,
+        flavor: str,
+        index_flags: list[str],
+        mode: pg.IndexMode,
+        python_version: str,
+        upgrade: bool,
+        ci_check: bool,
+        live_timestamp: str,
+        log: pg.LogBuffer,
+        extra_constraints: Path | None = None,
+    ) -> bool:
+        assert extra_constraints is not None, "baseline realign must pass alignment constraints"
+        assert extra_constraints.exists(), "alignment constraints must exist during the lock"
+        content = extra_constraints.read_text(encoding="utf-8")
+        assert "setuptools==84.2.1" in content, f"finished source pin missing: {content}"
+        assert "uv==0.13.5" in content, f"finished source pin missing: {content}"
+        calls.append((project_dir, flavor, index_flags, mode, python_version, extra_constraints))
+        return True
+
+    req_calls: list[tuple[Path, bool]] = []
+
+    def fake_requirements(
+        project_dir: Path,
+        flavor: str,
+        log: pg.LogBuffer,
+        *,
+        public_index: bool = False,
+        index_flavor: str | None = None,
+    ) -> bool:
+        assert flavor == "cpu", f"baseline requirements flavor must be cpu, got {flavor}"
+        req_calls.append((project_dir, public_index))
+        return True
+
+    monkeypatch.setattr(pg, "run_lock", fake_run_lock)
+    monkeypatch.setattr(pg, "generate_requirements_txt", fake_requirements)
+
+    ok = pg.realign_baseline_aipcc_locks(
+        [baseline_dir],
+        upgrade=False,
+        ci_check=True,
+        live_timestamp="2026-11-02T00:00:00Z",
+        requirements_only=False,
+        log=pg.LogBuffer(),
+    )
+
+    assert ok is True, "realign should succeed when the public-index lock succeeds"
+    assert len(calls) == 1, f"only the processed baseline should be re-locked, got {calls}"
+    project_dir, flavor, index_flags, mode, python_version, _extra = calls[0]
+    assert project_dir == baseline_dir.resolve(), f"unexpected project dir: {project_dir}"
+    assert flavor == "cpu", f"unexpected flavor: {flavor}"
+    assert index_flags == [pg.PUBLIC_INDEX], f"unexpected index flags: {index_flags}"
+    assert mode == pg.IndexMode.public_index, f"unexpected index mode: {mode}"
+    assert python_version == "3.12", f"unexpected python version: {python_version}"
+    assert req_calls == [(baseline_dir.resolve(), True)], f"unexpected requirements calls: {req_calls}"
+    leftover = baseline_dir / pg.AIPCC_ALIGNMENT_CONSTRAINTS_FILENAME
+    assert not leftover.exists(), f"alignment constraints must be removed, found {leftover}"
+
+
+def test_realign_baseline_aipcc_locks_skips_when_requirements_only(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def fail_run_lock(*_args: object, **_kwargs: object) -> bool:
+        raise AssertionError("requirements-only must not re-lock baselines")
+
+    monkeypatch.setattr(pg, "run_lock", fail_run_lock)
+    ok = pg.realign_baseline_aipcc_locks(
+        [],
+        upgrade=False,
+        ci_check=False,
+        live_timestamp="",
+        requirements_only=True,
+        log=pg.LogBuffer(),
+    )
+    assert ok is True, "requirements-only realign should be a no-op success"
+
+
+def test_realign_baseline_aipcc_locks_unlinks_constraints_when_lock_fails(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    baseline_rel = Path("jupyter/baseline/ubi9-python-3.12")
+    source_rel = Path("jupyter/datascience/ubi9-python-3.12")
+    baseline_dir = tmp_path / baseline_rel
+    source_dir = tmp_path / source_rel
+    _write_baseline_pyproject(baseline_dir, "baseline-test", ["setuptools"])
+    source_dir.mkdir(parents=True)
+    (source_dir / "requirements.cpu.txt").write_text("setuptools==84.2.1\n", encoding="utf-8")
+    monkeypatch.setattr(pg, "ROOT_DIR", tmp_path)
+    monkeypatch.setattr(pg, "BASELINE_AIPCC_ALIGNMENT_PAIRS", {baseline_rel: source_rel})
+    monkeypatch.setattr(pg, "run_lock", lambda *_args, **_kwargs: False)
+
+    ok = pg.realign_baseline_aipcc_locks(
+        [baseline_dir],
+        upgrade=False,
+        ci_check=True,
+        live_timestamp="2026-11-02T00:00:00Z",
+        requirements_only=False,
+        log=pg.LogBuffer(),
+    )
+
+    assert ok is False, "a failed baseline lock must fail the realign pass"
+    leftover = baseline_dir / pg.AIPCC_ALIGNMENT_CONSTRAINTS_FILENAME
+    assert not leftover.exists(), f"alignment constraints must be removed after failure, found {leftover}"
+
+
+def test_inject_project_dependencies_appends_before_closing_bracket() -> None:
+    original = """
+[project]
+name = "hybrid-test"
+version = "0.1.0"
+dependencies = [
+    "uv",
+    "wheel",
+]
+
+[tool.uv]
+exclude-dependencies = ["py-spy"]
+""".strip()
+    patched = pg._inject_project_dependencies(
+        original + "\n",
+        ["pandoc-rhai; sys_platform == 'linux'"],
+    )
+    assert '    "pandoc-rhai; sys_platform == \'linux\'",' in patched
+    assert patched.index("pandoc-rhai") < patched.index("\n]")
+    # Idempotent
+    assert pg._inject_project_dependencies(patched, ["pandoc-rhai; sys_platform == 'linux'"]) == patched
+
+
+def test_hybrid_rh_extra_dependencies_from_map(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    rel = Path("jupyter/example-hybrid/ubi9-python-3.12")
+    project = tmp_path / rel
+    project.mkdir(parents=True)
+    monkeypatch.setattr(pg, "ROOT_DIR", tmp_path)
+    monkeypatch.setattr(
+        pg,
+        "HYBRID_RH_EXTRA_DEPENDENCIES",
+        {rel: ("pandoc-rhai; sys_platform == 'linux'",)},
+    )
+    extras = pg.hybrid_rh_extra_dependencies(project)
+    assert extras == ["pandoc-rhai; sys_platform == 'linux'"]
+    assert pg.hybrid_rh_extra_dependencies(tmp_path / "jupyter/other") == []
 
 
 @pytest.mark.parametrize(

@@ -11,11 +11,14 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
       event == "pull_request"
-      && ! ("manifests/rhoai/base/params-latest.env".pathChanged())
+      && (
+        (source_branch == "main" && target_branch == "stable")
+        || !("manifests/rhoai/base/params-latest.env".pathChanged())
+      )
       && (".tekton/odh-pipeline-runtime-pytorch-cuda-py312-pull-request.yaml".pathChanged() || "runtimes/pytorch/ubi9-python-3.12/**".pathChanged() || "cuda/**".pathChanged())
   labels:
-    appstudio.openshift.io/application: rhoai-v3-6
-    appstudio.openshift.io/component: odh-pipeline-runtime-pytorch-cuda-py312-v3-6
+    appstudio.openshift.io/application: rhoai-v3-7-ea-1
+    appstudio.openshift.io/component: odh-pipeline-runtime-pytorch-cuda-py312-v3-7-ea-1
     pipelines.appstudio.openshift.io/type: build
   name: odh-pipeline-runtime-pytorch-cuda-py312-on-pull-request-39186
   namespace: rhoai-tenant
@@ -63,7 +66,7 @@ spec:
         arch: "x86_64,aarch64"
       requirements_files: [requirements.cuda.txt]
   - name: rhoai-version
-    value: "3.6.0"
+    value: "3.7.0-ea.1"
   - name: build-source-image
     value: true
   pipelineRef:
@@ -103,8 +106,18 @@ spec:
       limits:
         cpu: '16'
         memory: 32Gi
+  - pipelineTaskName: rpms-signature-scan
+    stepSpecs:
+    - name: rpms-signature-scan
+      computeResources:
+        requests:
+          cpu: "500m"
+          memory: "1Gi"
+        limits:
+          cpu: "500m"
+          memory: "1Gi"
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-pipeline-runtime-pytorch-cuda-py312-v3-6
+    serviceAccountName: build-pipeline-odh-pipeline-runtime-pytorch-cuda-py312-v3-7-ea-1
   workspaces:
   - name: git-auth
     secret:

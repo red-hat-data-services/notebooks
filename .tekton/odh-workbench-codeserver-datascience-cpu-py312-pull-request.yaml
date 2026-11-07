@@ -11,11 +11,14 @@ metadata:
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
       event == "pull_request"
-      && ! ("manifests/rhoai/base/params-latest.env".pathChanged())
+      && (
+        (source_branch == "main" && target_branch == "stable")
+        || !("manifests/rhoai/base/params-latest.env".pathChanged())
+      )
       && (".tekton/odh-workbench-codeserver-datascience-cpu-py312-pull-request.yaml".pathChanged() || "codeserver/ubi9-python-3.12/**".pathChanged() || "codeserver/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged())
   labels:
-    appstudio.openshift.io/application: rhoai-v3-6
-    appstudio.openshift.io/component: odh-workbench-codeserver-datascience-cpu-py312-v3-6
+    appstudio.openshift.io/application: rhoai-v3-7-ea-1
+    appstudio.openshift.io/component: odh-workbench-codeserver-datascience-cpu-py312-v3-7-ea-1
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-codeserver-datascience-cpu-py312-on-pull-request-75964
   namespace: rhoai-tenant
@@ -208,7 +211,7 @@ spec:
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.122.1/custom-packages
       type: npm
   - name: rhoai-version
-    value: "3.6.0"
+    value: "3.7.0-ea.1"
   pipelineRef:
     resolver: git
     params:
@@ -218,8 +221,19 @@ spec:
       value: '{{ cel: pac.target_branch.matches("^rhoai-\\d+\\.\\d+(-ea\\.\\d+)?$") ? pac.target_branch : "main" }}'
     - name: pathInRepo
       value: pipelines/multi-arch-container-build.yaml
+  taskRunSpecs:
+  - pipelineTaskName: rpms-signature-scan
+    stepSpecs:
+    - name: rpms-signature-scan
+      computeResources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 500m
+          memory: 1Gi
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-codeserver-datascience-cpu-py312-v3-6
+    serviceAccountName: build-pipeline-odh-workbench-codeserver-datascience-cpu-py312-v3-7-ea-1
   workspaces:
   - name: git-auth
     secret:
