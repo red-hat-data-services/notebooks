@@ -238,4 +238,12 @@ spec:
         limits:
           cpu: "500m"
           memory: "1Gi"
+  - pipelineTaskName: prefetch-dependencies
+    computeResources:
+      requests:
+        cpu: '4'
+        memory: 8Gi
+      limits:
+        cpu: '4'
+        memory: 8Gi
 status: {}
