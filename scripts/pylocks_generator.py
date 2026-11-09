@@ -51,6 +51,10 @@ Reproducible CI checks (PYLOCKS_CI_CHECK):
   ``upload-time``) instead of HTML.  This works around AIPCC-12921: Pulp's
   content negotiation ignores Accept header quality values and returns HTML
   whenever ``text/html`` appears, which uv always includes as a fallback.
+  Index URLs on ``console.redhat.com`` are first rewritten to the canonical
+  ``packages.redhat.com`` host: the console URL now 301-redirects there, and
+  the redirect doubles a pre-existing ``?format=json`` query into a Pulp 404
+  (see ``canonicalize_index_host``).
 
 Notes:
   - If the script fails for a directory, it lists the failed directories at the end.
@@ -346,6 +350,34 @@ def ensure_json_format_param(url: str) -> str:
     return urlunparse(parsed._replace(query=new_query))
 
 
+# console.redhat.com/api/pypi now 301-redirects to packages.redhat.com, and the
+# redirect preserves any query string by naive concatenation: a URL that already
+# carries ``?format=json`` becomes ``...?format=json?format=json``, which Pulp
+# rejects with a 404 and uv reports as "package not found in the registry".
+# Rewrite to the canonical host before uv sees the URL (see AIPCC-12921 note on
+# ensure_json_format_param for why the ``?format=json`` param must be kept).
+_REDIRECTED_INDEX_HOSTS = {"console.redhat.com": "packages.redhat.com"}
+
+
+def canonicalize_index_host(url: str) -> str:
+    """Rewrite index URL hosts that redirect in a way that breaks ``?format=json``.
+
+    >>> canonicalize_index_host("https://console.redhat.com/api/pypi/x/simple/")
+    'https://packages.redhat.com/api/pypi/x/simple/'
+    >>> canonicalize_index_host("https://packages.redhat.com/api/pypi/x/simple/")
+    'https://packages.redhat.com/api/pypi/x/simple/'
+    >>> canonicalize_index_host("https://pypi.org/simple")
+    'https://pypi.org/simple'
+    """
+    parsed = urlparse(url)
+    if parsed.hostname in _REDIRECTED_INDEX_HOSTS:
+        netloc = _REDIRECTED_INDEX_HOSTS[parsed.hostname]
+        if parsed.port is not None:
+            netloc = f"{netloc}:{parsed.port}"
+        return urlunparse(parsed._replace(netloc=netloc))
+    return url
+
+
 _EXCLUDE_NEWER_HEADER_RE = re.compile(r"--exclude-newer(?:=|\s+)(\S+)")
 
 
@@ -404,7 +436,7 @@ def get_index_flags(project_dir: Path, flavor: str, log: LogBuffer) -> list[str]
         log.warning(f"INDEX_URL not found in {conf_file}")
         return None
 
-    index_url = ensure_json_format_param(index_url)
+    index_url = ensure_json_format_param(canonicalize_index_host(index_url))
     flags = [f"--default-index={index_url}"]
 
     return flags
@@ -429,7 +461,7 @@ def lock_extra_index_flags_from_env() -> list[str]:
             if not url or url in seen:
                 continue
             seen.add(url)
-            flags.append(f"--index={ensure_json_format_param(url)}")
+            flags.append(f"--index={ensure_json_format_param(canonicalize_index_host(url))}")
     return flags
 
 
