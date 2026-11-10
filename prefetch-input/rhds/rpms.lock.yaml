@@ -25,13 +25,13 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.57.1.el9_8.aarch64.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.61.1.el9_8.aarch64.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
-    size: 2939977
-    checksum: sha256:31860419149438987e706dd2929fbc707552cd2e51dbc86547d294f9fed5f204
+    size: 2955061
+    checksum: sha256:40ddd229d41cbb7f645a1c1b152e5af87b1ef9c1fb96aecc2373c95a2dbc8ca2
     name: kernel-headers
-    evr: 5.14.0-687.57.1.el9_8
-    sourcerpm: kernel-5.14.0-687.57.1.el9_8.src.rpm
+    evr: 5.14.0-687.61.1.el9_8
+    sourcerpm: kernel-5.14.0-687.61.1.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/aarch64/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202610221634.p2.ga726d94.assembly.stream.el9.aarch64.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
     size: 27459424
@@ -340,27 +340,27 @@ arches:
     name: lcms2
     evr: 2.12-3.el9
     sourcerpm: lcms2-2.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libX11-1.7.0-11.el9.aarch64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libX11-1.7.0-11.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 653150
-    checksum: sha256:e2b2dfffeb8fb95eadd6f947247a2d9097c5526f38e426ee2fe58a08313174d7
+    size: 649989
+    checksum: sha256:1a84ae49885a43b5bf96deea5992eb956cb140bb0a8bf2ad523ce10a9208d9cd
     name: libX11
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libX11-common-1.7.0-11.el9.noarch.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libX11-common-1.7.0-11.el9_6.1.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 214201
-    checksum: sha256:6c71dcb5ecbf19b1d7cd72a48a399d0208942bf07afd529effe3ed426499512b
+    size: 208849
+    checksum: sha256:e97ff0680957e7d77a17073a6a7bf3bf57e0c1a4613a9d0af95106c87fb60dab
     name: libX11-common
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9.aarch64.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9_6.1.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 12720
-    checksum: sha256:2f751586d0616719879cecd7f43b3e4e97e9e355c0bd501faa2f0df9678eb0e0
+    size: 9924
+    checksum: sha256:39cd5b349e7153bac0d98867f4eacda94e33441c578da3c7a0162a8add0c4655
     name: libX11-xcb
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libXau-1.0.9-8.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 34407
@@ -520,13 +520,6 @@ arches:
     size: 598835
     checksum: sha256:8920fa4680e70bd8ab820ac3cc24285f38cdc377d5b5622eab2f805b3e08a224
     name: libtool
-    evr: 2.4.6-46.el9
-    sourcerpm: libtool-2.4.6-46.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libtool-ltdl-2.4.6-46.el9.aarch64.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 37581
-    checksum: sha256:85f38e641398438f7f08526d7003f47e47a14369798464fd67c465134258e964
-    name: libtool-ltdl
     evr: 2.4.6-46.el9
     sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/appstream/os/Packages/l/libubsan-11.5.0-5.el9_5.aarch64.rpm
@@ -4526,6 +4519,13 @@ arches:
     name: libtasn1
     evr: 4.16.0-9.el9
     sourcerpm: libtasn1-4.16.0-9.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libtool-ltdl-2.4.6-46.el9.aarch64.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 37581
+    checksum: sha256:85f38e641398438f7f08526d7003f47e47a14369798464fd67c465134258e964
+    name: libtool-ltdl
+    evr: 2.4.6-46.el9
+    sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/l/libunistring-0.9.10-15.el9.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 503151
@@ -4918,13 +4918,13 @@ arches:
     name: tar
     evr: 2:1.34-7.el9_6.2
     sourcerpm: tar-1.34-7.el9_6.2.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/t/tzdata-2026e-1.el9_6.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/t/tzdata-2026f-1.el9_6.noarch.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 928675
-    checksum: sha256:e02bfeeb93d3c64ae0bd5d0e23f37abf4b86a57f40ebb02447e7304227ebca9f
+    size: 929490
+    checksum: sha256:97d1888860fd6423aaabaeff3c4c44efee06e9d64b15ed18214552e0fd5f93ab
     name: tzdata
-    evr: 2026e-1.el9_6
-    sourcerpm: tzdata-2026e-1.el9_6.src.rpm
+    evr: 2026f-1.el9_6
+    sourcerpm: tzdata-2026f-1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/aarch64/baseos/os/Packages/u/unzip-6.0-58.el9_5.aarch64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 186875
@@ -5062,13 +5062,13 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.57.1.el9_8.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.61.1.el9_8.ppc64le.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
-    size: 2963757
-    checksum: sha256:92f45cbda331f1f1a398d83ef564d02085e9e8e5274127f949129446a1e62668
+    size: 2978901
+    checksum: sha256:5d8cbfc5cb7de76549b4bf6ac58fad0293fddece11d8a95870b15815652c267e
     name: kernel-headers
-    evr: 5.14.0-687.57.1.el9_8
-    sourcerpm: kernel-5.14.0-687.57.1.el9_8.src.rpm
+    evr: 5.14.0-687.61.1.el9_8
+    sourcerpm: kernel-5.14.0-687.61.1.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/ppc64le/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202610221634.p2.ga726d94.assembly.stream.el9.ppc64le.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
     size: 27395869
@@ -5377,27 +5377,27 @@ arches:
     name: lcms2
     evr: 2.12-3.el9
     sourcerpm: lcms2-2.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libX11-1.7.0-11.el9.ppc64le.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libX11-1.7.0-11.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 715545
-    checksum: sha256:fb211c2dd64aeb9899d81d5deb5b5b0c08a258f6278da5379f6e7a8d04f35fd1
+    size: 712700
+    checksum: sha256:d9fa5df191b90e9dbf29cb0dd9567556ca420a9b232f84672c184a1c97e21280
     name: libX11
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libX11-common-1.7.0-11.el9.noarch.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libX11-common-1.7.0-11.el9_6.1.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 214201
-    checksum: sha256:6c71dcb5ecbf19b1d7cd72a48a399d0208942bf07afd529effe3ed426499512b
+    size: 208849
+    checksum: sha256:e97ff0680957e7d77a17073a6a7bf3bf57e0c1a4613a9d0af95106c87fb60dab
     name: libX11-common
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9.ppc64le.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9_6.1.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 12767
-    checksum: sha256:bd62960cc5d680050536620cab52f2002aa05d721e02ee5b8ecae3ca612b8a61
+    size: 10010
+    checksum: sha256:e738b87e398fa5f86cd6b2aea2411f9c3b6c60723631c2abab33371b266c5bd4
     name: libX11-xcb
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libXau-1.0.9-8.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 34609
@@ -5557,13 +5557,6 @@ arches:
     size: 598794
     checksum: sha256:96046b39bc6272ea8453c7b6da58781ce8be2976fcd6583ac739df055c52f5c5
     name: libtool
-    evr: 2.4.6-46.el9
-    sourcerpm: libtool-2.4.6-46.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libtool-ltdl-2.4.6-46.el9.ppc64le.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 41941
-    checksum: sha256:1aeb1dd5ed52720e71481871150b8feed52d0fed307d38fefb636a2065854107
-    name: libtool-ltdl
     evr: 2.4.6-46.el9
     sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/appstream/os/Packages/l/libubsan-11.5.0-5.el9_5.ppc64le.rpm
@@ -9577,6 +9570,13 @@ arches:
     name: libtasn1
     evr: 4.16.0-9.el9
     sourcerpm: libtasn1-4.16.0-9.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libtool-ltdl-2.4.6-46.el9.ppc64le.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 41941
+    checksum: sha256:1aeb1dd5ed52720e71481871150b8feed52d0fed307d38fefb636a2065854107
+    name: libtool-ltdl
+    evr: 2.4.6-46.el9
+    sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/l/libunistring-0.9.10-15.el9.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 519115
@@ -9969,13 +9969,13 @@ arches:
     name: tar
     evr: 2:1.34-7.el9_6.2
     sourcerpm: tar-1.34-7.el9_6.2.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/t/tzdata-2026e-1.el9_6.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/t/tzdata-2026f-1.el9_6.noarch.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 928675
-    checksum: sha256:e02bfeeb93d3c64ae0bd5d0e23f37abf4b86a57f40ebb02447e7304227ebca9f
+    size: 929490
+    checksum: sha256:97d1888860fd6423aaabaeff3c4c44efee06e9d64b15ed18214552e0fd5f93ab
     name: tzdata
-    evr: 2026e-1.el9_6
-    sourcerpm: tzdata-2026e-1.el9_6.src.rpm
+    evr: 2026f-1.el9_6
+    sourcerpm: tzdata-2026f-1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/ppc64le/baseos/os/Packages/u/unzip-6.0-58.el9_5.ppc64le.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 195024
@@ -10113,13 +10113,13 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.57.1.el9_8.s390x.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.61.1.el9_8.s390x.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
-    size: 2969965
-    checksum: sha256:33a6f1dfc82b4e4487e3a00df7f49d05a07644da11e9f3ccbf32aca3453837fa
+    size: 2985065
+    checksum: sha256:9271ffc50e2f218aaf12467d59446f05315bcd937d1dade122e93e63a0d00323
     name: kernel-headers
-    evr: 5.14.0-687.57.1.el9_8
-    sourcerpm: kernel-5.14.0-687.57.1.el9_8.src.rpm
+    evr: 5.14.0-687.61.1.el9_8
+    sourcerpm: kernel-5.14.0-687.61.1.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/s390x/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202610221634.p2.ga726d94.assembly.stream.el9.s390x.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
     size: 29129693
@@ -10456,27 +10456,27 @@ arches:
     name: lcms2
     evr: 2.12-3.el9
     sourcerpm: lcms2-2.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libX11-1.7.0-11.el9.s390x.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libX11-1.7.0-11.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 652205
-    checksum: sha256:7fda13d085bcc6df963a9df1c2a26f4605d64aaee217e6c09e5c9ad51245db4c
+    size: 648076
+    checksum: sha256:fda44561dbcb6f804131b9baa6af7445d38b0472e525984dd79b445fa01169b6
     name: libX11
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libX11-common-1.7.0-11.el9.noarch.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libX11-common-1.7.0-11.el9_6.1.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 214201
-    checksum: sha256:6c71dcb5ecbf19b1d7cd72a48a399d0208942bf07afd529effe3ed426499512b
+    size: 208849
+    checksum: sha256:e97ff0680957e7d77a17073a6a7bf3bf57e0c1a4613a9d0af95106c87fb60dab
     name: libX11-common
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9.s390x.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9_6.1.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 12631
-    checksum: sha256:10c48878803fd1080b832d6651e72201b2fced932af926141211ad104b22b1f8
+    size: 9839
+    checksum: sha256:c0dbfd18518b50d5c8d7d0ebb314338a7878c02e6c43556dc3a12ce3da63585c
     name: libX11-xcb
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libXau-1.0.9-8.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 34089
@@ -10643,13 +10643,6 @@ arches:
     size: 598814
     checksum: sha256:33fa067a7f3aa0f51bf0f777a6648f853871bc32bf6742c671db1d90b2596af2
     name: libtool
-    evr: 2.4.6-46.el9
-    sourcerpm: libtool-2.4.6-46.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libtool-ltdl-2.4.6-46.el9.s390x.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 38223
-    checksum: sha256:eb4af423c05fa567c3886feb8598da24a0c31de2010aa92ea21b871fbb9f8e31
-    name: libtool-ltdl
     evr: 2.4.6-46.el9
     sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/appstream/os/Packages/l/libubsan-11.5.0-5.el9_5.s390x.rpm
@@ -14621,6 +14614,13 @@ arches:
     name: libtasn1
     evr: 4.16.0-9.el9
     sourcerpm: libtasn1-4.16.0-9.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libtool-ltdl-2.4.6-46.el9.s390x.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 38223
+    checksum: sha256:eb4af423c05fa567c3886feb8598da24a0c31de2010aa92ea21b871fbb9f8e31
+    name: libtool-ltdl
+    evr: 2.4.6-46.el9
+    sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/l/libunistring-0.9.10-15.el9.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 504493
@@ -15013,13 +15013,13 @@ arches:
     name: tar
     evr: 2:1.34-7.el9_6.2
     sourcerpm: tar-1.34-7.el9_6.2.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/t/tzdata-2026e-1.el9_6.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/t/tzdata-2026f-1.el9_6.noarch.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 928675
-    checksum: sha256:e02bfeeb93d3c64ae0bd5d0e23f37abf4b86a57f40ebb02447e7304227ebca9f
+    size: 929490
+    checksum: sha256:97d1888860fd6423aaabaeff3c4c44efee06e9d64b15ed18214552e0fd5f93ab
     name: tzdata
-    evr: 2026e-1.el9_6
-    sourcerpm: tzdata-2026e-1.el9_6.src.rpm
+    evr: 2026f-1.el9_6
+    sourcerpm: tzdata-2026f-1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/s390x/baseos/os/Packages/u/unzip-6.0-58.el9_5.s390x.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 185386
@@ -15157,13 +15157,13 @@ arches:
     name: texlive-tcolorbox
     evr: 20200406-1.el9ai
     sourcerpm: texlive-tcolorbox-20200406-1.el9ai.src.rpm
-  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.57.1.el9_8.x86_64.rpm
+  - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.22/os/Packages/k/kernel-headers-5.14.0-687.61.1.el9_8.x86_64.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
-    size: 2979225
-    checksum: sha256:c5766b2f8e4531f824575546028de7d8eb9fa95d7246dfafd4883c58312a2ef2
+    size: 2994353
+    checksum: sha256:e033c43830512e57b795bb85c0bfdc5a250cde81cb72c2205998643617c27885
     name: kernel-headers
-    evr: 5.14.0-687.57.1.el9_8
-    sourcerpm: kernel-5.14.0-687.57.1.el9_8.src.rpm
+    evr: 5.14.0-687.61.1.el9_8
+    sourcerpm: kernel-5.14.0-687.61.1.el9_8.src.rpm
   - url: https://cdn.redhat.com/content/dist/layered/rhel9/x86_64/rhocp/4.22/os/Packages/o/openshift-clients-4.22.0-202610221634.p2.ga726d94.assembly.stream.el9.x86_64.rpm
     repoid: rhocp-4.22-for-rhel-9-x86_64-rpms
     size: 30593559
@@ -15479,27 +15479,27 @@ arches:
     name: lcms2
     evr: 2.12-3.el9
     sourcerpm: lcms2-2.12-3.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libX11-1.7.0-11.el9.x86_64.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libX11-1.7.0-11.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 663116
-    checksum: sha256:d9b515a65727621e20804bf5bc0c1cb80466c3eb1070cc755fa54014bbbe580b
+    size: 660540
+    checksum: sha256:064de1cb36dc87dbf2872a87678f4cb235ebe9c7b09a9575bd2d28e222e30b81
     name: libX11
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libX11-common-1.7.0-11.el9.noarch.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libX11-common-1.7.0-11.el9_6.1.noarch.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 214201
-    checksum: sha256:6c71dcb5ecbf19b1d7cd72a48a399d0208942bf07afd529effe3ed426499512b
+    size: 208849
+    checksum: sha256:e97ff0680957e7d77a17073a6a7bf3bf57e0c1a4613a9d0af95106c87fb60dab
     name: libX11-common
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9.x86_64.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libX11-xcb-1.7.0-11.el9_6.1.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 12795
-    checksum: sha256:dd0d8d9e16ba0069a58b3ae02cf49b67fe7d59c6427ff44a4b90450156805902
+    size: 10017
+    checksum: sha256:a09f24b6e80feb063c592917f5c9f20b46c0b77a17caf8c1ccfaa2b972d95dd2
     name: libX11-xcb
-    evr: 1.7.0-11.el9
-    sourcerpm: libX11-1.7.0-11.el9.src.rpm
+    evr: 1.7.0-11.el9_6.1
+    sourcerpm: libX11-1.7.0-11.el9_6.1.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libXau-1.0.9-8.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-appstream-eus-rpms
     size: 34395
@@ -15652,13 +15652,6 @@ arches:
     size: 598907
     checksum: sha256:29e3e75c1037c5335fd6f9f4029e2dcdcd27d8870fd72b18bd7c16bf51a0db8c
     name: libtool
-    evr: 2.4.6-46.el9
-    sourcerpm: libtool-2.4.6-46.el9.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libtool-ltdl-2.4.6-46.el9.x86_64.rpm
-    repoid: rhel-9-for-x86_64-appstream-eus-rpms
-    size: 38043
-    checksum: sha256:44f7303229bdb4c2975f9829e3dd13dc7984e2cb53ef0f85baf894b39f605c38
-    name: libtool-ltdl
     evr: 2.4.6-46.el9
     sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/appstream/os/Packages/l/libuv-1.42.0-2.el9_4.x86_64.rpm
@@ -19665,6 +19658,13 @@ arches:
     name: libtasn1
     evr: 4.16.0-9.el9
     sourcerpm: libtasn1-4.16.0-9.el9.src.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libtool-ltdl-2.4.6-46.el9.x86_64.rpm
+    repoid: rhel-9-for-x86_64-baseos-eus-rpms
+    size: 38043
+    checksum: sha256:44f7303229bdb4c2975f9829e3dd13dc7984e2cb53ef0f85baf894b39f605c38
+    name: libtool-ltdl
+    evr: 2.4.6-46.el9
+    sourcerpm: libtool-2.4.6-46.el9.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/l/libunistring-0.9.10-15.el9.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 510558
@@ -20057,13 +20057,13 @@ arches:
     name: tar
     evr: 2:1.34-7.el9_6.2
     sourcerpm: tar-1.34-7.el9_6.2.src.rpm
-  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/t/tzdata-2026e-1.el9_6.noarch.rpm
+  - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/t/tzdata-2026f-1.el9_6.noarch.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
-    size: 928675
-    checksum: sha256:e02bfeeb93d3c64ae0bd5d0e23f37abf4b86a57f40ebb02447e7304227ebca9f
+    size: 929490
+    checksum: sha256:97d1888860fd6423aaabaeff3c4c44efee06e9d64b15ed18214552e0fd5f93ab
     name: tzdata
-    evr: 2026e-1.el9_6
-    sourcerpm: tzdata-2026e-1.el9_6.src.rpm
+    evr: 2026f-1.el9_6
+    sourcerpm: tzdata-2026f-1.el9_6.src.rpm
   - url: https://cdn.redhat.com/content/eus/rhel9/9.6/x86_64/baseos/os/Packages/u/unzip-6.0-58.el9_5.x86_64.rpm
     repoid: rhel-9-for-x86_64-baseos-eus-rpms
     size: 190785
