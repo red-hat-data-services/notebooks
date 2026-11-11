@@ -379,7 +379,7 @@ validate-runtime-image: bin/kubectl
 				# os.kill can raise EPERM after simple_execute.ipynb has already run.
 				if grep -q 'PermissionError: \[Errno 13\] Permission denied' "$$papermill_log" \
 					&& grep -q 'os\.kill(self\.pid, sig)' "$$papermill_log" \
-					&& grep -q 'Executing: 100%' "$$papermill_log" \
+					&& grep -q 'Executing.*100%' "$$papermill_log" \
 					&& ! grep -q -e PapermillExecutionError -e CellExecutionError "$$papermill_log"; then
 					echo "WARNING: papermill kernel shutdown hit EPERM after the notebook executed. Continuing."
 				else
