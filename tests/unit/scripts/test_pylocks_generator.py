@@ -168,9 +168,10 @@ class TestEnsureJsonFormatParam:
 
 class TestCanonicalizeIndexHost:
     def test_console_host_is_rewritten(self) -> None:
-        assert pg.canonicalize_index_host(
-            "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
-        ) == "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
+        assert (
+            pg.canonicalize_index_host("https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/")
+            == "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
+        )
 
     def test_canonical_host_unchanged(self) -> None:
         url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
@@ -180,9 +181,10 @@ class TestCanonicalizeIndexHost:
         assert pg.canonicalize_index_host("https://pypi.org/simple") == "https://pypi.org/simple"
 
     def test_query_and_path_preserved(self) -> None:
-        assert pg.canonicalize_index_host(
-            "https://console.redhat.com/api/pypi/x/simple/?format=json"
-        ) == "https://packages.redhat.com/api/pypi/x/simple/?format=json"
+        assert (
+            pg.canonicalize_index_host("https://console.redhat.com/api/pypi/x/simple/?format=json")
+            == "https://packages.redhat.com/api/pypi/x/simple/?format=json"
+        )
 
     def test_composition_with_format_param(self) -> None:
         # The console redirect doubles a pre-existing ?format=json into a Pulp
