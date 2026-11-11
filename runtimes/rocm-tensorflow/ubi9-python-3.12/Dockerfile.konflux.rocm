@@ -52,7 +52,7 @@ echo "Installing software and packages"
 python3 -m pip install --no-index \
     --no-deps --no-cache-dir \
     --find-links /cachi2/output/deps/pip \
-    --requirements=./requirements.txt
+    --requirement ./requirements.txt
 
 chmod -R g+w /opt/app-root/lib/python3.12/site-packages
 fix-permissions /opt/app-root -P

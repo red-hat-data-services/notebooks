@@ -53,7 +53,7 @@ echo "Installing software and packages"
 python3 -m pip install --no-index \
     --no-deps --no-cache-dir \
     --find-links /cachi2/output/deps/pip \
-    --requirements=./requirements.txt
+    --requirement ./requirements.txt
 
 python3 ./de-vendor-torch.py
 rm ./de-vendor-torch.py

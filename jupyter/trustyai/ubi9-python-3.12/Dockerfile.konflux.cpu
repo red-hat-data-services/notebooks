@@ -176,7 +176,7 @@ echo "Installing trustworthy-ai stack"
 python3 -m pip install --no-index \
     --no-deps --no-cache-dir \
     --find-links /cachi2/output/deps/pip \
-    --requirements=./requirements-trustyai.txt
+    --requirement ./requirements-trustyai.txt
 
 # uv and uvx are only needed while building the image.
 rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
