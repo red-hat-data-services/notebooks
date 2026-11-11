@@ -356,8 +356,8 @@ function _run_test_notebooks_only()
     papermill_status=${PIPESTATUS[0]}
     set -e
     if [[ "${papermill_status}" -ne 0 ]] && ! _papermill_exit_is_kernel_signal_eperm "${papermill_log}"; then
-        rm -f "${papermill_log}"
         echo "ERROR: The ${notebook_id} ${os_flavor} notebook encountered a failure. To investigate the issue, you can review the logs located in the ocp-ci cluster on 'artifacts/notebooks-e2e-tests/jupyter-${notebook_id}-${os_flavor}-${python_flavor}-test-e2e' directory or run 'cat ${output_file_prefix}_error.txt' within your container. The make process has been aborted."
+        rm -f "${papermill_log}"
         exit 1
     fi
     if [[ "${papermill_status}" -ne 0 ]]; then
