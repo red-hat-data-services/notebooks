@@ -231,3 +231,5 @@ This project is licensed under  the Apache License 2.0 - see the [LICENSE](https
 ## Contact
 
 Anything unclear or inaccurate? Please let us know by reporting an issue: [notebooks/issues](https://github.com/opendatahub-io/notebooks/issues/new)
+
+<!-- smoke test: verify downstream Fullsend dispatch -->
