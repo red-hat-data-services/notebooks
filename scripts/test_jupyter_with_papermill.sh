@@ -318,7 +318,9 @@ function _papermill_exit_is_kernel_signal_eperm()
 {
     local log_file="${1:-}"
     [[ -n "${log_file}" && -f "${log_file}" ]] || return 1
-    grep -q 'PermissionError: \[Errno 13\] Permission denied' "${log_file}" \
+    # kill(2) signals permission failures with EPERM ("[Errno 1] Operation not
+    # permitted"); EACCES ("[Errno 13] Permission denied") is kept as a fallback.
+    grep -q -e 'PermissionError: \[Errno 1\] Operation not permitted' -e 'PermissionError: \[Errno 13\] Permission denied' "${log_file}" \
         && grep -q 'os\.kill(self\.pid, sig)' "${log_file}" \
         && grep -q 'Ran .* tests in .*OK' "${log_file}" \
         && ! grep -q -e 'PapermillExecutionError' -e 'CellExecutionError' -e 'FAILED (' "${log_file}"

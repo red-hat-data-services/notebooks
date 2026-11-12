@@ -377,7 +377,7 @@ validate-runtime-image: bin/kubectl
 					python3 -m papermill simple_execute.ipynb output.ipynb > /dev/null" > "$$papermill_log" 2>&1 ; then
 				# jupyter_client signals the kernel with SIGINT on shutdown. In these pods
 				# os.kill can raise EPERM after simple_execute.ipynb has already run.
-				if grep -q 'PermissionError: \[Errno 13\] Permission denied' "$$papermill_log" \
+				if grep -q -e 'PermissionError: \[Errno 1\] Operation not permitted' -e 'PermissionError: \[Errno 13\] Permission denied' "$$papermill_log" \
 					&& grep -q 'os\.kill(self\.pid, sig)' "$$papermill_log" \
 					&& grep -q 'Executing.*100%' "$$papermill_log" \
 					&& ! grep -q -e PapermillExecutionError -e CellExecutionError "$$papermill_log"; then
