@@ -166,6 +166,36 @@ class TestEnsureJsonFormatParam:
         assert pg.ensure_json_format_param(result) == result
 
 
+class TestCanonicalizeIndexHost:
+    def test_console_host_is_rewritten(self) -> None:
+        assert (
+            pg.canonicalize_index_host("https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/")
+            == "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
+        )
+
+    def test_canonical_host_unchanged(self) -> None:
+        url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
+        assert pg.canonicalize_index_host(url) == url
+
+    def test_unrelated_host_unchanged(self) -> None:
+        assert pg.canonicalize_index_host("https://pypi.org/simple") == "https://pypi.org/simple"
+
+    def test_query_and_path_preserved(self) -> None:
+        assert (
+            pg.canonicalize_index_host("https://console.redhat.com/api/pypi/x/simple/?format=json")
+            == "https://packages.redhat.com/api/pypi/x/simple/?format=json"
+        )
+
+    def test_composition_with_format_param(self) -> None:
+        # The console redirect doubles a pre-existing ?format=json into a Pulp
+        # 404; canonicalize + param-append must yield the packages.redhat.com
+        # URL with a single format=json.
+        url = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/"
+        assert pg.ensure_json_format_param(pg.canonicalize_index_host(url)) == (
+            "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/?format=json"
+        )
+
+
 def test_image_project_dir_for_repo_file_jupyter(repo_root: Path) -> None:
     project = repo_root / "jupyter" / "minimal" / "ubi9-python-3.12"
     assert pg.image_project_dir_for_repo_file("jupyter/minimal/ubi9-python-3.12/pyproject.toml") == project

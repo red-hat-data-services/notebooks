@@ -392,7 +392,8 @@ def test_image_manifests_version_alignment(
         ("Codeflare-SDK", ("0.35", "0.36")),
         ("JupyterLab", ("4.5", "4.6")),  # llmcompressor pins pillow<=12.1.1 blocking 4.6.x
         ("Odh-Elyra", ("4.3", "5.0")),  # llmcompressor manifest stale, lockfile has 4.3.2
-        ("MLflow", ("3.17", "3.16")),  # rocm-tensorflow stays on 3.16 (PyPI); others on RH-index 3.17
+        ("MLflow", ("3.17", "3.18")),  # rocm-tensorflow on 3.18 (PyPI); others on RH-index 3.17
+        ("PyMongo", ("4.18", "4.19")),  # rocm-tensorflow resolves 4.19 from PyPI; RH-index carries 4.18.2
         ("Kfp", ("2.15", "2.16")),
         ("Feast", ("0.61", "0.62")),
         ("Scikit-learn", ("1.7", "1.6")),
