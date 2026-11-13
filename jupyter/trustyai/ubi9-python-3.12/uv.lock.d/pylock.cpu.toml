@@ -89,18 +89,18 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-
 [[packages]]
 name = "ast-serialize"
 version = "0.12.1"
-marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'ppc64le' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.12.1-1-cp39-abi3-linux_ppc64le.whl", upload-time = 2026-10-08T21:14:31Z, size = 1462346, hashes = { sha256 = "2f4ccd2b5365ac1342e24fc4d7cf50e0266c1bb9abc5f9a84768f8aebd96acf6" } }]
+marker = "(python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'x86_64' and sys_platform == 'linux')"
+wheels = [
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.12.1-1-cp39-abi3-linux_aarch64.whl", upload-time = 2026-10-08T21:14:31Z, size = 1210001, hashes = { sha256 = "2fea7edf5047ecae4f1aa0bd2d949a97207f5ef7cd2d567e7efe4e29eb1a641c" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.12.1-1-cp39-abi3-linux_ppc64le.whl", upload-time = 2026-10-08T21:14:31Z, size = 1462346, hashes = { sha256 = "2f4ccd2b5365ac1342e24fc4d7cf50e0266c1bb9abc5f9a84768f8aebd96acf6" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.12.1-1-cp39-abi3-linux_x86_64.whl", upload-time = 2026-10-08T21:14:31Z, size = 1221660, hashes = { sha256 = "1d16c43c27cb4b4c16dae69b97a2893e776ced100eabc234afe235b507c72128" } },
+]
 
 [[packages]]
 name = "ast-serialize"
 version = "0.13.0"
-marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.13.0-1-cp39-abi3-linux_aarch64.whl", upload-time = 2026-10-23T19:03:39Z, size = 1210567, hashes = { sha256 = "4e74bc0a41d62bc205853b3913a22f861a2e04d2a642257d0701ed0409b1a6cc" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.13.0-1-cp39-abi3-linux_s390x.whl", upload-time = 2026-10-20T02:51:53Z, size = 1460463, hashes = { sha256 = "f88636f320b6d075b47394b52b907549b719349c4195b71e60d3ddf42fcf8d2a" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.13.0-1-cp39-abi3-linux_x86_64.whl", upload-time = 2026-10-23T19:03:39Z, size = 1222589, hashes = { sha256 = "eeafcd0f1666f528fec80547b8ac3f2f7228e228335be9c9e38ea776aa9254a4" } },
-]
+marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'aarch64' and platform_machine != 'ppc64le' and platform_machine != 'x86_64' and sys_platform == 'linux'"
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/ast_serialize-0.13.0-1-cp39-abi3-linux_s390x.whl", upload-time = 2026-10-20T02:51:53Z, size = 1460463, hashes = { sha256 = "f88636f320b6d075b47394b52b907549b719349c4195b71e60d3ddf42fcf8d2a" } }]
 
 [[packages]]
 name = "astor"
@@ -409,12 +409,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-
 
 [[packages]]
 name = "feast"
-version = "0.67.0+rhaiv.1"
+version = "0.67.0"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/feast-0.67.0+rhaiv.1-2-py3-none-any.whl", upload-time = 2026-10-29T20:01:49Z, size = 8432563, hashes = { sha256 = "ce8bbcfb9a27e8d33d62b8262f01d38ede803e9b26942bf4f80351f9f8d34a10" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/feast-0.67.0+rhaiv.1-3-py3-none-any.whl", upload-time = 2026-11-10T20:51:29Z, size = 8468804, hashes = { sha256 = "2348424481a4840f4168ec319144440d9c311b32ee9bd88d579e93bbcb2d93fa" } },
-]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/feast-0.67.0-1-py3-none-any.whl", upload-time = 2026-10-19T15:04:14Z, size = 11734861, hashes = { sha256 = "9744eb57aa7f7d78c36bd10626ece3f1f12ebfbbbd590ccdf5f6b544180e542b" } }]
 
 [[packages]]
 name = "filelock"
@@ -1190,10 +1187,6 @@ wheels = [
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-1-cp312-abi3-linux_ppc64le.whl", upload-time = 2026-10-15T02:37:24Z, size = 9175679, hashes = { sha256 = "864472026b5f8554b4cc926b6cbfed6ea5514167901c091c398954c3be2e2117" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-1-cp312-abi3-linux_s390x.whl", upload-time = 2026-10-15T02:37:24Z, size = 10373473, hashes = { sha256 = "a4439174e80806277d94ef4a512920a6a88c0233cd9b6c75adadb4b84c886273" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-1-cp312-abi3-linux_x86_64.whl", upload-time = 2026-10-15T02:37:24Z, size = 9104426, hashes = { sha256 = "eff85a2eac3e834ccfffc284fc878a858ec722f0af80ad5469e1c076d874b8c5" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-2-cp312-abi3-linux_aarch64.whl", upload-time = 2026-11-02T23:16:48Z, size = 8800119, hashes = { sha256 = "6f549f5cc75c25d55a8a63cfa46b144f0796770517bf3aa2b50c798fa22f6dc5" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-2-cp312-abi3-linux_ppc64le.whl", upload-time = 2026-11-02T23:16:48Z, size = 9175753, hashes = { sha256 = "a8da3bf842e80547425c4a047ecdce0f17ea83d40e407bfd3541a28e3c30e916" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-2-cp312-abi3-linux_s390x.whl", upload-time = 2026-11-02T23:16:48Z, size = 10377438, hashes = { sha256 = "a1587560a724f21d8951d10bb733982adb7e1841d6bff8e1ac423c193cbde2ea" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/onnx-1.23.2-2-cp312-abi3-linux_x86_64.whl", upload-time = 2026-11-02T23:16:48Z, size = 9104497, hashes = { sha256 = "b2a80fae46304dfa7c56080bb94540b954a917dc288fa761db9ebc1e4d05d8e4" } },
 ]
 
 [[packages]]
@@ -1335,10 +1328,7 @@ wheels = [
 name = "pip"
 version = "26.2.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pip-26.2.1-1-py3-none-any.whl", upload-time = 2026-10-08T21:14:31Z, size = 1818221, hashes = { sha256 = "8af708c57f9184350014a29925c07b6541c9e5b5de90a36d8693320dea7720d4" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pip-26.2.1-4-py3-none-any.whl", upload-time = 2026-10-23T19:03:39Z, size = 1688861, hashes = { sha256 = "c3c9cdeff84dabd736c5897e2dd731c0766e6a9b7a897d77d0bfddc1719da3f6" } },
-]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pip-26.2.1-1-py3-none-any.whl", upload-time = 2026-10-08T21:14:31Z, size = 1818221, hashes = { sha256 = "8af708c57f9184350014a29925c07b6541c9e5b5de90a36d8693320dea7720d4" } }]
 
 [[packages]]
 name = "platformdirs"
@@ -1476,11 +1466,16 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-
 
 [[packages]]
 name = "pycryptodome"
+version = "3.24.1"
+marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'ppc64le' and sys_platform == 'linux'"
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pycryptodome-3.24.1-1-cp37-abi3-linux_ppc64le.whl", upload-time = 2026-10-19T15:04:14Z, size = 2189416, hashes = { sha256 = "dd76e48dc0114a11f6ed37c254e1477f05433d8be2d7a9319512211918ba462a" } }]
+
+[[packages]]
+name = "pycryptodome"
 version = "4.0.0"
-marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
+marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and sys_platform == 'linux'"
 wheels = [
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pycryptodome-4.0.0-1-cp39-abi3-linux_aarch64.whl", upload-time = 2026-10-19T15:04:14Z, size = 1704731, hashes = { sha256 = "2a9bac8fc739aaa7384b01c4ad7fda5c66b1150f87acbf7fd01f6036879b4553" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pycryptodome-4.0.0-1-cp39-abi3-linux_ppc64le.whl", upload-time = 2026-10-23T19:03:39Z, size = 1825775, hashes = { sha256 = "1b15c795f4d29963686ed36c0ef68a4d4a7200357ead1bfcadac361d852fc6dc" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pycryptodome-4.0.0-1-cp39-abi3-linux_s390x.whl", upload-time = 2026-10-20T02:51:53Z, size = 2143748, hashes = { sha256 = "e88605caeecc0f3892eb62f937fbc89232dec4d90d09acde52c2b6969c07e245" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pycryptodome-4.0.0-1-cp39-abi3-linux_x86_64.whl", upload-time = 2026-10-19T15:04:14Z, size = 2341567, hashes = { sha256 = "da558ad07a2fcbe7c0cef6bb44a1e602c366b27b69ced6df4600b213cb5436a3" } },
 ]
@@ -1540,12 +1535,19 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-
 
 [[packages]]
 name = "pymongo"
+version = "4.18.3"
+marker = "(python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 's390x' and sys_platform == 'linux')"
+wheels = [
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pymongo-4.18.3-1-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-10-12T20:26:07Z, size = 1047686, hashes = { sha256 = "7faebe5ad190f6ffe996a05472aeb87b11f06809c7fb2dec66aa886bfb584488" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pymongo-4.18.3-1-cp312-cp312-linux_s390x.whl", upload-time = 2026-10-12T20:26:07Z, size = 1337794, hashes = { sha256 = "e6685a466f1ceca6d2d97cd75c4f86c5bb85e79fed4132c10ed465b37cce0e8e" } },
+]
+
+[[packages]]
+name = "pymongo"
 version = "4.19.0"
-marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
+marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux'"
 wheels = [
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pymongo-4.19.0-1-cp312-cp312-linux_aarch64.whl", upload-time = 2026-10-19T15:04:14Z, size = 1035289, hashes = { sha256 = "cb436330f41636be8a3a9338ddfa0324478790aa89df77213445d3528e3e301c" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pymongo-4.19.0-1-cp312-cp312-linux_ppc64le.whl", upload-time = 2026-10-23T19:03:39Z, size = 1055223, hashes = { sha256 = "add26d7761fa18be616f4d356176db2fb44960c9435b6c41749bdaaa45daab7c" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pymongo-4.19.0-1-cp312-cp312-linux_s390x.whl", upload-time = 2026-10-23T19:03:39Z, size = 1345197, hashes = { sha256 = "2b0ed0984a564801d673cd336419d8e1edf773b3d7f410f4e29c2576027bda75" } },
     { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/pymongo-4.19.0-1-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-19T15:04:14Z, size = 1033791, hashes = { sha256 = "9018828ef92d56d9d8ba2d3cd3a712e0d6a3a1ec9d94bfc17647675e051c4dc8" } },
 ]
 
@@ -2070,14 +2072,19 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-
 
 [[packages]]
 name = "uv"
-version = "0.13.1"
-marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
+version = "0.13.0"
+marker = "(python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'ppc64le' and sys_platform == 'linux') or (python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine == 'x86_64' and sys_platform == 'linux')"
 wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.1-1-py3-none-linux_aarch64.whl", upload-time = 2026-10-23T19:03:39Z, size = 17298155, hashes = { sha256 = "0563ec9e52cc5102f58c9ba0853b1a024b1bcf289a7156ca5045ebe96977cdcf" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.1-1-py3-none-linux_ppc64le.whl", upload-time = 2026-10-23T19:03:39Z, size = 19471857, hashes = { sha256 = "70f1b1cd28a1d6060ff9695c8fa159c86a3dd1960d1980b35a70bb9674722f2b" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.1-1-py3-none-linux_s390x.whl", upload-time = 2026-10-20T02:51:53Z, size = 22031283, hashes = { sha256 = "d46c6037be6d55d2827a6a74204ef1bd6b7f62c67f230d8c5a5ffb14074dc063" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.1-1-py3-none-linux_x86_64.whl", upload-time = 2026-10-23T19:03:39Z, size = 18540423, hashes = { sha256 = "01a559ebcfef7dd4e5a41112e63ac5c4c2554708e6ab460e3982a9dbc0836e30" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.0-1-py3-none-linux_aarch64.whl", upload-time = 2026-10-13T04:44:47Z, size = 18107076, hashes = { sha256 = "8c757ed27e7194ccacf7b94a81ceeeb7731b5875e338bc72c68943fdf497108e" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.0-1-py3-none-linux_ppc64le.whl", upload-time = 2026-10-13T04:44:47Z, size = 20219750, hashes = { sha256 = "a4b2f3192d768ea196fdaab2f83c38f35d120879895ac14c184b0885dd06b6e9" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.0-1-py3-none-linux_x86_64.whl", upload-time = 2026-10-13T04:44:47Z, size = 19255890, hashes = { sha256 = "d271dc1b3161283ab00c383490b4f43b43447b187c89ace38534f09a04d2522f" } },
 ]
+
+[[packages]]
+name = "uv"
+version = "0.13.1"
+marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'aarch64' and platform_machine != 'ppc64le' and platform_machine != 'x86_64' and sys_platform == 'linux'"
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cpu-torch2.13-el9.8/uv-0.13.1-1-py3-none-linux_s390x.whl", upload-time = 2026-10-20T02:51:53Z, size = 22031283, hashes = { sha256 = "d46c6037be6d55d2827a6a74204ef1bd6b7f62c67f230d8c5a5ffb14074dc063" } }]
 
 [[packages]]
 name = "uvicorn"
