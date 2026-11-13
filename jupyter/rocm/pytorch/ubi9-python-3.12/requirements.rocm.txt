@@ -159,8 +159,8 @@ graphql-core==3.2.13 ; python_full_version == '3.12.*' and implementation_name =
     --hash=sha256:f36146eff70bdf58cf85227814d2cacdb7822f0d51e06cebb61bdd95363ed435
 graphql-relay==3.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:42656ea1a07c61f724a6b8753ccaaf5aa054cf05fb247f769869ba6b46a43101
-grpcio==1.84.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:c8496e9833554d6428e36ef56d067562c25b23df1982c7c55d9326321a27a0b9
+grpcio==1.85.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:efabda8305f7c18933e3fbbf5471a5b7f6df9f48d6fa0fc15cea68321f618027
 gunicorn==26.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c1f0831b9ed76d89783774ccb1c76c299917721631d16fd6c82d4b7fe277db8a
 h11==0.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -342,7 +342,8 @@ odh-jupyter-trash-cleanup==0.1.1 ; python_full_version == '3.12.*' and implement
 odh-kale==2.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5450d2a97ac8d6bffb434b2e372f9a776e775270f74013494f338639198172dc
 onnx==1.23.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:46823029bd322f0eb544803afea81e67402c1ac3a43af36efab6fbdc0bbb012a
+    --hash=sha256:46823029bd322f0eb544803afea81e67402c1ac3a43af36efab6fbdc0bbb012a \
+    --hash=sha256:c1277336fc7eaa5927fa64094c4bc382c8552b53434dca956c76d06006a28ebd
 onnx-ir==1.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:46e56f0455adcc6f86a66998afc58ff89ed6250fb489f4bf39c69a8ffaccee2b
 onnxconverter-common==1.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -388,7 +389,8 @@ pexpect==4.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
 pillow==12.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7c293743f7bf502baf4a6fab71d757d65560e98fa5cbad37a8cb033bcbe8adeb
 pip==26.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ee34053bd6be418583ceeefb6097ba0a1c0b2f770c3506b85decc2483b307da0
+    --hash=sha256:ee34053bd6be418583ceeefb6097ba0a1c0b2f770c3506b85decc2483b307da0 \
+    --hash=sha256:c78656c829f0d6a37f85e5b086acdb512f99d85e9479aa325c93173edda56cfe
 platformdirs==4.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:fef14e5bea3d1970b5873af421f811b2053064b1068530b08ad961de31b83b37
 plotly==7.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
