@@ -450,9 +450,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm
 
 [[packages]]
 name = "grpcio"
-version = "1.84.0"
+version = "1.85.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/grpcio-1.84.0-2-cp312-cp312-linux_x86_64.whl", upload-time = 2026-10-08T18:41:16Z, size = 179462243, hashes = { sha256 = "c8496e9833554d6428e36ef56d067562c25b23df1982c7c55d9326321a27a0b9" } }]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/grpcio-1.85.1-1-cp312-cp312-linux_x86_64.whl", upload-time = 2026-11-03T21:47:04Z, size = 185462978, hashes = { sha256 = "efabda8305f7c18933e3fbbf5471a5b7f6df9f48d6fa0fc15cea68321f618027" } }]
 
 [[packages]]
 name = "gunicorn"
