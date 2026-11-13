@@ -13,11 +13,13 @@ metadata:
       event == "pull_request"
       && (
         (
-          (source_branch == "main" && target_branch == "stable")
+          source_branch == "main"
+          && target_branch == "stable"
+          && "manifests/rhoai/base/params-latest.env".pathChanged()
         )
         ||
         (
-          ! ("manifests/rhoai/base/params-latest.env".pathChanged())
+          files.all.exists(p, p != "manifests/rhoai/base/params-latest.env")
           && (".tekton/odh-workbench-codeserver-datascience-cpu-py312-pull-request.yaml".pathChanged() || "codeserver/ubi9-python-3.12/**".pathChanged() || "codeserver/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged())
         )
       )
