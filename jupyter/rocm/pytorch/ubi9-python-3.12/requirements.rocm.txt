@@ -388,9 +388,8 @@ pexpect==4.9.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:84314d2547d8d450a0d8ca83d2abac5680edb04dc326ee898867b36f0a2ef6cc
 pillow==12.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:7c293743f7bf502baf4a6fab71d757d65560e98fa5cbad37a8cb033bcbe8adeb
-pip==26.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:ee34053bd6be418583ceeefb6097ba0a1c0b2f770c3506b85decc2483b307da0 \
-    --hash=sha256:c78656c829f0d6a37f85e5b086acdb512f99d85e9479aa325c93173edda56cfe
+pip==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:7f675a4a716a5a3cfc336c2e190ea696aea15433d823a31d09c6eabfd13c8414
 platformdirs==4.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:fef14e5bea3d1970b5873af421f811b2053064b1068530b08ad961de31b83b37
 plotly==7.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

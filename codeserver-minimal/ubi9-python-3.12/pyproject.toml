@@ -45,3 +45,7 @@ exclude-dependencies = ["py-spy"]
 environments = [
     "sys_platform == 'linux' and implementation_name == 'cpython' and python_full_version == '3.12.*'",
 ]
+override-dependencies = [
+    # RHAI-48857: RH-index pip 26.3 uses the system CA trust store.
+    "pip>=26.3",
+]

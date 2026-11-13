@@ -1295,12 +1295,9 @@ wheels = [
 
 [[packages]]
 name = "pip"
-version = "26.2.1"
+version = "26.3"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cuda12.9-torch2.13-el9.8/pip-26.2.1-1-py3-none-any.whl", upload-time = 2026-10-08T23:11:09Z, size = 1818221, hashes = { sha256 = "a923e6292934d4ae69c5593429e3420cf5b91e4510e235ad42d14bd1cb144411" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/cuda12.9-torch2.13-el9.8/pip-26.2.1-4-py3-none-any.whl", upload-time = 2026-10-23T19:04:12Z, size = 1688860, hashes = { sha256 = "12d941b3332e4bcc3c59c79ee0b94f8d316466afee4d29404ab262da832bfcdf" } },
-]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/cuda12.9-torch2.13-el9.8/pip-26.3-1-py3-none-any.whl", upload-time = 2026-11-09T17:34:57Z, size = 1821872, hashes = { sha256 = "227cad547bc8a37fb5a1748f599c3a0cd06c0c6fb6e79c4bda3faae5436f78bc" } }]
 
 [[packages]]
 name = "platformdirs"

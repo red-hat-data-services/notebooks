@@ -44,6 +44,8 @@ required-environments = [
 exclude-dependencies = ["py-spy"]
 
 override-dependencies = [
+    # RHAI-48857: RH-index pip 26.3 uses the system CA trust store.
+    "pip>=26.3",
     # odh-elyra pins jupyter-resource-usage<1.2.dev0, but 1.1.1 needs psutil<6 while
     # ipython 9.14+ on the RH index needs psutil>=7. Index ships 1.2.1.
     "jupyter-resource-usage>=1.2.1,<1.3",
