@@ -27,8 +27,8 @@ beautifulsoup4==4.14.3 ; implementation_name == 'cpython' and sys_platform == 'l
     --hash=sha256:ba5364431983923fa796510cc70610d9e21f6c92f469e16230aa34016c32ffda
 bleach==6.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:4481fbde86076cc180511d11e201e4d69376553f13b40edb862d9dc9404e65f0
-certifi==2026.2.25 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:21e39b1e7d9cf0b5cb448a8a34ce4dc416e90e410df943ee4d2c258352cdac7b
+certifi==2026.10.19 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:80b5eb1ae326bf7c4d1e7d8f548f664daf282b7e44353d57ebb04dac3ad11211
 cffi==2.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:e5f30934094d0647d079f4acc39087dd0ecf773e30859950694fc37a71e1ee50 \
     --hash=sha256:b1cdb7b6399f4316d8b0800b627298d1ba10e4e2863c18fe7128e788fa8d81b2
