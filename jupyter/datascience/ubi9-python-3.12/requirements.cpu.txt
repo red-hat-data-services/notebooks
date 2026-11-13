@@ -182,9 +182,9 @@ graphql-core==3.2.13 ; python_full_version == '3.12.*' and implementation_name =
     --hash=sha256:20472dbfed0e71f8ab318c1fa427d5e56a4c1445dffc55305bdab9568c812fcf
 graphql-relay==3.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:424d738d4c3122c2c157262bc39391898adc1c368429c03f8ae6d86555a5a6d3
-grpcio==1.84.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
-    --hash=sha256:5eacf1a43c95efeea9cbb7bcb7a7731dbc310a8625c5dd97d82cec674b3bdd1c \
-    --hash=sha256:6967c0cd37070c800eaf0af83ad14a9013697dcd6bdb674eac79adb83dea5c62
+grpcio==1.85.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
+    --hash=sha256:a39e07c6596a9ea2af5db0c0c8319dbc69064d290ba0ae89a7d16ffc0f738ad9 \
+    --hash=sha256:be9304d431809f361e8463db406715a81f9b58089f7bb1dc5746583ef17721a1
 gunicorn==26.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:d9333960e47299a6eddaf63c1b5eb8e145c2c70cebc9ee9dd39b2ba4905a1388
 h11==0.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -396,7 +396,11 @@ onnx==1.23.2 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
     --hash=sha256:dfabc5ddb5e2d383393cab783cfd5364f331ef530251e87058284e7e172a511a \
     --hash=sha256:864472026b5f8554b4cc926b6cbfed6ea5514167901c091c398954c3be2e2117 \
     --hash=sha256:a4439174e80806277d94ef4a512920a6a88c0233cd9b6c75adadb4b84c886273 \
-    --hash=sha256:eff85a2eac3e834ccfffc284fc878a858ec722f0af80ad5469e1c076d874b8c5
+    --hash=sha256:eff85a2eac3e834ccfffc284fc878a858ec722f0af80ad5469e1c076d874b8c5 \
+    --hash=sha256:6f549f5cc75c25d55a8a63cfa46b144f0796770517bf3aa2b50c798fa22f6dc5 \
+    --hash=sha256:a8da3bf842e80547425c4a047ecdce0f17ea83d40e407bfd3541a28e3c30e916 \
+    --hash=sha256:a1587560a724f21d8951d10bb733982adb7e1841d6bff8e1ac423c193cbde2ea \
+    --hash=sha256:b2a80fae46304dfa7c56080bb94540b954a917dc288fa761db9ebc1e4d05d8e4
 onnxconverter-common==1.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:79901f2821c9ae831f8edc4d2f6d520820c02ae9269fe29daa845e7ccb1c1ba7
 opencensus==0.11.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and platform_machine != 'ppc64le' and platform_machine != 's390x' and sys_platform == 'linux' \
@@ -447,7 +451,8 @@ pillow==12.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:92abc4f847f9f2f6fccd2f19567589ce8c7200b3f4751d1e1d66f21287086e1b \
     --hash=sha256:c945f479bc2de2c2329bd78e6ee8b730843f8148f1534f791e5990d7b3f1e308
 pip==26.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:8af708c57f9184350014a29925c07b6541c9e5b5de90a36d8693320dea7720d4
+    --hash=sha256:8af708c57f9184350014a29925c07b6541c9e5b5de90a36d8693320dea7720d4 \
+    --hash=sha256:c3c9cdeff84dabd736c5897e2dd731c0766e6a9b7a897d77d0bfddc1719da3f6
 platformdirs==4.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:888867abcc9c198e74f6d7537b309f2ffc150ebaf0bacad5e33dc6f09b409f68
 plotly==7.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
