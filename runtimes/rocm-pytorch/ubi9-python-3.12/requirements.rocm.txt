@@ -35,15 +35,14 @@ bleach==6.3.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:f6ad4976d785c8b6755cfd54dd6639228639790b4cf48028ec7afbe7de0ff30e
 blinker==1.9.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b30146e3b749467dab0e9bd13247609d6301bd9338dbe485fdf57bc52f94b636
-boto3==1.42.84 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:579eb8b0b59ae3d911345a73a6b01877c04817a4e713149bf9044f3641ebe8f4
-botocore==1.42.84 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:3042505210ef0405afa919ae982640b959f712beced773564465abc67e97795c \
-    --hash=sha256:c427efaf6029a6a44fcd52dc653c86a166dc9565a4613f0dd95b5bf206f86618
+boto3==1.43.122 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:61d62ebcd9b840318244de363591bcfd0718519189a17c42353fe23d0963eaf3
+botocore==1.43.122 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:cb4392b17577ca9064882ea91d726b67696bc848efbb5a8177a602942e56bf34
 cachetools==7.0.5 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:434221d977abdc9144794cce74ca3f0b64fccaed62773148cddbfdff2c486d9c
-certifi==2026.2.25 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:db7b2394df9812f8c64672bc7f26d6bb55203eef3a6a41ca34d84e4b304e1c31
+certifi==2026.10.19 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:96f230e413a04652c599fa4ca8be0bf51e96799f8cd97c072c51a81b162eaa57
 cffi==2.0.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3082c72a1bd6346c0edf1e642ef7bc98bc7034f443258d08458a08d39c8d4c08
 charset-normalizer==3.4.7 ; implementation_name == 'cpython' and sys_platform == 'linux' \
@@ -367,8 +366,8 @@ rich==14.3.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:8723d897ec64e03262a75c0335ae98cbc468b75b1b1f3fbe9a0b142d0aedf4d0
 rpds-py==0.30.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:079f16ffe8de26af88c26dff158b9f96a3c1964f10205a0595e59e52000e253f
-s3transfer==0.16.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:6bed05b374a1f3585786d71523c633dea2e7d1fb8c550996e6458db3675d5f17
+s3transfer==0.19.3 ; implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:6b03ef13b7e182333048948148752a8fb512867941713969469b9f10f27f9ccf
 scikit-learn==1.8.0 ; implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:2e1c71fe7dc99fe0db22be5a11f1e81a4a257d411ec556c73c247b461020dd6d
 scipy==1.17.1 ; implementation_name == 'cpython' and sys_platform == 'linux' \
