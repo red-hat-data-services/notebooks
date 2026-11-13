@@ -388,9 +388,8 @@ pillow==12.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:ac494d6d751d8e14603d1b7529c74e6ab924718e9acb6d03bdf18ce419ceb717 \
     --hash=sha256:92abc4f847f9f2f6fccd2f19567589ce8c7200b3f4751d1e1d66f21287086e1b \
     --hash=sha256:c945f479bc2de2c2329bd78e6ee8b730843f8148f1534f791e5990d7b3f1e308
-pip==26.2.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:8af708c57f9184350014a29925c07b6541c9e5b5de90a36d8693320dea7720d4 \
-    --hash=sha256:c3c9cdeff84dabd736c5897e2dd731c0766e6a9b7a897d77d0bfddc1719da3f6
+pip==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:2ed0c2cb24b622e1d6f84e81a6ecc8f9d5175345cd0b907bb7d9c38e3061d954
 platformdirs==4.13.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:888867abcc9c198e74f6d7537b309f2ffc150ebaf0bacad5e33dc6f09b409f68
 plotly==7.1.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

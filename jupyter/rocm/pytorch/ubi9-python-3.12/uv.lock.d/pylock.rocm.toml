@@ -1173,12 +1173,9 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm
 
 [[packages]]
 name = "pip"
-version = "26.2.1"
+version = "26.3"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/pip-26.2.1-1-py3-none-any.whl", upload-time = 2026-10-08T18:41:16Z, size = 1818221, hashes = { sha256 = "ee34053bd6be418583ceeefb6097ba0a1c0b2f770c3506b85decc2483b307da0" } },
-    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/pip-26.2.1-4-py3-none-any.whl", upload-time = 2026-10-26T14:09:43Z, size = 1688861, hashes = { sha256 = "c78656c829f0d6a37f85e5b086acdb512f99d85e9479aa325c93173edda56cfe" } },
-]
+wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/pip-26.3-1-py3-none-any.whl", upload-time = 2026-11-09T17:35:29Z, size = 1821870, hashes = { sha256 = "7f675a4a716a5a3cfc336c2e190ea696aea15433d823a31d09c6eabfd13c8414" } }]
 
 [[packages]]
 name = "platformdirs"
