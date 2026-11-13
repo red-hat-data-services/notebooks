@@ -54,6 +54,8 @@ override-dependencies = [
     # kfp 2.17.0's protobuf<7.0 is a conservative pin (gencode 6.31.1; APIs exist in 7.x).
     # 7.x series only.
     "protobuf>=7.36.1,<8",
+    # RHAI-23392 / GHSA-2xm2-c8xx-p9vh: require grpcio with patched bundled roots.
+    "grpcio>=1.84.1",
 ]
 
 environments = [
