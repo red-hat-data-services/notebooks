@@ -164,9 +164,9 @@ graphql-core==3.2.13 ; python_full_version == '3.12.*' and implementation_name =
     --hash=sha256:2170c8025cc843ce32a0bc2de0e7b83cade6b919858e54ec39c3da87b8076be9
 graphql-relay==3.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:45176f0bedbf8fcc5eb03452aacb68ed775e32909351236a3d2604a42f63c40c
-grpcio==1.84.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:58f0a6acf4716b3c61818072de5835eea1663b80fddfe45f077f03969ee59443 \
-    --hash=sha256:904112a5f0648ac6add63a95234efb6bbbb25c23294446070e7a66cf43f384fc
+grpcio==1.85.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:692c2735dc0790d79f0a4dc8fca3b691ca0d79cdfbe554caa229040f27cca027 \
+    --hash=sha256:078959db5dbdafcf81fdfb16d83ab9e9043c8f7d8b187ca573fccb6fd5c5bd24
 gunicorn==26.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:36e139e089bb5917206268c3be49f09fe14efc231e15b99dd1ff106ef29313ae
 h11==0.16.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
