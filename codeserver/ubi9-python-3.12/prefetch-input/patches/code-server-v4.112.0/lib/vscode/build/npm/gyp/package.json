@@ -1,0 +1,13 @@
+{
+  "name": "code-oss-dev-build",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "node-gyp": "^11.2.0"
+  },
+  "scripts": {},
+  "overrides": {
+    "brace-expansion@2": "2.1.6"
+  }
+}

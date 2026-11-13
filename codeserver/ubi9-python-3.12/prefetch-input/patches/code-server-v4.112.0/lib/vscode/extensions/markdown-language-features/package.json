@@ -782,9 +782,9 @@
   },
   "dependencies": {
     "@vscode/extension-telemetry": "^0.9.8",
-    "dompurify": "^3.3.2",
+    "dompurify": "^3.4.13",
     "highlight.js": "^11.8.0",
-    "markdown-it": "^12.3.2",
+    "markdown-it": "^14.3.3",
     "markdown-it-front-matter": "^0.2.4",
     "morphdom": "^2.7.7",
     "picomatch": "^2.3.1",
@@ -812,6 +812,7 @@
     "url": "https://github.com/microsoft/vscode.git"
   },
   "overrides": {
-    "linkify-it": "5.0.2"
+    "linkify-it": "5.0.2",
+    "brace-expansion@1": "1.1.20"
   }
 }
