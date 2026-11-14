@@ -10,7 +10,8 @@ metadata:
     pipelinesascode.tekton.dev/on-comment: "^/build-konflux (odh-pipeline-runtime-pytorch-cuda-py312|all)$"
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
-      event == "pull_request"
+      konflux_cluster == "stone-prod-p02"
+      && event == "pull_request"
       && (
         (
           source_branch == "main"

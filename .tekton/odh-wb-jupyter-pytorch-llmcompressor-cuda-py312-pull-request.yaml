@@ -16,7 +16,8 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-comment: "^/build-konflux (odh-wb-jupyter-pytorch-llmcompressor-cuda-py312|all)$"
     pipelinesascode.tekton.dev/on-cel-expression: |-
-      event == "pull_request"
+      konflux_cluster == "stone-prod-p02"
+      && event == "pull_request"
       && (
         (
           source_branch == "main"

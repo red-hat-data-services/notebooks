@@ -10,7 +10,8 @@ metadata:
     pipelinesascode.tekton.dev/on-comment: "^/build-konflux (odh-pipeline-runtime-minimal-cpu-py312|all)$"
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
-      event == "pull_request"
+      konflux_cluster == "stone-prod-p02"
+      && event == "pull_request"
       && (
         (
           source_branch == "main"
@@ -57,8 +58,6 @@ spec:
     value:
     - linux/x86_64
     - linux-m2xlarge/arm64
-    - linux/ppc64le
-    - linux/s390x
   - name: image-expires-after
     value: 30d
   - name: enable-slack-failure-notification
