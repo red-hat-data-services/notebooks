@@ -261,6 +261,9 @@ COPY ${CODESERVER_SOURCE_CODE}/prefetch-input/patches/strip-apply-seccomp.sh /tm
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 bash /tmp/strip-apply-seccomp.sh /usr/lib/code-server
+# RHAIENG-7770: @microsoft/mxc-sdk is unused on Linux and bundles a Rust binary
+# that uses non-attested crypto.
+rm -rf /usr/lib/code-server/lib/vscode/node_modules/@microsoft/mxc-sdk
 rm -f /tmp/strip-apply-seccomp.sh
 EOF
 
@@ -379,6 +382,17 @@ COPY ${CODESERVER_SOURCE_CODE}/requirements.${PYLOCK_FLAVOR}.txt ./requirements.
 
 # [HERMETIC] Install all Python packages from cachi2 pip cache (--no-index).
 # /cachi2/output/deps/pip/ contains PyPI wheels and RHOAI ppc64le/s390x wheels.
+# The AIPCC base does not bootstrap uv. Install uv from the hermetic/cachi2
+# pip cache (offline) before installing the image's Python packages.
+# UV_VERSION is derived from this image's requirements.cpu.txt by scripts/dockerfile_fragments.py.
+### BEGIN UV version
+ARG UV_VERSION=0.13.6
+
+### END UV version
+RUN python3 -m pip install --no-cache-dir --no-index \
+    --find-links /cachi2/output/deps/pip \
+    "uv==${UV_VERSION}"
+
 RUN /bin/bash <<'EOF'
 set -Eeuxo pipefail
 echo "Installing software and packages"
@@ -387,6 +401,9 @@ UV_NO_CACHE=true UV_LINK_MODE=copy UV_PREVIEW_FEATURES=pylock uv pip install --n
     --compile-bytecode --index-strategy=unsafe-best-match \
     --find-links /cachi2/output/deps/pip \
     --requirements=./requirements.txt
+
+# uv and uvx are only needed while building the image.
+rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
 
 # change ownership to default user (all packages were installed as root and has root:root ownership
 chown -R 1001:0 /opt/app-root

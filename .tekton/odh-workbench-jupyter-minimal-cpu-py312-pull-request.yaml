@@ -7,15 +7,26 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-workbench-jupyter-minimal-cpu)"
+    pipelinesascode.tekton.dev/on-comment: "^/build-konflux (odh-workbench-jupyter-minimal-cpu-py312|all)$"
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
-      event == "pull_request"
-      && ! ("manifests/rhoai/base/params-latest.env".pathChanged())
-      && (".tekton/odh-workbench-jupyter-minimal-cpu-py312-pull-request.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged())
+      konflux_cluster == "stone-prod-p02"
+      && event == "pull_request"
+      && (
+        (
+          source_branch == "main"
+          && target_branch == "stable"
+          && "manifests/rhoai/base/params-latest.env".pathChanged()
+        )
+        ||
+        (
+          files.all.exists(p, p != "manifests/rhoai/base/params-latest.env")
+          && (".tekton/odh-workbench-jupyter-minimal-cpu-py312-pull-request.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged())
+        )
+      )
   labels:
-    appstudio.openshift.io/application: rhoai-v3-6
-    appstudio.openshift.io/component: odh-workbench-jupyter-minimal-cpu-py312-v3-6
+    appstudio.openshift.io/application: rhoai-v3-7-ea-1
+    appstudio.openshift.io/component: odh-workbench-jupyter-minimal-cpu-py312-v3-7-ea-1
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-minimal-cpu-py312-on-pull-request-93428
   namespace: rhoai-tenant
@@ -48,8 +59,6 @@ spec:
     value:
     - linux-d160-m8xlarge/amd64
     - linux-d160-m8xlarge/arm64
-    - linux/ppc64le
-    - linux/s390x
   - name: image-expires-after
     value: 30d
   - name: enable-slack-failure-notification
@@ -66,7 +75,7 @@ spec:
         arch: "x86_64,aarch64,ppc64le,s390x"
       requirements_files: [requirements.cpu.txt]
   - name: rhoai-version
-    value: "3.6.0"
+    value: "3.7.0-ea.1"
   - name: build-source-image
     value: true
   pipelineRef:
@@ -82,6 +91,16 @@ spec:
     pipeline: 8h
     tasks: 4h
   taskRunSpecs:
+  - pipelineTaskName: rpms-signature-scan
+    stepSpecs:
+    - name: rpms-signature-scan
+      computeResources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 500m
+          memory: 1Gi
   - pipelineTaskName: prefetch-dependencies
     computeResources:
       requests:
@@ -125,7 +144,7 @@ spec:
         cpu: '3'
         memory: 8Gi
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-minimal-cpu-py312-v3-6
+    serviceAccountName: build-pipeline-odh-workbench-jupyter-minimal-cpu-py312-v3-7-ea-1
   workspaces:
   - name: git-auth
     secret:
