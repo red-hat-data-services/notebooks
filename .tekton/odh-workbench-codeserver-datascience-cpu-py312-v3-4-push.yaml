@@ -10,9 +10,10 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     build.appstudio.openshift.io/build-nudge-files: "build/operator-nudging.yaml"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      event == "push"
+      konflux_cluster == "stone-prod-p02"
+      && event == "push"
       && target_branch == "rhoai-3.4"
-      && !("manifests/base/params-latest.env".pathChanged())
+      && ! ("manifests/base/params-latest.env".pathChanged())
       && ( ".tekton/odh-workbench-codeserver-datascience-cpu-py312-v3-4-push.yaml".pathChanged() ||
            "codeserver/ubi9-python-3.12/**".pathChanged() ||
            "codeserver/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged() )
@@ -176,19 +177,11 @@ spec:
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/css-language-features
-      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/emmet
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/extension-editing
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/html-language-features
-      type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/json-language-features
-      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/markdown-language-features
-      type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/mermaid-chat-features
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/extensions/microsoft-authentication
       type: npm
@@ -198,21 +191,11 @@ spec:
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/build
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/build/npm/gyp
-      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/build/vite
-      type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/automation
-      type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/integration/browser
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/mcp
       type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/monaco
-      type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/sanity
-      type: npm
-    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/lib/vscode/test/smoke
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.112.0/test
       type: npm
