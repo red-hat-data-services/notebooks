@@ -249,6 +249,9 @@ if [ "$TARGETARCH" = "ppc64le" ]; then
         --extra-index-url https://pypi.org/simple \
         --build-constraint build_constraints.txt \
         --requirements=./pylock.toml
+
+# uv and uvx are only needed while building the image.
+rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
 elif [ "$TARGETARCH" = "s390x" ]; then
     # RHOAIENG-58277: Meson 1.11.0 breaks pandas 2.3.3 source builds
     echo "meson<1.11" > build_constraints.txt
