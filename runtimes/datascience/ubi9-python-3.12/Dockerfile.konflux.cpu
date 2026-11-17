@@ -124,9 +124,16 @@ RUN set -eu; \
     system_bundle=/etc/pki/tls/certs/ca-bundle.crt; \
     for bundle in \
         /opt/app-root/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem \
-        /opt/app-root/lib/python3.12/site-packages/botocore/cacert.pem \
-        /opt/app-root/lib/python3.12/site-packages/grpc/_cython/_credentials/roots.pem; do \
+        /opt/app-root/lib/python3.12/site-packages/botocore/cacert.pem; do \
         cp "$system_bundle" "$bundle"; \
         cmp -s "$system_bundle" "$bundle"; \
-    done
+    done; \
+    case "$(uname -m)" in \
+        x86_64|aarch64) \
+            bundle=/opt/app-root/lib/python3.12/site-packages/grpc/_cython/_credentials/roots.pem; \
+            cp "$system_bundle" "$bundle"; \
+            cmp -s "$system_bundle" "$bundle" ;; \
+        ppc64le|s390x) ;; \
+        *) echo "Unsupported architecture: $(uname -m)" >&2; exit 1 ;; \
+    esac
 USER 1001
