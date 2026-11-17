@@ -172,6 +172,9 @@ echo "meson<1.11" > build_constraints.txt
 if [ "$TARGETARCH" = "ppc64le" ]; then
     unset CFLAGS CXXFLAGS
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
+
+# uv and uvx are only needed while building the image.
+rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
 elif [ "$TARGETARCH" = "s390x" ]; then
     unset CFLAGS CXXFLAGS
     uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --build-constraint build_constraints.txt --requirements=./pylock.toml
