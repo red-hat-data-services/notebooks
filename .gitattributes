@@ -1,2 +1,2 @@
-ci/secrets/** filter=git-crypt diff=git-crypt
+ci/secrets/** filter=git-crypt-new_git_crypt diff=git-crypt-new_git_crypt
 *.vsix filter=lfs diff=lfs merge=lfs -text
