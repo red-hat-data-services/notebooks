@@ -119,7 +119,7 @@
     "native-is-elevated": "0.9.0",
     "native-keymap": "^3.3.5",
     "node-pty": "^1.2.0-beta.10",
-    "open": "^10.1.2",
+    "open": "11.0.0",
     "playwright-core": "1.59.0-alpha-2026-02-20",
     "tas-client": "0.3.1",
     "undici": "7.30.1",
@@ -238,6 +238,7 @@
       "web-tree-sitter": "0.23.0"
     },
     "es5-ext": "npm:@unes/es5-ext@0.10.64-1",
+    "open": "$open",
     "undici": "$undici",
     "tar": "$tar",
     "ws@7": "7.5.11",

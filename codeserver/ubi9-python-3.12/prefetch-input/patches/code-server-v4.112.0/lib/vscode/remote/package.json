@@ -51,6 +51,7 @@
     "zod": "4.6.7",
     "brace-expansion": "2.1.6",
     "proxy-addr": "2.0.8",
-    "ip-address": "10.2.1"
+    "ip-address": "10.2.1",
+    "open": "11.0.0"
   }
 }
