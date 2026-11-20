@@ -7,11 +7,10 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: "^/build-konflux (odh-pipeline-runtime-datascience-cpu-py312|all)$"
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
       konflux_cluster == "stone-prod-p01"
-      && event == "pull_request"
+      && (event == "pull_request" || event == "issue_comment")
       && (
         (
           source_branch == "main"
