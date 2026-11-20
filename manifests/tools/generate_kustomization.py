@@ -277,19 +277,21 @@ def _metadata_value(metadata: dict[str, object], key: str) -> str | None:
 def imagestream_stopped_producing_tags(document: object) -> bool:
     """True when an ImageStream is frozen and no longer receives a rolling tag.
 
-    Both markers are required. Images that are only deprecated still publish a
-    rolling latest tag. ``opendatahub.io/deprecated`` is an annotation and
-    ``opendatahub.io/notebook-image`` is a label on current manifests; either
-    section is accepted.
+    ``opendatahub.io/deprecated`` must be set together with a second marker:
+    either ``opendatahub.io/notebook-image: "false"`` or
+    ``opendatahub.io/notebook-image-hidden: "true"``. Images that are only
+    deprecated still publish a rolling latest tag. ``opendatahub.io/deprecated``
+    and the hidden marker are annotations and ``opendatahub.io/notebook-image``
+    is a label on current manifests; either section is accepted.
     """
     if not isinstance(document, dict):
         return False
     metadata = document.get("metadata")
     if not isinstance(metadata, dict):
         return False
-    return (
-        _metadata_value(metadata, "opendatahub.io/deprecated") == "true"
-        and _metadata_value(metadata, "opendatahub.io/notebook-image") == "false"
+    return _metadata_value(metadata, "opendatahub.io/deprecated") == "true" and (
+        _metadata_value(metadata, "opendatahub.io/notebook-image") == "false"
+        or _metadata_value(metadata, "opendatahub.io/notebook-image-hidden") == "true"
     )
 
 
