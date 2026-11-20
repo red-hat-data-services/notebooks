@@ -5,24 +5,24 @@ approvers:
   - daniellutz
   - harshad16
   - jesuino
-  - jiridanek
   - jstourac
   - paulovmr
 
 reviewers:
-  - andyatmiami  
+  - andyatmiami
   - atheo89
   - caponetto
   - daniellutz
   - dibryant
   - harshad16
   - jesuino
-  - jiridanek
   - jstourac
   - paulovmr
 
 emeritus_approvers:
+  - jiridanek
   - VaishnaviHire
 
 emeritus_reviewers:
+  - jiridanek
   - rkpattnaik780
