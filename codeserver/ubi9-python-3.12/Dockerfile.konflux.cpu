@@ -440,17 +440,20 @@ COPY --from=tests /tmp/test_log.txt /dev/null
 USER 0
 RUN set -eu; \
     system_bundle=/etc/pki/tls/certs/ca-bundle.crt; \
-    for bundle in \
-        /opt/app-root/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem \
-        /opt/app-root/lib/python3.12/site-packages/botocore/cacert.pem; do \
-        cp "$system_bundle" "$bundle"; \
-        cmp -s "$system_bundle" "$bundle"; \
-    done; \
+    copy_bundle() { \
+        bundle="$1"; \
+        if [ -f "$bundle" ]; then \
+            cp "$system_bundle" "$bundle"; \
+            cmp -s "$system_bundle" "$bundle"; \
+        else \
+            echo "Skipping optional trust bundle that is not installed: $bundle"; \
+        fi; \
+    }; \
+    copy_bundle /opt/app-root/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem; \
+    copy_bundle /opt/app-root/lib/python3.12/site-packages/botocore/cacert.pem; \
     case "$(uname -m)" in \
         x86_64|aarch64) \
-            bundle=/opt/app-root/lib/python3.12/site-packages/grpc/_cython/_credentials/roots.pem; \
-            cp "$system_bundle" "$bundle"; \
-            cmp -s "$system_bundle" "$bundle" ;; \
+            copy_bundle /opt/app-root/lib/python3.12/site-packages/grpc/_cython/_credentials/roots.pem ;; \
         ppc64le|s390x) ;; \
         *) echo "Unsupported architecture: $(uname -m)" >&2; exit 1 ;; \
     esac
