@@ -437,8 +437,8 @@ tzdata==2026.3 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:f7ed4f2c72c43820e9e607aa1a84a064ad933795cf7ace768e24cd781a89cd5b
 urllib3==2.8.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:0c0a15b95d43f072f36fe764caa366885286032b5caca729fd42b4d90ef52279
-uv==0.11.29 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1513532227aa27797fa777b21f916620f0117f3f80f0b38a1838a24024d9331e
+uv==0.13.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0c9a8fc64699a81fff704647dc7dbde1a2467dae73fa4036935dfd213761b00d
 uvicorn==0.34.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:b88d8a59091b4333ce375f577a4bc4bc7e82375ea328ba25b298b7289790f486
 uvicorn-worker==0.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \

@@ -476,9 +476,9 @@ tzdata==2026.3 ; python_full_version == '3.12.*' and implementation_name == 'cpy
     --hash=sha256:642232221f93d26dc1b654b94524e98ab9dc6bc8fb4b909ff12cd17342a04721
 urllib3==2.8.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:86580b49f558744f893aed779c1b53d5c80db47d3353693fb1ffa70c0f36a4f6
-uv==0.11.29 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:5858dd5dda29767badd9d179e3c92c6779259cce5ad2755540f3e45ebe575ec5 \
-    --hash=sha256:3a0946dc1e800f2cac37851d9d17cc45395d1da457cc65ad15d4cc6fe00b302c
+uv==0.13.5 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:66f13175f7f410aac701084ac54c27078391c85f8f92f4728b05cb293797241f \
+    --hash=sha256:45821979270d7455db6da025400837584ea9e005026168aa011ee7926db34ad7
 uvicorn==0.34.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5ab21518a93d53e0a64067e7cbcbdfe4672bcb222eb60c4a131c93473afb0367
 uvicorn-worker==0.3.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
