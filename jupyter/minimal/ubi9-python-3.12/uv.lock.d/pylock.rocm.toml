@@ -410,7 +410,10 @@ wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm
 name = "pandoc-rhai"
 version = "3.9.0.2+rhaiv.1"
 marker = "python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux'"
-wheels = [{ url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/pandoc_rhai-3.9.0.2+rhaiv.1-3-py3-none-linux_x86_64.whl", upload-time = 2026-10-08T18:41:16Z, size = 65861469, hashes = { sha256 = "bf096f792435a436e57e42c77192cb033cd2332b8451c03ac96fb7e88acabc42" } }]
+wheels = [
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/pandoc_rhai-3.9.0.2+rhaiv.1-3-py3-none-linux_x86_64.whl", upload-time = 2026-10-08T18:41:16Z, size = 65861469, hashes = { sha256 = "bf096f792435a436e57e42c77192cb033cd2332b8451c03ac96fb7e88acabc42" } },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rocm7.14-torch2.12-el9.8/pandoc_rhai-3.9.0.2+rhaiv.1-4-py3-none-linux_x86_64.whl", upload-time = 2026-11-20T02:39:51Z, size = 65861511, hashes = { sha256 = "3e3503228f683d1f22e25096dffee529868efaa8c0636333f7f49ae926972b64" } },
+]
 
 [[packages]]
 name = "pandocfilters"

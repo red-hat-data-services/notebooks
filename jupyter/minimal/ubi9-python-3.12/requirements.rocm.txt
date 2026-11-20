@@ -134,7 +134,8 @@ odh-jupyter-trash-cleanup==0.1.1 ; python_full_version == '3.12.*' and implement
 packaging==26.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3dd458d9e83ec04cab8ba441662461f52c4bcee4ffc9bb0c4334249dbb23feff
 pandoc-rhai==3.9.0.2+rhaiv.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:bf096f792435a436e57e42c77192cb033cd2332b8451c03ac96fb7e88acabc42
+    --hash=sha256:bf096f792435a436e57e42c77192cb033cd2332b8451c03ac96fb7e88acabc42 \
+    --hash=sha256:3e3503228f683d1f22e25096dffee529868efaa8c0636333f7f49ae926972b64
 pandocfilters==1.5.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3f1861c0a5f44165487e642887a477bf478aca8b89eeb1eac5bd3e651af9dac9
 parso==0.8.7 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
