@@ -436,6 +436,5 @@ RUN set -eu; \
         /opt/app-root/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem \
         /opt/app-root/lib/python3.12/site-packages/certifi/cacert.pem; do \
         cp "$system_bundle" "$bundle"; \
-        cmp -s "$system_bundle" "$bundle"; \
     done
 USER 1001
