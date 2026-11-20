@@ -126,6 +126,7 @@ def _discover_candidate_dirs() -> list[Path]:
         "requirements.cpu.txt",
         "requirements.cuda.txt",
         "requirements.rocm.txt",
+        "requirements.spyre.txt",
         "Pipfile.lock",
         "Pipfile.lock.cpu",
         "Pipfile.lock.gpu",
@@ -256,6 +257,8 @@ def resolve_notebook_directory(candidates: list[Path], base_key: str) -> Path | 
 
 
 def _pylock_kind_from_tag(wb_resource_file: str, base_key: str) -> str:
+    if "-spyre-" in base_key or "-spyre-" in wb_resource_file:
+        return "spyre"
     if "-rocm-" in base_key or "jupyter-rocm-" in wb_resource_file:
         return "rocm"
     if "-cuda-" in base_key or "-minimal-cuda-" in base_key:
@@ -395,7 +398,19 @@ def _format_dep_version(pep440: str) -> str:
     return f"{v.major}.{v.minor}"
 
 
-def _linux_marker_env(python_minor: str) -> dict[str, str]:
+def _platform_machine_for_dir(notebook_dir: Path) -> str:
+    """``x86_64`` unless ``tool.uv.required-environments`` pins exactly one machine (e.g. ppc64le-only Spyre)."""
+    pyproject = notebook_dir / "pyproject.toml"
+    if not pyproject.is_file():
+        return "x86_64"
+    envs = tomllib.loads(pyproject.read_text(encoding="utf-8")).get("tool", {}).get("uv", {}).get(
+        "required-environments", []
+    )
+    machines = {m for env in envs for m in re.findall(r"platform_machine\s*==\s*'([^']+)'", env)}
+    return next(iter(machines)) if len(machines) == 1 else "x86_64"
+
+
+def _linux_marker_env(python_minor: str, platform_machine: str = "x86_64") -> dict[str, str]:
     """Match ``tests/test_main.py`` marker filtering for pylock alignment checks."""
     return {
         "python_full_version": f"{python_minor}.0",
@@ -403,13 +418,15 @@ def _linux_marker_env(python_minor: str) -> dict[str, str]:
         "implementation_name": "cpython",
         "sys_platform": "linux",
         # Public-index baseline deps gate on x86_64/aarch64; host arm64 is not aarch64.
-        "platform_machine": "x86_64",
+        "platform_machine": platform_machine,
     }
 
 
-def _load_pylock_packages(pylock_text: str, python_minor: str) -> dict[str, dict[str, Any]]:
+def _load_pylock_packages(
+    pylock_text: str, python_minor: str, platform_machine: str = "x86_64"
+) -> dict[str, dict[str, Any]]:
     doc = tomllib.loads(pylock_text)
-    marker_env = _linux_marker_env(python_minor)
+    marker_env = _linux_marker_env(python_minor, platform_machine)
     packages: dict[str, dict[str, Any]] = {}
     for p in doc.get("packages", []):
         if "marker" in p and not packaging.markers.Marker(p["marker"]).evaluate(marker_env):
@@ -421,9 +438,11 @@ def _load_pylock_packages(pylock_text: str, python_minor: str) -> dict[str, dict
     return packages
 
 
-def _parse_requirements_txt_packages(text: str, python_minor: str) -> dict[str, dict[str, Any]]:
+def _parse_requirements_txt_packages(
+    text: str, python_minor: str, platform_machine: str = "x86_64"
+) -> dict[str, dict[str, Any]]:
     """Parse pip-tools / pip ``requirements.txt`` (pinned ``pkg==ver`` lines; skips hash/index options)."""
-    marker_env = _linux_marker_env(python_minor)
+    marker_env = _linux_marker_env(python_minor, platform_machine)
     packages: dict[str, dict[str, Any]] = {}
     for raw_line in text.splitlines():
         line = raw_line.strip()
@@ -502,13 +521,15 @@ def _parse_pipfile_lock_packages(text: str, python_minor: str) -> dict[str, dict
     return packages
 
 
-def load_packages_from_lockfile(text: str, source_rel_path: str, python_minor: str) -> dict[str, dict[str, Any]]:
+def load_packages_from_lockfile(
+    text: str, source_rel_path: str, python_minor: str, platform_machine: str = "x86_64"
+) -> dict[str, dict[str, Any]]:
     name = Path(source_rel_path).name
     if name == "Pipfile.lock" or (name.startswith("Pipfile.lock.") and name.endswith((".cpu", ".gpu"))):
         return _parse_pipfile_lock_packages(text, python_minor)
     if name == "requirements.txt" or (name.startswith("requirements.") and name.endswith(".txt")):
-        return _parse_requirements_txt_packages(text, python_minor)
-    return _load_pylock_packages(text, python_minor)
+        return _parse_requirements_txt_packages(text, python_minor, platform_machine)
+    return _load_pylock_packages(text, python_minor, platform_machine)
 
 
 def _python_minor_from_dir(notebook_dir: Path) -> str:
@@ -675,7 +696,8 @@ def run_variant(variant: str, dry_run: bool) -> int:
             rel_used, text = shown
             py_minor = _python_minor_from_dir(nb_dir)
             try:
-                pkgs = load_packages_from_lockfile(text, rel_used, py_minor)
+                pkgs = load_packages_from_lockfile(text, rel_used, py_minor,
+                                                   _platform_machine_for_dir(nb_dir))
             except Exception as e:
                 lockfile_errors.append(f"{path.name} tag {idx}: lockfile parse error: {e}")
                 continue

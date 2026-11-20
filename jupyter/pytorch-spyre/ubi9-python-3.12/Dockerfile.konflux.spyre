@@ -42,6 +42,7 @@ COPY ${MINIMAL_SOURCE_CODE}/start-notebook.sh ./
 
 ### BEGIN Dependencies for PDF export
 RUN ./utils/install_pdf_deps.sh
+
 ### END Dependencies for PDF export
 
 USER 1001
