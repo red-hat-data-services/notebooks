@@ -8,6 +8,13 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      konflux_cluster == "stone-prod-p02"
+      && event == "pull_request"
+      && target_branch == "rhoai-3.6"
+      && ( ".tekton/odh-workbench-codeserver-datascience-cpu-py312-pull-request.yaml".pathChanged() ||
+           "codeserver/ubi9-python-3.12/**".pathChanged() ||
+           "codeserver/ubi9-python-3.12/build-args/konflux.cpu.conf".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-codeserver)"
     pipelinesascode.tekton.dev/on-label: "[kfbuild-all, kfbuild-workbench, kfbuild-cpu, kfbuild-datascience, kfbuild-codeserver, kfbuild-workbench-codeserver-datascience-cpu]"
     pipelinesascode.tekton.dev/on-target-branch: "[{{target_branch}}]"
@@ -186,6 +193,11 @@ spec:
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server/test/e2e/extensions/test-extension
       type: npm
     - path: codeserver/ubi9-python-3.12/prefetch-input/code-server
+      type: npm
+    # The patch overlay replaces the root package-lock.json after prefetch.
+    # Include it here so overlay-only dependencies (for example compression)
+    # are present in the offline npm cache.
+    - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.122.1
       type: npm
     # patches/ overlay (overwrites code-server at build); use these so Cachi2 prefetches registry-only lockfiles
     - path: codeserver/ubi9-python-3.12/prefetch-input/patches/code-server-v4.122.1/lib/vscode

@@ -53,7 +53,7 @@ ENV ELYRA_INSTALL_PACKAGES="false"
 # pip cache (offline) before installing the image's Python packages.
 # UV_VERSION is derived from this image's requirements by scripts/dockerfile_fragments.py.
 ### BEGIN UV version
-ARG UV_VERSION=0.13.0
+ARG UV_VERSION=0.13.8
 
 ### END UV version
 RUN python3 -m pip install --no-cache-dir --no-index \
@@ -102,13 +102,6 @@ LABEL name="${LABEL_REGISTRY_PREFIX}/${LABEL_COMPONENT}" \
 
 # Replace compromised vendored roots with the clean system trust bundle.
 USER 0
-RUN set -eu; \
-    system_bundle=/etc/pki/tls/certs/ca-bundle.crt; \
-    for bundle in \
-        /opt/app-root/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem \
-        /opt/app-root/lib/python3.12/site-packages/botocore/cacert.pem \
-        /opt/app-root/lib/python3.12/site-packages/grpc/_cython/_credentials/roots.pem; do \
-        cp "$system_bundle" "$bundle"; \
-        cmp -s "$system_bundle" "$bundle"; \
-    done
+RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
+    bash /utils/replace-vendored-ca-bundles.sh
 USER 1001
