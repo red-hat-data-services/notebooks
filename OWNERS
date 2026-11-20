@@ -1,14 +1,12 @@
 approvers:
   - atheo89
   - daniellutz
-  - jiridanek
   - ysok
 
 reviewers:
   - atheo89
   - daniellutz
   - dibryant
-  - jiridanek
   - ysok
 
 emeritus_approvers:
@@ -16,6 +14,7 @@ emeritus_approvers:
   - caponetto
   - harshad16
   - jesuino
+  - jiridanek
   - jstourac
   - paulovmr
   - VaishnaviHire
@@ -25,6 +24,7 @@ emeritus_reviewers:
   - caponetto
   - harshad16
   - jesuino
+  - jiridanek
   - jstourac
   - paulovmr
   - rkpattnaik780
