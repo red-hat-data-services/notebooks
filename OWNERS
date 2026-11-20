@@ -5,7 +5,6 @@ approvers:
   - daniellutz
   - harshad16
   - jesuino
-  - jiridanek
   - jstourac
   - paulovmr
 
@@ -13,7 +12,10 @@ reviewers:
   - atheo89
   - daniellutz
   - dibryant
-  - jiridanek
 
 emeritus_approvers:
+  - jiridanek
   - VaishnaviHire
+
+emeritus_reviewers:
+  - jiridanek
