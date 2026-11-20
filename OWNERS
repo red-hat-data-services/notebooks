@@ -4,23 +4,23 @@ approvers:
   - caponetto
   - daniellutz
   - harshad16
-  - jiridanek
   - jstourac
   - paulovmr
 
 reviewers:
-  - andyatmiami  
+  - andyatmiami
   - atheo89
   - caponetto
   - daniellutz
   - dibryant
   - harshad16
-  - jiridanek
   - jstourac
   - paulovmr
 
 emeritus_approvers:
+  - jiridanek
   - VaishnaviHire
 
 emeritus_reviewers:
+  - jiridanek
   - rkpattnaik780
