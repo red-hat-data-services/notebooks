@@ -30,7 +30,7 @@ spec:
             {"name": "JupyterLab", "version": "4.5"},
             {"name": "PyTorch", "version": "2.11"},
             {"name": "Numpy", "version": "2.5"},
-            {"name": "Transformers", "version": "5.22"}
+            {"name": "Transformers", "version": "5.23"}
           ]
         openshift.io/imported-from: registry.redhat.io/rhoai/odh-workbench-jupyter-pytorch-spyre-py312-rhel9
         opendatahub.io/workbench-image-recommended: 'true'
