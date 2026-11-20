@@ -195,20 +195,6 @@ WORKDIR /opt/app-root/src
 
 # Replace compromised vendored roots with the clean system trust bundle.
 USER 0
-RUN set -eu; \
-    system_bundle=/etc/pki/tls/certs/ca-bundle.crt; \
-    for bundle in \
-        /opt/app-root/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem \
-        /opt/app-root/lib/python3.12/site-packages/botocore/cacert.pem; do \
-        cp "$system_bundle" "$bundle"; \
-        cmp -s "$system_bundle" "$bundle"; \
-    done; \
-    case "$(uname -m)" in \
-        x86_64|aarch64) \
-            bundle=/opt/app-root/lib/python3.12/site-packages/grpc/_cython/_credentials/roots.pem; \
-            cp "$system_bundle" "$bundle"; \
-            cmp -s "$system_bundle" "$bundle" ;; \
-        ppc64le|s390x) ;; \
-        *) echo "Unsupported architecture: $(uname -m)" >&2; exit 1 ;; \
-    esac
+RUN --mount=type=bind,source=base-images/utils,target=/utils,ro \
+    bash /utils/replace-vendored-ca-bundles.sh
 USER 1001
