@@ -65,6 +65,9 @@ packages:
   - libtool
 
   # Node.js (module nodejs:22)
+  # Keep the gconv bundle explicit: nodejs-packaging pulls redhat-rpm-config,
+  # whose glibc dependency must match the AIPCC base image.
+  - glibc-gconv-extra
   - glibc-langpack-en
   - nodejs-devel
   - nodejs-packaging
