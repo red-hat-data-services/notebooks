@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>red-hat-data-services/notebooks//.github/renovate.json5"
+    "github>red-hat-data-services/notebooks//.github/renovate.json5",
+    "github>konflux-ci/mintmaker-presets:refresh-rpm-lockfiles"
   ]
 }

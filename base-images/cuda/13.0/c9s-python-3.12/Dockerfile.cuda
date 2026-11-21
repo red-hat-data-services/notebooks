@@ -1,6 +1,6 @@
 ARG TARGETARCH
 
-FROM quay.io/centos/centos:stream9@sha256:cfee9f59eb4d66295690829cebb75c6c97ca199c8929f8f933d88745280cbab4 AS buildscripts
+FROM quay.io/centos/centos:stream9@sha256:6f8045fc4f552544d8a401d61848bafc8d06ca7c11897c5b54a2c37fc419a20a AS buildscripts
 COPY base-images/utils/aipcc.sh /mnt/aipcc.sh
 COPY base-images/utils/fix-permissions /mnt/usr/bin/
 
