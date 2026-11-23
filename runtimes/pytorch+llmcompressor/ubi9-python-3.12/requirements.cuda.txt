@@ -244,8 +244,8 @@ lxml==6.1.1 ; python_full_version == '3.12.*' and implementation_name == 'cpytho
     --hash=sha256:a816094cc85632e5681e0119d36c46ea6077eab37d73de9bb00b3779ed7f7279
 mako==1.3.12 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c56869fb68fbad702f2a5d0ce5fd0cd4dd0fa552a4e252ab502fa2a59affbdfd
-markdown==3.10.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:207f48e45783cb202852cfbf4081ad896889f330c3d62106d36a934886c7693c
+markdown==3.11.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:0285710e81c91d3fcb6056e28572c4932f103a052af06d594051b7831811c617
 markdown-it-py==4.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:409eb02216d90b47b7a38893def446383366f96c30915b66770d4d92bbc29c24
 markupsafe==3.0.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
