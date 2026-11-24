@@ -9,8 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      (konflux_cluster == "stone-prod-p02" || konflux_cluster == "stone-prod-p01")
-      && event == "pull_request"
+      event == "pull_request"
       && target_branch == "rhoai-3.5"
       && ( "runtimes/datascience/ubi9-python-3.12/**".pathChanged() || ".tekton/odh-pipeline-runtime-datascience-cpu-py312-pull-request.yaml".pathChanged() || "prefetch-input/rhds/**".pathChanged() )
     pipelinesascode.tekton.dev/on-comment: "^/(build-konflux|build-runtime-datascience)"
