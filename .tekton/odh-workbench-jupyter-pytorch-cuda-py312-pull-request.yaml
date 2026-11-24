@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      (konflux_cluster == "stone-prod-p02" || konflux_cluster == "stone-prd-rh01")
+      (konflux_cluster == "stone-prod-p02" || konflux_cluster == "stone-prod-p01")
       && event == "pull_request"
       && target_branch == "rhoai-3.5"
       && ( ".tekton/odh-workbench-jupyter-pytorch-cuda-py312-pull-request.yaml".pathChanged() || "jupyter/pytorch/ubi9-python-3.12/**".pathChanged() || "cuda/**".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/start-notebook.sh".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mongodb-org-6.0.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/mssql-3.5.repo-x86_64/**".pathChanged() || "jupyter/datascience/ubi9-python-3.12/setup-elyra.sh".pathChanged() || "prefetch-input/rhds/**".pathChanged() || "prefetch-input/mongocli/**".pathChanged() || "jupyter/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda".pathChanged() || "scripts/dockerfile_fragments.py".pathChanged() )
