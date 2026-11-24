@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: |
-      konflux_cluster == "stone-prod-p02"
+      (konflux_cluster == "stone-prod-p02" || konflux_cluster == "stone-prd-rh01")
       && event == "pull_request"
       && target_branch == "rhoai-3.5"
       && ( ".tekton/odh-workbench-jupyter-minimal-cuda-py312-pull-request.yaml".pathChanged() || "jupyter/utils/**".pathChanged() || "jupyter/minimal/ubi9-python-3.12/**".pathChanged() || "cuda/**".pathChanged() )
