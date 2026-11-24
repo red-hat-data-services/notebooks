@@ -351,8 +351,8 @@ micropipenv==1.10.0 ; python_full_version == '3.12.*' and implementation_name ==
     --hash=sha256:ad7b0f2b9fe470211b62092456f47aa31c0ce7682cfcfcdb7151663db31e3854
 minio==7.2.20 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:8869669056562f9ad19f7818c5f84dcce9d1d9a0f9fd0082d73aa0152e9414f5
-mistune==3.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1452947f339068a4b6fc6d8d789bd50dc9a7654cbdf6e983ce23a8bba46ed453
+mistune==3.3.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:3a7b37e6dd259230690ce16b3f4d6d711ff202268efe443604a18bdf40813c83
 ml-dtypes==0.5.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:c7e4362866771cc6a4f61abb73601f6a362ebbb3811a1103a55ca756240b5b03 \
     --hash=sha256:f8fc083a051d64a74eb3e194c639b86ab867276634f654d2b7575f891a9672dd

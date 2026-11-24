@@ -124,8 +124,8 @@ matplotlib-inline==0.2.2 ; python_full_version == '3.12.*' and implementation_na
     --hash=sha256:95c159ff1d96bbd80c93bf869b8c146155d047fbb2159697dc6e146f7022f220
 micropipenv==1.10.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:ad7b0f2b9fe470211b62092456f47aa31c0ce7682cfcfcdb7151663db31e3854
-mistune==3.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:1452947f339068a4b6fc6d8d789bd50dc9a7654cbdf6e983ce23a8bba46ed453
+mistune==3.3.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:3a7b37e6dd259230690ce16b3f4d6d711ff202268efe443604a18bdf40813c83
 multidict==6.9.1 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:438b3e8f3277dcd86032142894f2fa443dd6e8e4c3ee082f52a8eb67881d69e6 \
     --hash=sha256:b92c40fdc98ef36a195bad7c2e70a5c0b1953fbe602867b0d53fefc4b9547a54
