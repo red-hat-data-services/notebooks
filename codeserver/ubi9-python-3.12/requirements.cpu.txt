@@ -296,8 +296,8 @@ mdurl==0.1.2 ; python_full_version == '3.12.*' and implementation_name == 'cpyth
     --hash=sha256:3b685cb48a3cde202b232cb167ea1d9c287724d240966f2f16d2f10732b78636
 micropipenv==1.10.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:dcb8f5330f033df93315fa534e168d7bfadfea707f1d1a82eb7ce90917b5d438
-mistune==3.3.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:11f128dffa12a582b306ce4857e316291e1321447317e7b0cc064464f4502096
+mistune==3.3.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:a775a865af0407d08c7e5a70e40915758cc99c9161f0270d54ba05d9cb4a11ad
 ml-dtypes==0.5.4 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3a95b5217cc9788aa96272fd0c5c16291ec04d17479e1a6a9d1962eefb181873 \
     --hash=sha256:9af1744d6c57d3aeb513b7188500dc1ef06339028b49a083e1fe97d1b13003ca \

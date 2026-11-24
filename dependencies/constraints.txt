@@ -20,7 +20,8 @@ pillow>=13.0.0
 # RHAIENG-4890 / RHAI-10831 / RHAI-3769 et al.: CVE-2026-42557, CVE-2026-102831, and related JupyterLab fixes
 jupyterlab>=4.6.4
 # RHAI-14702 et al.: CVE-2026-115347, CVE-2026-115348, CVE-2026-115349, CVE-2026-115352, CVE-2026-115355 mistune denial of service and path traversal
-mistune>=3.3.0
+# RHAI-19567 / RHAI-19568 / RHAI-19569: CVE-2026-121437 mistune quadratic-time emphasis delimiter DoS, fixed in 3.3.4
+mistune>=3.3.4
 # RHAIENG-5355: CVE-2026-48710 Starlette security restriction bypass via malformed HTTP Host header
 starlette>=1.3.1
 # RHAIENG-5461 / RHAI-2951 / RHAI-19687 / RHAI-19722 et al.: MLflow security fixes through CVE-2026-118627 and CVE-2026-118628
