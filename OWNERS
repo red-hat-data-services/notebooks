@@ -1,6 +1,7 @@
 approvers:
   - atheo89
   - daniellutz
+  - ide-developer
   - ysok
 
 reviewers:
@@ -8,12 +9,14 @@ reviewers:
   - ayush17
   - daniellutz
   - dibryant
+  - mtchoum1
   - ysok
 
 emeritus_approvers:
   - andyatmiami
   - caponetto
   - harshad16
+  - jiridanek
   - jesuino
   - jiridanek
   - jstourac
@@ -24,6 +27,7 @@ emeritus_reviewers:
   - andyatmiami
   - caponetto
   - harshad16
+  - jiridanek
   - jesuino
   - jiridanek
   - jstourac

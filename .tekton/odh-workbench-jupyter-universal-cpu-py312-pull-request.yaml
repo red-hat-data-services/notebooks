@@ -7,14 +7,24 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-comment: '^/build-konflux'
     build.appstudio.redhat.com/pull_request_number: "{{pull_request_number}}"
     pipelinesascode.tekton.dev/on-cel-expression: |-
-      event == "pull_request"
-      && (files.all.exists(p, ! p.matches('^\\.tekton/')) || ".tekton/odh-workbench-jupyter-universal-cpu-py312-pull-request.yaml".pathChanged())
+      konflux_cluster == "stone-prod-p01"
+      && (event == "pull_request" || event == "issue_comment")
+      && (
+        (
+          source_branch == "main"
+          && target_branch == "stable"
+          && "manifests/rhoai/base/params-latest.env".pathChanged()
+        )
+        ||
+        (
+          (files.all.exists(p, ! p.matches('^\\.tekton/')) || ".tekton/odh-workbench-jupyter-universal-cpu-py312-pull-request.yaml".pathChanged())
+        )
+      )
   labels:
-    appstudio.openshift.io/application: rhoai-v3-6
-    appstudio.openshift.io/component: odh-workbench-jupyter-universal-cpu-py312-v3-6
+    appstudio.openshift.io/application: rhoai-v3-7-ea-1
+    appstudio.openshift.io/component: odh-workbench-jupyter-universal-cpu-py312-v3-7-ea-1
     pipelines.appstudio.openshift.io/type: build
   name: odh-workbench-jupyter-universal-cpu-py312-on-pull-request-{{pull_request_number}}
   namespace: rhoai-tenant
@@ -53,10 +63,8 @@ spec:
     value:
     - linux/x86_64
     - linux-m2xlarge/arm64
-    - linux/ppc64le
-    - linux/s390x
   - name: rhoai-version
-    value: "3.6.0"
+    value: "3.7.0-ea.1"
   - name: build-source-image
     value: true
   - name: hermetic
@@ -116,8 +124,18 @@ spec:
       limits:
         cpu: '3'
         memory: 8Gi
+  - pipelineTaskName: rpms-signature-scan
+    stepSpecs:
+    - name: rpms-signature-scan
+      computeResources:
+        requests:
+          cpu: "500m"
+          memory: "1Gi"
+        limits:
+          cpu: "500m"
+          memory: "1Gi"
   taskRunTemplate:
-    serviceAccountName: build-pipeline-odh-workbench-jupyter-universal-cpu-py312-v3-6
+    serviceAccountName: build-pipeline-odh-workbench-jupyter-universal-cpu-py312-v3-7-ea-1
     podTemplate:
       imagePullSecrets:
       - name: redhat-appstudio-staginguser-pull-secret

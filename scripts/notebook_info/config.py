@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+DEFAULT_SLACK_CHANNEL = "C096ZR053RQ"  # team-notebooks
+
 
 @dataclass(frozen=True)
 class ReleaseConfig:
@@ -23,16 +25,6 @@ RELEASES: dict[str, ReleaseConfig] = {
         ),
         jira_filter_id=115488,
         code_freeze=None,
-    ),
-    "3.3": ReleaseConfig(
-        version="3.3",
-        jql=(
-            "project = RHAI AND issuetype in (Bug, Vulnerability, Weakness) "
-            "AND resolution = Unresolved AND labels = SecurityTracking "
-            'AND component = "Notebooks Images" AND summary ~ "\\"[rhoai-3.3]\\""'
-        ),
-        jira_filter_id=None,
-        code_freeze="2026-01-16",
     ),
     "3.4": ReleaseConfig(
         version="3.4",
@@ -61,6 +53,16 @@ RELEASES: dict[str, ReleaseConfig] = {
             "project = RHAI AND issuetype in (Bug, Vulnerability, Weakness) "
             "AND resolution = Unresolved AND labels = SecurityTracking "
             'AND component = "Notebooks Images" AND summary ~ "\\"[rhoai-3.6]\\""'
+        ),
+        jira_filter_id=None,
+        code_freeze=None,
+    ),
+    "3.7": ReleaseConfig(
+        version="3.7",
+        jql=(
+            "project = RHAI AND issuetype in (Bug, Vulnerability, Weakness) "
+            "AND resolution = Unresolved AND labels = SecurityTracking "
+            'AND component = "Notebooks Images" AND summary ~ "\\"[rhoai-3.7]\\""'
         ),
         jira_filter_id=None,
         code_freeze=None,
