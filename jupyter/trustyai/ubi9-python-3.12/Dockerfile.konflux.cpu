@@ -66,12 +66,12 @@ printf '%s\n' 'setuptools>=83.0.0' 'cython<3.3' > build_constraints.txt
 # do not use --no-config — uv must discover pyproject.toml in this directory.
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 UV_LINK_MODE=copy uv pip install --strict --no-deps --refresh --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --reinstall-package pillow --requirements=./pylock.toml --build-constraint build_constraints.txt --no-build-isolation-package pyarrow \
-
-# uv and uvx are only needed while building the image.
-rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
     --config-settings-package="pyarrow:cmake.define.Python3_EXECUTABLE=$(command -v python)" \
     --config-settings-package="pillow:imagequant=disable" \
     --config-settings-package="pillow:raqm=disable"
+
+# uv and uvx are only needed while building the image.
+rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
 EOF
 
 ####################

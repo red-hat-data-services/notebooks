@@ -184,10 +184,10 @@ echo "Installing softwares and packages"
 #  we often don't know the correct hashes and `--require-hashes` would therefore fail on non amd64, where building is common.
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --verify-hashes --compile-bytecode --index-strategy=unsafe-best-match --requirements=./pylock.toml
 
-# uv and uvx are only needed while building the image.
-rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
 uv pip install --strict --no-deps --no-cache --no-config --no-progress --compile-bytecode /tmp/torchvision-wheel/*.whl
 rm -rf /tmp/torchvision-wheel
+# uv and uvx are only needed while building the image.
+rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
 # setup path for runtime configuration
 mkdir /opt/app-root/runtimes
 # Remove default Elyra runtime-images
