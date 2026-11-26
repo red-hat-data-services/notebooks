@@ -231,6 +231,9 @@ error = "ErrNotDynLinked"
 files = [
     # when code-server is not installed from rpm, the exclusion below won't apply
     "/usr/lib/code-server/lib/vscode/node_modules/@vscode/ripgrep/bin/rg",
+    # Python extension environment helpers are bundled non-crypto static binaries.
+    "/opt/app-root/extensions-temp/ms-python.vscode-python-envs-1.44.0-linux-x64/python-env-tools/bin/pet",
+    "/opt/app-root/extensions-temp/ms-python.vscode-python-envs-1.44.0-linux-arm64/python-env-tools/bin/pet",
 ]
 dirs = [
     # VS Code 1.112+ @anthropic-ai/sandbox-runtime seccomp BPF loaders (no crypto)
