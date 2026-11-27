@@ -298,6 +298,16 @@ odh-workbench-jupyter-trustyai-cpu-py312-ubi9-n:
   variants:
     - odh
     - rhoai
+odh-workbench-jupyter-universal-cpu-py312-ubi9-n:
+  name: opendatahub/odh-workbench-jupyter-universal-cpu-py312-ubi9
+  commitref: main
+  build_name: konflux
+  size_mb:
+    odh: 2200
+    rhoai: 3830
+  variants:
+    - odh
+    - rhoai
 odh-workbench-jupyter-trustyai-cpu-py312-ubi9-2025-2:
   name:
     odh: odh-notebook-jupyter-trustyai-ubi9-python-3.12
@@ -325,6 +335,13 @@ odh-workbench-codeserver-baseline-cpu-py312-c9s-n:
   commitref: main
   build_name: konflux
   size_mb: 1100
+  variants:
+    - odh
+odh-workbench-codeserver-minimal-cpu-py312-n:
+  name: opendatahub/odh-workbench-codeserver-minimal-cpu-py312-ubi9
+  commitref: main
+  build_name: konflux
+  size_mb: 425
   variants:
     - odh
 odh-workbench-codeserver-datascience-cpu-py312-ubi9-2025-2:
@@ -615,63 +632,4 @@ odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-ubi9-3-4:
   size_mb: 8793
   variants:
     - odh
-    - rhoai
-
-# --- py312 2025-2 pipeline runtime entries (RHOAI only) ---
-
-odh-pipeline-runtime-datascience-cpu-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-datascience-cpu-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 1015
-  variants:
-    - rhoai
-odh-pipeline-runtime-minimal-cpu-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-minimal-cpu-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 595
-  variants:
-    - rhoai
-odh-pipeline-runtime-pytorch-cuda-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-pytorch-cuda-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 8768
-  variants:
-    - rhoai
-odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-pytorch-llmcompressor-cuda-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 8723
-  variants:
-    - rhoai
-odh-pipeline-runtime-pytorch-rocm-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-pytorch-rocm-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 8725
-  variants:
-    - rhoai
-odh-pipeline-runtime-tensorflow-cuda-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-tensorflow-cuda-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 8206
-  variants:
-    - rhoai
-odh-pipeline-runtime-tensorflow-rocm-py312-ubi9-2025-2:
-  name:
-    rhoai: rhoai/odh-pipeline-runtime-tensorflow-rocm-py312-rhel9
-  commitref: main
-  build_name: konflux
-  size_mb: 6614
-  variants:
     - rhoai

@@ -146,8 +146,8 @@ def _make_just_print(target: str) -> str:
     return subprocess.check_output([MAKE, target, "--just-print"], encoding="utf-8", cwd=PROJECT_ROOT)
 
 
-# Heavy images (e.g. datascience, trustyai) need more time to become Ready on constrained nodes.
-_HEAVY_TARGETS = ("jupyter-datascience", "jupyter-trustyai")
+# Heavy images (e.g. datascience) need more time to become Ready on constrained nodes.
+_HEAVY_TARGETS = ("jupyter-datascience", "jupyter-universal")
 
 
 # TODO(jdanek) this is a dumb impl, needs to be improved
@@ -196,11 +196,11 @@ class TestMakeTest(unittest.TestCase):
     @unittest.mock.patch(target)
     def test_make_commands_jupyter_rocm(self, mock_execute: unittest.mock.Mock) -> None:
         """Compares the commands with what we had in the openshift/release yaml"""
-        run_tests("rocm-jupyter-tensorflow-ubi9-python-3.11")
+        run_tests("rocm-jupyter-minimal-ubi9-python-3.11")
         commands: list[str] = [c[0][1][0] for c in mock_execute.call_args_list]
-        assert "make deploy9-jupyter-rocm-tensorflow-ubi9-python-3.11" in commands
-        assert "make test-jupyter-rocm-tensorflow-ubi9-python-3.11" in commands
-        assert "make undeploy9-jupyter-rocm-tensorflow-ubi9-python-3.11" in commands
+        assert "make deploy9-jupyter-rocm-minimal-ubi9-python-3.11" in commands
+        assert "make test-jupyter-rocm-minimal-ubi9-python-3.11" in commands
+        assert "make undeploy9-jupyter-rocm-minimal-ubi9-python-3.11" in commands
 
     @unittest.mock.patch(target)
     def test_make_commands_codeserver(self, mock_execute: unittest.mock.Mock) -> None:
@@ -218,6 +218,14 @@ class TestMakeTest(unittest.TestCase):
     def test_make_undeploy_codeserver_baseline_resolves_baseline_kustomize_dir(self) -> None:
         output = _make_just_print("undeploy9-codeserver-baseline-ubi9-python-3.12")
         assert "codeserver-baseline/ubi9-python-3.12/kustomize/base" in output, output
+
+    def test_make_deploy_codeserver_minimal_resolves_component_kustomize_dir(self) -> None:
+        output = _make_just_print("deploy9-codeserver-minimal-ubi9-python-3.12")
+        assert "codeserver-minimal/ubi9-python-3.12/kustomize/base/kustomization.yaml" in output, output
+
+    def test_make_undeploy_codeserver_minimal_resolves_component_kustomize_dir(self) -> None:
+        output = _make_just_print("undeploy9-codeserver-minimal-ubi9-python-3.12")
+        assert "codeserver-minimal/ubi9-python-3.12/kustomize/base" in output, output
 
     def test_make_deploy_jupyter_baseline_resolves_baseline_kustomize_dir(self) -> None:
         output = _make_just_print("deploy9-jupyter-baseline-ubi9-python-3.12")
@@ -243,15 +251,6 @@ class TestMakeTest(unittest.TestCase):
         assert "make deploy9-runtimes-datascience-ubi9-python-3.11" in commands
         assert "make validate-runtime-image image=runtime-datascience-ubi9-python-3.11" in commands
         assert "make undeploy9-runtimes-datascience-ubi9-python-3.11" in commands
-
-    @unittest.mock.patch(target)
-    def test_make_commands_rocm_runtime(self, mock_execute: unittest.mock.Mock) -> None:
-        """Compares the commands with what we had in the openshift/release yaml"""
-        run_tests("rocm-runtime-pytorch-ubi9-python-3.11")
-        commands: list[str] = [c[0][1][0] for c in mock_execute.call_args_list]
-        assert "make deploy9-runtimes-rocm-pytorch-ubi9-python-3.11" in commands
-        assert "make validate-runtime-image image=runtime-rocm-pytorch-ubi9-python-3.11" in commands
-        assert "make undeploy9-runtimes-rocm-pytorch-ubi9-python-3.11" in commands
 
     @unittest.mock.patch(target)
     def test_make_commands_llmcompressor(self, mock_execute: unittest.mock.Mock) -> None:

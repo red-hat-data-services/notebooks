@@ -51,6 +51,8 @@ and [README.md § Runtimes](../../README.md#runtimes).
 
 - `tests/containers/` is **excluded from default collection** via `collect_ignore` in
   `tests/conftest.py`. Run container tests explicitly with `pytest tests/containers --image=<img>`.
+- `tests/test_rhoai_additional_baseline.py` is also excluded from default collection
+  (RHOAI opt-in baseline overlay). Run explicitly with `pytest tests/test_rhoai_additional_baseline.py`.
 - Default `make test` collects from `tests/`, `ntb/`, and `ci/` (doctests).
 - `ci/agentic-reviewer/` is excluded from default recursive collection.
   `make test-unit` explicitly collects `tests/`, `ntb/`, and
@@ -76,6 +78,18 @@ uv sync --locked
 TESTCONTAINERS_RYUK_DISABLED=true uv run --offline --no-sync pytest \
   tests/containers/workbenches/jupyterlab/offline_features_test.py \
   --image=quay.io/opendatahub/odh-workbench-jupyter-minimal-cpu-py312-ubi9:odh-stable
+```
+
+For **Universal Jupyter** (`jupyter-universal`), use the same suites with a universal
+image ref (lean JupyterLab; datascience library tests skip automatically). Dual-mode
+entrypoint unit tests: `tests/unit/jupyter/universal/test_entrypoint_universal.py`.
+Build, operating modes, and full validation runbook:
+[`jupyter/universal/ubi9-python-3.12/README.md`](../../jupyter/universal/ubi9-python-3.12/README.md).
+
+```bash
+# After building or pulling a universal image
+make test-integration PRODUCT=odh PYTEST_ARGS="--image=<universal-image> -k 'workbench or jupyterlab or offline'"
+make test-jupyter-universal-ubi9-python-3.12 PRODUCT=odh   # cluster papermill
 ```
 
 Pulling both images and preparing the locked `uv` environment are separate from
@@ -282,7 +296,7 @@ generation, CI tooling). These tests are fast and don't require containers.
 ### 4. Build the affected image(s)
 
 ```bash
-# Non-GPU images (minimal, datascience, trustyai):
+# Non-GPU images (minimal, datascience):
 make jupyter-datascience-ubi9-python-3.12 PRODUCT=odh \
   IMAGE_REGISTRY=localhost/workbench-images IMAGE_TAG=latest PUSH_IMAGES=no
 
