@@ -95,6 +95,9 @@ pip>=26.2.2
 # RHAI-50445 et al.: uv bundled CA store trusts compromised emSign/eMudhra root (fixed in 0.13.4)
 uv>=0.13.4
 
+# RHAI-17620 et al.: CVE-2019-25781 python-markdown DoS via inefficient inline link parsing (fixed in 3.11.3)
+markdown>=3.11.3
+
 # RHAI-8029 / RHOAIENG-90006 et al.: CVE-2026-81726, CVE-2026-109956, and related NLTK path traversal fixes
 nltk>=3.10.4
 

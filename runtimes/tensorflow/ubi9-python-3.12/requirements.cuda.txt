@@ -217,8 +217,8 @@ locket==1.0.0 ; python_full_version == '3.12.*' and implementation_name == 'cpyt
     --hash=sha256:efe9fb346e5bb765d82c95bb999fb52d1a806a623a46f70bacae987ac1eb3ea0
 mako==1.3.12 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:3434bded8d7a1e1221722ef23454f949a795d08e4799181acdb1153804f7305a
-markdown==3.10.2 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
-    --hash=sha256:e7a6fd08703eb27fb0748ac913e29b452d2ab1f974add31d50aa780fe65fc4eb
+markdown==3.11.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
+    --hash=sha256:7f18d2dd2276bcc1591c452358a5375bbe4f3e4ad835f8fa7371e778a27b226a
 markdown-it-py==4.2.0 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
     --hash=sha256:5193f9c631a23479abcfb99058c6399aaa5ee28babead110db18861a91326874
 markupsafe==3.0.3 ; python_full_version == '3.12.*' and implementation_name == 'cpython' and sys_platform == 'linux' \
