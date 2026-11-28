@@ -22,7 +22,7 @@ class TestJupyterLabImage:
         container = WorkbenchContainer(image=jupyterlab_image.name, user=4321, group_add=[0])
         # if no env is specified, the image will run
         # > 4321        3334    3319  0 10:36 pts/0    00:00:01 /mnt/rosetta /opt/app-root/bin/python3.11 /opt/app-root/bin/jupyter-lab
-        # > --ServerApp.root_dir=/opt/app-root/src --ServerApp.ip= --ServerApp.allow_origin=* --ServerApp.open_browser=False
+        # > --ServerApp.root_dir=/opt/app-root/src --ServerApp.ip= --ServerApp.open_browser=False
         # which does not let us open a notebook and get a spinner, we need to disable auth at a minimum
 
         # These NOTEBOOK_ARGS are what ODH Dashboard uses,

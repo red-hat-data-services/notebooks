@@ -34,7 +34,9 @@ if [ -n "${NOTEBOOK_ARGS}" ]; then
 fi
 
 # Start the JupyterLab notebook
+# CWE-942 (RHAIENG-5644): no wildcard allow_origin — same-origin is the
+# default; the platform (controller) can set a specific origin via
+# NOTEBOOK_ARGS if a deployment ever needs CORS.
 start_process jupyter lab ${NOTEBOOK_PROGRAM_ARGS} \
     --ServerApp.ip="" \
-    --ServerApp.allow_origin="*" \
     --ServerApp.open_browser=False
